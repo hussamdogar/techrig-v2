@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IRP Registration and Apportioned Plates | Tech Rig</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* page-local helpers: restructure SEO prose into chunks; white text on the navy hero. All words are SEO's. */
+.reviewline{display:flex;align-items:baseline;gap:8px;font-family:var(--font-mono);font-size:.82rem;color:rgba(255,255,255,.72);margin:var(--s-5) 0 0;}
+.reviewline .lbl{color:#9cc4e0;letter-spacing:.06em;text-transform:uppercase;font-size:.72rem;}
+.reviewline b{color:#fff;font-weight:600;}
+/* single-column hero: constrain the body block, decorative line-art rule with NO text labels */
+.hero-solo{max-width:78ch;}
+.hero-rule{display:flex;align-items:center;gap:14px;margin:var(--s-7) 0 0;color:rgba(255,255,255,.3);}
+.hero-rule .ln{height:2px;flex:1;background:linear-gradient(90deg,rgba(255,255,255,.26),rgba(255,255,255,0));border-radius:2px;}
+.hero-rule .ln.r{background:linear-gradient(270deg,rgba(255,255,255,.26),rgba(255,255,255,0));}
+.hero-rule svg{flex:none;color:#9cc4e0;opacity:.85;}
+/* service-includes + what-you-get checklist, typographic */
+.getlist{list-style:none;padding:0;margin:var(--s-5) 0 0;display:flex;flex-direction:column;gap:var(--s-4);max-width:70ch;}
+.getlist li{display:flex;gap:13px;align-items:flex-start;font-size:1rem;}
+.getlist svg{width:22px;height:22px;flex:none;margin-top:2px;color:var(--steel);}
+/* pricing note + mid CTA */
+.pricenote{color:var(--slate);font-size:.95rem;margin:var(--s-5) 0 0;max-width:62ch;}
+.midcta{margin:var(--s-6) 0 0;}
+/* closing band button spacing */
+.cta-band .act{margin-top:var(--s-5);}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+    <nav class="menu">
+      <span class="grp compliance">Compliance</span>
+      <span class="grp dispatch">Dispatch</span>
+      <a class="item" href="#">About</a>
+      <a class="item" href="#">Contact</a>
+    </nav>
+    <div class="right">
+      <a class="call" href="tel:+19179092257">Call (917) 909-2257</a>
+      <a class="btn btn-primary" href="/contact-us/">Start your compliance setup</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO (navy, single-column per tracker directive: NO art panel, NO status tracker, NO eyebrow the brief does not give). H1 verbatim. Hero lede refit: lead clause -> TL;DR; the two parallel clauses (operate on one set of plates / fees split by miles) -> deck; the closing sentence -> lede. Reviewed-by mono line (verbatim name + title). Decorative line-art rule with NO text labels. -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-solo">
+      <h1>IRP Registration and Apportioned Plates</h1>
+      <div class="standfirst">
+        <span class="bar"></span>
+        <p class="tl">If you run a qualifying commercial vehicle across state lines, you need apportioned plates through the International Registration Plan.</p>
+      </div>
+      <ol class="deck">
+        <li><span class="num">01</span> IRP registration lets you operate in multiple states on one set of plates</li>
+        <li><span class="num">02</span> with your registration fees split among the states you travel based on the miles you run in each</li>
+      </ol>
+      <p class="lede" style="margin-top:var(--s-5)">Tech Rig handles your IRP registration so you can run interstate legally, without learning a new state portal.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/contact-us/">Start my IRP registration</a>
+      </div>
+      <p class="reviewline"><span class="lbl">Reviewed by</span> <b>Robert Hooke, Co-Founder</b></p>
+      <div class="hero-rule" aria-hidden="true">
+        <span class="ln"></span>
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v8H2z"/><path d="M13 10h4l3 3v2h-7z"/><circle cx="6" cy="17" r="1.7"/><circle cx="17" cy="17" r="1.7"/></svg>
+        <span class="ln r"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- H2 verbatim. What-it-is copy verbatim, single paragraph. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>What IRP registration is</h2>
+    <p>The International Registration Plan is an agreement among the U.S. states and Canadian provinces that lets interstate carriers register in their base state and operate across member jurisdictions on apportioned plates. Instead of registering your truck separately in every state you drive through, you register once and your fees are apportioned, split among states in proportion to the miles you run in each. The plates you receive are called apportioned plates. IRP generally applies to vehicles over a certain weight, or with three or more axles, used interstate.</p>
+  </div>
+</section>
+
+<!-- H2 verbatim. IRP vs IFTA copy verbatim. Both /ifta-registration/ inline refs preserved exactly as Steel links. No mirrored cards, no invented labels. -->
+<section class="band paper">
+  <div class="wrap">
+    <h2>IRP vs IFTA: what is the difference</h2>
+    <p>Short, because people confuse them. IRP is about registration and plates. <a href="/ifta-registration/">IFTA</a> is about fuel taxes. Most interstate carriers need both, and we usually set them up together, but they are separate programs with separate filings. This page covers IRP; the <a href="/ifta-registration/">IFTA page</a> covers fuel tax.</p>
+  </div>
+</section>
+
+<!-- H2 verbatim. Four service points as a checklist (verbatim items, IFTA inline link kept). Pricing per the brief: Split-Ledger Fee Receipt. Service fee line is the [VERIFY] token rendered as an honest placeholder; state-fee line described in the brief's own words; never blended. Price-line note verbatim. Mid CTA = Steel text link, verbatim label. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>What our IRP registration service includes</h2>
+    <ul class="getlist">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> We confirm your base jurisdiction and whether IRP applies to your operation.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> We prepare and submit your IRP application with your fleet and travel information.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> We help you estimate the fees, which depend on your states, mileage, and vehicle weight, so there are no surprises.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> We coordinate IRP with your <a href="/ifta-registration/">IFTA</a> setup if you need both.</li>
+    </ul>
+
+    <!-- SPLIT-LEDGER FEE RECEIPT: service fee is [VERIFY] (honest token, no invented number); state row in the brief's own words ("set by the jurisdictions and your mileage, paid separately"). Two lines, never blended. -->
+    <div class="ledger" style="margin-top:var(--s-6)">
+      <div class="lrow">
+        <span class="gut service"></span>
+        <div class="l-main">
+          <div class="t">Tech Rig service fee</div>
+          <div class="s">to file your IRP</div>
+        </div>
+        <div class="l-val token">[VERIFY]</div>
+      </div>
+      <div class="lrow">
+        <span class="gut gov"></span>
+        <div class="l-main">
+          <div class="t">State registration fees</div>
+          <div class="s">set by the jurisdictions and your mileage, paid separately</div>
+        </div>
+        <div class="l-val token">paid separately</div>
+      </div>
+      <div class="lfoot">WE SHOW YOU WHICH IS OUR FEE AND WHICH IS THE GOVERNMENT FEE BEFORE YOU PAY</div>
+    </div>
+
+    <p class="pricenote">Tech Rig charges a service fee to file your IRP. The state registration fees themselves are set by the jurisdictions and your mileage, and are paid separately. We show you which is our fee and which is the government fee before you pay.</p>
+
+    <p class="midcta"><a class="btn-tertiary" href="/contact-us/">Start my IRP registration</a></p>
+  </div>
+</section>
+
+<!-- H2 verbatim. Eligibility Strip: left applies / right "may not apply" (brief gives the one-state case; "treated differently" framing kept honest, never "exempt"). Shape-distinct svg markers (check vs slash-circle). Honest .efoot from the brief's verbatim "We confirm before you pay." The [CLIENT PROOF NEEDED] worked example is omitted: the brief supplies no client story, so there is no Client Case File to build. -->
+<section class="band paper">
+  <div class="wrap">
+    <h2>When you need apportioned plates</h2>
+
+    <div class="eligib" style="margin-top:var(--s-5)">
+      <div class="col yes">
+        <p class="th">Applies to you</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> You operate a qualifying interstate vehicle (weight or axle thresholds).</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> You cross state lines for hire or for your own freight in interstate commerce.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> You are adding trucks to a fleet that already runs interstate.</li>
+        </ul>
+      </div>
+      <div class="col no">
+        <p class="th">May not apply to you</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M6 18 18 6"/></svg> If you only ever run inside one state, IRP may not apply to you.</li>
+        </ul>
+      </div>
+      <p class="efoot">We confirm before you pay.</p>
+    </div>
+  </div>
+</section>
+
+<!-- H2 verbatim. FAQ accordion (FAQPage schema), verbatim Q and A, first item open. "Do I need IRP and IFTA?" keeps its /ifta-registration/ link. No related row, no funnel band, no invented handoff. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>IRP registration FAQ</h2>
+    <div class="faq" style="margin-top:var(--s-5)">
+      <details open>
+        <summary>What are apportioned plates?</summary>
+        <div class="ans">Plates issued under the International Registration Plan that let you run interstate, with your registration fees split among the states you travel based on mileage.</div>
+      </details>
+      <details>
+        <summary>Do I need IRP and IFTA?</summary>
+        <div class="ans">Most interstate carriers need both. IRP is registration and plates; <a href="/ifta-registration/">IFTA</a> is fuel tax. They are separate filings.</div>
+      </details>
+      <details>
+        <summary>How are IRP fees calculated?</summary>
+        <div class="ans">By your registered weight and the share of miles you run in each member state. Because mileage drives the fee, estimates depend on your routes.</div>
+      </details>
+      <details>
+        <summary>Do I pay the state fees to Tech Rig?</summary>
+        <div class="ans">No. Government registration fees are separate and go to the jurisdictions. Our service fee is for handling the filing. You see both up front.</div>
+      </details>
+      <details>
+        <summary>What if I only run in one state?</summary>
+        <div class="ans">IRP is for interstate operation. If you run purely intrastate, it may not apply. We will tell you.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA BAND: verbatim closing line + the single amber "Start my IRP registration". -->
+<section class="band ink on-ink">
+  <div class="wrap cta-band">
+    <h2>Running interstate? Get your apportioned plates handled the right way.</h2>
+    <div class="act"><a class="btn btn-primary" href="/contact-us/">Start my IRP registration</a></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+        <p class="nap">DGR Tech Rig LLC<br>30 N Gould St, Ste R, Sheridan, Wyoming 82801<br>(917) 909-2257 &middot; info@techrig.org</p>
+        <p class="nap" style="font-size:.8rem">Officially listed by FMCSA as a BOC-3 blanket process-agent company.</p>
+      </div>
+      <div>
+        <h5>Compliance</h5>
+        <a href="#">USDOT number</a><a href="#">MC authority</a><a href="#">BOC-3 filing</a><a href="#">UCR</a><a href="#">IRP plates</a><a href="#">IFTA</a><a href="#">Clearinghouse</a><a href="#">Drug &amp; alcohol consortium</a><a href="#">DQ files</a><a href="#">ELD setup</a><a href="#">MCS-150 update</a><a href="#">Trucking LLC</a>
+      </div>
+      <div>
+        <h5>Dispatch</h5>
+        <a href="#">Box truck</a><a href="#">Reefer</a><a href="#">Flatbed</a><a href="#">Dry van</a><a href="#">Power only</a><a href="#">Hot shot</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="#">About us</a><a href="#">Contact</a><a href="#">How to start a trucking company</a><a href="#">Lead generation</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; Tech Rig</span><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Power of attorney</a><a href="#">Refund policy</a><a href="#">Referral program</a>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky">
+  <a class="btn btn-primary" href="/contact-us/">Start my IRP registration</a>
+  <a class="btn btn-secondary call" href="tel:+19179092257">Call</a>
+</div>
+
+</body>
+</html>

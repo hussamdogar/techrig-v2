@@ -6,36 +6,70 @@
 <title>Tech Rig mockups</title>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0E2233;--steel:#225E8A;--signal:#E89A3C;--paper:#F7F5F1;--cloud:#fff;--slate:#4F5E6B;--line:rgba(79,94,107,.16);}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;line-height:1.6;}
-.wrap{max-width:780px;margin:0 auto;padding:56px 24px;}
+:root{--ink:#0E2233;--steel:#225E8A;--signal:#E89A3C;--paper:#F7F5F1;--cloud:#fff;--slate:#4F5E6B;--mist:#E9EFF4;--line:rgba(79,94,107,.16);}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;line-height:1.55;}
+.wrap{max-width:920px;margin:0 auto;padding:56px 24px;}
 .eyebrow{font-family:"IBM Plex Sans",sans-serif;font-weight:600;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steel);}
-h1{font-family:"Archivo",sans-serif;font-weight:800;letter-spacing:-.02em;font-size:2rem;margin:.3rem 0 .5rem;}
+h1{font-family:"Archivo",sans-serif;font-weight:800;letter-spacing:-.02em;font-size:2rem;margin:.3rem 0 .4rem;}
 .logo{font-family:"IBM Plex Mono",monospace;font-weight:600;letter-spacing:.05em;display:inline-flex;align-items:center;}
 .logo .sq{width:.34em;height:.34em;background:var(--signal);border-radius:1.5px;margin:0 .34em;transform:translateY(-.08em);}
-p{color:var(--slate);max-width:62ch;}
-.cards{display:grid;gap:14px;margin-top:28px;}
-a.card{display:block;background:var(--cloud);border:1px solid var(--line);border-radius:12px;padding:20px 22px;text-decoration:none;color:var(--ink);}
+p.lead{color:var(--slate);max-width:64ch;}
+h2{font-family:"Archivo",sans-serif;font-weight:700;font-size:1.05rem;margin:32px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line);}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
+a.card{display:block;background:var(--cloud);border:1px solid var(--line);border-radius:10px;padding:13px 15px;text-decoration:none;color:var(--ink);}
 a.card:hover{border-color:var(--steel);}
-a.card .t{font-family:"Archivo",sans-serif;font-weight:700;font-size:1.12rem;}
-a.card .d{color:var(--slate);font-size:.93rem;margin-top:4px;}
-a.card .u{font-family:"IBM Plex Mono",monospace;font-size:.76rem;color:var(--steel);margin-top:8px;}
-.note{font-family:"IBM Plex Mono",monospace;font-size:.74rem;color:var(--slate);margin-top:28px;border-top:1px solid var(--line);padding-top:16px;}
+a.card .t{font-weight:600;font-size:.98rem;}
+a.card .u{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--steel);margin-top:3px;}
+.note{font-family:"IBM Plex Mono",monospace;font-size:.74rem;color:var(--slate);margin-top:32px;border-top:1px solid var(--line);padding-top:16px;}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <p class="eyebrow">Static mockups &middot; refit to SEO copy</p>
+  <p class="eyebrow">Static mockups</p>
   <h1><span class="logo">TECH<span class="sq"></span>RIG</span></h1>
-  <p>Five pages, navy-forward, with SEO's exact words restructured into the content toolkit (Standfirst, Manifest, Two-Track, Case File, Bracket Climb, Milepost Route, Load Board). Open each below.</p>
-  <div class="cards">
-    <a class="card" href="home.html"><div class="t">Home</div><div class="d">Standfirst hero, the two service lanes as cards, the funnel as a guide-sign.</div><div class="u">home.html</div></a>
-    <a class="card" href="compliance-services.html"><div class="t">Compliance hub</div><div class="d">The $1,650 package as a Pre-Filing Manifest, you-handle/we-handle ledger, a client case file.</div><div class="u">compliance-services.html</div></a>
-    <a class="card" href="services.html"><div class="t">Dispatch hub</div><div class="d">Trailer types and rates as a Load Board, the loaded-loop hero, funnel back to compliance.</div><div class="u">services.html</div></a>
-    <a class="card" href="ucr-registration.html"><div class="t">UCR registration (money page)</div><div class="d">Eligibility Strip, the fleet brackets as a Bracket Climb, the split-ledger fee receipt.</div><div class="u">ucr-registration.html</div></a>
-    <a class="card" href="how-to-start-a-trucking-company.html"><div class="t">How to start a trucking company (pillar)</div><div class="d">The nine steps as a Milepost Route down the page, each linking to its filing.</div><div class="u">how-to-start-a-trucking-company.html</div></a>
+  <p class="lead">All 24 pages, navy-forward, SEO copy restructured into the content toolkit (Standfirst, Manifest, Two-Track, Case File, Eligibility Strip, Bracket Climb, Milepost Route, Load Board). Open any below.</p>
+
+  <h2>Foundation</h2>
+  <div class="grid">
+    <a class="card" href="home.html"><div class="t">Home</div><div class="u">/</div></a>
+    <a class="card" href="compliance-services.html"><div class="t">Compliance hub</div><div class="u">/compliance-services/</div></a>
+    <a class="card" href="services.html"><div class="t">Dispatch hub</div><div class="u">/services/</div></a>
   </div>
-  <p class="note">Words are SEO's, restructured only (list-grammar trims). Anything genuinely new is flagged in dashed amber as [SEO to supply].</p>
+
+  <h2>Compliance filing pages</h2>
+  <div class="grid">
+    <a class="card" href="dot-registration.html"><div class="t">USDOT registration</div><div class="u">/dot-registration/</div></a>
+    <a class="card" href="mc-registration.html"><div class="t">MC authority</div><div class="u">/mc-registration/</div></a>
+    <a class="card" href="mc-dot-registration.html"><div class="t">DOT + MC bundle</div><div class="u">/mc-dot-registration/</div></a>
+    <a class="card" href="boc-3-filing.html"><div class="t">BOC-3 filing</div><div class="u">/boc-3-filing/</div></a>
+    <a class="card" href="ucr-registration.html"><div class="t">UCR registration</div><div class="u">/ucr-registration/</div></a>
+    <a class="card" href="mcs-150-biennial-update.html"><div class="t">MCS-150 update</div><div class="u">/mcs-150-biennial-update/</div></a>
+    <a class="card" href="irp-registration.html"><div class="t">IRP plates</div><div class="u">/irp-registration/</div></a>
+    <a class="card" href="ifta-registration.html"><div class="t">IFTA</div><div class="u">/ifta-registration/</div></a>
+    <a class="card" href="fmcsa-clearinghouse-registration.html"><div class="t">Clearinghouse</div><div class="u">/fmcsa-clearinghouse-registration/</div></a>
+    <a class="card" href="drug-and-alcohol-consortium.html"><div class="t">Drug &amp; alcohol consortium</div><div class="u">/drug-and-alcohol-consortium/</div></a>
+    <a class="card" href="driver-qualification-files.html"><div class="t">Driver qualification files</div><div class="u">/driver-qualification-files/</div></a>
+    <a class="card" href="eld-services.html"><div class="t">ELD setup</div><div class="u">/eld-services/</div></a>
+    <a class="card" href="trucking-insurance-filing.html"><div class="t">Insurance filing</div><div class="u">/trucking-insurance-filing/</div></a>
+    <a class="card" href="trucking-llc.html"><div class="t">Trucking LLC</div><div class="u">/trucking-llc/</div></a>
+  </div>
+
+  <h2>Dispatch</h2>
+  <div class="grid">
+    <a class="card" href="box-truck-dispatch.html"><div class="t">Box truck dispatch (franchise)</div><div class="u">/box-truck-dispatch/</div></a>
+    <a class="card" href="dispatch-trailer-pages.html"><div class="t">Trailer page template (reefer)</div><div class="u">template</div></a>
+  </div>
+
+  <h2>Guide, company, locations</h2>
+  <div class="grid">
+    <a class="card" href="how-to-start-a-trucking-company.html"><div class="t">How to start a trucking company (pillar)</div><div class="u">/how-to-start-a-trucking-company/</div></a>
+    <a class="card" href="about-us.html"><div class="t">About us</div><div class="u">/about-us/</div></a>
+    <a class="card" href="lead-generation.html"><div class="t">Lead generation</div><div class="u">/lead-generation/</div></a>
+    <a class="card" href="state-pages.html"><div class="t">State page template</div><div class="u">template</div></a>
+    <a class="card" href="blog-feeders.html"><div class="t">Blog post template</div><div class="u">template</div></a>
+  </div>
+
+  <p class="note">Words are SEO's, restructured only. Structural UI labels are design chrome. Anything genuinely new is flagged in dashed amber as [SEO to supply], the consolidated copy request for the SEO pass.</p>
 </div>
 </body>
 </html>

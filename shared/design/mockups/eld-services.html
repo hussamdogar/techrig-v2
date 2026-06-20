@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ELD for Owner Operators and Fleets | Tech Rig</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* page-local helpers: restructure SEO prose into chunks; white text on the navy hero. All words are SEO's. */
+.reviewline{display:flex;align-items:baseline;gap:8px;font-family:var(--font-mono);font-size:.82rem;color:rgba(255,255,255,.72);margin:var(--s-5) 0 0;}
+.reviewline .lbl{color:#9cc4e0;letter-spacing:.06em;text-transform:uppercase;font-size:.72rem;}
+.reviewline b{color:#fff;font-weight:600;}
+/* hero bullets (refit of hero lede follow-ons), white on navy */
+.herobul{list-style:none;padding:0;margin:var(--s-4) 0 0;display:flex;flex-direction:column;gap:9px;}
+.herobul li{display:flex;gap:10px;align-items:flex-start;color:rgba(255,255,255,.85);font-size:.96rem;}
+.herobul svg{flex:none;margin-top:3px;}
+/* what-you-get value list, typographic */
+.getlist{list-style:none;padding:0;margin:var(--s-5) 0 0;display:flex;flex-direction:column;gap:var(--s-4);max-width:70ch;}
+.getlist li{display:flex;gap:13px;align-items:flex-start;font-size:1rem;}
+.getlist svg{width:22px;height:22px;flex:none;margin-top:2px;color:var(--steel);}
+.getlist li.weight{background:var(--mist);border:1px solid var(--line);border-radius:var(--r-card);padding:var(--s-4) var(--s-5);}
+.getlist li.weight svg{color:var(--signal);}
+/* pricing notes + mid CTA */
+.pricenote{color:var(--slate);font-size:.95rem;margin:var(--s-5) 0 0;max-width:62ch;}
+.midcta{margin:var(--s-6) 0 0;}
+/* funnel cross-link copy */
+.funnelp{max-width:64ch;}
+/* closing band button spacing */
+.cta-band .act{margin-top:var(--s-5);}
+/* SEO-to-supply placeholder (verbatim .ph style from compliance-services.html) */
+.ph{display:inline-block;border:1.5px dashed var(--line);border-radius:var(--r-chip);padding:2px 9px;font-family:var(--font-mono);font-size:.74rem;color:var(--slate);letter-spacing:.03em;background:repeating-linear-gradient(45deg,transparent 0 6px,rgba(79,94,107,.05) 6px 12px);}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+    <nav class="menu">
+      <span class="grp compliance">Compliance</span>
+      <span class="grp dispatch">Dispatch</span>
+      <a class="item" href="#">About</a>
+      <a class="item" href="#">Contact</a>
+    </nav>
+    <div class="right">
+      <a class="call" href="tel:+19179092257">Call (917) 909-2257</a>
+      <a class="btn btn-primary" href="#">Start your compliance setup</a>
+    </div>
+  </div>
+</header>
+
+<!-- STANDFIRST HERO (navy, single column, NO tracker): H1 verbatim. Hero lede refit: lead clause -> TL;DR, parallel "choose / install / run" clauses -> deck, follow-ons -> bullets. Motive partner line verbatim (never "exclusive"). Reviewed-by mono line. -->
+<section class="hero">
+  <div class="wrap">
+    <div style="max-width:62ch">
+      <p class="eyebrow">Compliance &middot; ELD setup</p>
+      <h1>ELD Setup for Owner Operators and Fleets</h1>
+      <div class="standfirst">
+        <span class="bar"></span>
+        <p class="tl">An electronic logging device (ELD) records your hours of service automatically, and most carriers are required to run one.</p>
+      </div>
+      <ol class="deck">
+        <li><span class="num">01</span> choosing a device that fits your operation</li>
+        <li><span class="num">02</span> setting it up so your logs are clean for inspections and audits</li>
+      </ol>
+      <ul class="herobul">
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#9cc4e0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> The hard part is not the rule, it is choosing a device that fits your operation and setting it up so your logs are clean.</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#9cc4e0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> Tech Rig helps you get the right ELD in place. We work with Motive as our ELD partner, so owner-operators and small fleets get a setup that just works.</li>
+      </ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="/contact-us/">Set up my ELD</a>
+      </div>
+      <p class="reviewline"><span class="lbl">Reviewed by</span> <b>Robert Hooke, Co-Founder</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- H2 verbatim. What-it-is copy verbatim. Who-needs-one applicability split into an Eligibility Strip (verbatim items): required vs exceptions. Honest .efoot from the brief's "running without / set up wrong" warning. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>What an ELD is and who needs one</h2>
+    <p>An ELD connects to your vehicle's engine and automatically records driving time, replacing paper logs for hours-of-service compliance.</p>
+
+    <!-- ELIGIBILITY STRIP: left required / right exceptions. Shape-distinct svg markers (check vs slash-circle). Honest .efoot. -->
+    <div class="eligib" style="margin-top:var(--s-5)">
+      <div class="col yes">
+        <p class="th">Applies to you</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> Most commercial drivers subject to hours-of-service rules are required to use one.</li>
+        </ul>
+      </div>
+      <div class="col no">
+        <p class="th">May not apply</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M6 18 18 6"/></svg> Some exceptions for certain short-haul operations.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M6 18 18 6"/></svg> Some exceptions for older-vehicle operations.</li>
+        </ul>
+      </div>
+      <p class="efoot">Running without a required ELD, or running one set up wrong, leads to violations at inspection and hurts your safety record.</p>
+    </div>
+  </div>
+</section>
+
+<!-- H2 verbatim. The four "how we help" bullets verbatim as a typographic value list. Configured-correctly item given extra weight. -->
+<section class="band paper">
+  <div class="wrap">
+    <h2>ELD for owner operators: how we help</h2>
+    <ul class="getlist">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h13"/><path d="M3 12h9"/><path d="M3 18h13"/><path d="m16 14 2.5 2.5L23 12"/></svg> We help you choose an ELD that fits your truck and operation, working with Motive.</li>
+      <li class="weight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 10v2a7 7 0 0 0 14 0v-2"/><path d="M12 19v3"/></svg> We help get it installed and your account configured so your hours of service log correctly.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10"/><path d="M7 12h10"/><path d="M7 17h6"/><path d="M3 7h.01"/><path d="M3 12h.01"/><path d="M3 17h.01"/></svg> We connect ELD into the rest of your compliance so your records line up for inspections and audits.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.4 12a6.4 6.4 0 0 0-.1-1.3l2-1.6-2-3.4-2.4 1a6.4 6.4 0 0 0-2.2-1.3l-.4-2.6h-4l-.4 2.6a6.4 6.4 0 0 0-2.2 1.3l-2.4-1-2 3.4 2 1.6a6.4 6.4 0 0 0 0 2.6l-2 1.6 2 3.4 2.4-1a6.4 6.4 0 0 0 2.2 1.3l.4 2.6h4l.4-2.6a6.4 6.4 0 0 0 2.2-1.3l2.4 1 2-3.4-2-1.6c.07-.43.1-.86.1-1.3z"/><circle cx="12" cy="12" r="2.6"/></svg> We point you to support when you need it, so a device problem does not become a compliance problem.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- H2 (structural, brief states no price -> "What our ELD setup service costs"... but no verbatim H2 exists for price; brief Price line is a directive, not a heading. Use Split-Ledger because the brief states BOTH a Tech Rig service fee AND a separate third-party device/subscription cost. No figures stated -> honest tokens, no invented numbers. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>What ELD setup costs</h2>
+
+    <div class="ledger" style="margin-top:var(--s-5)">
+      <div class="lrow">
+        <span class="gut service"></span>
+        <div class="l-main">
+          <div class="t">Tech Rig service fee</div>
+          <div class="s">to set up your ELD</div>
+        </div>
+        <div class="l-val token">[SEO to supply]</div>
+      </div>
+      <div class="lrow">
+        <span class="gut gov"></span>
+        <div class="l-main">
+          <div class="t">Device and subscription cost</div>
+          <div class="s">third-party (Motive), separate from any Tech Rig service fee</div>
+        </div>
+        <div class="l-val token">[SEO to supply]</div>
+      </div>
+    </div>
+
+    <p class="pricenote">Device and subscription costs are third-party (Motive), separate from our service fee.</p>
+
+    <p class="midcta"><a class="btn-tertiary" href="/contact-us/">Set up my ELD</a></p>
+  </div>
+</section>
+
+<!-- H2 verbatim. Funnel paragraph with inline Steel cross-links verbatim (/irp-registration/, /ifta-registration/, /compliance-services/). Client Case File: brief states NO worked example -> honest [SEO to supply] placeholder, no invented facts. -->
+<section class="band paper">
+  <div class="wrap">
+    <h2>ELD and the rest of your compliance</h2>
+    <p class="funnelp">An ELD is part of running interstate cleanly, alongside your <a href="/irp-registration/">IRP</a> and <a href="/ifta-registration/">IFTA</a> setup. New carriers usually handle ELD around the time they start hauling. If you are still standing up the company, see the <a href="/compliance-services/">full setup</a>.</p>
+
+    <div class="casefile" style="margin-top:var(--s-6);max-width:760px">
+      <span class="tab">CLIENT CASE FILE</span>
+      <div class="body">
+        <dl>
+          <dt>Client</dt>
+          <dd><span class="ph">[SEO to supply]</span></dd>
+          <dt>What we did</dt>
+          <dd><span class="ph">[SEO to supply]</span></dd>
+          <dt>Turnaround</dt>
+          <dd><span class="ph">[SEO to supply]</span></dd>
+        </dl>
+        <div class="status">
+          <span class="ph">[SEO to supply]</span>
+          <span class="past">PAST RESULT</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- H2 verbatim. FAQ accordion, verbatim Q and A, first item open. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>ELD FAQ</h2>
+    <div class="faq" style="margin-top:var(--s-5)">
+      <details open>
+        <summary>Do owner-operators need an ELD?</summary>
+        <div class="ans">Most drivers subject to hours-of-service rules need one, with limited exceptions. We confirm whether you are required to run one.</div>
+      </details>
+      <details>
+        <summary>Which ELD should I use?</summary>
+        <div class="ans">We work with Motive and help you pick a setup that fits your truck and operation.</div>
+      </details>
+      <details>
+        <summary>Is the device cost included?</summary>
+        <div class="ans">Device and subscription costs come from the provider and are separate from any Tech Rig service fee. We show you both.</div>
+      </details>
+      <details>
+        <summary>Can you help if my ELD is logging wrong?</summary>
+        <div class="ans">Yes. A misconfigured ELD causes inspection violations, so we make sure it is set up correctly and point you to support.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA BAND: verbatim closing line + the single amber "Set up my ELD". -->
+<section class="band ink on-ink">
+  <div class="wrap cta-band">
+    <h2>Need an ELD that keeps your logs clean? Get set up with the right device.</h2>
+    <div class="act"><a class="btn btn-primary" href="/contact-us/">Set up my ELD</a></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+        <p class="nap">DGR Tech Rig LLC<br>30 N Gould St, Ste R, Sheridan, Wyoming 82801<br>(917) 909-2257 &middot; info@techrig.org</p>
+        <p class="nap" style="font-size:.8rem">Officially listed by FMCSA as a BOC-3 blanket process-agent company.</p>
+      </div>
+      <div>
+        <h5>Compliance</h5>
+        <a href="#">USDOT number</a><a href="#">MC authority</a><a href="#">BOC-3 filing</a><a href="#">UCR</a><a href="#">IRP plates</a><a href="#">IFTA</a><a href="#">Clearinghouse</a><a href="#">Drug &amp; alcohol consortium</a><a href="#">DQ files</a><a href="#">ELD setup</a><a href="#">MCS-150 update</a><a href="#">Trucking LLC</a>
+      </div>
+      <div>
+        <h5>Dispatch</h5>
+        <a href="#">Box truck</a><a href="#">Reefer</a><a href="#">Flatbed</a><a href="#">Dry van</a><a href="#">Power only</a><a href="#">Hot shot</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="#">About us</a><a href="#">Contact</a><a href="#">How to start a trucking company</a><a href="#">Lead generation</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; Tech Rig</span><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Power of attorney</a><a href="#">Refund policy</a><a href="#">Referral program</a>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky">
+  <a class="btn btn-primary" href="/contact-us/">Set up my ELD</a>
+  <a class="btn btn-secondary call" href="tel:+19179092257">Call</a>
+</div>
+
+</body>
+</html>

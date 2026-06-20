@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About Tech Rig | Trucking Compliance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* page-local helpers: restructure SEO prose into chunks; white text on the navy hero / dark bands. */
+.herobul{list-style:none;padding:0;margin:var(--s-5) 0 0;display:flex;flex-direction:column;gap:11px;}
+.herobul li{display:flex;gap:11px;align-items:flex-start;color:rgba(255,255,255,.85);font-size:1rem;}
+.herobul svg{flex:none;margin-top:3px;color:#9cc4e0;}
+.tagline{font-family:var(--font-display);font-weight:700;color:#fff;margin:var(--s-5) 0 0;font-size:1.15rem;}
+/* founder card: avatar + body stacked, line-grammar bio bullets */
+.foundercard{align-items:flex-start;flex-direction:column;gap:var(--s-4);}
+.foundercard .top{display:flex;gap:var(--s-4);align-items:center;width:100%;}
+.foundercard .role{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--steel);margin:0;}
+.foundercard h3{margin:0;font-size:1.25rem;}
+.fbul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;}
+.fbul li{display:flex;gap:9px;align-items:flex-start;font-size:.95rem;color:var(--slate);}
+.fbul svg{flex:none;margin-top:4px;color:var(--steel);}
+.fnote{font-size:.92rem;color:var(--slate);margin:var(--s-3) 0 0;}
+.howbul{list-style:none;padding:0;margin:var(--s-5) 0 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--s-5);}
+.howbul li{display:flex;flex-direction:column;gap:10px;border-top:3px solid var(--steel);padding-top:var(--s-4);font-size:.98rem;}
+.howbul svg{color:var(--steel);}
+@media(max-width:840px){ .howbul{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+    <nav class="menu">
+      <span class="grp compliance">Compliance</span>
+      <span class="grp dispatch">Dispatch</span>
+      <a class="item" href="#">About</a>
+      <a class="item" href="#">Contact</a>
+    </nav>
+    <div class="right">
+      <a class="call" href="tel:+19179092257">Call (917) 909-2257</a>
+      <a class="btn btn-primary" href="#">Start your compliance setup</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO: H1 verbatim; lede refit into TL;DR hook + parallel-clause bullets + the punch. All words SEO's. -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Who we are</p>
+      <h1>About Tech Rig</h1>
+      <div class="standfirst">
+        <span class="bar"></span>
+        <p class="tl">Tech Rig is a trucking compliance and dispatch company built by people who do the filings, not just talk about them.</p>
+      </div>
+      <ul class="herobul">
+        <li><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> Since 2021 we have helped new motor carriers, owner-operators, and brokers get set up and stay loaded, across more than 10 states.</li>
+        <li><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> We are officially listed by FMCSA as a BOC-3 blanket process-agent company.</li>
+      </ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="#">Contact Tech Rig</a>
+        <a class="btn btn-secondary" href="#">See compliance services</a>
+      </div>
+    </div>
+    <div class="art on-ink">
+      <h2 style="color:#fff;font-size:1.5rem">What we do</h2>
+      <p style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:1.15rem;margin:0 0 var(--s-4)">We handle the two things a trucking business needs:</p>
+      <ol class="deck" style="flex-direction:column;gap:var(--s-4)">
+        <li><span class="num">01</span> <span>Getting legally set up and staying that way (see <a href="#" style="color:#fff;text-decoration:underline">compliance services</a>)</span></li>
+        <li><span class="num">02</span> <span>Keeping the truck earning once you are active (see <a href="#" style="color:#fff;text-decoration:underline">dispatch</a>)</span></li>
+      </ol>
+      <p class="tagline">One team for the whole journey, from your first filing to your next load.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TRACK RECORD: verbatim H2 and verbatim proof bullets (documented only). -->
+<section class="band ink on-ink">
+  <div class="wrap">
+    <p class="eyebrow">Documented only</p>
+    <h2>Our track record</h2>
+    <ul class="trustlist" style="list-style:none;padding:0;margin:var(--s-5) 0 0;display:flex;flex-direction:column;gap:14px;max-width:72ch;">
+      <li style="display:flex;gap:12px;align-items:flex-start;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#9cc4e0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:3px"><path d="M5 12l4 4 10-10"/></svg> Dispatching carriers since 2021, around 100 served.</li>
+      <li style="display:flex;gap:12px;align-items:flex-start;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#9cc4e0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:3px"><path d="M5 12l4 4 10-10"/></svg> A compliance practice that has helped 40+ carriers, owner-operators, and brokers across more than 10 states since 2025.</li>
+      <li style="display:flex;gap:12px;align-items:flex-start;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#9cc4e0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:3px"><path d="M5 12l4 4 10-10"/></svg> Officially listed by FMCSA as a BOC-3 blanket process-agent company.</li>
+      <li style="display:flex;gap:12px;align-items:flex-start;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#9cc4e0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:3px"><path d="M5 12l4 4 10-10"/></svg> Working relationships with Motive (ELD) and OTR Solutions and RTS Financial (factoring).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- MEET THE TEAM: verbatim H2. EXACTLY TWO founder cards, aliases only, mono initials avatar, bios refit to bullets. -->
+<section class="band cloud">
+  <div class="wrap">
+    <p class="eyebrow">Aliases only</p>
+    <h2>Meet the team</h2>
+    <div class="founders" style="margin-top:var(--s-6)">
+
+      <div class="founder foundercard">
+        <div class="top">
+          <span class="avatar">AS</span>
+          <div>
+            <p class="role">Co-Founder</p>
+            <h3>Adam Smith</h3>
+          </div>
+        </div>
+        <ul class="fbul">
+          <li><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> Adam leads our sales and trucking-compliance operations.</li>
+          <li><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> He works directly with new motor carriers, owner-operators, and brokers to spot registration issues, complete the required filings, and untangle problems with operating authority, BOC-3, UCR, MCS-150 records, and driver compliance.</li>
+          <li><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> His law background shows in how carefully he handles regulatory requirements and documentation.</li>
+        </ul>
+      </div>
+
+      <div class="founder foundercard">
+        <div class="top">
+          <span class="avatar">RH</span>
+          <div>
+            <p class="role">Co-Founder</p>
+            <h3>Robert Hooke</h3>
+          </div>
+        </div>
+        <ul class="fbul">
+          <li><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> Robert works across sales and compliance, helping clients with FMCSA registration, authority filings, BOC-3, UCR, and related requirements.</li>
+          <li><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> A software engineer by training, he brings a systems mindset to how we manage client information, filings, and compliance workflows, which is part of why we move quickly on things like MOTUS issues.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW WE WORK: verbatim H2; three verbatim principle lines as a steps-style strip. -->
+<section class="band mist">
+  <div class="wrap">
+    <p class="eyebrow">Our principles</p>
+    <h2>How we work</h2>
+    <ul class="howbul">
+      <li>
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h10"/><path d="M4 18h7"/></svg>
+        We tell you which filings actually apply to your operation, not a one-size list.
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M5 7h9a3 3 0 0 1 0 6H5"/><path d="M19 17h-9"/></svg>
+        We separate our service fee from government and third-party costs, every time.
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        We do not promise activation dates we cannot control, and we do not publish numbers we cannot back up.
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- CLOSING CTA: verbatim. One clear next step. -->
+<section class="band cloud">
+  <div class="wrap cta-band">
+    <h2>Want a team that handles setup and keeps you loaded? Talk to us.</h2>
+    <a class="btn btn-primary" href="#">Contact Tech Rig</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+        <p class="nap">DGR Tech Rig LLC<br>30 N Gould St, Ste R, Sheridan, Wyoming 82801<br>(917) 909-2257 &middot; info@techrig.org</p>
+        <p class="nap" style="font-size:.8rem">Officially listed by FMCSA as a BOC-3 blanket process-agent company.</p>
+      </div>
+      <div>
+        <h5>Compliance</h5>
+        <a href="#">USDOT number</a><a href="#">MC authority</a><a href="#">BOC-3 filing</a><a href="#">UCR</a><a href="#">IRP plates</a><a href="#">IFTA</a><a href="#">Clearinghouse</a><a href="#">Drug &amp; alcohol consortium</a><a href="#">DQ files</a><a href="#">ELD setup</a><a href="#">MCS-150 update</a><a href="#">Trucking LLC</a>
+      </div>
+      <div>
+        <h5>Dispatch</h5>
+        <a href="#">Box truck</a><a href="#">Reefer</a><a href="#">Flatbed</a><a href="#">Dry van</a><a href="#">Power only</a><a href="#">Hot shot</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="#">About us</a><a href="#">Contact</a><a href="#">How to start a trucking company</a><a href="#">Lead generation</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; Tech Rig</span><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Power of attorney</a><a href="#">Refund policy</a><a href="#">Referral program</a>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky">
+  <a class="btn btn-primary" href="#">Contact Tech Rig</a>
+  <a class="btn btn-secondary call" href="tel:+19179092257">Call</a>
+</div>
+
+</body>
+</html>

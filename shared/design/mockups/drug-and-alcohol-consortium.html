@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drug and Alcohol Consortium for Trucking | Tech Rig</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* page-local helpers: restructure SEO prose into chunks; white text on the navy hero. All words are SEO's. */
+/* breadcrumb row */
+.crumbs{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.04em;color:var(--slate);display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.crumbs a{color:var(--steel);text-decoration:none;}
+.crumbs a:hover{text-decoration:underline;text-underline-offset:3px;}
+.crumbs .sep{color:var(--line);}
+.crumbs .here{color:var(--slate);}
+/* hero lede with an in-paragraph Ink consequence clause on the navy hero */
+.herolede{font-size:1.12rem;color:rgba(255,255,255,.85);max-width:60ch;margin:var(--s-5) 0 0;}
+.herolede .consequence{color:#fff;font-weight:600;}
+.reviewline{display:flex;align-items:baseline;gap:8px;font-family:var(--font-mono);font-size:.82rem;color:rgba(255,255,255,.72);margin:var(--s-6) 0 0;}
+.reviewline .lbl{color:#9cc4e0;letter-spacing:.06em;text-transform:uppercase;font-size:.72rem;}
+.reviewline b{color:#fff;font-weight:600;}
+/* driver-readiness marker beneath the resolved tracker */
+.tracker .readymark{display:inline-flex;align-items:center;gap:6px;margin-top:5px;padding-left:64px;font-family:var(--font-mono);font-size:.74rem;letter-spacing:.04em;color:#9cc4e0;}
+.tracker .readymark svg{width:14px;height:14px;flex:none;}
+/* quiet emphasis callout (Steel rule, Slate text) reused for pool-of-one and the worked example */
+.callout{border-left:3px solid var(--steel);background:var(--mist);border-radius:0 var(--r-btn) var(--r-btn) 0;padding:var(--s-4) var(--s-5);color:var(--slate);font-size:.96rem;margin:var(--s-5) 0 0;max-width:64ch;}
+.callout .ct{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--steel);display:block;margin-bottom:6px;}
+.callout b{color:var(--ink);font-weight:600;}
+.callout .mono{color:var(--ink);font-weight:600;}
+/* who-needs-it: line-led list, not a checklist */
+.wholist{list-style:none;padding:0;margin:var(--s-4) 0 0;display:flex;flex-direction:column;gap:12px;max-width:64ch;}
+.wholist li{display:flex;gap:11px;align-items:flex-start;font-size:.98rem;}
+.wholist svg{width:20px;height:20px;flex:none;margin-top:2px;color:var(--steel);}
+.wholist .qual{color:var(--slate);font-size:.95rem;margin:var(--s-4) 0 0;max-width:64ch;}
+.wholist .qual b{color:var(--ink);font-weight:600;}
+/* what-you-get checklist, typographic, status-active checks */
+.getlist{list-style:none;padding:0;margin:var(--s-5) 0 0;display:flex;flex-direction:column;gap:var(--s-4);max-width:70ch;}
+.getlist li{display:flex;gap:13px;align-items:flex-start;font-size:1rem;}
+.getlist svg{width:22px;height:22px;flex:none;margin-top:2px;color:var(--status-active);}
+/* price chips row + the separate Clearinghouse line */
+.chiprow{display:flex;gap:var(--s-4);flex-wrap:wrap;margin:var(--s-6) 0 0;}
+.sepline{color:var(--slate);font-size:.95rem;margin:var(--s-4) 0 0;max-width:62ch;}
+/* two-node line diagram for consortium <-> Clearinghouse */
+.linkdiag{display:flex;align-items:stretch;gap:0;background:var(--cloud);border:1px solid var(--line);border-radius:var(--r-card);box-shadow:var(--shadow);overflow:hidden;max-width:760px;margin:var(--s-6) 0 0;}
+.linkdiag .lnode{flex:1;padding:var(--s-5);display:flex;flex-direction:column;gap:8px;}
+.linkdiag .lnode .ico{width:34px;height:34px;color:var(--steel);}
+.linkdiag .lnode .nt{font-family:var(--font-display);font-weight:700;font-size:1.05rem;}
+.linkdiag .lnode .nd{font-size:.9rem;color:var(--slate);margin:0;}
+.linkdiag .lwire{flex:none;width:120px;border-left:1px solid var(--line);border-right:1px solid var(--line);background:var(--mist);display:flex;flex-direction:column;justify-content:center;gap:11px;padding:var(--s-4) var(--s-3);}
+.linkdiag .flow{display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:.7rem;color:var(--slate);}
+.linkdiag .flow svg{width:18px;height:14px;flex:none;color:var(--steel);}
+.linkdiag .flow.back svg{transform:scaleX(-1);}
+.diagnote{font-size:.95rem;color:var(--slate);max-width:64ch;margin:var(--s-5) 0 0;}
+.diagnote a{font-weight:600;}
+@media(max-width:640px){ .linkdiag{flex-direction:column;} .linkdiag .lwire{width:auto;border-left:0;border-right:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);flex-direction:row;justify-content:center;} .linkdiag .flow.back svg{transform:rotate(90deg) scaleX(-1);} .linkdiag .flow svg{transform:rotate(90deg);} }
+/* driver-compliance cluster strip */
+.clusterstrip{display:flex;align-items:center;gap:var(--s-5);flex-wrap:wrap;background:var(--cloud);border:1px solid var(--line);border-radius:var(--r-card);box-shadow:var(--shadow);padding:var(--s-5);}
+.clusterstrip .lead{font-weight:600;font-size:.95rem;}
+.clusterstrip .links{display:flex;gap:var(--s-5);flex-wrap:wrap;}
+.clusterstrip .links a{display:inline-flex;align-items:center;gap:8px;color:var(--steel);text-decoration:none;font-weight:600;font-size:.95rem;}
+.clusterstrip .links a:hover{text-decoration:underline;text-underline-offset:3px;}
+.clusterstrip .links svg{width:18px;height:18px;flex:none;}
+/* funnel forward line */
+.funnelp{max-width:64ch;}
+.cta-band .act{margin-top:var(--s-5);}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+    <nav class="menu">
+      <span class="grp compliance">Compliance</span>
+      <span class="grp dispatch">Dispatch</span>
+      <a class="item" href="#">About</a>
+      <a class="item" href="#">Contact</a>
+    </nav>
+    <div class="right">
+      <a class="call" href="tel:+19179092257">Call (917) 909-2257</a>
+      <a class="btn btn-primary" href="/contact-us/">Enroll in a consortium</a>
+    </div>
+  </div>
+</header>
+
+<!-- BREADCRUMB ROW (Paper): mono labels, Steel links, current item Slate. Renders BreadcrumbList. -->
+<section class="band paper" style="padding:var(--s-5) 0">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="sep">/</span>
+      <a href="/compliance-services/">Compliance Services</a>
+      <span class="sep">/</span>
+      <span class="here">Drug and Alcohol Consortium</span>
+    </nav>
+  </div>
+</section>
+
+<!-- HERO (navy): H1 verbatim. Hero lede as styled Body L paragraph, consequence clause set Ink-weight inline. Primary amber CTA. Reviewed-by mono line. Tracker scoped as a driver-readiness step alongside Clearinghouse and DQ files. -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Compliance &middot; Driver compliance</p>
+      <h1>Drug and Alcohol Consortium Enrollment</h1>
+      <p class="herolede">If you hold a CDL and operate under FMCSA, you are required to be in a DOT drug and alcohol testing program, and for owner-operators that means joining a consortium. A consortium pools drivers for random testing and manages the program for you. <span class="consequence">Skip it and you are not legal to drive a CDL vehicle, and it is one of the first things an audit checks.</span> Tech Rig enrolls you in a drug and alcohol consortium and keeps your testing program compliant.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/contact-us/">Enroll in a consortium</a>
+      </div>
+      <p class="reviewline"><span class="lbl">Reviewed by</span> <b>Adam Smith, Co-Founder</b></p>
+    </div>
+
+    <div class="art on-ink">
+      <p class="eyebrow">Driver readiness</p>
+      <div class="tracker">
+        <div class="step s-filed"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 14l2 2 4-4"/></svg></span><span class="label">Authority active</span></div>
+        <div class="step s-active"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg></span><span class="label">In a testing program</span></div>
+        <div class="step s-filed"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h10"/><path d="M18 15l1.6 1.6L23 13"/></svg></span><span class="label">Clearinghouse and DQ files</span></div>
+        <div class="readymark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> Driver compliance, kept active</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- H2 verbatim. What-it-is copy verbatim. Pool-of-one angle as the quiet Steel-rule emphasis callout. Inline Clearinghouse link as Steel anchor. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>What a drug and alcohol consortium is</h2>
+    <p>A consortium/third-party administrator (C/TPA) is an organization that manages DOT drug and alcohol testing for carriers, including the random testing pool. FMCSA requires CDL drivers to be part of a testing program, and an owner-operator cannot run their own random pool of one, so they join a consortium. The program covers pre-employment, random, post-accident, and other required testing, and ties into the <a href="/fmcsa-clearinghouse-registration/">FMCSA Clearinghouse</a>.</p>
+
+    <div class="callout">
+      <span class="ct">Why it works this way</span>
+      An owner-operator cannot run their own random pool of one, so they join a consortium.
+    </div>
+  </div>
+</section>
+
+<!-- H2 verbatim. Honest applicability. Two line-icon bullets (not a checklist). The "Note: not every operation..." qualifier set apart in Slate. -->
+<section class="band paper">
+  <div class="wrap">
+    <h2>Who needs to be in a consortium</h2>
+    <ul class="wholist">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg> Owner-operators with a CDL operating under FMCSA.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l9-4 9 4v14"/><path d="M9 21v-6h6v6"/><path d="M3 21h18"/></svg> Carriers with CDL drivers (the carrier runs the program, the consortium administers it).</li>
+    </ul>
+    <p class="qual"><b>Note:</b> not every operation is subject to CDL drug-and-alcohol rules. Whether this applies depends on your vehicles, drivers, and operation. We confirm before you enroll.</p>
+  </div>
+</section>
+
+<!-- H2 verbatim. Four-item checklist with status-active checks. Inline Clearinghouse + DQ-files links as Steel anchors. Beneath: $150 and $100 price chips from single source; Clearinghouse $100 as a separate Slate line, not a third bundled chip. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>What our drug and alcohol consortium enrollment includes</h2>
+    <ul class="getlist">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> We enroll you or your drivers in a compliant consortium and random testing pool.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> We set up the required testing, including pre-employment (see below).</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> We connect your program to your <a href="/fmcsa-clearinghouse-registration/">Clearinghouse</a> registration and <a href="/driver-qualification-files/">driver qualification files</a>.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> We keep your enrollment active so your program stays compliant.</li>
+    </ul>
+
+    <div class="chiprow">
+      <span class="pricechip">
+        <span class="amt">$150</span>
+        <span class="lbl">Consortium enrollment</span>
+      </span>
+      <span class="pricechip">
+        <span class="amt">$100</span>
+        <span class="lbl">Pre-employment drug test</span>
+      </span>
+    </div>
+    <p class="sepline"><a href="/fmcsa-clearinghouse-registration/">Clearinghouse</a> registration is $100, listed separately.</p>
+  </div>
+</section>
+
+<!-- H2 verbatim. Pre-employment as its own substantive section. Worked example as the quiet Steel-rule callout, NJ power-only telling, mono only on "more than 30 days", labelled PAST RESULT. Inline DQ-files link Steel. Distinct from the DQ-files telling. -->
+<section class="band paper">
+  <div class="wrap">
+    <h2>Pre-employment drug test</h2>
+    <p>Before a driver can perform safety-sensitive work, they generally need a negative pre-employment drug test on file. Timing matters: a test that is too old does not count. We coordinate pre-employment testing so the timing is right and the result is documented in the <a href="/driver-qualification-files/">driver's qualification file</a>.</p>
+
+    <div class="callout">
+      <span class="ct">Worked example &middot; Past result</span>
+      For a New Jersey power-only carrier, an earlier drug test was <span class="mono">more than 30 days</span> old, so a new pre-employment test had to be arranged before the driver could meet the requirement.
+    </div>
+  </div>
+</section>
+
+<!-- H2 verbatim. Compact two-node line diagram: consortium program <-> Clearinghouse registration, queries and reporting flowing between them. Inline Clearinghouse + DQ-files links Steel. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>Consortium and the Clearinghouse</h2>
+    <p>The <a href="/fmcsa-clearinghouse-registration/">FMCSA Clearinghouse</a> is the federal database of drug and alcohol violations. Your consortium program and Clearinghouse registration work together: queries and reporting flow between them. New carriers usually need both set up before hauling, which is why we handle them as a driver-compliance set with your <a href="/driver-qualification-files/">DQ files</a>.</p>
+
+    <div class="linkdiag" role="img" aria-label="Two-node diagram. Your consortium program and your FMCSA Clearinghouse registration work together, with queries and reporting flowing between them.">
+      <div class="lnode">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-1 4h-4z"/><path d="M9 7h6v3a3 3 0 0 1-6 0z"/><path d="M9 17h6v3a3 3 0 0 1-6 0z" transform="translate(0 -3)"/><path d="M12 11v3"/></svg>
+        <span class="nt">Consortium program</span>
+        <p class="nd">Random pool and DOT testing, administered for you.</p>
+      </div>
+      <div class="lwire" aria-hidden="true">
+        <span class="flow"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h18"/><path d="m15 3 5 5-5 5"/></svg> queries</span>
+        <span class="flow back"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h18"/><path d="m15 3 5 5-5 5"/></svg> reporting</span>
+      </div>
+      <div class="lnode">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M7 14h6"/><path d="M7 17h10"/></svg>
+        <span class="nt">FMCSA Clearinghouse</span>
+        <p class="nd">Federal database of drug and alcohol violations.</p>
+      </div>
+    </div>
+    <p class="diagnote">We set up the pair together with your <a href="/driver-qualification-files/">DQ files</a> as one driver-compliance set.</p>
+  </div>
+</section>
+
+<!-- DRIVER-COMPLIANCE CLUSTER STRIP: identical pattern to the other cluster pages. Contextual anchors. Cloud surface, Steel anchors. -->
+<section class="band paper">
+  <div class="wrap">
+    <div class="clusterstrip">
+      <span class="lead">The rest of the driver-compliance set:</span>
+      <div class="links">
+        <a href="/fmcsa-clearinghouse-registration/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M7 14h6"/></svg> FMCSA Clearinghouse</a>
+        <a href="/driver-qualification-files/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 13h6"/><path d="M9 17h4"/></svg> driver qualification files</a>
+      </div>
+    </div>
+
+    <!-- FUNNEL forward to dispatch, one line, subordinate Steel anchor. -->
+    <p class="funnelp" style="margin:var(--s-6) 0 0;color:var(--slate)">Compliant and ready to roll? Keep your truck earning with <a href="/services/">dispatch</a>.</p>
+  </div>
+</section>
+
+<!-- H2 verbatim. FAQ accordion (FAQPage). Five rows verbatim. Cost answer restates $150 and $100 in mono inline; Clearinghouse answer carries the inline link. First item open. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>Drug and alcohol consortium FAQ</h2>
+    <div class="faq" style="margin-top:var(--s-5)">
+      <details open>
+        <summary>Do owner-operators need a consortium?</summary>
+        <div class="ans">If you hold a CDL and operate under FMCSA, yes. You cannot run a random pool of one, so you join a consortium.</div>
+      </details>
+      <details>
+        <summary>What testing does the program cover?</summary>
+        <div class="ans">Pre-employment, random, post-accident, and other DOT-required testing.</div>
+      </details>
+      <details>
+        <summary>Does every carrier need this?</summary>
+        <div class="ans">It depends on your vehicles, drivers, and operation. We confirm whether CDL drug-and-alcohol rules apply to you before you enroll.</div>
+      </details>
+      <details>
+        <summary>How much does it cost?</summary>
+        <div class="ans">Consortium enrollment is <span class="mono">$150</span>; a pre-employment drug test is <span class="mono">$100</span>.</div>
+      </details>
+      <details>
+        <summary>Is this connected to the Clearinghouse?</summary>
+        <div class="ans">Yes. Your consortium program and <a href="/fmcsa-clearinghouse-registration/">Clearinghouse</a> registration work together. We can set up both.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA BAND: verbatim line + single amber "Enroll in a consortium", same destination as hero. -->
+<section class="band ink on-ink">
+  <div class="wrap cta-band">
+    <h2>Driving a CDL vehicle? Get into a compliant testing program before you haul.</h2>
+    <div class="act"><a class="btn btn-primary" href="/contact-us/">Enroll in a consortium</a></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+        <p class="nap">DGR Tech Rig LLC<br>30 N Gould St, Ste R, Sheridan, Wyoming 82801<br>(917) 909-2257 &middot; info@techrig.org</p>
+        <p class="nap" style="font-size:.8rem">Officially listed by FMCSA as a BOC-3 blanket process-agent company.</p>
+      </div>
+      <div>
+        <h5>Compliance</h5>
+        <a href="#">USDOT number</a><a href="#">MC authority</a><a href="#">BOC-3 filing</a><a href="#">UCR</a><a href="#">IRP plates</a><a href="#">IFTA</a><a href="#">Clearinghouse</a><a href="#">Drug &amp; alcohol consortium</a><a href="#">DQ files</a><a href="#">ELD setup</a><a href="#">MCS-150 update</a><a href="#">Trucking LLC</a>
+      </div>
+      <div>
+        <h5>Dispatch</h5>
+        <a href="#">Box truck</a><a href="#">Reefer</a><a href="#">Flatbed</a><a href="#">Dry van</a><a href="#">Power only</a><a href="#">Hot shot</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="#">About us</a><a href="#">Contact</a><a href="#">How to start a trucking company</a><a href="#">Lead generation</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; Tech Rig</span><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Power of attorney</a><a href="#">Refund policy</a><a href="#">Referral program</a>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky">
+  <a class="btn btn-primary" href="/contact-us/">Enroll in a consortium</a>
+  <a class="btn btn-secondary call" href="tel:+19179092257">Call</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Box Truck Dispatch Service | Tech Rig</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* page-local helpers: restructure SEO prose into chunks, white text on the navy hero / on-ink bands */
+.hook{font-weight:600;color:rgba(255,255,255,.92);margin:0;}
+.reviewed{font-family:var(--font-mono);font-size:.8rem;color:#9cc4e0;margin:var(--s-5) 0 0;}
+.reviewed b{color:#fff;font-weight:600;}
+
+/* capability line-icon list (content-bearing rows, two columns) */
+.caps{list-style:none;padding:0;margin:var(--s-5) 0 0;display:grid;grid-template-columns:1fr 1fr;gap:var(--s-4) var(--s-7);}
+.caps li{display:flex;gap:13px;align-items:flex-start;}
+.caps .gi{width:26px;height:26px;color:var(--steel);flex:none;margin-top:2px;}
+.caps .ct{display:flex;flex-direction:column;gap:2px;}
+.caps .cl{font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--ink);}
+.caps .cd{font-size:.93rem;color:var(--slate);}
+.leadout{font-size:1.05rem;color:var(--ink);margin:var(--s-6) 0 0;max-width:64ch;}
+@media(max-width:640px){ .caps{grid-template-columns:1fr;} }
+
+/* SEO-to-supply placeholder (verbatim from compliance-services.html .ph) */
+.ph{display:inline-block;border:1.5px dashed var(--line);border-radius:var(--r-chip);padding:2px 9px;font-family:var(--font-mono);font-size:.74rem;color:var(--slate);letter-spacing:.03em;background:repeating-linear-gradient(45deg,transparent 0 6px,rgba(79,94,107,.05) 6px 12px);}
+
+/* simple bullets, dark and on-ink variants */
+.plainbul{list-style:none;padding:0;margin:var(--s-5) 0 0;display:flex;flex-direction:column;gap:12px;max-width:62ch;}
+.plainbul li{display:flex;gap:11px;align-items:flex-start;font-size:1rem;}
+.plainbul svg{flex:none;margin-top:3px;color:var(--steel);}
+.on-ink .plainbul svg,.ink .plainbul svg{color:#9cc4e0;}
+.on-ink .plainbul li,.ink .plainbul li{color:rgba(255,255,255,.88);}
+
+/* two-node bridge diagram for the Ink funnel band */
+.bridge{display:flex;align-items:center;gap:var(--s-5);flex-wrap:wrap;margin:var(--s-5) 0 0;position:relative;}
+.bridge .bnode{display:flex;align-items:center;gap:11px;font-family:var(--font-display);font-weight:700;font-size:1.05rem;color:#fff;background:rgba(255,255,255,.07);border:1px solid var(--line-ink);border-radius:999px;padding:11px 20px;}
+.bridge .bnode svg{width:22px;height:22px;color:#9cc4e0;flex:none;}
+.bridge .barrow{color:var(--signal);font-size:1.6rem;}
+
+/* box-truck price headline: mono rate from single source */
+.ratehead{font-family:var(--font-mono);font-weight:600;font-variant-numeric:tabular-nums;font-size:clamp(2rem,4vw,2.8rem);color:var(--ink);margin:var(--s-4) 0 0;line-height:1;}
+.ratehead .of{font-family:var(--font-body);font-weight:500;font-size:1rem;color:var(--slate);margin-left:10px;letter-spacing:0;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+    <nav class="menu">
+      <span class="grp compliance">Compliance</span>
+      <span class="grp dispatch">Dispatch</span>
+      <a class="item" href="#">About</a>
+      <a class="item" href="#">Contact</a>
+    </nav>
+    <div class="right">
+      <a class="call" href="tel:+19179092257">Call (917) 909-2257</a>
+      <a class="btn btn-primary" href="/contact-us/">Get my box truck dispatched</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO (navy): H1 verbatim. Hero lede decomposed: lead clause -> TL;DR, parallel "find loads / push rates / handle paperwork" -> deck, follow-on -> bullet, sharpest line -> punch. Steel loaded-loop, NO tracker. All words SEO's. -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Dispatch services</p>
+      <h1>Box Truck Dispatch Service</h1>
+      <div class="standfirst">
+        <span class="bar"></span>
+        <p class="tl">Box truck freight moves differently from tractor-trailer freight.</p>
+      </div>
+      <ol class="deck">
+        <li><span class="num">01</span> More local and regional runs</li>
+        <li><span class="num">02</span> More broker variety</li>
+        <li><span class="num">03</span> More pressure to keep utilization high</li>
+      </ol>
+      <ul class="plainbul" style="margin-top:var(--s-5)">
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> We find the loads, push for better rates, and handle the paperwork so your box truck stays earning instead of sitting.</li>
+      </ul>
+      <p class="hook" style="margin-top:var(--s-4)">It is our most established dispatch service, and box truck carriers are who we know best.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/contact-us/">Get my box truck dispatched</a>
+      </div>
+      <p class="reviewed">Reviewed by <span class="ph">[SEO to supply]</span></p>
+    </div>
+
+    <!-- Loaded loop: Steel single-line cycle. Find load -> negotiate -> rolling -> repeat. No numbers, no tracker. -->
+    <div class="art on-ink">
+      <p class="eyebrow">The loaded loop</p>
+      <div class="loop">
+        <span class="lstep">Find load</span>
+        <span class="arrow">&rarr;</span>
+        <span class="lstep">Negotiate</span>
+        <span class="arrow">&rarr;</span>
+        <span class="lstep">Rolling</span>
+        <span class="arrow">&rarr;</span>
+        <span class="lstep">Repeat</span>
+      </div>
+      <p class="note" style="font-size:.84rem;color:rgba(255,255,255,.72);margin:var(--s-5) 0 0">Your box truck stays earning instead of sitting.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COVERS (H2 verbatim): the five covered items as a chunked two-column line-icon list, verbatim one-line descriptions, list-grammar trimmed. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>What our box truck dispatch service covers</h2>
+    <ul class="caps">
+      <li>
+        <svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h13l-2 5H5z"/><path d="M16 9h3l2 3v3h-7"/><circle cx="8" cy="18" r="1.7"/><circle cx="17" cy="18" r="1.7"/></svg>
+        <span class="ct"><span class="cl">Load matching</span><span class="cd">for box truck lanes, including the regional and local work box trucks run.</span></span>
+      </li>
+      <li>
+        <svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9"/><path d="M4 12h7"/><path d="M14 5l6 4-6 4z"/><path d="M4 17h12"/></svg>
+        <span class="ct"><span class="cl">Rate negotiation</span><span class="cd">so you are not taking the first number a broker offers.</span></span>
+      </li>
+      <li>
+        <svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a3 3 0 0 0 3 3h6a3 3 0 0 1 3 3v6"/><circle cx="6" cy="3" r="1.6"/><circle cx="18" cy="21" r="1.6"/></svg>
+        <span class="ct"><span class="cl">Route planning</span><span class="cd">to keep utilization high and empty miles down.</span></span>
+      </li>
+      <li>
+        <svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 12h5"/><path d="M10 16h5"/></svg>
+        <span class="ct"><span class="cl">Billing and paperwork</span><span class="cd">rate confirmations, and the documents your factoring needs.</span></span>
+      </li>
+      <li>
+        <svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a8 8 0 0 1 16 0v5a2 2 0 0 1-2 2h-1v-6h3"/><path d="M4 11v5h3v-6H4"/></svg>
+        <span class="ct"><span class="cl">Support</span><span class="cd">when a load or a lane changes.</span></span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- BUILT FOR (H2 verbatim): box-truck-specific framing. Lead clause -> lede, follow-on -> bullets, sharpest line -> punch. Cross-link to the box-truck-business guide as one inline anchor inside SEO's own sentence. -->
+<section class="band paper">
+  <div class="wrap">
+    <h2>Built for box truck owner-operators</h2>
+    <p class="leadout" style="margin-top:0">Box truck operators often juggle more, shorter loads than over-the-road carriers, and chasing those loads yourself eats the day.</p>
+    <ul class="plainbul">
+      <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> We watch the boards and the broker relationships so you can drive.</li>
+      <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> Whether you run one box truck or a few, the dispatch is tuned to how box trucks actually earn.</li>
+      <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> New to box trucks? See our <a href="/how-to-start-a-box-truck-business/">guide to starting a box truck business</a>.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PRICING (H2 verbatim): 8% rate in mono from the single source. Follow-on no-contract/no-forced/no-lock-in as bullets. Cost child link as inline anchor inside SEO's sentence. Compliance-upkeep back-link as inline anchor in SEO's sentence. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>Box truck dispatch pricing</h2>
+    <p>We charge 8% of gross monthly revenue for box truck dispatch.</p>
+    <p class="ratehead">8%<span class="of">of gross monthly revenue</span></p>
+    <ul class="plainbul">
+      <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> No long-term contract</li>
+      <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> No forced dispatch</li>
+      <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> No lock-in</li>
+    </ul>
+    <p style="margin-top:var(--s-5)">See typical numbers on our <a href="/box-truck-dispatch/cost/">box truck dispatch cost</a> page. We earn a percentage, so keeping your rates and utilization high is our job too.</p>
+  </div>
+</section>
+
+<!-- FUNNEL BRIDGE (H2 verbatim): Ink guidesign band, two-node Get road-legal -> Keep loaded, inline link to compliance inside SEO's own sentence. No second primary button, no handoff sentence beyond SEO's copy. -->
+<section class="band paper">
+  <div class="wrap">
+    <h2 style="margin-bottom:var(--s-5)">Need your authority first?</h2>
+    <div class="guidesign" style="margin-top:0">
+      <span class="tab">ONE TEAM</span>
+      <p class="stmt">Not active yet? We can get your box truck legally set up.</p>
+      <div class="bridge">
+        <span class="bnode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg> Get road-legal</span>
+        <span class="barrow">&rarr;</span>
+        <span class="bnode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v8H2z"/><path d="M13 10h4l3 3v2h-7z"/><circle cx="6" cy="17" r="1.7"/><circle cx="17" cy="17" r="1.7"/></svg> Keep loaded</span>
+      </div>
+      <p class="undertab" style="margin-top:var(--s-5)">USDOT, MC authority, BOC-3, insurance, and the rest. See <a href="/compliance-services/" style="color:#fff;text-decoration:underline">compliance services</a>. The same team that gets you road-legal keeps you loaded after.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ (verbatim, first open). Pricing answer carries the cost link; authority answer carries the compliance link, both inline in SEO's sentences. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>Box truck dispatch FAQ</h2>
+    <div class="faq" style="margin-top:var(--s-5)">
+      <details open>
+        <summary>How much does box truck dispatch cost?</summary>
+        <div class="ans">8% of your gross monthly revenue. See the <a href="/box-truck-dispatch/cost/">cost page</a> for examples.</div>
+      </details>
+      <details>
+        <summary>Do you require a contract?</summary>
+        <div class="ans">No long-term contract and no forced dispatch.</div>
+      </details>
+      <details>
+        <summary>Do you dispatch single box truck operators?</summary>
+        <div class="ans">Yes. Single trucks and small fleets are our core.</div>
+      </details>
+      <details>
+        <summary>What lanes do box trucks run?</summary>
+        <div class="ans">Often regional and local, with a wide mix of brokers. We match loads to how your truck actually runs.</div>
+      </details>
+      <details>
+        <summary>Can you also set up my authority?</summary>
+        <div class="ans">Yes, see <a href="/compliance-services/">compliance services</a>.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA: verbatim close line, single primary button. -->
+<section class="band paper">
+  <div class="wrap cta-band">
+    <h2>Keep your box truck loaded without working the boards yourself. Get dispatched.</h2>
+    <a class="btn btn-primary" href="/contact-us/">Get my box truck dispatched</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+        <p class="nap">DGR Tech Rig LLC<br>30 N Gould St, Ste R, Sheridan, Wyoming 82801<br>(917) 909-2257 &middot; info@techrig.org</p>
+        <p class="nap" style="font-size:.8rem">Officially listed by FMCSA as a BOC-3 blanket process-agent company.</p>
+      </div>
+      <div>
+        <h5>Compliance</h5>
+        <a href="#">USDOT number</a><a href="#">MC authority</a><a href="#">BOC-3 filing</a><a href="#">UCR</a><a href="#">IRP plates</a><a href="#">IFTA</a><a href="#">Clearinghouse</a><a href="#">Drug &amp; alcohol consortium</a><a href="#">DQ files</a><a href="#">ELD setup</a><a href="#">MCS-150 update</a><a href="#">Trucking LLC</a>
+      </div>
+      <div>
+        <h5>Dispatch</h5>
+        <a href="/box-truck-dispatch/">Box truck</a><a href="/reefers-trucking/">Reefer</a><a href="/flatbed-dispatch/">Flatbed</a><a href="/dry-van-trucking/">Dry van</a><a href="/power-only-trucking/">Power only</a><a href="/hot-shot-trucking/">Hot shot</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="/about-us/">About us</a><a href="/contact-us/">Contact</a><a href="/how-to-start-a-box-truck-business/">How to start a box truck business</a><a href="#">Lead generation</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; Tech Rig</span><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Power of attorney</a><a href="#">Refund policy</a><a href="#">Referral program</a>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky">
+  <a class="btn btn-primary" href="/contact-us/">Get my box truck dispatched</a>
+  <a class="btn btn-secondary call" href="tel:+19179092257">Call</a>
+</div>
+
+</body>
+</html>

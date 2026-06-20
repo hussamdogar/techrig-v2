@@ -15,10 +15,9 @@
 .herobul svg{flex:none;margin-top:3px;color:#9cc4e0;}
 .tagline{font-family:var(--font-display);font-weight:700;color:#fff;margin:var(--s-4) 0 0;font-size:1.1rem;}
 .hook{font-weight:600;color:rgba(255,255,255,.92);margin:0;}
-.svc{list-style:none;padding:0;margin:var(--s-3) 0 0;display:flex;flex-wrap:wrap;gap:8px;}
-.svc li,.svc a{background:rgba(255,255,255,.13);border-radius:999px;padding:5px 12px;font-size:.85rem;color:#fff;text-decoration:none;}
-.svc a{box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);}
-.svc a:hover{background:rgba(255,255,255,.24);}
+.svc{padding:0;margin:var(--s-3) 0 0;display:flex;flex-wrap:wrap;gap:8px;}
+.svc a,.svc span{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);border-radius:999px;padding:5px 13px;font-size:.85rem;line-height:1.5;color:#fff;text-decoration:none;}
+.svc a:hover{background:rgba(255,255,255,.22);}
 .note{font-size:.84rem;color:rgba(255,255,255,.72);margin:6px 0 0;}
 .cardbul{list-style:none;padding:0;margin:var(--s-3) 0 0;display:flex;gap:var(--s-5);flex-wrap:wrap;}
 .cardbul li{display:flex;align-items:center;gap:7px;font-size:.9rem;color:rgba(255,255,255,.9);}
@@ -88,16 +87,16 @@
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
         <h2>Trucking compliance and company setup</h2>
         <p class="hook">Starting out, or fixing a setup that stalled?</p>
-        <ul class="svc">
-          <li><a href="#">USDOT and MC authority</a></li>
-          <li><a href="#">BOC-3</a></li>
-          <li><a href="#">UCR</a></li>
-          <li>insurance filing</li>
-          <li>driver compliance</li>
-          <li>IRP</li>
-          <li>IFTA</li>
-          <li>ELD</li>
-        </ul>
+        <div class="svc">
+          <a href="#">USDOT and MC authority</a>
+          <a href="#">BOC-3</a>
+          <a href="#">UCR</a>
+          <span>insurance filing</span>
+          <span>driver compliance</span>
+          <span>IRP</span>
+          <span>IFTA</span>
+          <span>ELD</span>
+        </div>
         <p class="note">Individually or as one package.</p>
         <p class="note">Officially listed by FMCSA as a BOC-3 blanket process-agent company, and we know the new MOTUS system inside out.</p>
         <div class="act"><a class="btn btn-secondary" href="#">See compliance services</a></div>
@@ -107,9 +106,9 @@
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v8H2z"/><path d="M13 10h4l3 3v2h-7z"/><circle cx="6" cy="17" r="1.7"/><circle cx="17" cy="17" r="1.7"/></svg>
         <h2>Truck dispatch that keeps you loaded</h2>
         <p class="hook">Once your authority is active, we keep the freight coming.</p>
-        <ul class="svc">
-          <li><a href="#">box truck</a></li><li>reefer</li><li>flatbed</li><li>dry van</li><li>power only</li><li>hot shot</li>
-        </ul>
+        <div class="svc">
+          <a href="#">box truck</a><span>reefer</span><span>flatbed</span><span>dry van</span><span>power only</span><span>hot shot</span>
+        </div>
         <ul class="cardbul">
           <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> No long-term contracts</li>
           <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> No forced dispatch</li>

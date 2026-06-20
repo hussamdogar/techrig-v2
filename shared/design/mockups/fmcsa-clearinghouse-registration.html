@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FMCSA Clearinghouse Registration | Tech Rig</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* page-local helpers: restructure SEO prose into chunks; white text on the navy hero. All words are SEO's. */
+.reviewline{display:flex;align-items:baseline;gap:8px;font-family:var(--font-mono);font-size:.82rem;color:rgba(255,255,255,.72);margin:var(--s-5) 0 0;}
+.reviewline .lbl{color:#9cc4e0;letter-spacing:.06em;text-transform:uppercase;font-size:.72rem;}
+.reviewline b{color:#fff;font-weight:600;}
+/* decorative hero line illustration, no text labels */
+.heroline{display:flex;align-items:center;justify-content:center;color:#7fa9c9;opacity:.9;}
+.heroline svg{width:100%;max-width:340px;height:auto;}
+/* what-it-is contrast pair, typographic, verbatim words */
+.distinct{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-5);margin:var(--s-5) 0 0;}
+.distinct .d{background:var(--mist);border:1px solid var(--line);border-radius:var(--r-card);padding:var(--s-5);}
+.distinct .d .t{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--steel);margin:0 0 8px;}
+.distinct .d p{margin:0;font-size:.96rem;}
+@media(max-width:640px){ .distinct{grid-template-columns:1fr;} }
+/* what-you-get / includes value list, typographic */
+.getlist{list-style:none;padding:0;margin:var(--s-5) 0 0;display:flex;flex-direction:column;gap:var(--s-4);max-width:72ch;}
+.getlist li{display:flex;gap:13px;align-items:flex-start;font-size:1rem;}
+.getlist svg{width:22px;height:22px;flex:none;margin-top:2px;color:var(--steel);}
+/* pricing note + mid CTA */
+.pricenote{color:var(--slate);font-size:.95rem;margin:var(--s-5) 0 0;max-width:62ch;}
+.midcta{margin:var(--s-6) 0 0;}
+/* closing band button spacing */
+.cta-band .act{margin-top:var(--s-5);}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+    <nav class="menu">
+      <span class="grp compliance">Compliance</span>
+      <span class="grp dispatch">Dispatch</span>
+      <a class="item" href="#">About</a>
+      <a class="item" href="#">Contact</a>
+    </nav>
+    <div class="right">
+      <a class="call" href="tel:+19179092257">Call (917) 909-2257</a>
+      <a class="btn btn-primary" href="#">Start your compliance setup</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO (navy, single-column thesis; right side is a decorative line illustration with NO text labels). H1 verbatim. Hero lede refit: lead clause -> TL;DR, parallel clauses -> deck, follow-on with inline consortium link -> bullet. Reviewed-by mono line. NO Authority Status Tracker (per directive). -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>FMCSA Clearinghouse Registration</h1>
+      <div class="standfirst">
+        <span class="bar"></span>
+        <p class="tl">The FMCSA Clearinghouse is the federal database of CDL drug and alcohol violations, and carriers are required to register and run the right queries on their drivers.</p>
+      </div>
+      <ol class="deck">
+        <li><span class="num">01</span> New carriers often have it on their setup list without knowing exactly what it does</li>
+        <li><span class="num">02</span> or how it connects to their testing program</li>
+      </ol>
+      <ul class="herobul" style="list-style:none;padding:0;margin:var(--s-4) 0 0;display:flex;flex-direction:column;gap:9px;">
+        <li style="display:flex;gap:10px;align-items:flex-start;color:rgba(255,255,255,.85);font-size:.96rem;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#9cc4e0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:3px"><path d="M5 12l4 4 10-10"/></svg> Tech Rig handles your FMCSA Clearinghouse registration and ties it to your <a href="/drug-and-alcohol-consortium/" style="color:#9cc4e0;text-decoration:underline;text-underline-offset:3px">consortium</a> so the whole driver-compliance picture is in place.</li>
+      </ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="/contact-us/">Register with the Clearinghouse</a>
+      </div>
+      <p class="reviewline"><span class="lbl">Reviewed by</span> <b>Adam Smith, Co-Founder</b></p>
+    </div>
+
+    <div class="heroline" aria-hidden="true">
+      <svg viewBox="0 0 320 220" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="70" y="34" width="180" height="152" rx="10"/>
+        <path d="M70 70h180"/>
+        <circle cx="86" cy="52" r="3"/>
+        <circle cx="100" cy="52" r="3"/>
+        <path d="M96 96h128"/>
+        <path d="M96 120h96"/>
+        <path d="M96 144h112"/>
+        <path d="M96 168h72"/>
+        <circle cx="208" cy="150" r="30"/>
+        <path d="M196 150l8 8 16-16"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- H2 verbatim. What-it-is copy verbatim, with inline consortium link. Distinction (database of violations vs testing program) pulled into a two-card contrast, verbatim clauses. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>What FMCSA Clearinghouse registration is</h2>
+    <p>The Clearinghouse is an FMCSA-run online database that records CDL drivers' drug and alcohol program violations and the return-to-duty process. Carriers must register, run pre-employment and annual queries on their drivers, and report certain information. It works alongside your <a href="/drug-and-alcohol-consortium/">drug and alcohol consortium</a>: the consortium administers testing, the Clearinghouse records and surfaces violations.</p>
+
+    <div class="distinct">
+      <div class="d">
+        <p class="t">The consortium</p>
+        <p>The consortium administers testing.</p>
+      </div>
+      <div class="d">
+        <p class="t">The Clearinghouse</p>
+        <p>The Clearinghouse records and surfaces violations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- H2 verbatim. Who needs to register: Eligibility Strip. Left = the CDL-driver bullet (verbatim, trimmed for list grammar). Right = "treated differently" from the applicability sentence. efoot = the confirm sentence. -->
+<section class="band paper">
+  <div class="wrap">
+    <h2>Who needs to register</h2>
+
+    <div class="eligib" style="margin-top:var(--s-5)">
+      <div class="col yes">
+        <p class="th">Applies to you</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> Carriers that employ CDL drivers, including owner-operators who drive their own CDL vehicle.</li>
+        </ul>
+      </div>
+      <div class="col no">
+        <p class="th">Treated differently</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M6 18 18 6"/></svg> Whether CDL drug-and-alcohol rules apply depends on your operation.</li>
+        </ul>
+      </div>
+      <p class="efoot">We confirm before registering you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- H2 verbatim. Service-includes bullets verbatim, with inline consortium + DQ links. Then Split-Ledger Fee Receipt: service fee $100 (brief's only figure) + government/third-party fee row as an honest token. Mid CTA = Steel text link. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>What our FMCSA Clearinghouse registration service includes</h2>
+    <ul class="getlist">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 13l2 2 4-4"/></svg> We register your company in the Clearinghouse.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h13"/><path d="M3 12h9"/><path d="M3 18h13"/><path d="m16 14 2.5 2.5L23 12"/></svg> We help set up the required queries on your drivers.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10"/><path d="M7 12h10"/><path d="M7 17h6"/><path d="M3 7h.01"/><path d="M3 12h.01"/><path d="M3 17h.01"/></svg> We connect your Clearinghouse registration to your <a href="/drug-and-alcohol-consortium/">consortium</a> and <a href="/driver-qualification-files/">driver qualification files</a>, so your driver compliance is one coordinated set.</li>
+    </ul>
+
+    <div class="ledger" style="margin-top:var(--s-6)">
+      <div class="lrow">
+        <span class="gut service"></span>
+        <div class="l-main">
+          <div class="t">Clearinghouse registration assistance</div>
+        </div>
+        <div class="l-val">$100</div>
+      </div>
+    </div>
+
+    <p class="pricenote">Consortium enrollment ($150) and DQ files ($200 per driver) are separate, on their own pages.</p>
+
+    <p class="midcta"><a class="btn-tertiary" href="/contact-us/">Register with the Clearinghouse</a></p>
+  </div>
+</section>
+
+<!-- H2 verbatim. FAQ accordion, verbatim Q and A, first item open. -->
+<section class="band paper">
+  <div class="wrap">
+    <h2>FMCSA Clearinghouse FAQ</h2>
+    <div class="faq" style="margin-top:var(--s-5)">
+      <details open>
+        <summary>What is the FMCSA Clearinghouse?</summary>
+        <div class="ans">A federal database of CDL drug and alcohol violations that carriers must register with and query.</div>
+      </details>
+      <details>
+        <summary>Do I need it if I am an owner-operator?</summary>
+        <div class="ans">If you drive a CDL vehicle under FMCSA, the drug-and-alcohol rules generally apply, which includes Clearinghouse obligations. We confirm for your situation.</div>
+      </details>
+      <details>
+        <summary>Is the Clearinghouse the same as a consortium?</summary>
+        <div class="ans">No. The <a href="/drug-and-alcohol-consortium/">consortium</a> administers your testing; the Clearinghouse records violations. You typically need both.</div>
+      </details>
+      <details>
+        <summary>How much does it cost?</summary>
+        <div class="ans">$100 for Clearinghouse registration assistance.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA BAND: verbatim closing line + the single amber "Register with the Clearinghouse". -->
+<section class="band ink on-ink">
+  <div class="wrap cta-band">
+    <h2>Setting up driver compliance? Get your Clearinghouse registration handled with your testing program.</h2>
+    <div class="act"><a class="btn btn-primary" href="/contact-us/">Register with the Clearinghouse</a></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+        <p class="nap">DGR Tech Rig LLC<br>30 N Gould St, Ste R, Sheridan, Wyoming 82801<br>(917) 909-2257 &middot; info@techrig.org</p>
+        <p class="nap" style="font-size:.8rem">Officially listed by FMCSA as a BOC-3 blanket process-agent company.</p>
+      </div>
+      <div>
+        <h5>Compliance</h5>
+        <a href="#">USDOT number</a><a href="#">MC authority</a><a href="#">BOC-3 filing</a><a href="#">UCR</a><a href="#">IRP plates</a><a href="#">IFTA</a><a href="#">Clearinghouse</a><a href="#">Drug &amp; alcohol consortium</a><a href="#">DQ files</a><a href="#">ELD setup</a><a href="#">MCS-150 update</a><a href="#">Trucking LLC</a>
+      </div>
+      <div>
+        <h5>Dispatch</h5>
+        <a href="#">Box truck</a><a href="#">Reefer</a><a href="#">Flatbed</a><a href="#">Dry van</a><a href="#">Power only</a><a href="#">Hot shot</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="#">About us</a><a href="#">Contact</a><a href="#">How to start a trucking company</a><a href="#">Lead generation</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; Tech Rig</span><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Power of attorney</a><a href="#">Refund policy</a><a href="#">Referral program</a>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky">
+  <a class="btn btn-primary" href="/contact-us/">Register with the Clearinghouse</a>
+  <a class="btn btn-secondary call" href="tel:+19179092257">Call</a>
+</div>
+
+</body>
+</html>
