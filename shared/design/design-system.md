@@ -297,6 +297,14 @@ Consistency rule: a given fact-type uses the same pattern sitewide. Static mocku
 - Mono (IBM Plex Mono) is an accent only (prices, reference strips, codes, dates, statuses, field labels), never the page texture.
 - Documented proof only; honest timelines (PAST RESULT, no guarantees); prices from the single source.
 
+### Body copy vs structural labels (the fidelity line)
+- **Body copy is SEO's, verbatim.** Every sentence, description, claim, price, figure, and heading comes from the brief, restructured with list-grammar trimming only. Never reword a verb or a claim, never reword or demote a heading, never invent a fee, figure, status, or a connective/handoff sentence. If a fact is missing, render an honest token (`Contact for quote`, `rate on request`, `fee set by bracket`) or a dashed `[SEO to supply]` placeholder.
+- **Structural UI labels are design chrome, and are allowed.** Short labels that organize the brief's own content without adding a claim are design's to write: section eyebrows, the deck 01/02 numbers, case-file field labels ("What we did"), eligibility column headers ("Applies to you" / "May not apply"), ledger "Service fee" / "Government fee" (only where the brief states both), and a "PAST RESULT" tag on a past worked example. These are not "invented copy."
+
+### Authority Status Tracker scope
+- The tracker is used ONLY on authority-activation pages (home, the compliance hub, `dot-registration`, `mc-registration`, `boc-3-filing`, `mc-dot-registration`, the pillar), with its three standard node labels (Application filed, 21-day protest period, Authority active).
+- OMIT it on every other page (fuel tax, plates, upkeep, driver-compliance, dispatch, company, blog, state), where "Authority active" would assert a status the page does not support. Dispatch pages use the loaded-loop instead. Never add status labels, a protest-period figure, or any authority-lifecycle text outside the standard tracker on a tracker page.
+
 ---
 
 ## 14. Handoff status & what's next
