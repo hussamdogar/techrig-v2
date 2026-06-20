@@ -1,1 +1,21 @@
-﻿https://techrig.org
+# Audit URLs for System 3 (onsite-audit). Homepage + live money pages.
+# Built Phase 3 (2026-06-19) from sitemap + GSC/GA4 performance. Tighter score thresholds apply to money pages (see services.md).
+https://techrig.org/
+https://techrig.org/services/
+https://techrig.org/lead-generation/
+https://techrig.org/box-truck-dispatch/
+https://techrig.org/box-truck-dispatch/cost/
+https://techrig.org/dry-van-trucking/
+https://techrig.org/reefers-trucking/
+https://techrig.org/flatbed-dispatch/
+https://techrig.org/power-only-trucking/
+https://techrig.org/hot-shot-trucking/
+https://techrig.org/tech-rig-dispatch-new-york/
+https://techrig.org/tech-rig-dispatch-california/
+https://techrig.org/tech-rig-dispatch-texas/
+https://techrig.org/tech-rig-dispatch-florida/
+# Compliance landing pages: live + trafficked but NOT in sitemap (reconcile in Phase 4/7)
+https://techrig.org/dot-registration
+https://techrig.org/mc-registration
+https://techrig.org/mc-dot-registration
+https://techrig.org/start-compliance
