@@ -32,6 +32,7 @@ Tech Rig does the two things a trucking business needs most: we get you legally 
 Short block. Lead:
 Starting out, or fixing a setup that stalled? We handle USDOT and MC authority, BOC-3, UCR, insurance filing, driver compliance, IRP, IFTA, and ELD, individually or as one package. We are officially listed by FMCSA as a BOC-3 blanket process-agent company, and we know the new MOTUS system inside out.
 Link: "See compliance services" → `/compliance-services/`. Sub-links to the top filings ([USDOT](/dot-registration/), [MC authority](/mc-registration/), [BOC-3](/boc-3-filing/), [UCR](/ucr-registration/)).
+Note: keep the homepage body curated (top filings + "see all"). The COMPLETE service list lives in the global mega-footer, not here, see `global-footer.md`.
 
 ### H2: Truck dispatch that keeps you loaded
 Short block. Lead:
