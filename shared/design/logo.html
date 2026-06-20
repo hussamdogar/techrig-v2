@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tech Rig Logo and Loader</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E2233; --signal:#E89A3C; --paper:#F7F5F1; --cloud:#FFFFFF; --slate:#4F5E6B;
+  --line:rgba(79,94,107,.18); --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Archivo",system-ui,sans-serif;line-height:1.55;}
+.wrap{max-width:1000px;margin:0 auto;padding:40px 24px 80px;}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin:0 0 6px;}
+h1{font-weight:800;font-size:2rem;letter-spacing:-.02em;margin:0 0 6px;}
+h2{font-weight:700;font-size:1.25rem;margin:0 0 4px;}
+.lead,.why{color:var(--slate);max-width:70ch;}
+.sec{border-top:1px solid var(--line);padding:36px 0;}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;}
+.panel{border-radius:12px;min-height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:28px;}
+.light{background:var(--cloud);border:1px solid var(--line);}
+.dark{background:var(--ink);}
+@media(max-width:680px){.pair{grid-template-columns:1fr;}}
+
+/* wordmark */
+.lock{display:inline-flex;flex-direction:column;align-items:center;gap:9px;}
+.wm{font-family:var(--mono);font-weight:600;letter-spacing:.05em;color:var(--ink);display:inline-flex;align-items:center;font-size:32px;}
+.dark .wm{color:var(--cloud);}
+.wm .sq{width:.34em;height:.34em;background:var(--signal);border-radius:1.5px;margin:0 .34em;transform:translateY(-.08em);}
+.tag{font-family:var(--mono);font-weight:500;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--slate);}
+.dark .tag{color:rgba(255,255,255,.55);}
+.wm.ink-only{color:var(--ink);} .wm.ink-only .sq{background:var(--ink);}
+.wm.sm{font-size:16px;}
+.row{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-end;margin-top:10px;}
+.cell{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.clab{font-family:var(--mono);font-size:.68rem;color:var(--slate);text-transform:uppercase;letter-spacing:.06em;}
+.tile{width:72px;height:72px;border-radius:16px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:26px;letter-spacing:.04em;position:relative;}
+.tile .sq{position:absolute;right:10px;bottom:10px;width:9px;height:9px;background:var(--signal);border-radius:1.5px;}
+.tile.fav{width:32px;height:32px;border-radius:8px;font-size:12px;}
+
+/* loader */
+.scene{width:240px;}
+.rig{display:flex;align-items:flex-end;justify-content:center;gap:5px;animation:bob 1.2s ease-in-out infinite;}
+.block{display:flex;align-items:center;justify-content:center;background:var(--ink);color:#fff;font-family:"Archivo";font-weight:800;text-transform:uppercase;border-radius:5px;height:44px;position:relative;}
+.dark .block{background:#fff;color:var(--ink);}
+.cab{width:68px;font-size:17px;} .trailer{width:92px;font-size:17px;}
+.hitch{width:7px;height:7px;background:var(--signal);border-radius:1px;margin-bottom:7px;}
+.wheel{position:absolute;bottom:-5px;width:10px;height:10px;border-radius:50%;background:var(--ink);}
+.dark .wheel{background:#fff;}
+.cab .wheel{left:13px;} .trailer .wheel.wl{left:15px;} .trailer .wheel.wr{right:15px;}
+.road{height:6px;margin-top:10px;position:relative;border-radius:2px;overflow:hidden;}
+.road .line{position:absolute;left:0;right:0;top:2px;height:2px;background:var(--ink);opacity:.8;}
+.dark .road .line{background:rgba(255,255,255,.7);}
+.road .dashes{position:absolute;left:0;right:0;top:1px;height:4px;background:repeating-linear-gradient(90deg,var(--signal) 0 22px,transparent 22px 52px);animation:roll .85s linear infinite;}
+@keyframes roll{to{background-position-x:-52px;}}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-2px);}}
+@media (prefers-reduced-motion: reduce){ .rig{animation:none;} .road .dashes{animation:none;} }
+.spec{font-family:var(--mono);font-size:.82rem;background:var(--cloud);border:1px solid var(--line);border-radius:10px;padding:16px 18px;color:var(--ink);}
+.spec b{font-weight:600;}
+ul{color:var(--slate);max-width:74ch;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Tech Rig &middot; Logo system v1 &middot; locked direction C</p>
+  <h1>Wordmark and loader</h1>
+  <p class="lead">Primary identity is a monospace registration wordmark: the language of DOT numbers, VINs, and official records, and the same face the design system already uses for prices, statuses, and filing numbers. The bespoke element is the amber register tick between the words. The loader reuses the "name as a rig" idea (direction D) as a working-state animation only, never as the logo.</p>
+
+  <section class="sec">
+    <h2>Primary lockup</h2>
+    <p class="why">Wordmark plus descriptor. The descriptor "Compliance + Dispatch" is a placeholder; final tagline wording is SEO and brand's call, the design just reserves the slot.</p>
+    <div class="pair">
+      <div class="panel light"><div class="lock"><div class="wm">TECH<span class="sq"></span>RIG</div><div class="tag">Compliance + Dispatch</div></div></div>
+      <div class="panel dark"><div class="lock"><div class="wm">TECH<span class="sq"></span>RIG</div><div class="tag">Compliance + Dispatch</div></div></div>
+    </div>
+    <div class="spec">
+      <b>Type:</b> IBM Plex Mono, weight 600, all caps. &nbsp; <b>Tracking:</b> +0.05em wordmark, +0.30em descriptor.<br>
+      <b>Register tick:</b> amber square, side 0.34em of the cap height, corner radius ~1.5px, side margins 0.34em, nudged up 0.08em to sit on the cap optical centre.<br>
+      <b>Colour:</b> wordmark Ink #0E2233 (or Cloud #FFFFFF on dark). Tick Signal #E89A3C. &nbsp; <b>Amber is never used as text.</b>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2>Variants and marks</h2>
+    <div class="row">
+      <div class="cell"><div style="background:var(--cloud);border:1px solid var(--line);border-radius:10px;padding:18px 22px;"><div class="wm ink-only" style="font-size:22px">TECH<span class="sq"></span>RIG</div></div><span class="clab">single colour</span></div>
+      <div class="cell"><div style="background:var(--cloud);border:1px solid var(--line);border-radius:10px;padding:18px 22px;"><div class="wm sm">TECH<span class="sq"></span>RIG</div></div><span class="clab">small / nav size</span></div>
+      <div class="cell"><div class="tile">TR<span class="sq"></span></div><span class="clab">app icon</span></div>
+      <div class="cell"><div class="tile fav">TR</div><span class="clab">16px favicon</span></div>
+    </div>
+    <ul>
+      <li><b>Single colour:</b> the tick takes the text colour, so the mark survives one-colour print, fax, and stamping. Amber is an accent that drops in one-colour use.</li>
+      <li><b>Clear space:</b> one cap height on all sides. <b>Minimum width:</b> 96px desktop, 80px mobile; drop the descriptor below ~140px.</li>
+      <li><b>Favicon:</b> Ink tile, white "TR", amber tick at lower right. At 16px drop the tick for legibility (tick returns at 32px and up).</li>
+    </ul>
+  </section>
+
+  <section class="sec">
+    <h2>Loader (working state, from direction D)</h2>
+    <p class="why">The two words become the truck: TECH is the cab, RIG the trailer, coupled by the amber hitch. The rig holds centre while the road scrolls beneath it, so it reads as driving. It bobs slightly for life. This is a loading device, not the logo. Reduced-motion users get the static rig with no movement.</p>
+    <div class="pair">
+      <div class="panel light"><div class="scene"><div class="rig"><div class="block cab">Tech<span class="wheel"></span></div><div class="hitch"></div><div class="block trailer">Rig<span class="wheel wl"></span><span class="wheel wr"></span></div></div><div class="road"><span class="line"></span><span class="dashes"></span></div></div></div>
+      <div class="panel dark"><div class="scene"><div class="rig"><div class="block cab">Tech<span class="wheel"></span></div><div class="hitch"></div><div class="block trailer">Rig<span class="wheel wl"></span><span class="wheel wr"></span></div></div><div class="road"><span class="line"></span><span class="dashes"></span></div></div></div>
+    </div>
+    <div class="spec">
+      <b>Motion:</b> road dashes scroll left at 0.85s linear infinite (rig appears to move right). Rig bob 1.2s ease-in-out. Wheels static.<br>
+      <b>Determinate option:</b> for known progress, fill the trailer block with amber left to right instead of scrolling the road.<br>
+      <b>Reduced motion:</b> all animation off, static rig on a static dashed road.
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2>Do not</h2>
+    <ul>
+      <li>Do not set the wordmark in any face other than IBM Plex Mono, or in lower case.</li>
+      <li>Do not colour the wordmark amber, add a gradient, glow, outline, or container box around it.</li>
+      <li>Do not use the rig loader as the logo, on letterhead, or as the favicon.</li>
+      <li>Do not stretch, condense, or re-space the letters; the tracking is part of the mark.</li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>

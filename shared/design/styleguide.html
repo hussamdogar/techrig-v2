@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tech Rig Design System Styleguide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E2233; --steel:#225E8A; --signal:#E89A3C;
+  --paper:#F7F5F1; --cloud:#FFFFFF; --slate:#4F5E6B;
+  --status-active:#2E7D5B; --status-progress:#E89A3C;
+  --status-filed:#225E8A; --status-todo:#4F5E6B;
+  --line: color-mix(in srgb, var(--slate) 16%, transparent);
+  --font-display:"Archivo", system-ui, sans-serif;
+  --font-body:"IBM Plex Sans", system-ui, sans-serif;
+  --font-mono:"IBM Plex Mono", ui-monospace, monospace;
+  --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:24px;
+  --s-6:32px; --s-7:48px; --s-8:64px; --s-9:96px; --s-10:128px;
+  --r-chip:4px; --r-btn:6px; --r-card:8px;
+  --shadow:0 1px 2px rgba(14,34,51,.06), 0 4px 16px rgba(14,34,51,.08);
+  --maxw:1120px; --gutter:24px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--font-body); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--font-display); line-height:1.1; margin:0 0 var(--s-4);}
+h1{font-weight:800; letter-spacing:-.02em; font-size:clamp(2.5rem,5vw,4rem); line-height:1.05;}
+h2{font-weight:700; font-size:1.875rem;}
+h3{font-weight:600; font-size:1.375rem;}
+h4{font-weight:600; font-size:1.125rem; font-family:var(--font-body);}
+p{margin:0 0 var(--s-4); max-width:68ch;}
+a{color:var(--steel);}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 var(--gutter);}
+.mono{font-family:var(--font-mono);}
+.eyebrow{font-family:var(--font-mono); font-weight:500; font-size:.8125rem; letter-spacing:.08em; text-transform:uppercase; color:var(--slate);}
+.muted{color:var(--slate);}
+
+/* focus */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, summary:focus-visible{
+  outline:2px solid var(--steel); outline-offset:2px;
+}
+
+/* styleguide chrome */
+.sgbar{position:sticky; top:0; z-index:50; background:var(--ink); color:var(--cloud);
+  border-bottom:1px solid rgba(255,255,255,.08);}
+.sgbar .wrap{display:flex; align-items:center; gap:var(--s-5); height:60px; flex-wrap:wrap;}
+.sgbar nav{display:flex; gap:var(--s-4); flex-wrap:wrap; font-size:.8125rem;}
+.sgbar nav a{color:rgba(255,255,255,.72); text-decoration:none; font-family:var(--font-mono);}
+.sgbar nav a:hover{color:var(--signal);}
+.logo{display:inline-flex; align-items:center; font-family:var(--font-mono); font-weight:600; letter-spacing:.05em; font-size:1.05rem; color:var(--cloud);}
+.logo .sq{width:.34em; height:.34em; background:var(--signal); border-radius:1.5px; margin:0 .34em; transform:translateY(-.08em);}
+@media(max-width:760px){ .sgbar{position:static;} .sgbar nav{display:none;} }
+
+section.block{padding:var(--s-9) 0; border-top:1px solid var(--line);}
+section.block:first-of-type{border-top:0;}
+.sectlabel{margin-bottom:var(--s-6);}
+.sectlabel h2{margin-bottom:var(--s-2);}
+
+.grid{display:grid; gap:var(--s-5);}
+.g-2{grid-template-columns:repeat(2,1fr);}
+.g-3{grid-template-columns:repeat(3,1fr);}
+.g-4{grid-template-columns:repeat(4,1fr);}
+.g-6{grid-template-columns:repeat(6,1fr);}
+@media(max-width:880px){ .g-3,.g-4,.g-6{grid-template-columns:repeat(2,1fr);} .g-2{grid-template-columns:1fr;} }
+@media(max-width:520px){ .g-3,.g-4,.g-6{grid-template-columns:1fr;} }
+
+/* swatches */
+.swatch{border:1px solid var(--line); border-radius:var(--r-card); overflow:hidden; background:var(--cloud);}
+.swatch .chip{height:88px;}
+.swatch .meta{padding:var(--s-3) var(--s-4);}
+.swatch .meta .name{font-weight:600;}
+.swatch .meta .hex{font-family:var(--font-mono); font-size:.8125rem; color:var(--slate);}
+.swatch .meta .role{font-size:.8125rem; color:var(--slate); margin-top:4px;}
+
+/* cards / panels */
+.panel{background:var(--cloud); border:1px solid var(--line); border-radius:var(--r-card); padding:var(--s-6); box-shadow:var(--shadow);}
+.flat{background:var(--cloud); border:1px solid var(--line); border-radius:var(--r-card); padding:var(--s-5);}
+
+/* buttons */
+.btn{display:inline-flex; align-items:center; gap:8px; font-family:var(--font-body); font-weight:600; font-size:1rem;
+  min-height:48px; padding:0 22px; border-radius:var(--r-btn); border:1.5px solid transparent; cursor:pointer; text-decoration:none; line-height:1;}
+.btn-primary{background:var(--signal); color:var(--ink); border-color:var(--signal);}
+.btn-primary:hover{background:#d98c2c;}
+.btn-secondary{background:transparent; color:var(--ink); border-color:var(--ink);}
+.btn-secondary:hover{background:var(--ink); color:var(--cloud);}
+.btn-secondary.on-ink{color:var(--cloud); border-color:rgba(255,255,255,.6);}
+.btn-secondary.on-ink:hover{background:var(--cloud); color:var(--ink);}
+.btn-tertiary{background:none; border:0; color:var(--steel); min-height:auto; padding:0; text-decoration:underline; text-underline-offset:3px; font-weight:600;}
+
+/* price chip */
+.pricechip{display:inline-flex; flex-direction:column; gap:2px; font-family:var(--font-mono);
+  background:var(--paper); border:1px solid var(--line); border-radius:var(--r-chip); padding:10px 14px;}
+.pricechip .amt{font-size:1.375rem; font-weight:500; font-variant-numeric:tabular-nums;}
+.pricechip .amt .from{font-size:.8125rem; color:var(--slate); margin-right:6px;}
+.pricechip .lbl{font-size:.75rem; color:var(--slate); letter-spacing:.04em; text-transform:uppercase;}
+.pricechip .gov{font-size:.75rem; color:var(--slate);}
+
+/* status tags */
+.tag{display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:.75rem; font-weight:500;
+  letter-spacing:.04em; text-transform:uppercase; padding:4px 10px; border-radius:999px; color:var(--cloud);}
+.tag::before{content:""; width:7px; height:7px; border-radius:999px; background:currentColor; opacity:.9;}
+.tag.active{background:var(--status-active);}
+.tag.progress{background:var(--status-progress); color:var(--ink);}
+.tag.filed{background:var(--status-filed);}
+.tag.todo{background:var(--status-todo);}
+
+/* authority status tracker */
+.tracker{display:grid; grid-template-columns:repeat(3,1fr); gap:0; counter-reset:step;}
+.tracker .step{position:relative; padding:var(--s-5) var(--s-4); text-align:center;}
+.tracker .step .node{width:56px; height:56px; border-radius:999px; display:grid; place-items:center; margin:0 auto var(--s-3);
+  background:var(--cloud); border:2px solid var(--line);}
+.tracker .step .node svg{width:26px; height:26px;}
+.tracker .step::before{content:""; position:absolute; top:calc(var(--s-5) + 28px); left:-50%; width:100%; height:2px; background:var(--line); z-index:0;}
+.tracker .step:first-child::before{display:none;}
+.tracker .step .node, .tracker .step .label, .tracker .step .tag{position:relative; z-index:1;}
+.tracker .step .label{font-family:var(--font-display); font-weight:600; font-size:1rem; margin-bottom:6px;}
+.tracker .step.s-active .node{border-color:var(--status-active); color:var(--status-active);}
+.tracker .step.s-progress .node{border-color:var(--status-progress); color:var(--status-progress);}
+.tracker .step.s-filed .node{border-color:var(--status-filed); color:var(--status-filed);}
+.tracker .step.s-active::before, .tracker .step.s-progress::before{background:var(--status-active);}
+@media(max-width:620px){
+  .tracker{grid-template-columns:1fr; }
+  .tracker .step{display:flex; align-items:center; gap:var(--s-4); text-align:left; padding:var(--s-3) 0;}
+  .tracker .step .node{margin:0;}
+  .tracker .step::before{display:none;}
+}
+
+/* nav demo */
+.navdemo{background:var(--cloud); border:1px solid var(--line); border-radius:var(--r-card); padding:0 var(--s-5); display:flex; align-items:center; gap:var(--s-6); height:68px;}
+.navdemo .logo{color:var(--ink);} .navdemo .logo svg{color:var(--ink);}
+.navdemo .menu{display:flex; gap:var(--s-5); margin-left:var(--s-4); font-size:.95rem; flex-wrap:wrap;}
+.navdemo .menu .grp{font-weight:600;}
+.navdemo .menu .grp.compliance{color:var(--ink);}
+.navdemo .menu .grp.dispatch{color:var(--steel);}
+.navdemo .right{margin-left:auto; display:flex; gap:var(--s-3); align-items:center;}
+@media(max-width:760px){ .navdemo{height:auto; padding:var(--s-4); flex-wrap:wrap;} .navdemo .right{width:100%; margin-left:0;} }
+
+/* hero demo */
+.hero{background:var(--cloud); border:1px solid var(--line); border-radius:var(--r-card); overflow:hidden;}
+.hero .inner{display:grid; grid-template-columns:1.1fr .9fr; gap:var(--s-7); padding:var(--s-8);}
+.hero .lede{font-size:1.125rem; color:var(--slate);}
+.hero .second{font-family:var(--font-mono); font-size:.8125rem; color:var(--steel); margin-top:var(--s-4); display:inline-block;}
+.hero .art{background:var(--paper); border:1px solid var(--line); border-radius:var(--r-card); padding:var(--s-5); display:grid; align-content:center;}
+@media(max-width:760px){ .hero .inner{grid-template-columns:1fr; padding:var(--s-6);} }
+
+/* service / trailer / founder cards */
+.scard{display:flex; flex-direction:column; gap:var(--s-3); height:100%;}
+.scard .ico{width:40px; height:40px; color:var(--steel);}
+.scard h4{margin:0;}
+.scard .desc{font-size:.95rem; color:var(--slate); flex:1;}
+.tcard{display:flex; flex-direction:column; gap:var(--s-2); align-items:flex-start;}
+.tcard .ico{width:44px; height:44px; color:var(--ink);}
+.founder{display:flex; gap:var(--s-4); align-items:center;}
+.founder .avatar{width:64px; height:64px; border-radius:999px; background:var(--paper); border:1px solid var(--line); display:grid; place-items:center; font-family:var(--font-mono); font-weight:500; color:var(--steel); font-size:1.25rem; flex:none;}
+
+/* form */
+.field{display:flex; flex-direction:column; gap:6px; margin-bottom:var(--s-4);}
+.field label{font-weight:600; font-size:.95rem;}
+.field input, .field select{min-height:48px; padding:0 14px; border:1px solid var(--line); border-radius:var(--r-btn); background:var(--cloud); font-family:var(--font-body); font-size:1rem; color:var(--ink);}
+.field .help{font-size:.8125rem; color:var(--slate);}
+.field.error input{border-color:#B23B3B;}
+.field .err{display:flex; align-items:center; gap:6px; font-size:.8125rem; color:#B23B3B;}
+
+/* faq */
+.faq details{background:var(--cloud); border:1px solid var(--line); border-radius:var(--r-card); padding:var(--s-4) var(--s-5); margin-bottom:var(--s-3);}
+.faq summary{cursor:pointer; font-weight:600; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:var(--s-4);}
+.faq summary::-webkit-details-marker{display:none;}
+.faq summary::after{content:"+"; font-family:var(--font-mono); color:var(--steel); font-size:1.25rem;}
+.faq details[open] summary::after{content:"\2013";}
+.faq .ans{margin-top:var(--s-3); color:var(--slate);}
+
+/* ink band */
+.inkband{background:var(--ink); color:var(--cloud); border-radius:var(--r-card); padding:var(--s-8);}
+.inkband h2,.inkband h3{color:var(--cloud);}
+.inkband .eyebrow{color:rgba(255,255,255,.6);}
+
+/* trust */
+.trust{display:flex; flex-wrap:wrap; gap:var(--s-6); align-items:center;}
+.trust .stat .n{font-family:var(--font-mono); font-size:1.75rem; font-weight:500;}
+.trust .stat .c{font-size:.85rem; color:var(--slate);}
+.reviewslot{border:1.5px dashed var(--line); border-radius:var(--r-card); padding:var(--s-5); color:var(--slate); font-size:.9rem;}
+
+/* OG mock */
+.og{width:100%; max-width:600px; aspect-ratio:1200/630; background:var(--ink); color:var(--cloud); border-radius:var(--r-card);
+  padding:var(--s-6); display:flex; flex-direction:column; justify-content:space-between; overflow:hidden;}
+.og .toprow{display:flex; justify-content:space-between; align-items:flex-start;}
+.og .ttl{font-family:var(--font-display); font-weight:800; font-size:clamp(1.5rem,4vw,2.25rem); line-height:1.05; max-width:80%;}
+.og .cat{font-family:var(--font-mono); font-size:.8125rem; letter-spacing:.08em; text-transform:uppercase; color:var(--signal);}
+.og .rule{height:4px; width:80px; background:var(--signal); border-radius:2px;}
+
+.note{background:color-mix(in srgb, var(--signal) 12%, var(--cloud)); border-left:3px solid var(--signal); padding:var(--s-4) var(--s-5); border-radius:0 var(--r-btn) var(--r-btn) 0; font-size:.95rem;}
+.dofail{display:grid; grid-template-columns:1fr 1fr; gap:var(--s-5);}
+@media(max-width:620px){ .dofail{grid-template-columns:1fr;} }
+.do h4::before{content:"✓ "; color:var(--status-active);}
+.dont h4::before{content:"✕ "; color:#B23B3B;}
+footer.sg{background:var(--ink); color:rgba(255,255,255,.7); padding:var(--s-7) 0; font-size:.85rem;}
+.iconrow{display:flex; flex-wrap:wrap; gap:var(--s-5);}
+.iconrow .i{display:flex; flex-direction:column; align-items:center; gap:8px; width:84px; text-align:center; font-size:.75rem; color:var(--slate);}
+.iconrow .i svg{width:40px; height:40px; color:var(--ink);}
+</style>
+</head>
+<body>
+
+<!-- styleguide chrome -->
+<div class="sgbar">
+  <div class="wrap">
+    <span class="logo">TECH<span class="sq"></span>RIG</span>
+    <nav>
+      <a href="#colour">Colour</a><a href="#type">Type</a><a href="#icons">Icons</a>
+      <a href="#tracker">Tracker</a><a href="#buttons">Buttons</a><a href="#price">Price</a>
+      <a href="#cards">Cards</a><a href="#nav">Nav</a><a href="#hero">Hero</a>
+      <a href="#forms">Forms</a><a href="#faq">FAQ</a><a href="#trust">Trust</a><a href="#og">OG</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- intro -->
+  <section class="block" id="intro">
+    <p class="eyebrow">Design system · v1.0 · 2026-06-20</p>
+    <h1>The system of record<br>that actually works.</h1>
+    <p style="font-size:1.125rem; color:var(--slate);">Tech Rig's visual language: official, calm, fast. Built so a carrier in the FMCSA paperwork maze feels one thing: <strong style="color:var(--ink)">we file it right, and you can see exactly where you stand.</strong> Compliance-led, dispatch as the follow-on. Lightweight by design (no photography, SVG-first) to protect Core Web Vitals.</p>
+    <div class="note">This page renders the spec in <span class="mono">design-system.md</span>. It is a design artifact for review, not production code. Dev self-hosts the fonts and wires components to real data.</div>
+  </section>
+
+  <!-- colour -->
+  <section class="block" id="colour">
+    <div class="sectlabel"><p class="eyebrow">01 · Colour</p><h2>Confident &amp; official</h2>
+      <p class="muted">Navy base, one rationed warm accent, warm neutrals. All text pairings verified to WCAG AA.</p></div>
+    <div class="grid g-3">
+      <div class="swatch"><div class="chip" style="background:#0E2233"></div><div class="meta"><div class="name">Ink</div><div class="hex">#0E2233</div><div class="role">Text, dark sections, headlines, footer. White on Ink = 16.2:1.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#225E8A"></div><div class="meta"><div class="name">Steel</div><div class="hex">#225E8A</div><div class="role">Links, supporting fills, icon strokes. On white = 6.9:1.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#E89A3C"></div><div class="meta"><div class="name">Signal</div><div class="hex">#E89A3C</div><div class="role">Primary CTA + positive emphasis. Ink text only (7.0:1). Never white text.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#F7F5F1; border-bottom:1px solid var(--line)"></div><div class="meta"><div class="name">Paper</div><div class="hex">#F7F5F1</div><div class="role">Default page background. Clean, not stark.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#FFFFFF; border-bottom:1px solid var(--line)"></div><div class="meta"><div class="name">Cloud</div><div class="hex">#FFFFFF</div><div class="role">Surfaces: cards, inputs, sticky bars.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#4F5E6B"></div><div class="meta"><div class="name">Slate</div><div class="hex">#4F5E6B</div><div class="role">Secondary text, captions, dividers. On white = 6.7:1.</div></div></div>
+    </div>
+    <h3 style="margin-top:var(--s-7)">Status palette</h3>
+    <p class="muted">Drives the Authority Status Tracker and inline statuses. Colour is never the only signal (always paired with icon + label).</p>
+    <div style="display:flex; gap:var(--s-3); flex-wrap:wrap;">
+      <span class="tag active">Authority active</span>
+      <span class="tag progress">21-day protest</span>
+      <span class="tag filed">Filed / pending</span>
+      <span class="tag todo">Not started</span>
+    </div>
+  </section>
+
+  <!-- type -->
+  <section class="block" id="type">
+    <div class="sectlabel"><p class="eyebrow">02 · Typography</p><h2>Archivo · IBM Plex Sans · IBM Plex Mono</h2>
+      <p class="muted">Display with character, a humanist body, and a monospace utility face that makes data read like an official record. No Inter/Roboto default.</p></div>
+    <div class="panel">
+      <p class="eyebrow">Display: Archivo 800</p>
+      <div style="font-family:var(--font-display); font-weight:800; font-size:clamp(2rem,5vw,3.5rem); line-height:1.05; letter-spacing:-.02em;">Your authority, filed right.</div>
+      <hr style="border:0; border-top:1px solid var(--line); margin:var(--s-6) 0;">
+      <p class="eyebrow">Heading scale: Archivo</p>
+      <h2 style="margin:var(--s-3) 0 0;">H2 · Section title 1.875rem</h2>
+      <h3 style="margin:var(--s-3) 0 0;">H3 · Subsection 1.375rem</h3>
+      <h4 style="margin:var(--s-3) 0 var(--s-5);">H4 · Plex Sans 600 · 1.125rem</h4>
+      <p class="eyebrow">Body: IBM Plex Sans 400</p>
+      <p>UCR registration is a federal program that requires motor carriers, brokers, and freight forwarders operating in interstate commerce to register and pay an annual fee based on fleet size. We confirm your correct bracket first, then file. Body copy sits at a comfortable measure for reading at Grade 8 in process and FAQ blocks.</p>
+      <p class="eyebrow">Utility: IBM Plex Mono 500</p>
+      <p class="mono" style="color:var(--ink)">USDOT $300 &nbsp;·&nbsp; MC $600 &nbsp;·&nbsp; BOC-3 $100 &nbsp;·&nbsp; STATUS: ACTIVE &nbsp;·&nbsp; MC# 1234567 &nbsp;·&nbsp; 2026-06-20</p>
+    </div>
+  </section>
+
+  <!-- icons -->
+  <section class="block" id="icons">
+    <div class="sectlabel"><p class="eyebrow">03 · Iconography</p><h2>One line language</h2>
+      <p class="muted">Single-line, 2px stroke, 24px grid. Ink/Steel strokes, one Signal accent allowed per icon. Drawn from the trucking + compliance world. SVG only, never glyphs in text.</p></div>
+    <div class="iconrow">
+      <div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 13h6M9 17h6"/></svg>Filing</div>
+      <div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4" stroke="#E89A3C"/></svg>Compliance</div>
+      <div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke="#E89A3C"/></svg>Protest period</div>
+      <div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 1.8 3 .2.9 2.9 2.4 1.8-.9 2.9.9 2.9-2.4 1.8-.9 2.9-3 .2L12 22l-2.4-1.8-3-.2-.9-2.9L3.3 14.5l.9-2.9-.9-2.9 2.4-1.8.9-2.9 3-.2z"/><path d="M9 12l2 2 4-4" stroke="#E89A3C"/></svg>Active</div>
+      <div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v8H2z"/><path d="M13 10h4l3 3v2h-7z"/><circle cx="6" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg>Box truck</div>
+      <div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 14h13V9h3l3 3v2"/><path d="M2 14V11h13"/><circle cx="6" cy="17" r="1.6"/><circle cx="18" cy="17" r="1.6"/></svg>Flatbed</div>
+      <div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v8H2z"/><path d="M13 10h4l3 3v2h-7z"/><circle cx="6" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/><path d="M6 9v4M9 9v4" stroke="#E89A3C"/></svg>Reefer</div>
+    </div>
+    <p class="muted" style="margin-top:var(--s-5); font-size:.85rem;">Set extends to dry van, power only, and hot shot following the same language. Spot illustrations and process diagrams use this line system at larger scale.</p>
+  </section>
+
+  <!-- tracker -->
+  <section class="block" id="tracker">
+    <div class="sectlabel"><p class="eyebrow">04 · Signature element</p><h2>Authority Status Tracker</h2>
+      <p class="muted">The one element the site is remembered by. Visualizes the real journey and sets honest expectations. Never shows a guaranteed date. The protest period is a fixed federal step, not a promise.</p></div>
+    <div class="panel">
+      <div class="tracker">
+        <div class="step s-active">
+          <div class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 14l2 2 4-4"/></svg></div>
+          <div class="label">Application filed</div>
+          <span class="tag active">Done</span>
+        </div>
+        <div class="step s-progress">
+          <div class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <div class="label">21-day protest period</div>
+          <span class="tag progress">Federal step</span>
+        </div>
+        <div class="step s-filed">
+          <div class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 1.8 3 .2.9 2.9 2.4 1.8-.9 2.9.9 2.9-2.4 1.8-.9 2.9-3 .2L12 22l-2.4-1.8-3-.2-.9-2.9L3.3 14.5l.9-2.9-.9-2.9 2.4-1.8.9-2.9 3-.2z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <div class="label">Authority active</div>
+          <span class="tag todo">Pending</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- buttons -->
+  <section class="block" id="buttons">
+    <div class="sectlabel"><p class="eyebrow">05 · Buttons &amp; CTA hierarchy</p><h2>One primary action per view</h2></div>
+    <div class="grid g-2">
+      <div class="flat">
+        <p class="eyebrow">On light</p>
+        <div style="display:flex; gap:var(--s-3); flex-wrap:wrap; align-items:center;">
+          <a class="btn btn-primary" href="#buttons">File my UCR</a>
+          <a class="btn btn-secondary" href="#buttons">See pricing</a>
+          <a class="btn-tertiary" href="#buttons">operating authority</a>
+        </div>
+      </div>
+      <div class="flat" style="background:var(--ink);">
+        <p class="eyebrow" style="color:rgba(255,255,255,.6)">On ink</p>
+        <div style="display:flex; gap:var(--s-3); flex-wrap:wrap; align-items:center;">
+          <a class="btn btn-primary" href="#buttons">Start my filing</a>
+          <a class="btn btn-secondary on-ink" href="#buttons">Talk to us</a>
+        </div>
+      </div>
+    </div>
+    <p class="note" style="margin-top:var(--s-5)">Primary = Signal fill + Ink text (amber never carries white text). Secondary subordinate. Tertiary = Steel inline link on a 1-3 word contextual anchor. Every control has a visible focus ring (tab to check).</p>
+  </section>
+
+  <!-- price -->
+  <section class="block" id="price">
+    <div class="sectlabel"><p class="eyebrow">06 · Price chip</p><h2>One source, three states</h2>
+      <p class="muted">Renders from a single data file so prices can't drift from <span class="mono">services.md</span>. Government fees always shown separately.</p></div>
+    <div style="display:flex; gap:var(--s-5); flex-wrap:wrap;">
+      <span class="pricechip"><span class="amt">$100</span><span class="lbl">BOC-3 filing</span></span>
+      <span class="pricechip"><span class="amt"><span class="from">from</span>$100</span><span class="lbl">UCR service</span><span class="gov">+ gov fee (varies by bracket)</span></span>
+      <span class="pricechip"><span class="amt" style="font-size:1rem">Contact for quote</span><span class="lbl">Trucking LLC</span></span>
+    </div>
+  </section>
+
+  <!-- cards -->
+  <section class="block" id="cards">
+    <div class="sectlabel"><p class="eyebrow">07 · Cards</p><h2>Content-bearing, not decorative</h2>
+      <p class="muted">Real price, real service, real people. Designed once, reused. Not the icon-in-a-rounded-square triplet reflex.</p></div>
+    <h3>Service cards: compliance hub</h3>
+    <div class="grid g-3">
+      <div class="panel scard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 13h6M9 17h6"/></svg><h4>UCR Registration</h4><p class="desc">Annual Unified Carrier Registration, filed in the correct fleet bracket.</p><span class="pricechip"><span class="amt"><span class="from">from</span>$100</span><span class="gov">+ gov fee</span></span><a class="btn-tertiary" href="#cards" style="margin-top:var(--s-2)">details</a></div>
+      <div class="panel scard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg><h4>BOC-3 Filing</h4><p class="desc">One-time blanket process-agent filing in all 50 states. Required to activate authority.</p><span class="pricechip"><span class="amt">$100</span></span><a class="btn-tertiary" href="#cards" style="margin-top:var(--s-2)">details</a></div>
+      <div class="panel scard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18"/><path d="M7 14h4"/></svg><h4>MCS-150 Update</h4><p class="desc">Biennial update kept accurate so your record stays in good standing.</p><span class="pricechip"><span class="amt">$125</span></span><a class="btn-tertiary" href="#cards" style="margin-top:var(--s-2)">details</a></div>
+    </div>
+    <h3 style="margin-top:var(--s-7)">Trailer cards: dispatch hub</h3>
+    <div class="grid g-3">
+      <div class="panel tcard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v8H2z"/><path d="M13 10h4l3 3v2h-7z"/><circle cx="6" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg><h4>Box Truck</h4><p class="desc muted" style="margin:0">Loads, rates, and paperwork handled. No forced dispatch.</p><a class="btn-tertiary" href="#cards">box truck dispatch</a></div>
+      <div class="panel tcard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 14h13V9h3l3 3v2"/><path d="M2 14V11h13"/><circle cx="6" cy="17" r="1.6"/><circle cx="18" cy="17" r="1.6"/></svg><h4>Flatbed</h4><p class="desc muted" style="margin:0">Specialized lanes and rate negotiation for open-deck freight.</p><a class="btn-tertiary" href="#cards">flatbed dispatch</a></div>
+      <div class="panel tcard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v8H2z"/><path d="M13 10h4l3 3v2h-7z"/><circle cx="6" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/><path d="M6 9v4M9 9v4" stroke="#E89A3C"/></svg><h4>Reefer</h4><p class="desc muted" style="margin:0">Temperature-controlled loads with reliable, profitable routing.</p><a class="btn-tertiary" href="#cards">reefer dispatch</a></div>
+    </div>
+    <h3 style="margin-top:var(--s-7)">Founder cards: About (exactly two)</h3>
+    <div class="grid g-2">
+      <div class="panel founder"><div class="avatar">AS</div><div><h4 style="margin:0 0 2px">Adam Smith</h4><p class="muted" style="margin:0; font-size:.9rem">Co-Founder · Legal &amp; compliance background. Reviews money/expert pages.</p></div></div>
+      <div class="panel founder"><div class="avatar">RH</div><div><h4 style="margin:0 0 2px">Robert Hooke</h4><p class="muted" style="margin:0; font-size:.9rem">Co-Founder · Systems &amp; operations background. Reviews process pages.</p></div></div>
+    </div>
+  </section>
+
+  <!-- nav -->
+  <section class="block" id="nav">
+    <div class="sectlabel"><p class="eyebrow">08 · Navigation</p><h2>Two silos, read instantly</h2></div>
+    <div class="navdemo">
+      <span class="logo" style="color:var(--ink)">TECH<span class="sq"></span>RIG</span>
+      <div class="menu">
+        <span class="grp compliance">Compliance ▾</span>
+        <span class="grp dispatch">Dispatch ▾</span>
+        <span>About</span>
+        <span>Contact</span>
+      </div>
+      <div class="right">
+        <a class="btn-tertiary" href="#nav">Call (917) 909-2257</a>
+        <a class="btn btn-primary" href="#nav">Start my filing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- hero -->
+  <section class="block" id="hero">
+    <div class="sectlabel"><p class="eyebrow">09 · Hero (home)</p><h2>Compliance-led, dual-path clear in 5 seconds</h2></div>
+    <div class="hero">
+      <div class="inner">
+        <div>
+          <p class="eyebrow">Setup &amp; FMCSA compliance</p>
+          <h1 style="font-size:clamp(2rem,4vw,3rem)">Get road-legal without the paperwork maze.</h1>
+          <p class="lede">We file your authority, BOC-3, and UCR correctly the first time, and you can see exactly where you stand. Built by people who have filed real authorities and dispatched real loads.</p>
+          <div style="display:flex; gap:var(--s-3); flex-wrap:wrap; margin-top:var(--s-5)">
+            <a class="btn btn-primary" href="#hero">Start my filing</a>
+            <a class="btn btn-secondary" href="#hero">See what it costs</a>
+          </div>
+          <a class="second" href="#hero">Already running? &nbsp;Keep your truck loaded with dispatch →</a>
+        </div>
+        <div class="art">
+          <p class="eyebrow">Authority status</p>
+          <div class="tracker" style="grid-template-columns:1fr; gap:var(--s-2)">
+            <div class="step s-active" style="display:flex; align-items:center; gap:12px; text-align:left; padding:8px 0;"><div class="node" style="width:40px;height:40px;margin:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div><span class="mono" style="font-size:.85rem">Application filed</span></div>
+            <div class="step s-progress" style="display:flex; align-items:center; gap:12px; text-align:left; padding:8px 0;"><div class="node" style="width:40px;height:40px;margin:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></div><span class="mono" style="font-size:.85rem">21-day protest period</span></div>
+            <div class="step s-filed" style="display:flex; align-items:center; gap:12px; text-align:left; padding:8px 0; opacity:.6;"><div class="node" style="width:40px;height:40px;margin:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></div><span class="mono" style="font-size:.85rem">Authority active</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- forms -->
+  <section class="block" id="forms">
+    <div class="sectlabel"><p class="eyebrow">10 · Forms</p><h2>The filing path, friction removed</h2></div>
+    <div class="panel" style="max-width:520px">
+      <div class="field"><label for="f1">Legal business name</label><input id="f1" type="text" placeholder="DGR Tech Rig LLC"><span class="help">As it appears on your FMCSA record.</span></div>
+      <div class="field"><label for="f2">Filing needed</label><select id="f2"><option>BOC-3</option><option>UCR registration</option><option>MC + DOT authority</option></select></div>
+      <div class="field error"><label for="f3">Email</label><input id="f3" type="email" value="not-an-email"><span class="err"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg> Enter a valid email so we can send your filing confirmation.</span></div>
+      <a class="btn btn-primary" href="#forms" style="width:100%; justify-content:center;">File my BOC-3</a>
+      <p class="muted" style="font-size:.8125rem; margin:var(--s-3) 0 0">You'll see the government fee separately before anything is charged.</p>
+    </div>
+  </section>
+
+  <!-- faq -->
+  <section class="block" id="faq">
+    <div class="sectlabel"><p class="eyebrow">11 · FAQ</p><h2>Scannable, Grade 8</h2></div>
+    <div class="faq" style="max-width:760px">
+      <details open><summary>Is UCR a one-time fee?</summary><div class="ans">No. UCR is annual. You renew every year, usually before the new registration year opens. BOC-3, by contrast, is generally one-time.</div></details>
+      <details><summary>What happens if I do not pay UCR?</summary><div class="ans">In states that enforce it, you can be fined at roadside and your vehicle held until it's resolved. Renewing on time avoids this.</div></details>
+      <details><summary>Do I pay the government fee to Tech Rig?</summary><div class="ans">The government fee is separate and goes to the program. Our service fee is for filing it correctly and on time. You see both before you pay.</div></details>
+    </div>
+  </section>
+
+  <!-- trust -->
+  <section class="block" id="trust">
+    <div class="sectlabel"><p class="eyebrow">12 · Trust band</p><h2>Built only from what's real</h2></div>
+    <div class="inkband">
+      <p style="color:rgba(255,255,255,.85); max-width:60ch;">DGR Tech Rig LLC is <strong style="color:#fff">officially listed by FMCSA as a BOC-3 blanket process-agent company.</strong> Worded, linked credibility, never a badge implying government endorsement.</p>
+      <div class="trust" style="margin-top:var(--s-6)">
+        <div class="stat"><div class="n" style="color:var(--signal)">2021</div><div class="c" style="color:rgba(255,255,255,.6)">dispatching since</div></div>
+        <div class="stat"><div class="n" style="color:var(--signal)">~100</div><div class="c" style="color:rgba(255,255,255,.6)">carriers dispatched</div></div>
+        <div class="stat"><div class="n" style="color:var(--signal)">40+</div><div class="c" style="color:rgba(255,255,255,.6)">compliance clients since 2025</div></div>
+        <div class="stat"><div class="n" style="color:var(--signal)">10+</div><div class="c" style="color:rgba(255,255,255,.6)">states served</div></div>
+      </div>
+    </div>
+    <div class="reviewslot" style="margin-top:var(--s-5)">Review / testimonial slot: reads fine while empty. No star widgets, no invented names. Populated when the client supplies verified reviews.</div>
+  </section>
+
+  <!-- og -->
+  <section class="block" id="og">
+    <div class="sectlabel"><p class="eyebrow">13 · OG image template</p><h2>One template, per-page variants</h2>
+      <p class="muted">1200×630. Title + category + line icon + Signal rule. Mandatory per page, never a placeholder.</p></div>
+    <div class="og">
+      <div class="toprow">
+        <span class="logo" style="font-size:.95rem">TECH<span class="sq"></span>RIG</span>
+        <span class="cat">Compliance</span>
+      </div>
+      <div>
+        <div class="rule" style="margin-bottom:16px"></div>
+        <div class="ttl">UCR Registration<br>and Renewal</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- avoid -->
+  <section class="block" id="avoid">
+    <div class="sectlabel"><p class="eyebrow">14 · Guardrails</p><h2>What we do, and don't</h2></div>
+    <div class="dofail">
+      <div class="flat do"><h4>Do</h4><p class="muted" style="margin:0; font-size:.95rem">Navy + one rationed amber. Real proof only. Content-bearing cards. SVG-first for speed. The status tracker as the anchor. AA contrast everywhere. Reduced motion respected.</p></div>
+      <div class="flat dont"><h4>Don't</h4><p class="muted" style="margin:0; font-size:.95rem">Red-on-black, stock highway photos, undocumented metrics, white text on amber, star/rating widgets, FMCSA "seals", gradient text, glassmorphism, fade-up-on-everything, a third founder.</p></div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="sg">
+  <div class="wrap">
+    Tech Rig design system v1.0 · This styleguide renders <span class="mono">shared/design/design-system.md</span> · Design artifact for review, not production code · Fonts shown via Google Fonts CDN; Dev self-hosts subset woff2.
+  </div>
+</footer>
+
+</body>
+</html>

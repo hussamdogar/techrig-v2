@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tech Rig Wordmark Explorations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=Oswald:wght@500;600;700&family=Overpass:wght@600;700;800;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E2233; --steel:#225E8A; --signal:#E89A3C;
+  --paper:#F7F5F1; --cloud:#FFFFFF; --slate:#4F5E6B;
+  --line:rgba(79,94,107,.16);
+  --mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:"Archivo",system-ui,sans-serif; line-height:1.55;}
+.wrap{max-width:1040px; margin:0 auto; padding:40px 24px 80px;}
+.eyebrow{font-family:var(--mono); font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--slate); margin:0 0 6px;}
+h1{font-family:"Archivo"; font-weight:800; font-size:2.25rem; letter-spacing:-.02em; margin:0 0 6px;}
+.lead{color:var(--slate); max-width:64ch; margin:0 0 8px;}
+.dir{border-top:1px solid var(--line); padding:40px 0;}
+.dir h2{font-family:"Archivo"; font-weight:700; font-size:1.3rem; margin:0 0 4px;}
+.dir .why{color:var(--slate); font-size:.95rem; margin:0 0 24px; max-width:70ch;}
+.stage{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:18px;}
+.panel{border:1px solid var(--line); border-radius:10px; padding:38px 30px; display:flex; align-items:center; justify-content:center; min-height:150px;}
+.panel.light{background:var(--cloud);}
+.panel.dark{background:var(--ink);}
+.row{display:flex; align-items:center; gap:34px; flex-wrap:wrap;}
+.cap{font-family:var(--mono); font-size:.72rem; color:var(--slate); text-transform:uppercase; letter-spacing:.08em; margin:0 0 8px;}
+.small-note{font-family:var(--mono); font-size:.72rem; color:var(--slate);}
+@media(max-width:760px){ .stage{grid-template-columns:1fr;} }
+
+/* ---------- A: Highway / DOT signage ---------- */
+.lockA{display:inline-flex; flex-direction:column; align-items:flex-start; gap:9px;}
+.wmA{font-family:"Overpass"; font-weight:800; font-size:2.6rem; letter-spacing:.01em; line-height:1; color:var(--ink); text-transform:uppercase;}
+.dark .wmA{color:var(--cloud);}
+.roadA{position:relative; width:100%; height:6px;}
+.roadA .rule{position:absolute; inset:0; top:2px; height:2px; background:var(--ink); opacity:.85;}
+.dark .roadA .rule{background:rgba(255,255,255,.85);}
+.roadA .dash{position:absolute; top:1px; height:4px; width:26px; background:var(--signal); border-radius:1px;}
+.wmA-sm{font-family:"Overpass"; font-weight:800; font-size:1rem; letter-spacing:.02em; text-transform:uppercase; color:var(--ink);}
+
+/* ---------- B: Condensed freight ---------- */
+.wmB{font-family:"Oswald"; font-weight:700; font-size:2.9rem; letter-spacing:.005em; line-height:.95; color:var(--ink); text-transform:uppercase;}
+.wmB .tick{color:var(--signal);}
+.dark .wmB{color:var(--cloud);}
+.wmB-sm{font-family:"Oswald"; font-weight:700; font-size:1.05rem; text-transform:uppercase; color:var(--ink);}
+
+/* ---------- C: Monospace registration ---------- */
+.lockC{display:inline-flex; flex-direction:column; align-items:flex-start; gap:6px;}
+.wmC{font-family:var(--mono); font-weight:600; font-size:2.1rem; letter-spacing:.02em; color:var(--ink);}
+.wmC .dot{color:var(--signal);}
+.dark .wmC{color:var(--cloud);}
+.subC{font-family:var(--mono); font-weight:500; font-size:.66rem; letter-spacing:.34em; text-transform:uppercase; color:var(--slate); padding-left:3px;}
+.dark .subC{color:rgba(255,255,255,.55);}
+.wmC-sm{font-family:var(--mono); font-weight:600; font-size:1rem; color:var(--ink);}
+
+/* ---------- D: Cab + trailer (the name as a rig) ---------- */
+.rigD{display:inline-flex; align-items:flex-end; gap:6px;}
+.rigD .unit{position:relative;}
+.rigD .block{display:flex; align-items:center; justify-content:center; background:var(--ink); color:var(--cloud);
+  font-family:"Archivo"; font-weight:800; letter-spacing:.01em; border-radius:6px; height:64px; text-transform:uppercase;}
+.dark .rigD .block{background:var(--cloud); color:var(--ink);}
+.rigD .cab{width:118px; font-size:1.7rem;}
+.rigD .trailer{width:150px; font-size:1.7rem;}
+.rigD .hitch{width:10px; height:10px; background:var(--signal); border-radius:2px; margin-bottom:8px;}
+.rigD .wheels{position:absolute; bottom:-9px; left:0; width:100%; display:flex; justify-content:space-between; padding:0 16px;}
+.rigD .wheels.cabw{justify-content:flex-start;}
+.rigD .w{width:12px; height:12px; border-radius:50%; background:var(--ink);}
+.dark .rigD .w{background:var(--cloud);}
+.rigD .cabw .w{margin-left:10px;}
+.rigD .trw{justify-content:space-between; padding:0 18px;}
+/* subtle (no wheels) variant */
+.rigD2 .wheels{display:none;}
+.rigD-sm .block{height:30px; border-radius:4px;}
+.rigD-sm .cab{width:62px; font-size:.9rem;} .rigD-sm .trailer{width:78px; font-size:.9rem;}
+.rigD-sm .hitch{width:6px;height:6px;margin-bottom:4px;} .rigD-sm .wheels{display:none;}
+
+/* avatars */
+.avatars{display:flex; gap:18px; flex-wrap:wrap; margin-top:6px;}
+.av{width:72px; height:72px; border-radius:14px; display:flex; align-items:center; justify-content:center; background:var(--ink); color:var(--cloud);}
+.av.alt{background:var(--signal); color:var(--ink);}
+.av .tA{font-family:"Overpass"; font-weight:800; font-size:1.5rem; letter-spacing:.01em;}
+.av .tB{font-family:"Oswald"; font-weight:700; font-size:1.7rem;}
+.av .tC{font-family:var(--mono); font-weight:600; font-size:1.4rem;}
+.avlabel{font-family:var(--mono); font-size:.66rem; color:var(--slate); text-align:center; margin-top:6px; text-transform:uppercase; letter-spacing:.06em;}
+.avcell{display:flex; flex-direction:column; align-items:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Tech Rig · Wordmark explorations · no symbol, type only</p>
+  <h1>Four ways to do the name well</h1>
+  <p class="lead">All logotype, no abstract glyph. Each expresses the rig-means-truck idea through letterforms or layout, not clipart. Wordmark stays ink (or white on ink); amber is an accent only, never set as text (it fails contrast at text sizes). Type shown here is off-the-shelf for evaluation; the chosen one gets drawn and refined as outlines.</p>
+
+  <!-- A -->
+  <section class="dir">
+    <h2>A. Highway sign</h2>
+    <p class="why">Set in Overpass, the typeface lineage of US road signs and DOT markings. It reads official and on-the-road instantly, no truck drawing required. The amber lane dashes on the baseline are the only ornament: a road, understated.</p>
+    <div class="stage">
+      <div class="panel light">
+        <div class="lockA">
+          <div class="wmA">Tech&nbsp;Rig</div>
+          <div class="roadA"><span class="rule"></span><span class="dash" style="left:0"></span><span class="dash" style="left:34px"></span><span class="dash" style="left:68px"></span></div>
+        </div>
+      </div>
+      <div class="panel dark">
+        <div class="lockA">
+          <div class="wmA">Tech&nbsp;Rig</div>
+          <div class="roadA"><span class="rule"></span><span class="dash" style="left:0"></span><span class="dash" style="left:34px"></span><span class="dash" style="left:68px"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="row"><div><p class="cap">Small (nav scale)</p><span class="wmA-sm">Tech Rig</span></div></div>
+  </section>
+
+  <!-- B -->
+  <section class="dir">
+    <h2>B. Condensed freight</h2>
+    <p class="why">A tall, tight condensed gothic (Oswald), the lettering of trailers, freight, and shipping. Strong and industrial without being loud. The rig cue is the typographic weight and proportion, the look of words painted on the side of equipment.</p>
+    <div class="stage">
+      <div class="panel light"><div class="wmB">Tech Rig</div></div>
+      <div class="panel dark"><div class="wmB">Tech Rig</div></div>
+    </div>
+    <div class="row"><div><p class="cap">Small (nav scale)</p><span class="wmB-sm">Tech Rig</span></div></div>
+  </section>
+
+  <!-- C -->
+  <section class="dir">
+    <h2>C. Registration record</h2>
+    <p class="why">Set in IBM Plex Mono, the same face the design system uses for filing statuses, prices, and reference numbers. It makes the name read like an official record or a DOT identifier, tying the logo straight to the compliance world. The most on-brand and the most distinctive in the category.</p>
+    <div class="stage">
+      <div class="panel light">
+        <div class="lockC"><div class="wmC">TECH<span class="dot">·</span>RIG</div><div class="subC">Compliance + Dispatch</div></div>
+      </div>
+      <div class="panel dark">
+        <div class="lockC"><div class="wmC">TECH<span class="dot">·</span>RIG</div><div class="subC">Compliance + Dispatch</div></div>
+      </div>
+    </div>
+    <div class="row"><div><p class="cap">Small (nav scale)</p><span class="wmC-sm">TECH·RIG</span></div></div>
+  </section>
+
+  <!-- D -->
+  <section class="dir">
+    <h2>D. The name as a rig</h2>
+    <p class="why">The two words become the truck: TECH is the cab, RIG is the trailer, coupled by an amber hitch. The most overt take on the double meaning, still just the name, no clipart. Shown with and without wheels so you can see how far to push it.</p>
+    <div class="stage">
+      <div class="panel light">
+        <div class="rigD">
+          <div class="unit"><div class="block cab">Tech</div><div class="wheels cabw"><span class="w"></span></div></div>
+          <div class="hitch"></div>
+          <div class="unit"><div class="block trailer">Rig</div><div class="wheels trw"><span class="w"></span><span class="w"></span></div></div>
+        </div>
+      </div>
+      <div class="panel dark">
+        <div class="rigD rigD2">
+          <div class="unit"><div class="block cab">Tech</div></div>
+          <div class="hitch"></div>
+          <div class="unit"><div class="block trailer">Rig</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div><p class="cap">With wheels (overt)</p>
+        <div class="rigD rigD-sm" style="margin-top:14px">
+          <div class="unit"><div class="block cab">Tech</div></div><div class="hitch"></div><div class="unit"><div class="block trailer">Rig</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- avatars -->
+  <section class="dir">
+    <h2>Compact mark (for favicon / avatar only)</h2>
+    <p class="why">You said the name done well, so this is secondary. But a square avatar is unavoidable somewhere (favicon, social, app). Each is just the initials in that direction's type, no invented glyph.</p>
+    <div class="avatars">
+      <div class="avcell"><div class="av"><span class="tA">TR</span></div><div class="avlabel">A</div></div>
+      <div class="avcell"><div class="av"><span class="tB">TR</span></div><div class="avlabel">B</div></div>
+      <div class="avcell"><div class="av"><span class="tC">TR</span></div><div class="avlabel">C mono</div></div>
+      <div class="avcell"><div class="av alt"><span class="tC">TR</span></div><div class="avlabel">C amber</div></div>
+    </div>
+  </section>
+</div>
+</body>
+</html>
