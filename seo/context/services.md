@@ -1,3 +1,54 @@
-﻿# services
+# services
 
-(Populated by the SEO build. Run the Project Track first.)
+Pricing CONFIRMED 2026-06-20 from both partners' questionnaires. Where the two forms differed, the higher figure is used (per client instruction). Display rules and claims governed by `brand-guidelines.md`.
+
+## Service lines (two, funnel-ordered)
+
+### 1. Compliance & company setup (acquisition / top of funnel) — ACTIVE FOCUS
+The lead service for new and growing carriers, launched August 2025. Tech Rig is officially listed by FMCSA as a BOC-3 blanket process-agent company (see `experience-notes.md`; never imply Tech Rig is FMCSA or government-endorsed). Engagements run a few weeks at most.
+
+**The full compliance/setup packet (13 items — each must be covered on the new site):** Registered LLC · USDOT number · MC authority · BOC-3 · insurance filing · UCR · DQ files · Clearinghouse · consortium · pre-employment drug test · IRP · IFTA · ELD. Sold individually and as the full package. Coverage mapping (which get a dedicated page vs a section) is in `../../shared/keyword-map.md`.
+
+Confirmed fixed pricing (USD):
+- **USDOT registration** — $300, one-time.
+- **MC number application** (operating authority) — $600, one-time.
+- **BOC-3 filing** — $100, one-time (process-agent designation across all 50 states). NOT an annual renewal; refiled only on a process-agent change or similar circumstance.
+- **BOC-3 + UCR bundle (0-2 vehicle UCR bracket)** — $200 total.
+- **UCR registration** — service fee from $100; total varies by the carrier's FMCSA fleet-size bracket. Do NOT advertise one flat UCR price for all carriers; show the government fee separately.
+- **Clearinghouse registration assistance** — $100.
+- **Drug & Alcohol Consortium enrollment** — $150.
+- **Driver Qualification (DQ) file** — $200 per driver (incl. yearly update).
+- **Pre-employment drug-test coordination** — $100.
+- **Full initial compliance package** — $1,650 (bundles the eight services above).
+
+On-demand / authority management:
+- **MC reinstatement** — $200 service fee; any FMCSA government fee shown separately.
+- **USDOT reactivation / deactivation** — $125.
+- **FMCSA address change** — $125 (corrected up from the legacy $45).
+- **MCS-150 update / correction** — $125.
+
+Hold / not yet publishable:
+- **FMCSA authority letter ($40)** — do NOT publish until the exact service, purpose, and deliverable are defined.
+- **LLC formation / consultancy** — pricing not confirmed; use "Contact us for a quote" until scope and price are finalized.
+
+### 2. Truck dispatch (retention / recurring retainer) — ACTIVE
+The original service, launched 2021 (~100 carriers dispatched to date) and still actively offered. Present as fully bookable.
+- **Pricing model:** straight percentage of gross monthly revenue by equipment — box trucks 8%, cargo vans 5%, flatbeds & reefer vans 3%.
+- **Dispatch by trailer type:** box truck, flatbed, hot shot, reefer, dry van, power only.
+- **Included ops:** load matching, rate negotiation, 24/7 support, billing & paperwork, route planning.
+- **Adjacent:** factoring (partner-facilitated via OTR Solutions / RTS Financial), document management.
+- Positioning: no long-term contracts, no forced dispatch.
+
+## Money-page priority (pivot-led, protect dispatch)
+1. New top-level **compliance / company-setup** money pages (currently greenfield — no indexable pages exist).
+2. A rebuilt **/services/** hub reflecting both lines (current page is stale, dispatch-only).
+3. Defend and upgrade the **dispatch silo hubs** (reefer, flatbed, dry van, box truck, power only, hot shot) that already rank.
+4. **State** pages (currently 4: NY, CA, TX, FL).
+
+## Proof points
+Real, confirmed proof now lives in `experience-notes.md` (6 client stories, track record, credentials). The legacy homepage metrics (15% revenue increase, 20% deadhead reduction, $10k-$20k extra earnings, 15 hrs/wk saved, "5-star rated") are REMOVED — both partners confirmed none are documented. Do not reintroduce them.
+
+## NAP
+Public brand: **Tech Rig** (legal entity **DGR Tech Rig LLC** for footer/legal/schema).
+30 N Gould St, Ste R, Sheridan, WY 82801 | +1 (917) 909-2257 | info@techrig.org
+Address caveat: use only as the registered business address; do not imply a staffed walk-in office.
