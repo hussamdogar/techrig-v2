@@ -259,7 +259,47 @@ Minimal and purposeful; motion exists to clarify state, never to decorate.
 
 ---
 
-## 13. Handoff status & what's next
+## 13. Content presentation (SEO copy into digestible chunks)
+
+SEO supplies the words; design supplies the structure. Bulky paragraphs are reshaped into scannable chunks WITHOUT rewriting them. The transformation is mechanical and auditable, every fragment traces to a sentence SEO wrote.
+
+### The playbook (apply per paragraph)
+- The lead clause becomes a **TL;DR** (Standfirst) or a **hook** line.
+- Parallel clauses (the "two things", a service list, an equipment list) become a **numbered deck**, a **chip list**, or **bullets**.
+- Follow-on sentences become **bullets**.
+- The single sharpest line is pulled out as the **punch** (a guide-sign or callout).
+
+Allowed: list-grammar trimming only (for example "we get you legally set up to operate" becomes "Legally set you up to operate"). Not allowed: new claims, dropping facts, reordering meaning, or reworded headings. **Headings stay verbatim at their level**, the H2s carry SEO's keywords and Three Kings placement, so never demote, merge, or reword them. When a pattern needs micro-copy that cannot be derived from existing copy (a brand-new TL;DR with no source clause), mark it `[SEO to supply]` rather than inventing it, and add it to the copy-request list back to SEO.
+
+### The toolkit (static HTML/CSS, navy-forward, mono as accent only)
+Patterns drawn from the trade's own artifacts, not decorative effects:
+- **Standfirst Deck** (hero TL;DR + numbered takeaways), **Pre-Filing Manifest** (costed intake sheet with three shape-distinct states), **Two-Track Ledger** (you handle / we handle, or two service lanes), **Client Case File** (worked example as a redacted official record, turnaround labelled PAST RESULT), **Split-Ledger Fee Receipt** (service fee vs government fee, two lines never blended), **Bracket Climb** (ordinal rising bars, never proportional to dollars), **Milepost Route** (an ordered how-to as a road, pillar-scoped), **Load Board Row** (equipment + rates as a dispatch board), **Eligibility Strip** (applies / does not apply the same way), **Highway Guide-Sign Callout** (the one sentence that must land, plus the CTA).
+
+### Where each goes
+| Fact type | Pattern | Pages |
+| --- | --- | --- |
+| Package scope vs pass-through fees | Pre-Filing Manifest | compliance hub, home compliance block |
+| One real worked example | Client Case File | each money page, compliance hub |
+| Who a filing applies to (with honest edges) | Eligibility Strip | UCR, BOC-3, pillar |
+| Service fee vs government fee | Split-Ledger Fee Receipt | every fee-bearing page |
+| Relative magnitude of bracketed fees | Bracket Climb | UCR only |
+| Long ordered how-to that doubles as a TOC | Milepost Route | pillar only |
+| Equipment options + per-trailer rates | Load Board Row | dispatch hub |
+| Hero summary + key takeaways | Standfirst Deck | every money page and hub hero |
+| Division of labour, or one-time vs annual, or two lanes | Two-Track Ledger | compliance hub, home dual-path |
+| The sentence that must land + CTA | Highway Guide-Sign Callout | one per money page |
+
+Consistency rule: a given fact-type uses the same pattern sitewide. Static mockups in `mockups/` show the toolkit applied; `home.html` is the gold-standard reference for the refit.
+
+### Guardrails
+- Every state carried by shape plus label, never colour alone. Amber rationed to one action per viewport, never used as text (Ink text on amber only).
+- No AI-cliche: no bento-everything, no rounded three-icon-card rows, no glassmorphism, no gradient blobs, no purple, no tilted 3D mockups, no scroll-fade-on-everything.
+- Mono (IBM Plex Mono) is an accent only (prices, reference strips, codes, dates, statuses, field labels), never the page texture.
+- Documented proof only; honest timelines (PAST RESULT, no guarantees); prices from the single source.
+
+---
+
+## 14. Handoff status & what's next
 
 - **This file unblocks Dev** together with `shared/page-briefs/` (per the project README, Dev needs both).
 - **Next from Design (Phase 3):** per-page specs to `shared/design/<slug>.md`, following the SEO build order: home + the two hubs first, then the compliance money-page template (reference: `ucr-registration`) and one dispatch trailer template (`box-truck-dispatch`), then About / state / lead-generation / blog.

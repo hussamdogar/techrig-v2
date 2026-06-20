@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DOT Compliance Services for Trucking | Tech Rig</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* page-local helpers: restructure SEO prose into chunks; white text on the navy hero; dashed [SEO to supply] placeholder. */
+.herobul{list-style:none;padding:0;margin:var(--s-4) 0 0;display:flex;flex-direction:column;gap:9px;}
+.herobul li{display:flex;gap:10px;align-items:flex-start;color:rgba(255,255,255,.85);font-size:.96rem;}
+.herobul svg{flex:none;margin-top:3px;color:#9cc4e0;}
+.reviewed{font-family:var(--font-mono);font-size:.82rem;color:rgba(255,255,255,.7);margin:var(--s-5) 0 0;display:flex;align-items:center;gap:8px;}
+.reviewed b{color:#fff;font-weight:600;}
+/* dashed [SEO to supply] placeholder, scaffolding only */
+.ph{display:inline-block;border:1.5px dashed var(--line);border-radius:var(--r-chip);padding:2px 9px;font-family:var(--font-mono);font-size:.74rem;color:var(--slate);letter-spacing:.03em;background:repeating-linear-gradient(45deg,transparent 0 6px,rgba(79,94,107,.05) 6px 12px);}
+/* package intro lead */
+.pkglead{max-width:60ch;margin:0 0 var(--s-5);}
+.pkglead .tl{font-family:var(--font-display);font-weight:800;font-size:1.15rem;margin:0 0 8px;}
+/* why-blocks: three proof-led typographic columns */
+.whygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-6);}
+.whyblock .vh{font-family:var(--font-display);font-weight:700;font-size:1.15rem;margin:0 0 8px;}
+.whyblock p{font-size:.95rem;color:var(--slate);margin:0 0 var(--s-3);}
+@media(max-width:840px){ .whygrid{grid-template-columns:1fr;gap:var(--s-7);} }
+/* a la carte card: name as styled link, price pinned to base */
+.scard .nm{font-family:var(--font-display);font-weight:700;font-size:1.08rem;color:var(--steel);text-decoration:none;}
+.scard .nm:hover{text-decoration:underline;}
+.scard .pcwrap{margin-top:auto;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+    <nav class="menu">
+      <span class="grp compliance">Compliance</span>
+      <span class="grp dispatch">Dispatch</span>
+      <a class="item" href="#">About</a>
+      <a class="item" href="#">Contact</a>
+    </nav>
+    <div class="right">
+      <a class="call" href="tel:+19179092257">Call (917) 909-2257</a>
+      <a class="btn btn-primary" href="#">Start your compliance setup</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO: H1 verbatim; hero paragraph refit into TL;DR + numbered takeaways; Authority Status Tracker in .art. -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Compliance services</p>
+      <h1>DOT and Trucking Compliance Services</h1>
+      <div class="standfirst">
+        <span class="bar"></span>
+        <p class="tl">Getting a truck on the road is not one filing. It is a sequence, and any missed step can stall your authority at the worst time.</p>
+      </div>
+      <ol class="deck">
+        <li><span class="num">01</span> Tech Rig handles the whole sequence.</li>
+        <li><span class="num">02</span> From company formation through active operating authority.</li>
+        <li><span class="num">03</span> Then keep you compliant once you are hauling.</li>
+      </ol>
+      <ul class="herobul">
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> DGR Tech Rig LLC is officially listed by FMCSA as a BOC-3 blanket process-agent company.</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> We have run filings for owner-operators, fleets, and brokers in more than 10 states.</li>
+      </ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="/mc-dot-registration/">Start your compliance setup</a>
+        <a class="btn btn-secondary" href="#package">or see the full package</a>
+      </div>
+      <p class="reviewed"><span>Reviewed by</span> <b>Adam Smith, Co-Founder</b></p>
+    </div>
+
+    <div class="art on-ink">
+      <p class="eyebrow">Authority status</p>
+      <div class="tracker">
+        <div class="step s-active"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 14l2 2 4-4"/></svg></span><span class="label">Application filed</span></div>
+        <div class="step s-progress"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="label">21-day protest period</span></div>
+        <div class="step s-filed"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 1.8 3 .2.9 2.9 2.4 1.8-.9 2.9.9 2.9-2.4 1.8-.9 2.9-3 .2L12 22l-2.4-1.8-3-.2-.9-2.9L3.3 14.5l.9-2.9-.9-2.9 2.4-1.8.9-2.9 3-.2z"/><path d="M9 12l2 2 4-4"/></svg></span><span class="label">Authority active</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL PACKAGE: verbatim H2; lead refit to TL;DR + bullets; Pre-Filing Manifest with the brief's exact package items + states + legend. -->
+<section class="band paper" id="package">
+  <div class="wrap">
+    <h2>The full compliance package</h2>
+    <div class="pkglead">
+      <p class="tl">Most new carriers do not want to assemble this piece by piece.</p>
+      <p class="muted">Our full compliance package covers every requirement to stand up a motor carrier and onboard your first driver, for a fixed $1,650. You can also buy any service on its own.</p>
+    </div>
+
+    <div class="manifest">
+      <div class="refstrip">
+        <span>PRE-FILING MANIFEST &middot; FULL COMPLIANCE PACKAGE</span>
+        <span>FIXED $1,650</span>
+      </div>
+      <div class="rows">
+
+        <div class="row">
+          <span class="mk file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+          <span class="nm"><a href="/trucking-llc/">LLC formation</a></span>
+        </div>
+        <div class="row">
+          <span class="mk file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+          <span class="nm"><a href="/dot-registration/">USDOT number</a></span>
+        </div>
+
+        <div class="row">
+          <span class="mk file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+          <span class="nm"><a href="/mc-registration/">MC authority</a></span>
+        </div>
+        <div class="row">
+          <span class="mk file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+          <span class="nm"><a href="/boc-3-filing/">BOC-3</a> process-agent designation</span>
+        </div>
+
+        <div class="row">
+          <span class="mk file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+          <span class="nm">Insurance filing coordination</span>
+        </div>
+        <div class="row">
+          <span class="mk file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+          <span class="nm"><a href="/ucr-registration/">UCR registration</a></span>
+        </div>
+
+        <div class="row">
+          <span class="mk file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+          <span class="nm"><a href="/driver-qualification-files/">Driver qualification files</a></span>
+        </div>
+        <div class="row">
+          <span class="mk file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+          <span class="nm"><a href="/fmcsa-clearinghouse-registration/">Clearinghouse</a></span>
+        </div>
+
+        <div class="row">
+          <span class="mk file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+          <span class="nm"><a href="/drug-and-alcohol-consortium/">drug and alcohol consortium</a> enrollment</span>
+        </div>
+        <div class="row">
+          <span class="mk file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+          <span class="nm">Pre-employment drug test coordination</span>
+        </div>
+
+        <div class="row">
+          <span class="mk file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+          <span class="nm"><a href="/irp-registration/">IRP apportioned plates</a></span>
+          <span class="pc"><span class="gv">+ state IRP fees</span></span>
+        </div>
+        <div class="row">
+          <span class="mk file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+          <span class="nm"><a href="/ifta-registration/">IFTA</a></span>
+        </div>
+
+        <div class="row">
+          <span class="mk file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+          <span class="nm"><a href="/eld-services/">ELD setup</a></span>
+        </div>
+        <div class="row">
+          <span class="mk gov"></span>
+          <span class="nm">Insurance premium</span>
+          <span class="pc"><span class="gv">billed separately</span></span>
+        </div>
+
+      </div>
+      <div class="foot">
+        <div class="legend">
+          <span><span class="mk file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span> We file this</span>
+          <span><span class="mk ifapplies"></span> Included if it applies to you</span>
+          <span><span class="mk gov"></span> Government or third-party fee, billed separately</span>
+        </div>
+        <p class="muted" style="margin:0 0 var(--s-4)">Government and third-party fees (for example state IRP fees or your insurance premium) are billed separately from our service fee. We tell you which is which before you pay.</p>
+        <a class="btn btn-primary" href="/mc-dot-registration/">Start your compliance setup</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- A LA CARTE: verbatim H2; 12 service cards with verbatim names + price chips from the single source. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>What our DOT compliance services cover</h2>
+    <p class="muted" style="max-width:60ch;margin-bottom:var(--s-6)">Each service can be bought on its own. Prices are our service fee; government fees are called out separately.</p>
+
+    <div class="scards">
+
+      <div class="scard">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4z"/><path d="M4 9h16"/><path d="M8 13h6"/></svg>
+        <a class="nm" href="/dot-registration/">USDOT number</a>
+        <div class="pcwrap"><span class="pricechip"><span class="amt">$300</span><span class="lbl">Service fee</span></span></div>
+      </div>
+
+      <div class="scard">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        <a class="nm" href="/mc-registration/">MC authority</a>
+        <div class="pcwrap"><span class="pricechip"><span class="amt">$600</span><span class="lbl">Service fee</span></span></div>
+      </div>
+
+      <div class="scard">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l4 4v16H6z"/><path d="M15 2v4h4"/><path d="M9 13h7M9 17h5"/></svg>
+        <a class="nm" href="/boc-3-filing/">BOC-3 filing</a>
+        <div class="pcwrap"><span class="pricechip"><span class="amt">$100</span><span class="lbl">Service fee</span></span></div>
+      </div>
+
+      <div class="scard">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+        <a class="nm" href="/ucr-registration/">UCR</a>
+        <div class="pcwrap"><span class="pricechip"><span class="amt"><span class="from">from</span>$100</span><span class="lbl">Service fee</span><span class="gov">+ gov fee by fleet size</span></span></div>
+      </div>
+
+      <div class="scard">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M7 6V4h10v2"/><path d="M3 11h18"/></svg>
+        <a class="nm" href="/irp-registration/">IRP plates</a>
+        <div class="pcwrap"><span class="pricechip"><span class="amt quote">Contact for quote</span></span></div>
+      </div>
+
+      <div class="scard">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 7v6l9 4 9-4V7"/></svg>
+        <a class="nm" href="/ifta-registration/">IFTA</a>
+        <div class="pcwrap"><span class="pricechip"><span class="amt quote">Contact for quote</span></span></div>
+      </div>
+
+      <div class="scard">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 4-3.5 7-8 9-4.5-2-8-5-8-9V7z"/><path d="M12 8v4M12 15h.01"/></svg>
+        <a class="nm" href="/fmcsa-clearinghouse-registration/">Clearinghouse</a>
+        <div class="pcwrap"><span class="pricechip"><span class="amt">$100</span><span class="lbl">Service fee</span></span></div>
+      </div>
+
+      <div class="scard">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 4-2 2v3l3 6H7l3-6V9L8 7z"/></svg>
+        <a class="nm" href="/drug-and-alcohol-consortium/">drug &amp; alcohol consortium</a>
+        <div class="pcwrap"><span class="pricechip"><span class="amt">$150</span><span class="lbl">Service fee</span></span></div>
+      </div>
+
+      <div class="scard">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 11V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="M8 7h6M8 11h6M8 15h3"/><circle cx="17.5" cy="16.5" r="3.5"/></svg>
+        <a class="nm" href="/driver-qualification-files/">DQ files</a>
+        <div class="pcwrap"><span class="pricechip"><span class="amt">$200</span><span class="lbl">Per driver</span></span></div>
+      </div>
+
+      <div class="scard">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6"/><circle cx="12" cy="16" r="1.5"/></svg>
+        <a class="nm" href="/eld-services/">ELD setup</a>
+        <div class="pcwrap"><span class="pricechip"><span class="amt quote">Contact for quote</span></span></div>
+      </div>
+
+      <div class="scard">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l4 4v16H6z"/><path d="M15 2v4h4"/><path d="M9 12l2 2 4-4"/></svg>
+        <a class="nm" href="#">MCS-150 updates</a>
+        <div class="pcwrap"><span class="pricechip"><span class="amt">$125</span><span class="lbl">Service fee</span></span></div>
+      </div>
+
+      <div class="scard">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V8l8-5 8 5v12z"/><path d="M9 20v-6h6v6"/></svg>
+        <a class="nm" href="/trucking-llc/">trucking LLC</a>
+        <div class="pcwrap"><span class="pricechip"><span class="amt quote">Contact for quote</span></span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WHY: verbatim H2; three proof-led value blocks; freight-forwarder example as Client Case File; one funnel cross-link. -->
+<section class="band mist">
+  <div class="wrap">
+    <h2>Why carriers choose our trucking compliance services</h2>
+    <div class="whygrid" style="margin-top:var(--s-6)">
+
+      <div class="whyblock">
+        <p class="vh">We catch what blocks activation.</p>
+        <p>Plenty of applications clear the 21-day protest period and still cannot operate because the BOC-3, insurance, or UCR was wrong. We sequence the filings so that does not happen.</p>
+      </div>
+
+      <div class="whyblock">
+        <p class="vh">We know the new MOTUS system.</p>
+        <p>FMCSA's move off the legacy portal has created PIN, data-linkage, and Pay.gov problems. We work these daily, including triggering FMCSA callbacks when records will not link.</p>
+      </div>
+
+      <div class="whyblock">
+        <p class="vh">We do not disappear after the filing.</p>
+        <p>Authority active is the start. We keep your MCS-150, UCR, Clearinghouse, and driver files current, and when you are ready to keep the truck loaded we <a href="/services/">dispatch you</a> too.</p>
+      </div>
+
+    </div>
+
+    <div style="margin-top:var(--s-7);max-width:680px">
+      <div class="casefile">
+        <span class="tab">WORKED EXAMPLE</span>
+        <div class="body">
+          <dl>
+            <div>
+              <dt>The problem</dt>
+              <dd>one carrier had registered as a freight forwarder instead of a motor carrier, which did not permit hauling freight in his own truck.</dd>
+            </div>
+            <div>
+              <dt>What we did</dt>
+              <dd>We refiled under the correct classification with BOC-3 and UCR inside 24 hours.</dd>
+            </div>
+            <div>
+              <dt>Outcome</dt>
+              <dd>the authority activated after the protest period.</dd>
+            </div>
+          </dl>
+          <div class="status">
+            <span class="dot"></span>
+            <span>Authority active</span>
+            <span class="past">PAST RESULT</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS: verbatim H2; the 4 steps refit into a YOU HANDLE vs WE HANDLE Two-Track Ledger, verbatim phrasing. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2 style="margin-bottom:var(--s-5)">How it works</h2>
+    <div class="twotrack">
+      <div class="col you">
+        <p class="th">You handle</p>
+        <ul>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg>
+            <span>Tell us your equipment, state, and where you are starting from.</span>
+          </li>
+        </ul>
+      </div>
+      <div class="col we">
+        <p class="th">We handle</p>
+        <ul>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg>
+            <span>We map the exact filings you need and what they cost, government fees called out separately.</span>
+          </li>
+          <li class="key">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg>
+            <span>We file and track each step, and tell you when your authority is active.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg>
+            <span>We keep you compliant and, when you want it, dispatch your truck.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEE RECEIPT: split-ledger once, where the UCR service fee vs government fee is quoted. -->
+<section class="band paper">
+  <div class="wrap">
+    <p class="eyebrow">Service fee and government fee, kept separate</p>
+    <div class="ledger">
+      <div class="lrow">
+        <span class="gut service"></span>
+        <span class="l-main"><span class="t">UCR registration</span><span class="s">Our service fee</span></span>
+        <span class="l-val">from $100</span>
+      </div>
+      <div class="lrow">
+        <span class="gut gov"></span>
+        <span class="l-main"><span class="t">UCR government fee</span><span class="s">By fleet size, billed separately</span></span>
+        <span class="l-val token"><span class="ph">[SEO to supply]</span></span>
+      </div>
+      <p class="lfoot">WE TELL YOU WHICH IS WHICH BEFORE YOU PAY</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ: verbatim H2 and real Q&A; first open. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2 style="margin-bottom:var(--s-5)">Compliance services FAQ</h2>
+    <div class="faq">
+      <details open>
+        <summary>Do I need all of these services?</summary>
+        <div class="ans">No. Requirements depend on your operation, vehicles, drivers, authority type, and whether you run interstate. We tell you which apply to you.</div>
+      </details>
+      <details>
+        <summary>How long until my authority is active?</summary>
+        <div class="ans">After the application, FMCSA requires a mandatory 21-day protest period, and timing depends on FMCSA processing and correct insurance and BOC-3 filings. We cannot guarantee a date, but we make sure nothing on your side holds it up.</div>
+      </details>
+      <details>
+        <summary>Is Tech Rig part of FMCSA?</summary>
+        <div class="ans">No. DGR Tech Rig LLC is officially listed by FMCSA as a BOC-3 blanket process-agent company. We are a private filing service.</div>
+      </details>
+      <details>
+        <summary>Can you fix an authority I started myself?</summary>
+        <div class="ans">Yes. A lot of our work is correcting DIY filings, including wrong classifications and MOTUS lockouts.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA: verbatim line + button. -->
+<section class="band ink on-ink">
+  <div class="wrap cta-band">
+    <h2>Ready to get road-legal without the guesswork? Start your compliance setup.</h2>
+    <a class="btn btn-primary" href="/mc-dot-registration/">Start your compliance setup</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+        <p class="nap">DGR Tech Rig LLC<br>30 N Gould St, Ste R, Sheridan, Wyoming 82801<br>(917) 909-2257 &middot; info@techrig.org</p>
+        <p class="nap" style="font-size:.8rem">Officially listed by FMCSA as a BOC-3 blanket process-agent company.</p>
+      </div>
+      <div>
+        <h5>Compliance</h5>
+        <a href="#">USDOT number</a><a href="#">MC authority</a><a href="#">BOC-3 filing</a><a href="#">UCR</a><a href="#">IRP plates</a><a href="#">IFTA</a><a href="#">Clearinghouse</a><a href="#">Drug &amp; alcohol consortium</a><a href="#">DQ files</a><a href="#">ELD setup</a><a href="#">MCS-150 update</a><a href="#">Trucking LLC</a>
+      </div>
+      <div>
+        <h5>Dispatch</h5>
+        <a href="#">Box truck</a><a href="#">Reefer</a><a href="#">Flatbed</a><a href="#">Dry van</a><a href="#">Power only</a><a href="#">Hot shot</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="#">About us</a><a href="#">Contact</a><a href="#">How to start a trucking company</a><a href="#">Lead generation</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; Tech Rig</span><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Power of attorney</a><a href="#">Refund policy</a><a href="#">Referral program</a>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky">
+  <a class="btn btn-primary" href="/mc-dot-registration/">Start your compliance setup</a>
+  <a class="btn btn-secondary call" href="tel:+19179092257">Call</a>
+</div>
+
+</body>
+</html>

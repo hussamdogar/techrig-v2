@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UCR Registration and Renewal | Tech Rig</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* page-local helpers: restructure SEO prose into chunks; white text on the navy hero. All words are SEO's. */
+.reviewline{display:flex;align-items:baseline;gap:8px;font-family:var(--font-mono);font-size:.82rem;color:rgba(255,255,255,.72);margin:var(--s-5) 0 0;}
+.reviewline .lbl{color:#9cc4e0;letter-spacing:.06em;text-transform:uppercase;font-size:.72rem;}
+.reviewline b{color:#fff;font-weight:600;}
+/* annual-renewal marker on the resolved tracker node */
+.tracker .annual{display:inline-flex;align-items:center;gap:6px;margin-top:5px;padding-left:64px;font-family:var(--font-mono);font-size:.74rem;letter-spacing:.04em;color:var(--status-progress);}
+.tracker .annual svg{width:14px;height:14px;flex:none;}
+/* who-has-to-register: clean line-led list */
+.wholist{list-style:none;padding:0;margin:var(--s-4) 0 0;display:flex;flex-direction:column;gap:12px;max-width:64ch;}
+.wholist li{display:flex;gap:11px;align-items:flex-start;font-size:.98rem;}
+.wholist svg{width:20px;height:20px;flex:none;margin-top:2px;color:var(--steel);}
+/* quiet applicability callout (reuses the system .example token visually but as a reassurance) */
+.callout{border-left:3px solid var(--steel);background:var(--mist);border-radius:0 var(--r-btn) var(--r-btn) 0;padding:var(--s-4) var(--s-5);color:var(--slate);font-size:.95rem;margin:var(--s-5) 0 0;max-width:64ch;}
+.callout .ct{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--steel);display:block;margin-bottom:6px;}
+/* bracket mistake emphasis line */
+.brkmiss{color:var(--slate);font-size:.96rem;margin:var(--s-5) 0 0;max-width:64ch;}
+.brkmiss b{color:var(--ink);font-weight:600;}
+/* pricing notes + bundle chip + mid CTA */
+.pricenote{color:var(--slate);font-size:.95rem;margin:var(--s-5) 0 0;max-width:62ch;}
+.bundlechip{display:inline-flex;flex-direction:column;gap:2px;font-family:var(--font-mono);background:var(--mist);border:1px dashed var(--line);border-radius:var(--r-chip);padding:10px 14px;margin:var(--s-5) 0 0;}
+.bundlechip .amt{font-size:1.15rem;font-weight:600;font-variant-numeric:tabular-nums;}
+.bundlechip .lbl{font-size:.72rem;color:var(--slate);letter-spacing:.04em;text-transform:uppercase;}
+.midcta{margin:var(--s-6) 0 0;}
+/* what-you-get value list, typographic */
+.getlist{list-style:none;padding:0;margin:var(--s-5) 0 0;display:flex;flex-direction:column;gap:var(--s-4);max-width:70ch;}
+.getlist li{display:flex;gap:13px;align-items:flex-start;font-size:1rem;}
+.getlist svg{width:22px;height:22px;flex:none;margin-top:2px;color:var(--steel);}
+.getlist li.weight{background:var(--mist);border:1px solid var(--line);border-radius:var(--r-card);padding:var(--s-4) var(--s-5);}
+.getlist li.weight svg{color:var(--signal);}
+/* funnel cross-link copy */
+.funnelp{max-width:64ch;}
+/* closing band button spacing */
+.cta-band .act{margin-top:var(--s-5);}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+    <nav class="menu">
+      <span class="grp compliance">Compliance</span>
+      <span class="grp dispatch">Dispatch</span>
+      <a class="item" href="#">About</a>
+      <a class="item" href="#">Contact</a>
+    </nav>
+    <div class="right">
+      <a class="call" href="tel:+19179092257">Call (917) 909-2257</a>
+      <a class="btn btn-primary" href="#">Start your compliance setup</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO (navy): H1 verbatim. Hero lede refit: lead clause -> TL;DR, parallel clauses -> deck, follow-on -> note. Reviewed-by mono line. Tracker scoped to UCR as the annual-renewal variant. -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Compliance &middot; Annual filing</p>
+      <h1>UCR Registration and Renewal</h1>
+      <div class="standfirst">
+        <span class="bar"></span>
+        <p class="tl">If you run a commercial vehicle across state lines, UCR registration is not optional, and it comes due every year.</p>
+      </div>
+      <ol class="deck">
+        <li><span class="num">01</span> Tech Rig files your Unified Carrier Registration for you</li>
+        <li><span class="num">02</span> confirms the right fleet bracket so you do not overpay</li>
+        <li><span class="num">03</span> and reminds you before the next renewal</li>
+      </ol>
+      <ul class="herobul" style="list-style:none;padding:0;margin:var(--s-4) 0 0;display:flex;flex-direction:column;gap:9px;">
+        <li style="display:flex;gap:10px;align-items:flex-start;color:rgba(255,255,255,.85);font-size:.96rem;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#9cc4e0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:3px"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg> Miss it and you risk roadside fines and held loads in states that enforce it.</li>
+        <li style="display:flex;gap:10px;align-items:flex-start;color:rgba(255,255,255,.85);font-size:.96rem;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#9cc4e0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:3px"><path d="M5 12l4 4 10-10"/></svg> You stay focused on freight, not federal forms.</li>
+      </ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="#">File my UCR</a>
+      </div>
+      <p class="reviewline"><span class="lbl">Reviewed by</span> <b>Adam Smith, Co-Founder</b></p>
+    </div>
+
+    <div class="art on-ink">
+      <p class="eyebrow">Authority status</p>
+      <div class="tracker">
+        <div class="step s-filed"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 14l2 2 4-4"/></svg></span><span class="label">Application filed</span></div>
+        <div class="step s-filed"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="label">Protest period cleared</span></div>
+        <div class="step s-active"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 1.8 3 .2.9 2.9 2.4 1.8-.9 2.9.9 2.9-2.4 1.8-.9 2.9-3 .2L12 22l-2.4-1.8-3-.2-.9-2.9L3.3 14.5l.9-2.9-.9-2.9 2.4-1.8.9-2.9 3-.2z"/><path d="M9 12l2 2 4-4"/></svg></span><span class="label">Authority active</span></div>
+        <div class="annual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v5h-5"/></svg> UCR renews annually</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- H2 verbatim. What-it-is copy verbatim. Who-has-to-register as line-led list (verbatim items). Applicability note as quiet callout (verbatim). -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>What UCR registration is</h2>
+    <p>UCR (Unified Carrier Registration) is a federal program that requires motor carriers, brokers, freight forwarders, and leasing companies operating in interstate commerce to register and pay an annual fee based on fleet size. The money funds state enforcement of motor carrier safety programs. It is separate from your USDOT number and your operating authority: you can have an active USDOT and MC and still be out of compliance if your UCR is not paid for the current year.</p>
+
+    <h3 style="margin-top:var(--s-6)">Who has to register</h3>
+
+    <!-- ELIGIBILITY STRIP: left applies / right treated differently. Shape-distinct svg markers (check vs slash-circle). Honest .efoot. -->
+    <div class="eligib" style="margin-top:var(--s-4)">
+      <div class="col yes">
+        <p class="th">Applies to you</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> Carriers running vehicles in interstate commerce.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> Brokers, freight forwarders, and leasing companies, even without trucks.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> New carriers, in their first year, as soon as they begin interstate operation.</li>
+        </ul>
+      </div>
+      <div class="col no">
+        <p class="th">Does not apply the same way</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M6 18 18 6"/></svg> Purely intrastate carriers.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M6 18 18 6"/></svg> Some operations are treated differently.</li>
+        </ul>
+      </div>
+      <p class="efoot">Not every operation owes UCR the same way. If you are not sure UCR applies to you, we will tell you before you pay.</p>
+    </div>
+  </div>
+</section>
+
+<!-- H2 verbatim. Bracket Climb: five rising ordinal bars. NO dollar figures: each cell reads "fee set by bracket" with a [VERIFY] token. One bar capped YOUR BRACKET. climbnote that heights are illustrative. Mistake line beneath. -->
+<section class="band paper">
+  <div class="wrap">
+    <h2>How UCR fees work (and why brackets matter)</h2>
+    <p>The government fee is tiered by the number of commercial vehicles you operate. The brackets jump fast, so a miscount can cost you. The 0 to 2 vehicle bracket is the lowest; the next brackets step up at 3 to 5, 6 to 20, and higher. Brokers and forwarders without vehicles pay the lowest bracket.</p>
+
+    <div class="climb" style="margin-top:var(--s-6)" role="img" aria-label="Fleet-size brackets shown as rising steps. Bar heights are illustrative, not to dollar scale. The 0 to 2 vehicle bracket is your bracket.">
+      <div class="bar here">
+        <span class="cap">YOUR BRACKET</span>
+        <div class="col" style="height:32%"></div>
+        <span class="tk">0 to 2<br>fee set by bracket<br>[VERIFY]</span>
+      </div>
+      <div class="bar">
+        <span class="cap">&nbsp;</span>
+        <div class="col" style="height:48%"></div>
+        <span class="tk">3 to 5<br>fee set by bracket<br>[VERIFY]</span>
+      </div>
+      <div class="bar">
+        <span class="cap">&nbsp;</span>
+        <div class="col" style="height:64%"></div>
+        <span class="tk">6 to 20<br>fee set by bracket<br>[VERIFY]</span>
+      </div>
+      <div class="bar">
+        <span class="cap">&nbsp;</span>
+        <div class="col" style="height:82%"></div>
+        <span class="tk">21 to 100<br>fee set by bracket<br>[VERIFY]</span>
+      </div>
+      <div class="bar">
+        <span class="cap">&nbsp;</span>
+        <div class="col" style="height:100%"></div>
+        <span class="tk">101+<br>fee set by bracket<br>[VERIFY]</span>
+      </div>
+    </div>
+    <p class="climbnote">Bar heights are illustrative of how the brackets step up, not drawn to dollar scale. Dollar amounts are confirmed against the official UCR schedule before you pay.</p>
+
+    <p class="brkmiss">What this means for you: the most common mistake we fix is a carrier who paid the wrong bracket, either overpaying or underpaying and getting flagged. <b>We confirm your correct bracket first, then file.</b></p>
+  </div>
+</section>
+
+<!-- H2 verbatim. Split-Ledger Fee Receipt: service fee row "from $100" + sub-label; government fee row token; optional $200 BOC-3 + UCR bundle chip; lfoot "TWO LINES, NEVER BLENDED". Mid CTA = Steel text link. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>What our UCR registration service costs</h2>
+
+    <div class="ledger" style="margin-top:var(--s-5)">
+      <div class="lrow">
+        <span class="gut service"></span>
+        <div class="l-main">
+          <div class="t">Tech Rig service fee</div>
+          <div class="s">to file your UCR</div>
+        </div>
+        <div class="l-val"><span class="pricechip" style="background:none;border:0;padding:0;flex-direction:row;align-items:baseline;gap:4px"><span class="from" style="font-size:.78rem;color:var(--slate);font-weight:500">from</span>$100</span></div>
+      </div>
+      <div class="lrow">
+        <span class="gut gov"></span>
+        <div class="l-main">
+          <div class="t">Government fee</div>
+          <div class="s">paid to the program, not to us</div>
+        </div>
+        <div class="l-val token">set by fleet bracket, shown before you pay</div>
+      </div>
+      <div class="lfoot">TWO LINES, NEVER BLENDED</div>
+    </div>
+
+    <div class="bundlechip">
+      <span class="amt">$200</span>
+      <span class="lbl">BOC-3 + UCR, 0 to 2 vehicle bracket</span>
+    </div>
+
+    <p class="pricenote">We do not advertise one flat UCR price for every carrier, because the government fee genuinely depends on your fleet size. You see both numbers up front.</p>
+
+    <p class="midcta"><a class="btn-tertiary" href="#">File my UCR</a></p>
+  </div>
+</section>
+
+<!-- H2 verbatim. Four-item value list, verbatim items, typographic. Renewal-reminder item given extra weight. -->
+<section class="band paper">
+  <div class="wrap">
+    <h2>What you get when Tech Rig files your UCR</h2>
+    <ul class="getlist">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h13"/><path d="M3 12h9"/><path d="M3 18h13"/><path d="m16 14 2.5 2.5L23 12"/></svg> We confirm your fleet bracket so the fee is right.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 13l2 2 4-4"/></svg> We complete and submit your registration for the current year.</li>
+      <li class="weight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg> We keep a record and remind you before the next annual renewal, so you do not lapse.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10"/><path d="M7 12h10"/><path d="M7 17h6"/><path d="M3 7h.01"/><path d="M3 12h.01"/><path d="M3 17h.01"/></svg> If your UCR is part of a larger setup, we line it up with your USDOT, MC, and BOC-3 so nothing blocks your authority.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- H2 verbatim. Funnel paragraph with inline Steel links verbatim. Client Case File for the Maryland CDL hotshot worked example, verbatim facts, turnaround labelled PAST RESULT. -->
+<section class="band cloud">
+  <div class="wrap">
+    <h2>New carrier? UCR fits into the bigger setup</h2>
+    <p class="funnelp">UCR is one piece of getting road-legal. If you are still standing up your company, see how it fits with your <a href="/mc-registration/">operating authority</a> and <a href="/boc-3-filing/">BOC-3 filing</a>, or have us handle the <a href="/compliance-services/">full setup</a>. Many of our clients start with a <a href="/boc-3-filing/">BOC-3 and UCR</a> together, then add the rest.</p>
+
+    <div class="casefile" style="margin-top:var(--s-6);max-width:760px">
+      <span class="tab">CLIENT CASE FILE</span>
+      <div class="body">
+        <dl>
+          <dt>Client</dt>
+          <dd>Maryland CDL hotshot owner-operator. Needed both company-level and driver-level compliance before he could haul.</dd>
+          <dt>What we handled</dt>
+          <dd>
+            BOC-3, UCR, driver qualification file, consortium enrollment, Clearinghouse setup, and pre-employment drug test.
+            <div class="filed">
+              <span>BOC-3</span><span>UCR</span><span>DQ file</span><span>Consortium</span><span>Clearinghouse</span><span>Pre-employment test</span>
+            </div>
+          </dd>
+          <dt>Turnaround</dt>
+          <dd>About 7 days. He began running after the protest period.</dd>
+        </dl>
+        <div class="status">
+          <span class="dot"></span> Company and driver compliance completed, then running.
+          <span class="past">PAST RESULT</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- H2 verbatim. FAQ accordion, verbatim Q and A, first item open. -->
+<section class="band paper">
+  <div class="wrap">
+    <h2>UCR registration FAQ</h2>
+    <div class="faq" style="margin-top:var(--s-5)">
+      <details open>
+        <summary>Is UCR a one-time fee?</summary>
+        <div class="ans">No. UCR is annual. You renew every year, usually before the new registration year opens. (BOC-3, by contrast, is generally one-time.)</div>
+      </details>
+      <details>
+        <summary>What happens if I do not pay UCR?</summary>
+        <div class="ans">In states that enforce it, you can be fined at roadside and your vehicle can be held until it is resolved. Renewing on time avoids this.</div>
+      </details>
+      <details>
+        <summary>Do brokers need UCR?</summary>
+        <div class="ans">Yes, brokers and freight forwarders register too, normally in the lowest bracket, even without trucks.</div>
+      </details>
+      <details>
+        <summary>Can you tell me my correct bracket?</summary>
+        <div class="ans">Yes. We confirm your vehicle count and the right bracket before filing so you do not over or underpay.</div>
+      </details>
+      <details>
+        <summary>Do I pay the government fee to Tech Rig?</summary>
+        <div class="ans">The government fee is separate and goes to the program. Our service fee is for filing it correctly and on time. You see both before you pay.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA BAND: verbatim closing line + the single amber "File my UCR". -->
+<section class="band ink on-ink">
+  <div class="wrap cta-band">
+    <h2>Due for UCR or starting fresh? We will file it right and remind you next year.</h2>
+    <div class="act"><a class="btn btn-primary" href="#">File my UCR</a></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+        <p class="nap">DGR Tech Rig LLC<br>30 N Gould St, Ste R, Sheridan, Wyoming 82801<br>(917) 909-2257 &middot; info@techrig.org</p>
+        <p class="nap" style="font-size:.8rem">Officially listed by FMCSA as a BOC-3 blanket process-agent company.</p>
+      </div>
+      <div>
+        <h5>Compliance</h5>
+        <a href="#">USDOT number</a><a href="#">MC authority</a><a href="#">BOC-3 filing</a><a href="#">UCR</a><a href="#">IRP plates</a><a href="#">IFTA</a><a href="#">Clearinghouse</a><a href="#">Drug &amp; alcohol consortium</a><a href="#">DQ files</a><a href="#">ELD setup</a><a href="#">MCS-150 update</a><a href="#">Trucking LLC</a>
+      </div>
+      <div>
+        <h5>Dispatch</h5>
+        <a href="#">Box truck</a><a href="#">Reefer</a><a href="#">Flatbed</a><a href="#">Dry van</a><a href="#">Power only</a><a href="#">Hot shot</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="#">About us</a><a href="#">Contact</a><a href="#">How to start a trucking company</a><a href="#">Lead generation</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; Tech Rig</span><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Power of attorney</a><a href="#">Refund policy</a><a href="#">Referral program</a>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky">
+  <a class="btn btn-primary" href="#">File my UCR</a>
+  <a class="btn btn-secondary call" href="tel:+19179092257">Call</a>
+</div>
+
+</body>
+</html>

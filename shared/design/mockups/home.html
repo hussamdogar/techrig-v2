@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tech Rig: Truck Dispatch and Compliance Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* page-local helpers: restructure SEO prose into chunks, white text on the colored cards / navy hero */
+.herobul{list-style:none;padding:0;margin:var(--s-4) 0 0;display:flex;flex-direction:column;gap:9px;}
+.herobul li{display:flex;gap:10px;align-items:flex-start;color:rgba(255,255,255,.85);font-size:.96rem;}
+.herobul svg{flex:none;margin-top:3px;color:#9cc4e0;}
+.tagline{font-family:var(--font-display);font-weight:700;color:#fff;margin:var(--s-4) 0 0;font-size:1.1rem;}
+.hook{font-weight:600;color:rgba(255,255,255,.92);margin:0;}
+.svc{list-style:none;padding:0;margin:var(--s-3) 0 0;display:flex;flex-wrap:wrap;gap:8px;}
+.svc li,.svc a{background:rgba(255,255,255,.13);border-radius:999px;padding:5px 12px;font-size:.85rem;color:#fff;text-decoration:none;}
+.svc a{box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);}
+.svc a:hover{background:rgba(255,255,255,.24);}
+.note{font-size:.84rem;color:rgba(255,255,255,.72);margin:6px 0 0;}
+.cardbul{list-style:none;padding:0;margin:var(--s-3) 0 0;display:flex;gap:var(--s-5);flex-wrap:wrap;}
+.cardbul li{display:flex;align-items:center;gap:7px;font-size:.9rem;color:rgba(255,255,255,.9);}
+.cardbul svg{color:#fff;}
+.tagcard{font-family:var(--font-display);font-weight:700;color:#fff;margin:var(--s-3) 0 0;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+    <nav class="menu">
+      <span class="grp compliance">Compliance</span>
+      <span class="grp dispatch">Dispatch</span>
+      <a class="item" href="#">About</a>
+      <a class="item" href="#">Contact</a>
+    </nav>
+    <div class="right">
+      <a class="call" href="tel:+19179092257">Call (917) 909-2257</a>
+      <a class="btn btn-primary" href="#">Start your compliance setup</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO: the subhead, restructured into TL;DR + the two things + audience bullets. All words are SEO's. -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Trucking Compliance and Truck Dispatch, Under One Roof</h1>
+      <div class="standfirst">
+        <span class="bar"></span>
+        <p class="tl">Tech Rig does the two things a trucking business needs most:</p>
+      </div>
+      <ol class="deck">
+        <li><span class="num">01</span> Legally set you up to operate</li>
+        <li><span class="num">02</span> Keep your truck earning once you are</li>
+      </ol>
+      <ul class="herobul">
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> New carriers come to us to get their authority and compliance done right.</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> Owner-operators stay with us to find and book loads.</li>
+      </ul>
+      <p class="tagline">One team for the whole journey.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#">Start your compliance setup</a>
+        <a class="btn btn-secondary" href="#">Get your truck dispatched</a>
+      </div>
+    </div>
+    <div class="art on-ink">
+      <p class="eyebrow">Authority status</p>
+      <div class="tracker">
+        <div class="step s-active"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 14l2 2 4-4"/></svg></span><span class="label">Application filed</span></div>
+        <div class="step s-progress"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="label">21-day protest period</span></div>
+        <div class="step s-filed"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 1.8 3 .2.9 2.9 2.4 1.8-.9 2.9.9 2.9-2.4 1.8-.9 2.9-3 .2L12 22l-2.4-1.8-3-.2-.9-2.9L3.3 14.5l.9-2.9-.9-2.9 2.4-1.8.9-2.9 3-.2z"/><path d="M9 12l2 2 4-4"/></svg></span><span class="label">Authority active</span></div>
+        <div class="handoff"><span>then</span> <b>keep loaded</b> <span class="arrow">&rarr;</span> <span>dispatch</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TWO SILOS: verbatim H2s; each paragraph restructured into hook + service/equipment chips + bullets, SEO's words. -->
+<section class="band paper">
+  <div class="wrap">
+    <div class="paths">
+
+      <div class="pathcard compliance">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        <h2>Trucking compliance and company setup</h2>
+        <p class="hook">Starting out, or fixing a setup that stalled?</p>
+        <ul class="svc">
+          <li><a href="#">USDOT and MC authority</a></li>
+          <li><a href="#">BOC-3</a></li>
+          <li><a href="#">UCR</a></li>
+          <li>insurance filing</li>
+          <li>driver compliance</li>
+          <li>IRP</li>
+          <li>IFTA</li>
+          <li>ELD</li>
+        </ul>
+        <p class="note">Individually or as one package.</p>
+        <p class="note">Officially listed by FMCSA as a BOC-3 blanket process-agent company, and we know the new MOTUS system inside out.</p>
+        <div class="act"><a class="btn btn-secondary" href="#">See compliance services</a></div>
+      </div>
+
+      <div class="pathcard dispatch">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v8H2z"/><path d="M13 10h4l3 3v2h-7z"/><circle cx="6" cy="17" r="1.7"/><circle cx="17" cy="17" r="1.7"/></svg>
+        <h2>Truck dispatch that keeps you loaded</h2>
+        <p class="hook">Once your authority is active, we keep the freight coming.</p>
+        <ul class="svc">
+          <li><a href="#">box truck</a></li><li>reefer</li><li>flatbed</li><li>dry van</li><li>power only</li><li>hot shot</li>
+        </ul>
+        <ul class="cardbul">
+          <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> No long-term contracts</li>
+          <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> No forced dispatch</li>
+        </ul>
+        <p class="tagcard">You keep your authority; we keep it busy.</p>
+        <p class="rate">We charge a percentage of your gross by equipment, so we only win when you do.</p>
+        <div class="act"><a class="btn btn-secondary" href="#">See dispatch services</a></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TRUST: verbatim H2 and verbatim proof bullets. -->
+<section class="band ink on-ink">
+  <div class="wrap">
+    <h2>Why carriers trust Tech Rig</h2>
+    <ul class="trustlist" style="list-style:none;padding:0;margin:var(--s-5) 0 0;display:flex;flex-direction:column;gap:14px;max-width:70ch;">
+      <li style="display:flex;gap:12px;align-items:flex-start;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#9cc4e0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:3px"><path d="M5 12l4 4 10-10"/></svg> Serving the trucking industry since 2021, with around 100 carriers dispatched.</li>
+      <li style="display:flex;gap:12px;align-items:flex-start;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#9cc4e0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:3px"><path d="M5 12l4 4 10-10"/></svg> A dedicated compliance practice that has helped 40+ carriers, owner-operators, and brokers across more than 10 states since 2025.</li>
+      <li style="display:flex;gap:12px;align-items:flex-start;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#9cc4e0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:3px"><path d="M5 12l4 4 10-10"/></svg> Officially listed by FMCSA as a BOC-3 blanket process-agent company.</li>
+      <li style="display:flex;gap:12px;align-items:flex-start;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#9cc4e0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:3px"><path d="M5 12l4 4 10-10"/></svg> We work with Motive for ELD and with OTR Solutions and RTS Financial for factoring.</li>
+    </ul>
+    <div class="reviewslot">Review slot, design scaffolding. Verified customer reviews are added here later; no placeholder ratings.</div>
+  </div>
+</section>
+
+<!-- FUNNEL: verbatim H2 and copy, "We do both" pulled out as the punch. -->
+<section class="band mist">
+  <div class="wrap">
+    <h2 style="margin-bottom:var(--s-5)">The whole journey, one team</h2>
+    <div class="guidesign" style="margin-top:0">
+      <span class="tab">ONE TEAM</span>
+      <p class="stmt">Most providers do compliance or dispatch. We do both.</p>
+      <p class="undertab">Which means the company that gets your authority active is the same one that keeps your truck loaded after. New here? Start with our <a href="#" style="color:#fff;text-decoration:underline">guide to starting a trucking company</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA: verbatim. -->
+<section class="band cloud">
+  <div class="wrap cta-band">
+    <h2>Whether you are starting out or already rolling, we have the next step. Talk to us.</h2>
+    <a class="btn btn-primary" href="#">Get started</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+        <p class="nap">DGR Tech Rig LLC<br>30 N Gould St, Ste R, Sheridan, Wyoming 82801<br>(917) 909-2257 &middot; info@techrig.org</p>
+        <p class="nap" style="font-size:.8rem">Officially listed by FMCSA as a BOC-3 blanket process-agent company.</p>
+      </div>
+      <div>
+        <h5>Compliance</h5>
+        <a href="#">USDOT number</a><a href="#">MC authority</a><a href="#">BOC-3 filing</a><a href="#">UCR</a><a href="#">IRP plates</a><a href="#">IFTA</a><a href="#">Clearinghouse</a><a href="#">Drug &amp; alcohol consortium</a><a href="#">DQ files</a><a href="#">ELD setup</a><a href="#">MCS-150 update</a><a href="#">Trucking LLC</a>
+      </div>
+      <div>
+        <h5>Dispatch</h5>
+        <a href="#">Box truck</a><a href="#">Reefer</a><a href="#">Flatbed</a><a href="#">Dry van</a><a href="#">Power only</a><a href="#">Hot shot</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="#">About us</a><a href="#">Contact</a><a href="#">How to start a trucking company</a><a href="#">Lead generation</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; Tech Rig</span><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Power of attorney</a><a href="#">Refund policy</a><a href="#">Referral program</a>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky">
+  <a class="btn btn-primary" href="#">Start your compliance setup</a>
+  <a class="btn btn-secondary call" href="tel:+19179092257">Call</a>
+</div>
+
+</body>
+</html>

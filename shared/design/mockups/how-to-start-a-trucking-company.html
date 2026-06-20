@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Start a Trucking Company | Tech Rig</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* page-local helpers: restructure SEO prose into chunks. No new color tokens; navy-forward, amber rationed to one moment. */
+.byline{display:flex;align-items:center;gap:10px;margin:var(--s-5) 0 0;}
+.byline .av{width:38px;height:38px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line-ink);display:grid;place-items:center;font-family:var(--font-mono);font-weight:600;color:#9cc4e0;flex:none;font-size:.85rem;}
+.byline .who{font-size:.92rem;color:rgba(255,255,255,.85);}
+.byline .who .nm{font-family:var(--font-display);font-weight:700;color:#fff;}
+.byline .who .role{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:#9cc4e0;}
+.softroute{font-size:.95rem;color:rgba(255,255,255,.82);margin:var(--s-5) 0 0;}
+.softroute a{color:#fff;text-decoration:underline;text-underline-offset:3px;font-weight:600;}
+
+/* on-page table of contents: mono document-index treatment */
+.toc{background:var(--cloud);border:1px solid var(--line);border-radius:var(--r-card);padding:var(--s-5) var(--s-5) var(--s-4);box-shadow:var(--shadow);}
+.toc .th{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin:0 0 var(--s-4);font-weight:600;}
+.toc ol{list-style:none;counter-reset:toc;padding:0;margin:0;columns:2;column-gap:var(--s-7);}
+.toc li{break-inside:avoid;margin:0 0 9px;}
+.toc a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:var(--steel);font-size:.93rem;line-height:1.3;}
+.toc a:hover{text-decoration:underline;text-underline-offset:3px;}
+.toc a .mk{font-family:var(--font-mono);font-size:.78rem;color:var(--slate);flex:none;}
+.toc a.cur{font-weight:700;color:var(--ink);}
+.toc a.cur .mk{color:var(--steel);}
+@media(max-width:640px){ .toc ol{columns:1;} }
+
+/* decision lead-ins: styled paragraphs, never headings */
+.decisions{margin:var(--s-5) 0 0;display:flex;flex-direction:column;gap:var(--s-4);max-width:70ch;}
+.decision .lead{font-family:var(--font-display);font-weight:700;font-size:1.08rem;margin:0 0 4px;}
+.decision p{margin:0;color:var(--slate);}
+
+/* cost framing */
+.costgrid{display:grid;grid-template-columns:auto 1fr;gap:var(--s-6);align-items:start;margin:var(--s-5) 0 0;}
+.costlines{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px;max-width:62ch;}
+.costlines li{display:flex;gap:11px;align-items:flex-start;}
+.costlines svg{flex:none;margin-top:3px;color:var(--steel);}
+.costnote{border-left:3px solid var(--steel);padding:var(--s-3) var(--s-4);color:var(--slate);font-size:.93rem;background:var(--mist);border-radius:0 var(--r-btn) var(--r-btn) 0;margin:var(--s-5) 0 0;max-width:62ch;}
+@media(max-width:680px){ .costgrid{grid-template-columns:1fr;} }
+
+/* mistakes: content-bearing line-icon list */
+.mistakes{list-style:none;padding:0;margin:var(--s-5) 0 0;display:grid;grid-template-columns:1fr 1fr;gap:var(--s-5);}
+.mistakes li{display:flex;gap:13px;align-items:flex-start;background:var(--cloud);border:1px solid var(--line);border-radius:var(--r-card);padding:var(--s-4) var(--s-5);box-shadow:var(--shadow);}
+.mistakes svg{flex:none;margin-top:2px;color:var(--steel);width:22px;height:22px;}
+.mistakes b{font-family:var(--font-display);}
+.mistakes .mt{font-size:.95rem;color:var(--slate);}
+@media(max-width:760px){ .mistakes{grid-template-columns:1fr;} }
+
+/* funnel bridge: two-node road inside the Ink band */
+.bridge{display:flex;align-items:center;gap:var(--s-5);flex-wrap:wrap;margin:var(--s-6) 0 0;}
+.bridge .bnode{display:flex;align-items:center;gap:11px;font-family:var(--font-display);font-weight:700;color:#fff;font-size:1.15rem;}
+.bridge .bnode svg{width:30px;height:30px;color:#9cc4e0;flex:none;}
+.bridge .barrow{color:#9cc4e0;font-size:1.6rem;}
+.bridgecopy{margin:var(--s-5) 0 0;max-width:64ch;}
+.bridgecopy a{color:#fff;text-decoration:underline;text-underline-offset:3px;font-weight:600;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+    <nav class="menu">
+      <span class="grp compliance">Compliance</span>
+      <span class="grp dispatch">Dispatch</span>
+      <a class="item" href="#">About</a>
+      <a class="item" href="#">Contact</a>
+    </nav>
+    <div class="right">
+      <a class="call" href="tel:+19179092257">Call (917) 909-2257</a>
+      <a class="btn btn-primary" href="#">Start your compliance setup</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO (navy standfirst): H1 verbatim; lede refit into TL;DR + deck; author byline; honest Authority Status Tracker. -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Guide</p>
+      <h1>How to Start a Trucking Company</h1>
+      <div class="standfirst">
+        <span class="bar"></span>
+        <p class="tl">Starting a trucking company is a sequence of decisions and federal filings, and the order matters.</p>
+      </div>
+      <ol class="deck">
+        <li><span class="num">01</span> Do it in the right order and you are hauling in weeks.</li>
+        <li><span class="num">02</span> Do it out of order and you can finish all the paperwork only to find your authority will not activate.</li>
+      </ol>
+      <p class="lede" style="margin-top:var(--s-5)">This guide walks the whole path, from forming your company to passing your first safety audit, and points you to the exact filing when you are ready to act. It is written from the filings we run every week, including the ones that go wrong.</p>
+      <p class="softroute">Want this done for you? See our <a href="/compliance-services/">compliance services</a>.</p>
+      <div class="byline">
+        <span class="av">AS</span>
+        <span class="who"><span class="nm">By Adam Smith</span><br><span class="role">Co-Founder</span></span>
+      </div>
+    </div>
+    <div class="art on-ink">
+      <p class="eyebrow">Authority status</p>
+      <div class="tracker">
+        <div class="step s-active"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 14l2 2 4-4"/></svg></span><span class="label">Application filed</span></div>
+        <div class="step s-progress"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="label">21-day protest period</span></div>
+        <div class="step s-filed"><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 1.8 3 .2.9 2.9 2.4 1.8-.9 2.9.9 2.9-2.4 1.8-.9 2.9-3 .2L12 22l-2.4-1.8-3-.2-.9-2.9L3.3 14.5l.9-2.9-.9-2.9 2.4-1.8.9-2.9 3-.2z"/><path d="M9 12l2 2 4-4"/></svg></span><span class="label">Authority active</span></div>
+      </div>
+      <p class="note" style="font-family:var(--font-mono);font-size:.72rem;color:rgba(255,255,255,.6);margin:var(--s-4) 0 0">A fixed 21-day federal protest period. No guaranteed date.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ON-PAGE TABLE OF CONTENTS: mono document index, anchors are Steel, current section by weight + marker. -->
+<section class="band cloud" style="padding:var(--s-7) 0">
+  <div class="wrap">
+    <nav class="toc" aria-label="On this page">
+      <p class="th">On this page</p>
+      <ol>
+        <li><a class="cur" href="#before-you-file"><span class="mk">00</span> Before you file: decisions that shape everything</a></li>
+        <li><a href="#nine-steps"><span class="mk">01</span> How to start a trucking company in 9 steps</a></li>
+        <li><a href="#cost"><span class="mk">02</span> How much it costs to start a trucking company</a></li>
+        <li><a href="#mistakes"><span class="mk">03</span> The mistakes that stall new carriers</a></li>
+        <li><a href="#after-activation"><span class="mk">04</span> After activation: keep your truck loaded</a></li>
+        <li><a href="#faq"><span class="mk">05</span> How to start a trucking company FAQ</a></li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<!-- BEFORE YOU FILE: verbatim H2; three decision lead-ins as styled paragraphs; freight-forwarder mistake as quiet example callout. -->
+<section class="band paper" id="before-you-file">
+  <div class="wrap">
+    <h2>Before you file: decisions that shape everything</h2>
+    <div class="decisions">
+      <div class="decision">
+        <p class="lead">What will you haul, and where?</p>
+        <p>Cargo type and interstate vs intrastate decide which authority and filings you need.</p>
+      </div>
+      <div class="decision">
+        <p class="lead">What equipment?</p>
+        <p>Box truck, hotshot, reefer, flatbed, dry van, or power only. This affects insurance and, later, how you get loads.</p>
+      </div>
+      <div class="decision">
+        <p class="lead">Carrier or broker?</p>
+        <p>They are different authorities with different requirements.</p>
+      </div>
+    </div>
+    <p style="margin-top:var(--s-5);max-width:70ch">A wrong call here is the single most expensive mistake we fix.</p>
+    <div class="example">One carrier registered as a freight forwarder when he meant to haul his own freight, which did not authorize him to operate, and it cost him a refile and weeks of delay.</div>
+  </div>
+</section>
+
+<!-- NINE STEPS: the centerpiece. Milepost Route, verbatim H3 step titles, one-line summary refit, Steel money-page links. First stop = YOU ARE HERE (single amber moment). -->
+<section class="band mist" id="nine-steps">
+  <div class="wrap">
+    <h2>How to start a trucking company in 9 steps</h2>
+    <p class="muted" style="max-width:64ch">Each step links to the exact filing when you are ready to act.</p>
+    <ol class="route">
+
+      <li class="stop here">
+        <span class="plate mono">MI 01</span>
+        <span class="here-tag">You are here</span>
+        <h3>Form your business entity</h3>
+        <p>Most carriers set up an <a href="/trucking-llc/">LLC</a> and get an EIN. This separates your business and personal liability.</p>
+      </li>
+
+      <li class="stop">
+        <span class="plate mono">MI 02</span>
+        <h3>Get your USDOT number</h3>
+        <p>Your federal ID as a carrier. See <a href="/dot-registration/">USDOT registration</a>.</p>
+      </li>
+
+      <li class="stop">
+        <span class="plate mono">MI 03</span>
+        <h3>Get your MC operating authority</h3>
+        <p>If you will haul regulated freight for hire. See <a href="/mc-registration/">MC authority</a>.</p>
+      </li>
+
+      <li class="stop">
+        <span class="plate mono">MI 04</span>
+        <h3>File your BOC-3</h3>
+        <p>Names a process agent in every state; required before authority activates. See <a href="/boc-3-filing/">BOC-3 filing</a>.</p>
+      </li>
+
+      <li class="stop">
+        <span class="plate mono">MI 05</span>
+        <h3>Get insurance and have it filed with FMCSA</h3>
+        <p>Your authority will not activate until the insurance filing is in. See <a href="/trucking-insurance-filing/">insurance filing</a>.</p>
+      </li>
+
+      <li class="stop">
+        <span class="plate mono">MI 06</span>
+        <h3>Register for UCR</h3>
+        <p>Annual, based on fleet size. See <a href="/ucr-registration/">UCR registration</a>.</p>
+      </li>
+
+      <li class="stop">
+        <span class="plate mono">MI 07</span>
+        <h3>Set up driver compliance</h3>
+        <p><a href="/driver-qualification-files/">Driver qualification files</a>, <a href="/fmcsa-clearinghouse-registration/">Clearinghouse</a>, and a <a href="/drug-and-alcohol-consortium/">drug and alcohol consortium</a> with pre-employment testing. This applies even if you are the only driver.</p>
+      </li>
+
+      <li class="stop">
+        <span class="plate mono">MI 08</span>
+        <h3>Handle interstate operations filings</h3>
+        <p><a href="/irp-registration/">IRP apportioned plates</a> and <a href="/ifta-registration/">IFTA</a> if you run across state lines, plus an <a href="/eld-services/">ELD</a>.</p>
+      </li>
+
+      <li class="stop">
+        <span class="plate mono">MI 09</span>
+        <h3>Get through the 21-day protest period and your first safety audit</h3>
+        <p>Authority can activate after the mandatory protest period; new carriers face a safety audit early, so your driver files and records need to be in order.</p>
+      </li>
+
+    </ol>
+  </div>
+</section>
+
+<!-- COST: verbatim H2; $1,650 in mono price chip; government / third-party / insurance on separate Slate lines; no-single-number stance as note. -->
+<section class="band cloud" id="cost">
+  <div class="wrap">
+    <h2>How much it costs to start a trucking company</h2>
+    <div class="costgrid">
+      <div class="pricechip">
+        <span class="amt">$1,650</span>
+        <span class="lbl">Full setup package</span>
+        <span class="gov">Individual services listed on each page</span>
+      </div>
+      <ul class="costlines">
+        <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> Company and authority filings (LLC, USDOT, MC, BOC-3) plus driver compliance are the main service costs. Our full package that covers the setup is $1,650, and individual services are listed on each page.</li>
+        <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> On top of service fees you have government fees (for example IRP and state fees <span class="mono" style="font-size:.78rem;color:var(--slate)">[VERIFY]</span>) and your insurance premium, which vary by your operation. We always show government and third-party costs separately from our fee.</li>
+        <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg> The largest real-world cost is usually insurance, which depends on your equipment, experience, and driving record.</li>
+      </ul>
+    </div>
+    <div class="costnote">We do not publish a single "it costs $X to start" number, because an honest answer depends on your equipment, state, and whether you hire drivers.</div>
+  </div>
+</section>
+
+<!-- MISTAKES: verbatim H2; six generalized lessons as content-bearing line-icon rows; no names, no invented metrics. -->
+<section class="band paper" id="mistakes">
+  <div class="wrap">
+    <h2>The mistakes that stall new carriers</h2>
+    <ul class="mistakes">
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        <span class="mt"><b>Submitting an application is not the same as being ready to operate.</b> Carriers reach day 21 and cannot activate because the BOC-3, insurance, or UCR was missing or wrong.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6 18 18"/><path d="M18 6 6 18"/></svg>
+        <span class="mt"><b>The wrong authority classification</b> blocks the work you intended to do.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/><path d="M9 12h6"/><path d="M9 16h6"/></svg>
+        <span class="mt"><b>Owner-operators still need driver qualification files.</b> Being the only driver does not waive it.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span class="mt"><b>Drug tests expire.</b> A pre-employment test older than 30 days can mean a new one before a driver can start.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18"/><path d="M6 7v13h12V7"/><path d="M9 11h6"/><path d="M9 15h4"/></svg>
+        <span class="mt"><b>Small record errors cause big problems.</b> A missing apartment number on an FMCSA record nearly got a carrier's insurance cancelled.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>
+        <span class="mt"><b>The MOTUS transition adds delays.</b> Records often must be claimed or linked before a filing will go through.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- AFTER ACTIVATION: verbatim H2; Ink bridge band, two-node road, funnel links to /services/ and /box-truck-dispatch/. -->
+<section class="band ink on-ink" id="after-activation">
+  <div class="wrap">
+    <h2>After activation: keep your truck loaded</h2>
+    <div class="bridge">
+      <span class="bnode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg> Get road-legal</span>
+      <span class="barrow">&rarr;</span>
+      <span class="bnode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v8H2z"/><path d="M13 10h4l3 3v2h-7z"/><circle cx="6" cy="17" r="1.7"/><circle cx="17" cy="17" r="1.7"/></svg> Keep loaded</span>
+    </div>
+    <p class="bridgecopy">Getting authority is the start. Once you are active you need freight. That is the other half of what we do: <a href="/services/">truck dispatch</a> that finds and books loads so your new authority starts earning. If you are running a box truck, our <a href="/box-truck-dispatch/">box truck dispatch</a> is our most established service.</p>
+  </div>
+</section>
+
+<!-- FAQ: verbatim H2; FAQPage accordion. The "how long" answer is the honest-expectations moment. -->
+<section class="band cloud" id="faq">
+  <div class="wrap">
+    <h2>How to start a trucking company FAQ</h2>
+    <div class="faq" style="margin-top:var(--s-5)">
+      <details>
+        <summary>How long does it take to start a trucking company?</summary>
+        <div class="ans">The filings can be done quickly, but FMCSA requires a mandatory 21-day protest period before authority activates, and processing time varies. We do not promise a date.</div>
+      </details>
+      <details>
+        <summary>Do I need an LLC to start a trucking company?</summary>
+        <div class="ans">Not legally required, but most carriers form one to separate business and personal liability and to get an EIN.</div>
+      </details>
+      <details>
+        <summary>Do I need both a USDOT and an MC number?</summary>
+        <div class="ans">Many interstate for-hire carriers need both. Some carriers need only a USDOT number. It depends on your operation.</div>
+      </details>
+      <details>
+        <summary>Can I do this myself?</summary>
+        <div class="ans">Yes. Most of it is doable. People come to us when classifications, MOTUS, or the order of filings trips them up, or when they would rather not risk a delay.</div>
+      </details>
+      <details>
+        <summary>What is the first thing I should do?</summary>
+        <div class="ans">Decide what and where you will haul and your equipment, then form your entity. Those choices drive every filing after.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA BAND: soft pillar close, one lead line + single Signal button to /compliance-services/. The one rationed amber CTA. -->
+<section class="band mist">
+  <div class="wrap cta-band">
+    <h2>Know the steps but want them handled? We will take you from setup to active authority.</h2>
+    <a class="btn btn-primary" href="/compliance-services/">See compliance services</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="#">TECH<span class="sq"></span>RIG</a>
+        <p class="nap">DGR Tech Rig LLC<br>30 N Gould St, Ste R, Sheridan, Wyoming 82801<br>(917) 909-2257 &middot; info@techrig.org</p>
+        <p class="nap" style="font-size:.8rem">Officially listed by FMCSA as a BOC-3 blanket process-agent company.</p>
+      </div>
+      <div>
+        <h5>Compliance</h5>
+        <a href="#">USDOT number</a><a href="#">MC authority</a><a href="#">BOC-3 filing</a><a href="#">UCR</a><a href="#">IRP plates</a><a href="#">IFTA</a><a href="#">Clearinghouse</a><a href="#">Drug &amp; alcohol consortium</a><a href="#">DQ files</a><a href="#">ELD setup</a><a href="#">MCS-150 update</a><a href="#">Trucking LLC</a>
+      </div>
+      <div>
+        <h5>Dispatch</h5>
+        <a href="#">Box truck</a><a href="#">Reefer</a><a href="#">Flatbed</a><a href="#">Dry van</a><a href="#">Power only</a><a href="#">Hot shot</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="#">About us</a><a href="#">Contact</a><a href="#">How to start a trucking company</a><a href="#">Lead generation</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; Tech Rig</span><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Power of attorney</a><a href="#">Refund policy</a><a href="#">Referral program</a>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky">
+  <a class="btn btn-primary" href="/compliance-services/">See compliance services</a>
+  <a class="btn btn-secondary call" href="tel:+19179092257">Call</a>
+</div>
+
+</body>
+</html>
