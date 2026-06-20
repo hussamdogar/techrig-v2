@@ -34,3 +34,28 @@ One brief for the four existing state pages and the repeatable template. These p
 
 ## Uniqueness
 State pages are the top duplication risk. Each intro, "starting in [state]" section, and FAQ must be written independently. Run the duplicate-string scan across all state pages specifically before launch.
+
+---
+
+## FULL PER-PAGE COPY (supplied for the Design work order, 2026-06-21)
+State-specific lead fact, state nuances, and a worked example per state. State regulatory specifics are well established but can change, so each nuance set is marked `[VERIFY current state schedule]` for the writer/Dev to confirm against the state agency before publishing. No market statistics. Federal setup (USDOT, MC, BOC-3, UCR, etc.) is reused from the national money pages; the state page adds only the state layer and routes to those pages.
+
+### /tech-rig-dispatch-texas/
+- **Lead fact:** Texas carries one of the largest in-state freight bases in the country, so a lot of Texas operators run intrastate only, and intrastate operation has its own state registration on top of (or instead of) federal authority.
+- **State nuances** `[VERIFY current TxDMV schedule]`: interstate for-hire carriers still need federal USDOT and MC (see [USDOT](/dot-registration/) and [MC authority](/mc-registration/)); intrastate-only Texas carriers register with the Texas Department of Motor Vehicles (TxDMV) for intrastate operating authority and may not need an MC number. We confirm which path fits your operation.
+- **Worked example:** `[CLIENT PROOF NEEDED]` (no Texas client story cleared yet). Graceful empty proof block until supplied.
+
+### /tech-rig-dispatch-california/
+- **Lead fact:** California layers state rules on top of the federal ones, so getting set up here means clearing requirements most other states do not have.
+- **State nuances** `[VERIFY current CARB and CA DMV/CHP schedule]`: interstate carriers need federal USDOT and MC; intrastate California carriers generally need a California Motor Carrier Permit (MCP) and a CA Number, and most diesel vehicles must meet CARB Clean Truck Check requirements. We map the state and federal pieces together so nothing is missed.
+- **Worked example (real, CA, distinct wording):** A California box-truck operator came to us after his records would not link in the FMCSA MOTUS system, which stalled his setup. We bridged the old data into MOTUS and got him moving. California is where these system and state-layer snags show up most, and handling them is daily work for us. (Sourced from `experience-notes.md`; worded so no sentence matches the `/dot-registration/` telling.)
+
+### /tech-rig-dispatch-new-york/
+- **Lead fact:** New York adds a state highway-use obligation on top of federal authority, which catches carriers who set up only the federal side.
+- **State nuances** `[VERIFY current NY HUT schedule]`: carriers operating qualifying vehicles in New York generally need a Highway Use Tax (HUT) certificate and decal, in addition to federal USDOT and MC for interstate operation; New York City can carry further local considerations. We handle the federal setup and flag the state HUT step.
+- **Worked example:** `[CLIENT PROOF NEEDED]` (no New York client story cleared yet).
+
+### /tech-rig-dispatch-florida/
+- **Lead fact:** Florida is a major port and import-freight state, and for most interstate carriers the setup here is largely federal, with the interstate operating filings run through the state motor-vehicle agency.
+- **State nuances** `[VERIFY current FLHSMV schedule]`: interstate carriers need federal USDOT and MC; IRP apportioned plates and IFTA are handled through the Florida Department of Highway Safety and Motor Vehicles (FLHSMV). See [IRP](/irp-registration/) and [IFTA](/ifta-registration/). We confirm what your Florida operation needs.
+- **Worked example:** `[CLIENT PROOF NEEDED]` (no Florida client story cleared yet).

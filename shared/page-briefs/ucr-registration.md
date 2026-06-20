@@ -34,7 +34,18 @@ Who has to register (plain list):
 Note: Not every operation owes UCR the same way. Purely intrastate carriers and some operations are treated differently. If you are not sure UCR applies to you, we will tell you before you pay.
 
 ### H2: How UCR fees work (and why brackets matter)
-The government fee is tiered by the number of commercial vehicles you operate. The brackets jump fast, so a miscount can cost you. The 0 to 2 vehicle bracket is the lowest; the next brackets step up at 3 to 5, 6 to 20, and higher. Brokers and forwarders without vehicles pay the lowest bracket. [VERIFY exact 2026 bracket dollar amounts against the official UCR fee schedule before publishing any figure; do not list a number unless verified.]
+The government fee is tiered by the number of commercial vehicles you operate, and the brackets jump fast, so a miscount can cost you. Brokers and forwarders without vehicles pay the lowest bracket. The official 2026 UCR fees (the government portion, separate from our service fee) are:
+
+| Fleet size (vehicles) | 2026 UCR government fee |
+|---|---|
+| 0-2 (and brokers/leasing) | $46 |
+| 3-5 | $138 |
+| 6-20 | $276 |
+| 21-100 | $963 |
+| 101-1,000 | $4,592 |
+| 1,001+ | $44,836 |
+
+(2026 registration year; fees were unchanged from 2025. Source: the UCR Plan fee-bracket schedule. Dev/SEO: re-verify against the official schedule each registration year and update.)
 
 What this means for you: the most common mistake we fix is a carrier who paid the wrong bracket, either overpaying or underpaying and getting flagged. We confirm your correct bracket first, then file.
 
@@ -82,7 +93,7 @@ Hub card + package list; pillar; MCS-150 page ("annual upkeep"); every dispatch 
 - `FAQPage` for the FAQ.
 
 ## Proof / claims discipline
-- No fabricated bracket dollar amounts: mark `[VERIFY]` until checked against the official schedule.
+- Bracket fees are the official 2026 UCR government schedule (sourced), not Tech Rig's fee. Re-verify each registration year (they can change). Keep the government fee visibly separate from the service fee.
 - No guaranteed timelines. The 7-day example is a real past result, framed as such, not a promise.
 
 ## Reviewed-by

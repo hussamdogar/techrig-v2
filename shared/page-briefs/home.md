@@ -22,7 +22,7 @@ Homepage targets brand; ensure "truck dispatch" and "trucking compliance" both a
 (H1 names the value; it is the funnel thesis stated plainly. If SEO prefers the brand in H1, use "Tech Rig: trucking compliance and dispatch" as H1 and make the line above the styled hero subhead. Either works; do not put the slogan in an H-tag if it reads as a tagline. Recommended H1: **Trucking Compliance and Truck Dispatch, Under One Roof**.)
 
 **Hero subhead (styled paragraph, not a heading):**
-Tech Rig does the two things a trucking business needs most: we get you legally set up to operate, and we keep your truck earning once you are. New carriers come to us to get their authority and compliance done right. Owner-operators stay with us to find and book loads. One team for the whole journey.
+Tech Rig does the two things a trucking business needs most: we get you legally set up to operate, and we keep your truck earning once you are operating. New carriers come to us to get their authority and compliance done right. Owner-operators stay with us to find and book loads. One team for the whole journey.
 
 **Primary CTA (two buttons, one funnel):**
 - Primary: "Start your compliance setup" → `/compliance-services/`
@@ -30,7 +30,7 @@ Tech Rig does the two things a trucking business needs most: we get you legally 
 
 ### H2: Trucking compliance and company setup
 Short block. Lead:
-Starting out, or fixing a setup that stalled? We handle USDOT and MC authority, BOC-3, UCR, insurance filing, driver compliance, IRP, IFTA, and ELD, individually or as one package. We are officially listed by FMCSA as a BOC-3 blanket process-agent company, and we know the new MOTUS system inside out.
+Starting out, or fixing a setup that stalled? We handle USDOT and MC authority, BOC-3, UCR, driver qualification files, drug and alcohol consortium, Clearinghouse registration, IRP and IFTA, and related operating requirements, individually or as one package. We are officially [listed by FMCSA](https://www.fmcsa.dot.gov/registration/process-agents/pa?field_associated_boc_target_id=82976) as a BOC-3 blanket process-agent company, and we know the new MOTUS system inside out.
 Link: "See compliance services" → `/compliance-services/`. Sub-links to the top filings ([USDOT](/dot-registration/), [MC authority](/mc-registration/), [BOC-3](/boc-3-filing/), [UCR](/ucr-registration/)).
 Note: keep the homepage body curated (top filings + "see all"). The COMPLETE service list lives in the global mega-footer, not here, see `global-footer.md`.
 
@@ -44,7 +44,7 @@ Link: "See dispatch services" → `/services/`. Franchise sub-link: "box truck d
 Proof, documented only:
 - Serving the trucking industry since 2021, with around 100 carriers dispatched.
 - A dedicated compliance practice that has helped 40+ carriers, owner-operators, and brokers across more than 10 states since 2025.
-- Officially listed by FMCSA as a BOC-3 blanket process-agent company.
+- Officially [listed by FMCSA](https://www.fmcsa.dot.gov/registration/process-agents/pa?field_associated_boc_target_id=82976) as a BOC-3 blanket process-agent company (verifiable on the FMCSA site).
 - We work with Motive for ELD and with OTR Solutions and RTS Financial for factoring.
 (No performance percentages, earnings claims, or star ratings. Those are not documented and are not used.)
 
@@ -56,6 +56,9 @@ Funnel statement. Most providers do compliance or dispatch. We do both, which me
 
 ## Internal links out
 `/compliance-services/`, `/services/`, `/how-to-start-a-trucking-company/`, `/box-truck-dispatch/`, top filing pages, `/about-us/`, `/contact-us/`.
+
+## External links (verification, E-E-A-T)
+- FMCSA process-agent listing: https://www.fmcsa.dot.gov/registration/process-agents/pa?field_associated_boc_target_id=82976 . Linked twice on a 3-word anchor ("listed by FMCSA") in the compliance lead and the trust block. Dev: external link, `target="_blank"` + `rel="noopener nofollow"`. This is the only external link on the homepage; it backs the regulated FMCSA claim with a verifiable source (do not present the URL's id 82976 as a license number).
 
 ## Schema (JSON-LD)
 - `Organization`/`ProfessionalService` node {@id #org} with logo, NAP, areaServed US, sameAs (pending). This is the canonical org node referenced site-wide.
