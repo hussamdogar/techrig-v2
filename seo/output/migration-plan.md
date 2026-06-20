@@ -42,12 +42,12 @@ These earn the clicks/impressions. Keep the URL; you may improve content but mus
 - **Flip from `noindex` to indexable**, add to the XML sitemap, and confirm canonical to self (pre-launch QA item — verify current robots/meta state first).
 - **Expand into full money pages** in Phase 9: real content depth (1500+ words for service pages), Three Kings keyword placement, FAQ, schema, internal links, single CTA into the `form.`/`boc-3.` conversion endpoints.
 - **These become the home of the relocated reefer compliance content** (§5) and the targets that the upgraded `how-to-get-dot-and-mc-number` blog post links into.
-- Likely roles (confirm exact mapping in Phase 7 keyword mapping):
-  - `/dot-registration` → USDOT number / DOT registration money page.
-  - `/mc-registration` → MC number / operating authority money page.
-  - `/mc-dot-registration` → combined DOT+MC "get your authority" page (keep distinct intent from the two above to avoid cannibalization, or make it the silo hub).
-  - `/start-compliance` → compliance/company-setup hub or the funnel entry; resolve hub-vs-page role in Phase 7.
-- **Net-new compliance URLs** are still needed for topics with no existing page (UCR, LLC registration, drug & alcohol consortium, biennial updates, "how to start a trucking company" pillar) — bucket NEW.
+- Roles FINALIZED (Phase 7-9):
+  - `/dot-registration` → USDOT number money page (REPURPOSE). Brief written.
+  - `/mc-registration` → MC operating authority money page (REPURPOSE). Brief written.
+  - `/mc-dot-registration` → combined DOT+MC authority **bundle** (REPURPOSE), distinct intent from the two above (resolved in `shared/keyword-map.md` cannibalization §1). Brief written.
+  - `/start-compliance` → **301 to `/compliance-services/`.** The silo hub was built as a NEW URL (`/compliance-services/`, symmetric with `/services/`), not as `/start-compliance/`. So `/start-compliance/` is now a CONSOLIDATE entry: 301 it to the new hub (no content of its own). This is the one ad-page that is redirected rather than repurposed.
+- **Net-new compliance URLs (bucket NEW; all briefed in `shared/page-briefs/`):** `/compliance-services/` (hub), `/how-to-start-a-trucking-company/` (pillar), `/ucr-registration/`, `/mcs-150-biennial-update/`, `/boc-3-filing/`, `/irp-registration/`, `/ifta-registration/`, `/fmcsa-clearinghouse-registration/`, `/drug-and-alcohol-consortium/`, `/driver-qualification-files/`, `/eld-services/`, `/trucking-insurance-filing/`, `/trucking-llc/`, plus the bridge guide `/how-to-start-a-box-truck-business/`. All must be indexable, canonical-to-self, in the XML sitemap, and internally linked at launch.
 - **`/single-payment` and `/get-started`** are transactional funnel pages, not topical targets: leave as-is and `noindex` (bucket TRANSACTIONAL).
 
 ## 5. CONSOLIDATE candidates — 301 to parent (finalize targets in Phase 7)
