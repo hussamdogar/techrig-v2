@@ -67,6 +67,7 @@ When content is rewritten on a retained URL, the Dev/Content handoff must keep:
 - **Media/alt**: preserve image alt text on ranking pages.
 
 ## 7. Redirect map mechanics
+- **The concrete maps are written for Dev:** `../../shared/redirect-map.md` (old pages → 301 targets, built from the live sitemaps) and `../../shared/blog-disposition.md` (all 60 blog posts: KEEP-and-rebuild vs 301). Implement both in `dev/next.config.ts` `redirects()` with `permanent: true`.
 - All redirects are **301** (permanent), one hop, no chains, no loops. Update internal links to point at the final URL (don't rely on the redirect).
 - Map lives as a spec in `shared/` for Dev to implement at the server/WordPress level.
 - Preserve query strings where relevant; force HTTPS and a single host (www vs non-www — confirm canonical host).
