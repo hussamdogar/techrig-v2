@@ -147,6 +147,36 @@ export function serviceNode(input: {
   return node;
 }
 
+/**
+ * Article node for a blog post (schema-specs.md: Article with author and dates).
+ * author/dates are omitted when unknown rather than faked. The reviewer Person
+ * is referenced by @id and must be emitted in the same @graph (via personNode).
+ */
+export function articleNode(input: {
+  slug: string;
+  headline: string;
+  description: string;
+  author?: Reviewer;
+  datePublished?: string;
+  dateModified?: string;
+}) {
+  const url = `${site.url}${input.slug}`;
+  const node: Record<string, unknown> = {
+    "@type": "Article",
+    headline: input.headline,
+    description: input.description,
+    url,
+    mainEntityOfPage: url,
+    publisher: { "@id": ORG_ID },
+    isPartOf: { "@id": WEBSITE_ID },
+  };
+  if (input.author) node.author = { "@id": PERSON_IDS[input.author] };
+  if (input.datePublished) node.datePublished = input.datePublished;
+  if (input.dateModified ?? input.datePublished)
+    node.dateModified = input.dateModified ?? input.datePublished;
+  return node;
+}
+
 /** BreadcrumbList. Pass crumbs in order; omit slug on the current (last) page. */
 export function breadcrumbNode(crumbs: { name: string; slug?: string }[]) {
   return {

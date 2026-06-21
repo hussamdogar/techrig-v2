@@ -6,6 +6,7 @@ import {
   dispatchNav,
   legalNav,
 } from "@/lib/services";
+import { getPostSlugs } from "@/lib/blog";
 
 // The indexable URL set. Built from the shared nav data (single source) plus the
 // state, cost, bridge, and home routes. Transactional/noindex URLs
@@ -25,6 +26,11 @@ const extraRoutes = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  // The KEEP blog posts migrated at their original root URLs (lib/blog). Including
+  // them is part of the migration's preserve-rankings goal: the old ranking post
+  // URLs must stay discoverable in the sitemap, not just resolvable.
+  const blogPaths = getPostSlugs().map((slug) => `/${slug}/`);
+
   const paths = Array.from(
     new Set([
       "/",
@@ -34,6 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ...legalNav.map((n) => n.slug),
       ...stateRoutes,
       ...extraRoutes,
+      ...blogPaths,
     ]),
   );
 
