@@ -77,7 +77,7 @@ Anchored to `migration-plan.md` (updated this phase) and the Phase 3 baseline.
 ---
 
 ## E. Consolidated open items (owner of each in brackets)
-- **[CLIENT]** Service fees not in `services.md`: IRP, IFTA, ELD setup; dry-van/power-only/hot-shot dispatch %; bundle price; insurance-filing standalone fee. (Marked `[VERIFY]` in briefs.)
+- **[CLIENT]** Service fees still open: ELD setup; dry-van/power-only/hot-shot dispatch %; insurance-filing standalone fee. (RESOLVED 2026-06-21: IRP setup $175, IFTA setup $175, full package corrected to $1,350 with USDOT included in the MC fee.)
 - **[CLIENT]** Government fees: USDOT gov fee, IRP/IFTA state fees, state market stats (e.g. TX "$1.6T") — source or remove. (UCR bracket amounts RESOLVED 2026-06-21 from the official UCR schedule; in `ucr-registration.md`.)
 - **[CLIENT]** Logo URL + social profile URLs (alias/brand-owned) for schema.
 - **[CLIENT]** Proof stories for IRP, reefer, flatbed, dry van (others use real clients); per-person permission for any direct testimonial quote/screenshot.

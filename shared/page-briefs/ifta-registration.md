@@ -35,7 +35,7 @@ Short. [IRP](/irp-registration/) is about registration and apportioned plates. I
 - We explain the quarterly filing schedule and what records you need to keep (mileage and fuel receipts), so your returns are accurate.
 - We coordinate IFTA with your [IRP](/irp-registration/) setup.
 
-**Price line:** Tech Rig charges a service fee to set up your IFTA registration. [VERIFY exact IFTA service fee with the client before publishing.] State fees are separate and shown up front.
+**Price line:** Our IFTA setup fee is $175. State fees are separate and shown up front.
 
 ### H2: IFTA registration FAQ
 FAQPage schema, Grade 8:
@@ -54,12 +54,12 @@ FAQPage schema, Grade 8:
 Hub card + package; pillar (step 8); IRP page (cross-link).
 
 ## Schema (JSON-LD)
-- `Service` (serviceType "IFTA registration", provider {@id #org}, areaServed US, offers price [VERIFY service fee] USD).
+- `Service` (serviceType "IFTA registration", provider {@id #org}, areaServed US, offers price 175 USD; state fees not encoded as price).
 - `BreadcrumbList`: Home > Compliance Services > IFTA Registration.
 - `FAQPage`.
 
 ## Proof / claims discipline
-- Service fee `[VERIFY]`; state fees never encoded as price. No invented figures.
+- Setup fee confirmed $175; state fees never encoded as price. No invented figures.
 
 ## Reviewed-by
 "Reviewed by Robert Hooke, Co-Founder."

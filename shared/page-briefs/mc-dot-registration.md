@@ -30,12 +30,12 @@ Most new for-hire carriers do not need one filing, they need the set, in the rig
 - [BOC-3](/boc-3-filing/) blanket process-agent filing (we are FMCSA-listed).
 - [UCR registration](/ucr-registration/) for the current year.
 - Insurance filing coordination so it lands before activation.
-Need driver compliance and interstate filings too (DQ files, Clearinghouse, consortium, IRP, IFTA, ELD)? Step up to the [full compliance package](/compliance-services/) at $1,650.
+Need driver compliance and interstate filings too (DQ files, Clearinghouse, consortium, IRP, IFTA, ELD)? Step up to the [full compliance package](/compliance-services/) at $1,350.
 
 ### H2: What it costs
-- Filed together, the core authority pieces are priced from the individual services (USDOT $300, MC $600, BOC-3 $100, UCR from $100). [VERIFY whether a bundled price applies; if the client sets one, show it here, otherwise sum the services and present "from".]
+- The MC authority filing is $600 and **includes your USDOT number** (you do not pay the standalone $300 USDOT on top). Add the [BOC-3](/boc-3-filing/) at $100 and [UCR](/ucr-registration/) from $100 to complete the core authority.
 - Government fees and your insurance premium are separate and shown up front.
-- The complete setup with driver and interstate compliance is the [$1,650 full package](/compliance-services/).
+- The complete setup with driver and interstate compliance is the [$1,350 full package](/compliance-services/), which already includes the MC and UCR (0-2 bracket) government fees.
 
 ### H2: Why a trucking authority package beats filing piecemeal
 Real worked example (publishable, distinct facet): a California box-truck owner whose MC had been dismissed needed a new authority application, FMCSA portal setup, BOC-3, and UCR. We filed all of it in a single day, then waited out the protest period, and he is active and hiring. Doing those filings separately, in the wrong order, is exactly how carriers end up at day 21 with an authority that will not activate. The package exists so nothing is missed and nothing waits on something you did not know you needed.

@@ -4,13 +4,13 @@
 - **Action:** NEW (HUB). **Bucket:** 1 (money). **Intent:** commercial / BOFU.
 - **Primary:** dot compliance services (880/KD~0). **Secondaries:** trucking compliance services (320), trucking compliance (320/11), trucking compliance company (70/3), trucking authority (880).
 - **Word target:** 900 to 1,200 (category hub, not a deep filing page).
-- **Role:** the front door to the compliance silo. Links to every filing page + the bundle. Presents the full $1,650 package as the hero offer.
+- **Role:** the front door to the compliance silo. Links to every filing page + the bundle. Presents the full $1,350 package as the hero offer.
 
 ## Title tag (52 chars)
 `DOT Compliance Services for Trucking | Tech Rig`
 
-## Meta description (156 chars)
-`DOT compliance services for new and growing carriers: USDOT, MC authority, BOC-3, UCR, IRP, ELD and driver files, filed right the first time. Get started today.`
+## Meta description (160 chars)
+`DOT compliance services for new and growing carriers: USDOT, MC authority, BOC-3, UCR, consortium, Clearinghouse and driver files, done right. Get started today.`
 
 ## URL / canonical
 `https://techrig.org/compliance-services/` (self-canonical).
@@ -28,33 +28,32 @@ Getting a truck on the road is not one filing. It is a sequence, and any missed 
 
 ### H2: The full compliance package
 One paragraph + a list. Lead:
-Most new carriers do not want to assemble this piece by piece. Our full compliance package covers every requirement to stand up a motor carrier and onboard your first driver, for a fixed $1,650. You can also buy any service on its own.
+Most new carriers do not want to assemble this piece by piece. Our full compliance package covers what it takes to stand up a motor carrier and onboard your first driver, for a fixed $1,350. You can also buy any service on its own. The package price already includes the government fees for your MC number and your UCR in the 0 to 2 vehicle bracket. IRP and IFTA are the exception: those government fees depend on your mileage and states, so we calculate them once you share those details.
 
 Package contents (each item links to its page on a 1 to 3 word anchor):
-- [LLC formation](/trucking-llc/) and [USDOT number](/dot-registration/)
+- [USDOT number](/dot-registration/)
 - [MC authority](/mc-registration/) and [BOC-3](/boc-3-filing/) process-agent designation
-- Insurance filing coordination and [UCR registration](/ucr-registration/)
+- [UCR registration](/ucr-registration/)
 - [Driver qualification files](/driver-qualification-files/), [Clearinghouse](/fmcsa-clearinghouse-registration/), and [drug and alcohol consortium](/drug-and-alcohol-consortium/) enrollment
 - Pre-employment drug test coordination
 - [IRP apportioned plates](/irp-registration/) and [IFTA](/ifta-registration/)
-- [ELD setup](/eld-services/)
 
-Note under the list: Government and third-party fees (for example state IRP fees or your insurance premium) are billed separately from our service fee. We tell you which is which before you pay.
+Note under the list: Government and third-party fees (for example, state IRP and IFTA fees) are billed separately from our service fee. We tell you which is which before you pay.
 
 ### H2: What our DOT compliance services cover
-Short intro, then a card grid (Dev: 3-column responsive). Each card = service name (link), one plain-language line, and the fixed price where public. Use the pricing quick-reference. For UCR show "from $100, government fee by fleet size". For services on price hold (none here) omit. Cards:
-- USDOT number, MC authority, BOC-3 filing, UCR, IRP plates, IFTA, Clearinghouse, drug & alcohol consortium, DQ files, ELD setup, MCS-150 updates, trucking LLC.
+Short intro, then a card grid (Dev: 3-column responsive). Each card = service name (link), one plain-language line, and the fixed price where public. Use the pricing quick-reference. For UCR show "from $100, government fee by fleet size". For trucking LLC show "Contact for quote". Cards:
+- USDOT number, MC authority, BOC-3 filing, UCR, IRP plates, IFTA, Clearinghouse Registration, drug & alcohol consortium, DQ files, ELD setup, MCS-150 updates, trucking LLC, MC authority reinstatement/deactivation, USDOT reactivation/deactivation.
 
 ### H2: Why carriers choose our trucking compliance services
 Three short value blocks (no hype, proof-led):
 1. **We catch what blocks activation.** Plenty of applications clear the 21-day protest period and still cannot operate because the BOC-3, insurance, or UCR was wrong. We sequence the filings so that does not happen. (Worked example, real: one carrier had registered as a freight forwarder instead of a motor carrier, which did not permit hauling freight in his own truck. We refiled under the correct classification with BOC-3 and UCR inside 24 hours, and the authority activated after the protest period.)
 2. **We know the new MOTUS system.** FMCSA's move off the legacy portal has created PIN, data-linkage, and Pay.gov problems. We work these daily, including triggering FMCSA callbacks when records will not link.
-3. **We do not disappear after the filing.** Authority active is the start. We keep your MCS-150, UCR, Clearinghouse, and driver files current, and when you are ready to keep the truck loaded we [dispatch you](/services/) too.
+3. **We do not disappear after the filing.** An active authority is just the start. We keep your MCS-150, UCR, Clearinghouse, and driver files current, and when you are ready to keep the truck loaded we [dispatch you](/services/) too.
 
 ### H2: How it works
 Numbered, Grade 8:
 1. Tell us your equipment, state, and where you are starting from.
-2. We map the exact filings you need and what they cost, government fees called out separately.
+2. We map the exact filings you need and what they cost, with government fees called out separately.
 3. We file and track each step, and tell you when your authority is active.
 4. We keep you compliant and, when you want it, dispatch your truck.
 
@@ -64,6 +63,7 @@ FAQPage schema. Real Q&A only:
 - "How long until my authority is active?" After the application, FMCSA requires a mandatory 21-day protest period, and timing depends on FMCSA processing and correct insurance and BOC-3 filings. We cannot guarantee a date, but we make sure nothing on your side holds it up.
 - "Is Tech Rig part of FMCSA?" No. DGR Tech Rig LLC is officially listed by FMCSA as a BOC-3 blanket process-agent company. We are a private filing service.
 - "Can you fix an authority I started myself?" Yes. A lot of our work is correcting DIY filings, including wrong classifications and MOTUS lockouts.
+- "Do non-CDL drivers need compliance files?" Yes. Many non-CDL commercial drivers still require a Driver Qualification file when the vehicle and operation fall under applicable federal rules. Clearinghouse and DOT drug-and-alcohol testing requirements generally apply to drivers operating vehicles that require a CDL. We review the vehicle and operation before recommending services.
 
 ### Closing CTA band
 One line + button. "Ready to get road-legal without the guesswork? Start your compliance setup." Button → `/mc-dot-registration/`.

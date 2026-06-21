@@ -17,7 +17,7 @@ One file per page. Each brief is the contract for Design and Dev: final copy plu
 - **Uniqueness:** no 8+ word sentence repeats across pages; each "who this is for" leads with a different industry + worked example.
 
 ## Pricing quick-reference (confirmed, USD; see `services.md`)
-USDOT $300 · MC $600 · BOC-3 $100 (one-time) · BOC-3+UCR (0-2 bracket) $200 · UCR service from $100 (gov fee by bracket, shown separately) · Clearinghouse $100 · Consortium $150 · DQ file $200/driver · pre-employment drug test $100 · MC reinstatement $200 + gov fee · USDOT reactivation/deactivation $125 · address change $125 · MCS-150 update $125 · full package $1,650. On hold (do not publish price): FMCSA authority letter, LLC/consultancy ("Contact us for a quote").
+USDOT $300 (standalone only) · MC $600 (**includes USDOT**, no extra $300) · BOC-3 $100 (one-time) · BOC-3+UCR (0-2 bracket) $200 · UCR service from $100 (2026 gov fee by bracket: 0-2 $46, 3-5 $138, 6-20 $276, 21-100 $963, 101-1,000 $4,592, 1,001+ $44,836, shown separately) · Clearinghouse $100 · Consortium $150 · DQ file $200/driver · pre-employment drug test $100 · IRP setup $175 (+ state fees by mileage/state) · IFTA setup $175 (+ state fees) · MC reinstatement $200 + gov fee · USDOT reactivation/deactivation $125 · address change $125 · MCS-150 update $125 · **full package $1,350** (was $1,650; corrected for the USDOT-in-MC overlap; includes MC + UCR 0-2 gov fees, not IRP/IFTA gov fees). On hold (do not publish price): FMCSA authority letter, LLC/consultancy ("Contact us for a quote"), ELD setup fee.
 
 ## Batch status
 **Batch 1 (done):** compliance-services-hub, ucr-registration, mcs-150-biennial-update, dot-registration, mc-registration, boc-3-filing.
@@ -30,8 +30,8 @@ ALL Phase 9 page briefs COMPLETE. Compliance silo (13 packet items + hub + pilla
 
 ## Cross-cutting open items for Dev/client (collected from all briefs)
 - CTA **routes** for transactional intents (form vs /get-started vs /contact-us/): confirm per page.
-- **[VERIFY] government fees:** USDOT gov fee, UCR bracket amounts, IRP/IFTA state fees.
-- **[VERIFY] service fees not in `services.md`:** IRP, IFTA, ELD setup; dry-van/power-only/hot-shot dispatch percentages; bundle price; insurance-filing standalone fee (if any).
+- **[VERIFY] government fees:** USDOT gov fee, IRP/IFTA state fees (mileage/state dependent). UCR brackets RESOLVED (2026 schedule). Full package $1,350 RESOLVED.
+- **[VERIFY] service fees still open:** ELD setup; dry-van/power-only/hot-shot dispatch percentages; insurance-filing standalone fee (if any). RESOLVED: IRP setup $175, IFTA setup $175, USDOT-in-MC overlap, full package $1,350.
 - **Logo URL + social profile URLs** (alias/brand-owned) for Organization/Person schema.
 - **[CLIENT PROOF NEEDED]:** IRP, reefer, flatbed, dry van worked-example stories (others use real clients).
 - **State stats** (e.g. TX "$1.6T freight/yr") must be sourced or removed.

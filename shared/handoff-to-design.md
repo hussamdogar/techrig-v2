@@ -12,7 +12,7 @@ From the SEO build, 2026-06-20. The SEO work orders are complete and committed. 
 
 ## The core idea Design must express
 Two symmetric service silos under one brand, joined by a funnel:
-- **Compliance / setup** (acquisition): `/compliance-services/` hub → filing money pages + the `/mc-dot-registration/` bundle + the $1,650 full package.
+- **Compliance / setup** (acquisition): `/compliance-services/` hub → filing money pages + the `/mc-dot-registration/` bundle + the $1,350 full package.
 - **Dispatch** (retention): `/services/` hub → six trailer pages, franchise = box truck.
 - **The funnel is the differentiator:** "get road-legal, then keep your truck loaded." The same team does both. Every compliance page links forward to dispatch; dispatch pages link back to compliance upkeep. Design should make this dual-path obvious on the home page and both hubs.
 

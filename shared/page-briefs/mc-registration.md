@@ -50,7 +50,7 @@ What you get with us:
 **Mid-page CTA:** text link "Get my MC authority".
 
 ### H2: What an MC number costs
-- **Tech Rig service fee:** $600, one-time, for your MC authority application.
+- **Tech Rig service fee:** $600, one-time, for your MC authority application. This includes your USDOT number: when you file for MC authority, the USDOT is issued with it, so you do not pay the standalone USDOT fee on top.
 - **BOC-3:** $100, required to activate authority (often filed with the MC application).
 - **Insurance filing:** filed by your insurer; the premium is separate. We coordinate the filing so it lands. See [insurance filing](/trucking-insurance-filing/).
 - **Government fee:** any FMCSA application fee is shown separately. [VERIFY current FMCSA fee.]

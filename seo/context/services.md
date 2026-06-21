@@ -10,16 +10,18 @@ The lead service for new and growing carriers, launched August 2025. Tech Rig is
 **The full compliance/setup packet (13 items — each must be covered on the new site):** Registered LLC · USDOT number · MC authority · BOC-3 · insurance filing · UCR · DQ files · Clearinghouse · consortium · pre-employment drug test · IRP · IFTA · ELD. Sold individually and as the full package. Coverage mapping (which get a dedicated page vs a section) is in `../../shared/keyword-map.md`.
 
 Confirmed fixed pricing (USD):
-- **USDOT registration** — $300, one-time.
-- **MC number application** (operating authority) — $600, one-time.
+- **USDOT registration (standalone)** — $300, one-time. For carriers who need a USDOT number only.
+- **MC number application** (operating authority) — $600, one-time. **Includes the USDOT number** (filing an MC always issues the USDOT with it), so do NOT add the standalone $300 on top when an MC is filed.
 - **BOC-3 filing** — $100, one-time (process-agent designation across all 50 states). NOT an annual renewal; refiled only on a process-agent change or similar circumstance.
 - **BOC-3 + UCR bundle (0-2 vehicle UCR bracket)** — $200 total.
-- **UCR registration** — service fee from $100; total varies by the carrier's FMCSA fleet-size bracket. Do NOT advertise one flat UCR price for all carriers; show the government fee separately.
+- **UCR registration** — service fee from $100; total varies by the carrier's FMCSA fleet-size bracket. Do NOT advertise one flat UCR price for all carriers; show the government fee separately. (2026 government brackets: 0-2 $46, 3-5 $138, 6-20 $276, 21-100 $963, 101-1,000 $4,592, 1,001+ $44,836.)
 - **Clearinghouse registration assistance** — $100.
 - **Drug & Alcohol Consortium enrollment** — $150.
 - **Driver Qualification (DQ) file** — $200 per driver (incl. yearly update).
 - **Pre-employment drug-test coordination** — $100.
-- **Full initial compliance package** — $1,650 (bundles the eight services above).
+- **IRP registration (apportioned plates)** — $175 setup. State registration fees are separate and depend on mileage and states.
+- **IFTA registration** — $175 setup. State fees separate.
+- **Full initial compliance package** — **$1,350** (corrected: the prior $1,650 double-counted a separate $300 USDOT, which is already included in the MC fee). Includes the government fees for the MC number and UCR at the 0-2 vehicle bracket. IRP/IFTA government fees are the exception, calculated from the carrier's mileage and states.
 
 On-demand / authority management:
 - **MC reinstatement** — $200 service fee; any FMCSA government fee shown separately.
