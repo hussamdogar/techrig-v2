@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+/*
+  Tech Rig design system tokens. Source of truth: shared/design/design-system.md
+  (section 12). Declared in @theme so Tailwind v4 generates the matching utilities
+  (bg-ink, text-signal, font-display, rounded-card, shadow-card, ...) AND exposes
+  each as a real CSS custom property on :root, so components that need a raw value
+  (the Authority Status Tracker reads --color-status-* directly) can use them too.
+
+  Naming note: the design doc lists short tokens (--ink, --signal). Tailwind v4
+  requires the --color-* prefix to emit colour utilities, so they live here as
+  --color-ink, --color-signal, etc. Same values, Tailwind-native names.
+*/
+@theme {
+  /* Colour roles (all text pairings verified WCAG AA in the design system §3) */
+  --color-ink: #0e2233; /* primary dark: body text, headlines, dark sections */
+  --color-steel: #225e8a; /* secondary blue: links, supporting fills, icon strokes */
+  --color-signal: #e89a3c; /* warm accent: primary CTAs only, rationed (~1/viewport) */
+  --color-paper: #f7f5f1; /* default page background */
+  --color-cloud: #ffffff; /* surfaces: cards, inputs, sticky bars */
+  --color-slate: #4f5e6b; /* muted/secondary text, captions, dividers */
+
+  /* Status palette: drives the Authority Status Tracker and inline statuses */
+  --color-status-active: #2e7d5b; /* authority active / step complete */
+  --color-status-progress: #e89a3c; /* in the 21-day federal protest period (= signal) */
+  --color-status-filed: #225e8a; /* filed / pending (= steel) */
+  --color-status-todo: #4f5e6b; /* not started (= slate) */
+
+  /* Type stacks. The --font-archivo / --font-plex-* vars are injected by
+     next/font in app/layout.tsx (self-hosted, subset to Latin, display: swap). */
+  --font-display: var(--font-archivo), system-ui, sans-serif; /* headlines, hero */
+  --font-body: var(--font-plex-sans), system-ui, sans-serif; /* running copy, UI */
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace; /* prices, statuses, filing numbers */
+
+  /* Radius: restrained. Pills are reserved for status tags only (set per component). */
+  --radius-chip: 4px;
+  --radius-btn: 6px;
+  --radius-card: 8px;
+
+  /* One soft elevation token for raised surfaces. No glassmorphism, no blur. */
+  --shadow-card: 0 1px 2px rgba(14, 34, 51, 0.06), 0 4px 16px rgba(14, 34, 51, 0.08);
+
+  /* Layout: 12-col grid, 1200px max content width. The 8px spacing scale and
+     section rhythm (py-14 = 56px mobile, py-24 = 96px desktop) come from
+     Tailwind's default 4px-step scale, so no custom spacing tokens are needed. */
+  --container-content: 1200px;
+}
+
+@layer base {
+  /* Headings are Archivo by default (design system §4: headings = display face).
+     Components still set weight/size; this keeps the family consistent without
+     repeating font-display on every heading. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+  }
+
+  /* Default reading rhythm for body copy (§4: LH 1.6). */
+  body {
+    line-height: 1.6;
+  }
+}
+
+/*
+  Motion policy (§9): prefers-reduced-motion is fully respected. Animations and
+  transitions drop to effectively instant final states for users who ask for it.
+*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

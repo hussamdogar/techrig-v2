@@ -1,0 +1,38 @@
+# Tech Rig
+
+> Trucking compliance and truck dispatch for owner-operators and fleets across the United States. Tech Rig gets new carriers road-legal and keeps trucks loaded: one team for the whole journey, from the first filing to the next load.
+
+DGR Tech Rig LLC is officially listed by FMCSA as a BOC-3 blanket process-agent company. Tech Rig is not a government agency and is not affiliated with or endorsed by FMCSA.
+
+## Compliance and setup
+- [Compliance services](https://techrig.org/compliance-services/): the full setup hub, from company formation to active operating authority.
+- [Authority package (DOT + MC)](https://techrig.org/mc-dot-registration/): USDOT and MC operating authority filed together.
+- [USDOT registration](https://techrig.org/dot-registration/): get your USDOT number filed correctly.
+- [MC authority](https://techrig.org/mc-registration/): interstate operating authority and the 21-day federal protest period.
+- [BOC-3 filing](https://techrig.org/boc-3-filing/): one-time blanket process-agent designation.
+- [UCR registration](https://techrig.org/ucr-registration/): annual Unified Carrier Registration with the correct fleet bracket.
+- [MCS-150 update](https://techrig.org/mcs-150-biennial-update/): biennial update and reactivation.
+- [IRP registration](https://techrig.org/irp-registration/): apportioned plates for interstate operation.
+- [IFTA registration](https://techrig.org/ifta-registration/): fuel-tax account, decals, and quarterly filing.
+- [Driver qualification files](https://techrig.org/driver-qualification-files/): DQ file setup and upkeep.
+- [Drug and alcohol consortium](https://techrig.org/drug-and-alcohol-consortium/): consortium enrollment and testing program.
+- [FMCSA Clearinghouse](https://techrig.org/fmcsa-clearinghouse-registration/): Clearinghouse registration.
+- [ELD services](https://techrig.org/eld-services/): electronic logging device setup.
+- [Insurance filing](https://techrig.org/trucking-insurance-filing/): coordinating your FMCSA insurance filing.
+- [Trucking LLC](https://techrig.org/trucking-llc/): company formation.
+
+## Dispatch
+- [Truck dispatch](https://techrig.org/services/): load finding, rate negotiation, and paperwork, no long-term contract and no forced dispatch.
+- [Box truck dispatch](https://techrig.org/box-truck-dispatch/): the box truck franchise dispatch service.
+- [Reefer dispatch](https://techrig.org/reefers-trucking/): temperature-controlled freight.
+- [Flatbed dispatch](https://techrig.org/flatbed-dispatch/): open-deck freight.
+- [Dry van dispatch](https://techrig.org/dry-van-trucking/): general palletized freight.
+- [Power only dispatch](https://techrig.org/power-only-trucking/): pulling trailers others supply.
+- [Hot shot dispatch](https://techrig.org/hot-shot-trucking/): expedited loads on a dually and gooseneck.
+
+## Guides
+- [How to start a trucking company](https://techrig.org/how-to-start-a-trucking-company/): the step-by-step setup guide.
+
+## Company
+- [About Tech Rig](https://techrig.org/about-us/): who we are and our track record.
+- [Contact](https://techrig.org/contact-us/): phone +1 917-909-2257, email info@techrig.org.
