@@ -20,7 +20,7 @@ The authority pillar and the main TOFU internal-link distributor: an educational
 
 5. H2 "How to start a trucking company in 9 steps": the centerpiece, a step roadmap rendered as the system's connected stepper/line diagram extended to nine nodes. 01 to 09 numbering is correct here because it is a genuine sequence (the system bans numbering only when content is not a sequence). Layout: a vertical connected roadmap on desktop (a left spine with numbered nodes, each step a row), stacking naturally on mobile; this suits nine steps better than a cramped horizontal row and reinforces "the order matters." Each step = mono step number + Archivo step title + Grade 8 Plex Sans explanation + the brief's inline 1 to 3 word money-page link (LLC, USDOT, MC, BOC-3, insurance filing, UCR, DQ files, Clearinghouse, consortium, IRP, IFTA, ELD) as a Steel anchor. Step 9 (protest period and first safety audit) visually echoes the hero tracker's "21-day protest" node so the roadmap and the tracker read as the same story at two scales. Paper surface so the roadmap nodes (Cloud or outlined) lift. This is the page's main internal-link distributor; every money-page link must be present and Steel.
 
-6. H2 "How much it costs to start a trucking company": honest cost framing. The $1,650 full-package figure renders as the mono flat price chip (single source); government, third-party, and insurance costs render as separate Slate lines beneath, never blended into the service fee. A short styled note carries the brief's "we do not publish a single it-costs-$X number" stance as a trust signal. Government fee figures marked `[VERIFY]` per the brief stay out of a hardcoded number. Cloud surface.
+6. H2 "How much it costs to start a trucking company": honest cost framing. The $1,350 full-package figure renders as the mono flat price chip (single source); government, third-party, and insurance costs render as separate Slate lines beneath, never blended into the service fee. A short styled note carries the brief's "we do not publish a single it-costs-$X number" stance as a trust signal. Government fee figures marked `[VERIFY]` per the brief stay out of a hardcoded number. Cloud surface.
 
 7. H2 "The mistakes that stall new carriers": a proof-rich scannable list, the pillar's E-E-A-T payload. Render as a clean line-icon list of the six generalized lessons (content-bearing rows, not the decorative icon-triplet), each = a single-line icon (a caution/clock/document from the system set) + the brief's lesson. No client names here (names live on the money pages); these are generalized real lessons, so no invented metric, no fabricated story. Paper surface.
 
@@ -45,7 +45,7 @@ Minimal. Hero tracker reveals its three steps with a calm staggered fade (<=200m
 - Soft conversion, by design: the pillar earns trust and distributes internal links, then routes to `/compliance-services/` as a soft close. No hard sell, no competing buttons mid-page; the in-body routes are inline anchors.
 - The 9-step roadmap is the conversion engine indirectly: it sends ready-to-act readers to the exact filing money page, where the hard CTAs live.
 - Honest expectations up front: the tracker and the "how long does it take" FAQ both refuse a promised date, which builds the credibility the guide trades on.
-- Cost transparency as a trust asset: the $1,650 service fee shown in mono, government and insurance costs separated, and the explicit "no single number" stance.
+- Cost transparency as a trust asset: the $1,350 service fee shown in mono, government and insurance costs separated, and the explicit "no single number" stance.
 - The dispatch bridge converts the funnel forward (acquisition guide -> retention) as a styled Ink handoff.
 - Honest proof only: generalized real lessons, the documented track record on the hub it links to; no client named here, no invented metric, no fabricated cost figure.
 - Mobile: TOC collapses to an "On this page" disclosure; the roadmap stacks vertically; sticky bottom bar carries the soft "See compliance services" route plus a tel: Call button; copy-first hero stack.
@@ -55,7 +55,7 @@ Unique branded pillar OG from the system template: Ink or Paper field, mono word
 
 ## What Dev must preserve
 - SEO copy, the heading structure, the 9-step sequence and every step's money-page link and destination exactly. The hero lede, the author byline, and all decision lead-ins are styled paragraphs, never H-tags (the byline is an Article author credit, not a heading).
-- The $1,650 figure rendered from the single source in mono, with government, third-party, and insurance costs on separate Slate lines; no cost number hardcoded and government fees marked `[VERIFY]` stay un-numbered until confirmed.
+- The $1,350 figure rendered from the single source in mono, with government, third-party, and insurance costs on separate Slate lines; no cost number hardcoded and government fees marked `[VERIFY]` stay un-numbered until confirmed.
 - The Authority Status Tracker shows a fixed "21-day federal protest period" and honest states only: no guaranteed activation date and no countdown.
 - 01 to 09 numbering is a genuine sequence and is correct here; keep the roadmap and the hero tracker visually consistent.
 - The pillar CTA stays soft (a route to `/compliance-services/`), not a hard money-page sell; one Signal action at the close.

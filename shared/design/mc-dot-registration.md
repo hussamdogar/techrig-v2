@@ -15,14 +15,14 @@ The bundle money page: the "get my MC and DOT done together, in the right order"
 
 3. What it is: H2 "What the trucking authority package includes". This is the heart of the page, so it carries the most weight after the hero, presented as the bundle, not a card grid.
    - The five core pieces as one connected checklist on a single Cloud panel (USDOT registration, MC operating authority, BOC-3 filing, UCR registration, insurance filing coordination). Each line: small line icon + the contextual 1 to 3 word inline link exactly as the brief sets it (`/dot-registration/`, `/mc-registration/`, `/boc-3-filing/`, `/ucr-registration/`, `/trucking-insurance-filing/`) + its short descriptor. Check marks use status-active color with the icon, never color alone. Render the items as a vertical sequence joined by a thin Steel connector rule so the set reads as "filed in order," which is the differentiator from buying one filing. The BOC-3 line carries the FMCSA-listed process-agent fact as worded text, not a badge.
-   - The step-up line ("Need driver compliance and interstate filings too ... full compliance package at $1,650") sits beneath the panel as a quiet Slate cross-link to `/compliance-services/`, visually subordinate so it routes the bigger-need carrier up without competing with the package CTA.
+   - The step-up line ("Need driver compliance and interstate filings too ... full compliance package at $1,350") sits beneath the panel as a quiet Slate cross-link to `/compliance-services/`, visually subordinate so it routes the bigger-need carrier up without competing with the package CTA.
 
 4. Applicability (honest): there is no standalone "who needs it" H2 in the brief, so fold the honest framing into the hero lede and the includes panel as written ("most new for-hire carriers do not need one filing, they need the set"). Do not invent a section or restate copy. The step-up line already handles "you may need more than this."
 
 5. Pricing: H2 "What it costs". Mono price chips, single source.
    - Present the bundle as the four core service-fee chips it sums from (USDOT $300, MC $600, BOC-3 $100, UCR from $100), shown in a compact mono price block so the carrier sees the combined value transparently. If the client sets a bundled price, the single source supplies one flat "from" chip instead; design supports either by rendering whatever the source returns. UCR keeps its "from $100" state.
    - Fee separation is explicit: a Slate line states government fees and the insurance premium are separate and shown up front, paired with but visually distinct from the service-fee chips. Never blend a government fee or premium into a service-fee number.
-   - The "$1,650 full package" reference links to `/compliance-services/` as a Slate cross-link, not a second price chip competing with the bundle.
+   - The "$1,350 full package" reference links to `/compliance-services/` as a Slate cross-link, not a second price chip competing with the bundle.
 
 6. What you get when Tech Rig files it: covered by the includes panel (section 3) plus the worked example below. The bundle's "what you get" is the coordinated sequence itself, so no separate glossy benefits grid is added.
 
@@ -48,7 +48,7 @@ Minimal. Hero tracker reveals its steps with a calm staggered fade (<=200ms each
 ## CRO treatment
 - One dominant action (get the package), Signal amber, repeated at hero and close, always routing to the bundle intake. Every other link is subordinate.
 - The bundle is sold as friction removal: "do not file these five things separately, in the wrong order." The connected checklist and the tracker make the coordinated path the obvious one.
-- Pricing is a trust asset: service fees shown in mono, government fees and insurance premium separated and stated up front. The $1,650 full package is a cross-link, never a competing chip.
+- Pricing is a trust asset: service fees shown in mono, government fees and insurance premium separated and stated up front. The $1,350 full package is a cross-link, never a competing chip.
 - Honest activation expectations (tracker + the "how long until I am active" FAQ) reduce the day-21 anxiety the worked example names.
 - Mobile: sticky bottom bar with "Get my authority package" plus a tel: Call button; copy-first hero; the includes sequence stacks vertically (its natural mobile form).
 
