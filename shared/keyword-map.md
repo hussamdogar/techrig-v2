@@ -28,7 +28,7 @@ Rule applied throughout: **one winnable primary per URL; head terms (dot number,
 | `/trucking-llc/` | NEW | llc for trucking company (170/~0) | form a trucking llc, ein for trucking company | Commercial / BOFU (CPC $44) | Company-formation money page; links to pillar + authority pages. |
 | `/lead-generation/` | PRESERVE | brokers that work with new authority (GSC-proven) | new authority trucking (10), brokers that work with 30 day authority | Commercial / BOFU | Already ranks (70 clicks, pos 12.7). Pivot-adjacent (new carriers). Keep; interlink to authority + dispatch. |
 
-**Full compliance packet ($1,650) — coverage of all 13 client-named items.** Each is covered; dedicated page unless noted as a section.
+**Full compliance packet ($1,350) — coverage of all 13 client-named items.** Each is covered; dedicated page unless noted as a section.
 1. Registered LLC → `/trucking-llc/` · 2. USDOT → `/dot-registration/` · 3. MC authority → `/mc-registration/` · 4. BOC-3 → `/boc-3-filing/` · 5. Insurance filing → `/trucking-insurance-filing/` (+ section on `/mc-registration/`) · 6. UCR → `/ucr-registration/` · 7. DQ files → `/driver-qualification-files/` · 8. Clearinghouse → `/fmcsa-clearinghouse-registration/` · 9. Consortium → `/drug-and-alcohol-consortium/` · 10. Pre-employment drug test → **section** on `/drug-and-alcohol-consortium/` (+ `/driver-qualification-files/`) · 11. IRP → `/irp-registration/` · 12. IFTA → `/ifta-registration/` · 13. ELD → `/eld-services/`. The full package itself is the hero offer on `/compliance-services/`, assembled via `/mc-dot-registration/` (DOT+MC core).
 
 ## B. Dispatch silo (retention) — defend & deepen

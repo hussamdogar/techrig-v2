@@ -37,7 +37,7 @@ Numbered, Grade 8, honest about the work:
 This is doable yourself. It is also where new carriers most often stall, because of classification mistakes and MOTUS account issues.
 
 ### H2: What a USDOT number costs
-- **Tech Rig service fee:** $300, one-time, to register your USDOT number and set up your FMCSA portal correctly.
+- **Tech Rig service fee:** $300, one-time, to register your USDOT number and set up your FMCSA portal correctly. This standalone price is for carriers who need a USDOT number only. If you also need operating authority, your [MC filing](/mc-registration/) includes the USDOT, so you would not pay this separately.
 - **Government fee:** the USDOT number itself is issued by FMCSA. Any government fee is shown separately from our service fee. [VERIFY current FMCSA fee treatment before publishing a figure.]
 - Need authority too? See the [MC authority](/mc-registration/) page, or get the [full setup](/compliance-services/) as one package.
 
