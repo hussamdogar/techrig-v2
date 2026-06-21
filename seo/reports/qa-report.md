@@ -71,7 +71,10 @@ Anchored to `migration-plan.md` (updated this phase) and the Phase 3 baseline.
 - **Consolidations:** reefer compliance sub-silo (~30) and per-silo thin sub-pages → 301 to silo hub or matching compliance page; keep `/cost/` children. Clones (`/clone-home`, `/home-backup`) → 301 to `/`.
 - **Net-new URLs** (14, listed in migration-plan §4) added to sitemap at launch.
 - **Redirect mechanics:** all 301, one hop, no chains; update internal links to final URLs; single host + HTTPS; regenerate XML sitemap to final 200s.
-- **Pre-launch blocker not yet done (Dev/SEO):** the full live-URL crawl union (Screaming Frog + GSC indexed export + GA4 landing pages) that assigns every real URL a bucket. This is migration-plan step 0 and must run before redirects are written. The sitemap is not the true live set.
+- **Post-Dev-build findings (2026-06-21):** the Dev build covers every planned page, but two old-site items are not yet handled and would cause launch regressions:
+  - **Blog posts not built.** Only a `/blog/` hub exists; the 60 old posts (incl. the 14.4k-impression `how-to-get-dot-and-mc-number...` and pos-8.9 `what-is-load-to-truck-ratio`) would 404. Disposition (KEEP-and-rebuild vs 301) is in `../../shared/blog-disposition.md`.
+  - **301 redirects not implemented.** `next.config.ts` has no `redirects()`. The retired thin sub-silos (~150 URLs), the reefer compliance tree, and `/start-compliance/` would 404. Full map in `../../shared/redirect-map.md`.
+- **Pre-launch blocker not yet done (Dev/SEO):** the full live-URL crawl union (Screaming Frog + GSC indexed export + GA4 landing pages) that assigns every real URL a bucket. This is migration-plan step 0 and must run before redirects are finalized. The sitemap is not the true live set, though the maps above are built from it plus the known off-sitemap pages.
 - **Confirm high-value GSC URLs before removing anything** (prime directive): box-truck-dispatch + cost, lead-generation, homepage, dry-van. Any >20% click drop post-launch = regression to fix same-week.
 
 ---
