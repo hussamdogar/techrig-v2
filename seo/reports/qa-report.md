@@ -80,10 +80,10 @@ Anchored to `migration-plan.md` (updated this phase) and the Phase 3 baseline.
 ---
 
 ## E. Consolidated open items (owner of each in brackets)
-- **[CLIENT]** Service fees still open: ELD setup; dry-van/power-only/hot-shot dispatch %; insurance-filing standalone fee. (RESOLVED 2026-06-21: IRP setup $175, IFTA setup $175, full package corrected to $1,350 with USDOT included in the MC fee.)
+- **Pricing fully RESOLVED 2026-06-21 (client follow-up):** all dispatch percentages (box 8 / van 5 / dry van 5 / power only 5 / flatbed 3 / reefer 3 / hot shot 8); ELD free via Motive referral; insurance = coordinate-only, contact-for-quote (Tech Rig does not file BMC-91/MCS-90, no insurer partnerships); LLC contact-for-quote; FMCSA authority letter removed; IRP/IFTA $175; full package $1,350.
 - **[CLIENT]** Government fees: USDOT gov fee, IRP/IFTA state fees, state market stats (e.g. TX "$1.6T") — source or remove. (UCR bracket amounts RESOLVED 2026-06-21 from the official UCR schedule; in `ucr-registration.md`.)
-- **[CLIENT]** Logo URL + social profile URLs (alias/brand-owned) for schema.
-- **[CLIENT]** Proof stories for IRP, reefer, flatbed, dry van (others use real clients); per-person permission for any direct testimonial quote/screenshot.
+- **RESOLVED:** social profile URLs supplied (FB, IG, LinkedIn, TikTok, Google Business); logo asset delivered to the Dev staging repo by the team.
+- **Proof RESOLVED:** reefer has one cleared anonymous historical story ($5/mi lane, 3-4x/week); IRP, flatbed, dry van, and TX/NY/FL confirmed to stay neutral (no clients yet); CA retained. **Still pending:** testimonial permissions (Felix/Marcus/Freddie, client outreach in progress).
 - **[DEV]** All of §C, plus CTA route selection per page.
 - **[SEO/DEV]** Pre-launch full-crawl URL union + final 301 map; duplicate-string scan across state pages.
 - **[SEO, post-launch]** Operations Track picks up the 4 client-requested blog posts and the per-page proof once client supplies it.

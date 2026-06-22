@@ -26,6 +26,10 @@ Both partners directed the following. Treat as blocking:
 - Partners Motive (ELD), OTR Solutions and RTS Financial (factoring) must not be called "exclusive" partners.
 - Do not publish customer names, company names, DOT numbers, payment info, private messages, or screenshots without that customer's permission. (The 6 setup stories in `experience-notes.md` are pre-cleared; direct quotes/screenshots still need a per-person permission pass.)
 - Unverified market statistics on state pages (e.g. Texas "$1.6 trillion freight/yr") must be sourced or removed.
+- **Insurance filing (client rule 2026-06-21):** never state or imply Tech Rig files the BMC-91/MCS-90, or that it partners with an insurer. Only the insurance provider can legally file; Tech Rig coordinates with the client's own insurer. No standalone price (contact for quote or part of setup).
+- **ELD (client rule 2026-06-21):** present setup as free from Tech Rig; the client buys the Motive device and subscription directly from Motive; Tech Rig assists onboarding via a referral link and earns a commission from Motive. Disclose the referral relationship honestly; never present Motive as an exclusive partner or show a Tech Rig price for ELD.
+- **FMCSA authority letter:** removed from the site entirely (client decision).
+- **Dispatch results:** the one cleared reefer example ($5.00/mile dedicated lane, 3-4x/week) is publishable only as an anonymous, past, historical baseline with a "results vary, not a guarantee" framing. No other dispatch client results exist yet; keep the other trailer pages neutral.
 
 ## Competitor exclusions
 (To be filled in Phase 5 once competitors are identified. Do not cite or link competitors in body copy.)
@@ -39,5 +43,5 @@ Carry the standards.md banned list. Additionally avoid the hype register found i
 - FMCSA authority letter ($40) and LLC/consultancy pricing are on hold — do not publish until defined.
 
 ## Open confirmations
-- Logo URL and social profile URLs (sameAs) still to be supplied (must be alias-owned/brand profiles).
+- Social profile URLs confirmed (see `author.md`/`schema-specs.md`). Logo asset delivered directly to the Dev staging repo. Remaining open items are now only testimonial permissions (Felix/Marcus/Freddie, pending outreach).
 - Whether the WY address should appear on local/state pages or only in the footer.

@@ -21,6 +21,8 @@ Confirmed fixed pricing (USD):
 - **Pre-employment drug-test coordination** — $100.
 - **IRP registration (apportioned plates)** — $175 setup. State registration fees are separate and depend on mileage and states.
 - **IFTA registration** — $175 setup. State fees separate.
+- **ELD setup** — $0 (no setup charge). Handled via a Tech Rig referral link: the client buys the Motive device and subscription directly from Motive; Tech Rig assists onboarding and earns a commission from Motive. Do not present a device/subscription price (that is Motive's, paid to Motive).
+- **Insurance filing** — no standalone published price; "Contact for quote" or omit. Tech Rig does NOT file BMC-91/MCS-90 (only the insurer can legally file these) and has no insurance-company partnerships; it strictly coordinates with the client's own insurer so the filing clears.
 - **Full initial compliance package** — **$1,350** (corrected: the prior $1,650 double-counted a separate $300 USDOT, which is already included in the MC fee). Includes the government fees for the MC number and UCR at the 0-2 vehicle bracket. IRP/IFTA government fees are the exception, calculated from the carrier's mileage and states.
 
 On-demand / authority management:
@@ -29,13 +31,16 @@ On-demand / authority management:
 - **FMCSA address change** — $125 (corrected up from the legacy $45).
 - **MCS-150 update / correction** — $125.
 
-Hold / not yet publishable:
-- **FMCSA authority letter ($40)** — do NOT publish until the exact service, purpose, and deliverable are defined.
-- **LLC formation / consultancy** — pricing not confirmed; use "Contact us for a quote" until scope and price are finalized.
+Contact-for-quote / not on a price list:
+- **LLC formation / consultancy** — "Contact us for a quote" (state-by-state filing-fee and processing variation).
+- **Insurance filing coordination** — "Contact for quote" or omit (see above; coordination only, not a filing Tech Rig performs).
+
+Removed per client (do not publish):
+- **FMCSA authority letter ($40)** — removed from the site entirely.
 
 ### 2. Truck dispatch (retention / recurring retainer) — ACTIVE
 The original service, launched 2021 (~100 carriers dispatched to date) and still actively offered. Present as fully bookable.
-- **Pricing model:** straight percentage of gross monthly revenue by equipment — box trucks 8%, cargo vans 5%, flatbeds & reefer vans 3%.
+- **Pricing model (confirmed all equipment):** straight percentage of gross monthly revenue by equipment: box trucks 8%, cargo vans 5%, dry van 5%, power only 5%, flatbeds & reefer vans 3%, hot shot 8%.
 - **Dispatch by trailer type:** box truck, flatbed, hot shot, reefer, dry van, power only.
 - **Included ops:** load matching, rate negotiation, 24/7 support, billing & paperwork, route planning.
 - **Adjacent:** factoring (partner-facilitated via OTR Solutions / RTS Financial), document management.

@@ -43,7 +43,7 @@ Short, because people confuse them. IRP is about registration and plates. [IFTA]
 - You operate a qualifying interstate vehicle (weight or axle thresholds).
 - You cross state lines for hire or for your own freight in interstate commerce.
 - You are adding trucks to a fleet that already runs interstate.
-If you only ever run inside one state, IRP may not apply to you. We confirm before you pay. [CLIENT PROOF NEEDED: a real IRP setup story for a multi-state carrier would strengthen this section; add once available.]
+If you only ever run inside one state, IRP may not apply to you. We confirm before you pay. (No client case study: confirmed 2026-06-21 that Tech Rig has not filed IRP for a client yet, so this page runs a neutral "Contact us for IRP services" layout with no worked example. Do not fabricate one.)
 
 ### H2: IRP registration FAQ
 FAQPage schema, Grade 8:

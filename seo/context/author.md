@@ -23,6 +23,6 @@ Tech Rig is led by a multidisciplinary team combining trucking-compliance experi
 - **Organization** (publisher): DGR Tech Rig LLC, logo, sameAs = brand social profiles (pending URLs).
 - **Person** (one per published founder): name = alias; jobTitle = role above; worksFor = the Organization; knowsAbout = FMCSA compliance, BOC-3, UCR, operating authority, etc. No real names, no personal sameAs unless the client supplies alias-owned profiles.
 
-## Still needed
-- **Logo URL** (Organization schema + bylines).
-- **Social profile URLs (sameAs):** Facebook, Instagram, Twitter/X, Google Business Profile, LinkedIn — must be alias-owned/brand profiles.
+## Brand profiles (confirmed 2026-06-20) and logo
+- **Social profile URLs (Organization `sameAs`, brand-owned):** Facebook https://www.facebook.com/Techrigllc · Instagram https://www.instagram.com/tech_rig/ · LinkedIn https://www.linkedin.com/company/tech-rig · TikTok https://www.tiktok.com/@tech_rig · Google Business Profile https://share.google/YidOXkc3mu7ZlQqEq . These attach to the Organization, not the founder Persons (no alias-owned personal profiles, so Person `sameAs` stays empty).
+- **Logo:** the team delivers the asset directly to the Dev staging repo; no public URL to record here. Dev wires it into the header/footer/schema.

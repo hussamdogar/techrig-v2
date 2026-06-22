@@ -43,7 +43,7 @@ State-specific lead fact, state nuances, and a worked example per state. State r
 ### /tech-rig-dispatch-texas/
 - **Lead fact:** Texas carries one of the largest in-state freight bases in the country, so a lot of Texas operators run intrastate only, and intrastate operation has its own state registration on top of (or instead of) federal authority.
 - **State nuances** `[VERIFY current TxDMV schedule]`: interstate for-hire carriers still need federal USDOT and MC (see [USDOT](/dot-registration/) and [MC authority](/mc-registration/)); intrastate-only Texas carriers register with the Texas Department of Motor Vehicles (TxDMV) for intrastate operating authority and may not need an MC number. We confirm which path fits your operation.
-- **Worked example:** `[CLIENT PROOF NEEDED]` (no Texas client story cleared yet). Graceful empty proof block until supplied.
+- **Worked example:** none (confirmed 2026-06-21: no Texas story). Keep the neutral layout; do not fabricate. The verified California case studies are retained site-wide for launch.
 
 ### /tech-rig-dispatch-california/
 - **Lead fact:** California layers state rules on top of the federal ones, so getting set up here means clearing requirements most other states do not have.
@@ -53,9 +53,9 @@ State-specific lead fact, state nuances, and a worked example per state. State r
 ### /tech-rig-dispatch-new-york/
 - **Lead fact:** New York adds a state highway-use obligation on top of federal authority, which catches carriers who set up only the federal side.
 - **State nuances** `[VERIFY current NY HUT schedule]`: carriers operating qualifying vehicles in New York generally need a Highway Use Tax (HUT) certificate and decal, in addition to federal USDOT and MC for interstate operation; New York City can carry further local considerations. We handle the federal setup and flag the state HUT step.
-- **Worked example:** `[CLIENT PROOF NEEDED]` (no New York client story cleared yet).
+- **Worked example:** none (confirmed 2026-06-21: no New York story). Keep neutral; do not fabricate.
 
 ### /tech-rig-dispatch-florida/
 - **Lead fact:** Florida is a major port and import-freight state, and for most interstate carriers the setup here is largely federal, with the interstate operating filings run through the state motor-vehicle agency.
 - **State nuances** `[VERIFY current FLHSMV schedule]`: interstate carriers need federal USDOT and MC; IRP apportioned plates and IFTA are handled through the Florida Department of Highway Safety and Motor Vehicles (FLHSMV). See [IRP](/irp-registration/) and [IFTA](/ifta-registration/). We confirm what your Florida operation needs.
-- **Worked example:** `[CLIENT PROOF NEEDED]` (no Florida client story cleared yet).
+- **Worked example:** none (confirmed 2026-06-21: no Florida story). Keep neutral; do not fabricate.

@@ -54,11 +54,11 @@ Header links to the hub `/services/`. Then:
 - [Referral Program](/referral-program/)
 
 ## Trust + NAP block (spans the footer, above or beside the columns)
-- Brand: **Tech Rig** logo (logo URL pending from client).
+- Brand: **Tech Rig** logo (asset delivered directly to the Dev staging repo by the team; Dev wires the path).
 - One-line positioning: "Trucking compliance and dispatch, from your first filing to your next load." (Styled paragraph, not a heading.)
 - NAP: 30 N Gould St, Ste R, Sheridan, WY 82801 · [+1 917-909-2257](tel:+19179092257) · [info@techrig.org](mailto:info@techrig.org). Address is the registered address; do not imply a walk-in office.
 - FMCSA line (regulated wording, exact): "DGR Tech Rig LLC is officially [listed by FMCSA](https://www.fmcsa.dot.gov/registration/process-agents/pa?field_associated_boc_target_id=82976) as a BOC-3 blanket process-agent company." The anchor "listed by FMCSA" links to the official FMCSA listing (external, `target="_blank" rel="noopener nofollow"`). Because the footer is site-wide, this puts the verifiable proof on every page. Never imply FMCSA endorsement or government affiliation, and do not present the id 82976 as a license number.
-- Social icons: Facebook, Instagram, Twitter/X, Google Business, LinkedIn — URLs PENDING from client; omit any icon whose URL is not supplied (do not link to a placeholder).
+- Social icons (confirmed 2026-06-21): Facebook https://www.facebook.com/Techrigllc · Instagram https://www.instagram.com/tech_rig/ · LinkedIn https://www.linkedin.com/company/tech-rig · TikTok https://www.tiktok.com/@tech_rig · Google Business https://share.google/YidOXkc3mu7ZlQqEq . (No Twitter/X.) External links: `target="_blank" rel="noopener"`.
 - Legal entity line: "© [year] DGR Tech Rig LLC. All rights reserved." (Legal name in the footer per brand-guidelines; public brand "Tech Rig" everywhere else.)
 
 ## Claims / proof discipline

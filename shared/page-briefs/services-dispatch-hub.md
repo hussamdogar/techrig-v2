@@ -42,11 +42,14 @@ Card grid linking each trailer page (each is its own money page):
 
 ### H2: Truck dispatch service pricing
 Plain, from `services.md`:
-We charge a percentage of your gross by equipment, so we earn only when you do:
-- Box trucks: 8% of gross monthly revenue.
-- Cargo vans: 5% of gross monthly revenue.
-- Flatbeds and reefer vans: 3% of gross monthly revenue.
-No long-term contract, no forced dispatch, no sign-up to lock you in. [VERIFY the per-equipment percentages reflect current rate card before publishing; confirm dry van / power only / hot shot percentages, which are not separately listed in `services.md`.]
+We charge a percentage of your gross by equipment, so we earn only when you do (all confirmed):
+- Box trucks: 8%
+- Cargo vans: 5%
+- Dry van: 5%
+- Power only: 5%
+- Flatbeds and reefer vans: 3%
+- Hot shot: 8%
+No long-term contract, no forced dispatch, no sign-up to lock you in.
 
 ### H2: New authority? We can do both halves
 Funnel cross-link. If you are not active yet, we also handle the setup: see [compliance services](/compliance-services/) or our [guide to starting a trucking company](/how-to-start-a-trucking-company/). The advantage of one team is simple. The people who get your authority active are the same ones who keep your truck loaded after, with no handoff and no gap.
