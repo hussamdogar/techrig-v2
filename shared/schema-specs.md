@@ -9,11 +9,11 @@ For the Dev agent. The machine-readable layer required by `_shared/standards.md`
 ## 1. Organization (site-wide, in the global head or home)
 - `@type`: `ProfessionalService` (a subtype of LocalBusiness, fits a service business with an address) with `@id` `https://techrig.org/#org`.
 - `name`: "Tech Rig"; `legalName`: "DGR Tech Rig LLC".
-- `url`: https://techrig.org/ ; `logo`: [LOGO URL PENDING from client] ; `image`: same.
+- `url`: https://techrig.org/ ; `logo`: the team delivers the logo asset directly to the Dev staging repo; Dev wires the hosted path here ; `image`: same.
 - `telephone`: +1-917-909-2257 ; `email`: info@techrig.org.
 - `address` (`PostalAddress`): 30 N Gould St, Ste R, Sheridan, WY 82801, US. (Registered address; do not add `openingHours` or imply a walk-in office.)
 - `areaServed`: United States (`Country` "US").
-- `sameAs`: [SOCIAL URLS PENDING] (must be alias/brand-owned profiles; omit until supplied rather than guessing).
+- `sameAs` (brand profiles, confirmed 2026-06-21): `https://www.facebook.com/Techrigllc`, `https://www.instagram.com/tech_rig/`, `https://www.linkedin.com/company/tech-rig`, `https://www.tiktok.com/@tech_rig`, `https://share.google/YidOXkc3mu7ZlQqEq` (Google Business Profile).
 - `description`: one sentence from the About blurb in `author.md`.
 - `knowsAbout`: FMCSA compliance, USDOT registration, MC operating authority, BOC-3, UCR, IRP, IFTA, ELD, driver qualification files, truck dispatch.
 - Optional `hasOfferCatalog` on the hub referencing each Service.

@@ -6,7 +6,7 @@ One brief for the five remaining trailer spokes. Same structure as `/box-truck-d
 - **Action:** REFRESH existing page; preserve URL and any ranking signals; deepen content. Keep each page's `/cost/` child if it ranks (dry van has one).
 - **Bucket 1**, commercial/BOFU.
 - **Structure (same as box truck):** H1 with primary; hero lede (equipment-specific); "What our [trailer] dispatch covers"; an equipment-specific differentiator H2; pricing H2; "need authority first?" funnel H2 → `/compliance-services/`; FAQ (FAQPage schema); closing CTA.
-- **Pricing:** flatbed and reefer 3% of gross. Dry van, power only, hot shot percentages are NOT in `services.md`. [VERIFY each percentage with the client before publishing; do not guess.]
+- **Pricing (all confirmed 2026-06-21):** box truck 8%, cargo van 5%, dry van 5%, power only 5%, flatbed 3%, reefer 3%, hot shot 8% of gross monthly revenue.
 - **Internal links:** up to `/services/`, lateral to 1-2 sibling trailers where relevant, funnel to `/compliance-services/`.
 - **Schema:** `Service` (serviceType per trailer), `BreadcrumbList` Home > Dispatch Services > [Trailer], `FAQPage`.
 - **Claims:** no performance metrics; percentage is price, not outcome. No forced dispatch / no long-term contract messaging consistent with the hub.
@@ -39,7 +39,7 @@ Lane profile (one line for the dispatch-hub Load Board + the page), equipment-sp
 - **Lane profile:** Temperature-controlled freight on tight appointment windows: produce, protein, frozen, and pharma that cannot miss a slot.
 - **Hero lede:** Reefer freight pays well because it is unforgiving. Narrow delivery windows, temperature accountability, and seasonal swings in produce and protein mean a missed appointment or a soft lane costs real money. Our reefer dispatch service keeps your trailer on lanes that respect your hours and your rate, and stays on top of the appointment scheduling reefer brokers demand.
 - **Pricing:** 3% of gross monthly revenue (confirmed).
-- **Worked scenario:** `[CLIENT PROOF NEEDED]` until a cleared reefer story exists. Research-led framing for the empty-state block: a reefer carrier running seasonal produce out of a major growing region wants paying backhauls instead of one-way runs into a soft market, so the dispatch work is pairing inbound produce with profitable outbound freight to kill deadhead. No client named, no metric claimed.
+- **Worked scenario (REAL, cleared 2026-06-21; anonymous historical baseline):** A client running a 26-foot refrigerated box truck wanted steady, high-paying volume through a shifting market. Using our historical dispatching network, we sourced, negotiated, and locked a dedicated reefer lane that paid $5.00 per mile and ran 3 to 4 times a week. Publish as a past, anonymized example with a plain "results vary; not a guarantee of future rates or volume" line (do-not-publish rule on guaranteed earnings still applies to forward-looking claims).
 
 ### /flatbed-dispatch/
 - **Lane profile:** Open-deck freight: steel, lumber, machinery, and building materials, with securing, tarping, and permits part of the job.
@@ -50,18 +50,18 @@ Lane profile (one line for the dispatch-hub Load Board + the page), equipment-sp
 ### /dry-van-trucking/
 - **Lane profile:** The volume workhorse: general palletized freight, broad load availability, real rate pressure.
 - **Hero lede:** Dry van has the most freight and the most competition, which is exactly why the rate is where dispatch earns its keep. Loads are everywhere; the gap between a strong week and a flat one is negotiation and lane choice. Our dry van dispatch service works the boards and the broker relationships to protect your rate per mile, not just keep the wheels turning.
-- **Pricing:** rate on request `[VERIFY dry van %]`.
+- **Pricing:** 5% of gross monthly revenue (confirmed).
 - **Keep** `/dry-van-trucking/cost/` live.
-- **Worked scenario:** `[CLIENT PROOF NEEDED]`. Research-led framing: a dry van carrier in a soft market wants to defend rate per mile, so dispatch is selective about lanes and pushes back on lowball offers rather than booking everything.
+- **Worked scenario:** none yet (client confirms no current dispatch clients; focus is compliance). Keep the neutral empty-state layout, no fabricated story. Research-led framing only: a dry van carrier in a soft market wants to defend rate per mile, so dispatch is selective about lanes.
 
 ### /power-only-trucking/
 - **Lane profile:** Pulling trailers others supply: drop-and-hook efficiency for carriers and 3PLs that provide the equipment.
 - **Hero lede:** Power only is about utilization. When you pull trailers that shippers and 3PLs provide, drop-and-hook keeps you rolling instead of waiting to load, but only when the work is sequenced well. Our power only dispatch service lines up drop-and-hook freight and the carrier and 3PL relationships that supply trailers, so your hours go to driving, not sitting.
-- **Pricing:** rate on request `[VERIFY power only %]`.
-- **Worked scenario:** `[CLIENT PROOF NEEDED]`. NOTE to Design: the work order suggested reusing the real NC power-only client here, but that client is a compliance engagement that is not actively dispatched, so claiming a dispatch result would overstate it (fabrication). Kept research-led: a power-only operator wants back-to-back drop-and-hook moves so the truck rolls from one preloaded trailer to the next.
+- **Pricing:** 5% of gross monthly revenue (confirmed).
+- **Worked scenario:** none yet (no current dispatch clients). Keep neutral empty-state. Research-led framing only: a power-only operator wants back-to-back drop-and-hook moves so the truck rolls from one preloaded trailer to the next.
 
 ### /hot-shot-trucking/
 - **Lane profile:** Expedited, smaller loads on a dually and gooseneck: speed-sensitive freight, often for newer CDL operators.
 - **Hero lede:** Hot shot runs on speed and flexibility. Smaller, time-sensitive loads on a dually and gooseneck can pay strong when you move fast, but the expedite lanes and the brokers who post them take knowing where to look. Our hot shot dispatch service keeps your truck on quick-turn freight that fits its size and your hours, so the speed becomes revenue.
-- **Pricing:** rate on request `[VERIFY hot shot %]`.
-- **Worked scenario:** `[CLIENT PROOF NEEDED]`. NOTE to Design: same honesty point as power only. We have set up Maryland CDL hotshot operators on the compliance side, but a dispatch worked-example would imply a dispatch result we cannot document yet. Kept research-led: a hotshot operator wants consistent expedited runs sized to a 3500-class dually rather than waiting on the occasional premium load.
+- **Pricing:** 8% of gross monthly revenue (confirmed).
+- **Worked scenario:** none yet (no current dispatch clients). Keep neutral empty-state. Research-led framing only: a hotshot operator wants consistent expedited runs sized to a 3500-class dually rather than waiting on the occasional premium load.

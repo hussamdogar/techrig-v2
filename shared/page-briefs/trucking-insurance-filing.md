@@ -29,11 +29,12 @@ The BMC-91 (and related forms) is how an insurer certifies to FMCSA that a motor
 A carrier can finish the MC application and the BOC-3 and still sit at the end of the 21-day protest period unable to activate, because the insurance filing was the missing piece. We have seen an authority dismissed entirely after a carrier missed the insurance and BOC-3 deadlines. The filing itself is straightforward; making sure it is actually in, on time, alongside your other filings, is the part worth getting right.
 
 ### H2: How we help with your insurance filing
+Important and worth stating plainly: only your insurance provider can legally file the BMC-91 (and MCS-90) with FMCSA. Tech Rig does not file these forms and is not partnered with any insurance company. What we do is coordinate with your own insurer so the filing is actually submitted and clears, on the right timeline, alongside the rest of your authority.
 - We tell you exactly what filing your authority needs and when.
-- We coordinate with your insurer so the proof is filed with FMCSA, not left pending.
-- We line the filing up with your [MC authority](/mc-registration/), [BOC-3](/boc-3-filing/), and [UCR](/ucr-registration/) so all the activation pieces are in together.
+- We coordinate with your insurer so the proof gets filed with FMCSA, not left pending.
+- We line it up with your [MC authority](/mc-registration/), [BOC-3](/boc-3-filing/), and [UCR](/ucr-registration/) so all the activation pieces are in together.
 
-**Price line:** Your insurance premium is set by your insurer and is separate. Tech Rig's role is coordinating the filing as part of your authority setup. [VERIFY whether a standalone service fee applies; otherwise present it as included in authority setup.]
+**Price line:** No standalone published price. Insurance-filing coordination is handled as part of your authority setup, or "Contact for quote" for a standalone request. Your premium is set by your insurer and paid to them.
 
 ### H2: Insurance filing FAQ
 FAQPage schema, Grade 8:
@@ -57,7 +58,8 @@ Hub card + package; `/mc-registration/` (insurance section links here); pillar (
 - `FAQPage`.
 
 ## Proof / claims discipline
-- Never imply Tech Rig sells or sets insurance premiums; we coordinate the FMCSA filing.
+- Never imply Tech Rig sells or sets insurance premiums, files the BMC-91/MCS-90 itself, or partners with any insurer. Only the insurer can legally file; Tech Rig coordinates with the client's own insurer. (Client rule, 2026-06-21.)
+- No standalone price; "Contact for quote" or part of setup.
 - Dismissed-authority reference is the real Eduardo case, generalized here without repeating the `/mc-registration/` sentences.
 - No guaranteed activation timeline.
 

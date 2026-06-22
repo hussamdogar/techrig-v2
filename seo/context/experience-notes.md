@@ -26,7 +26,8 @@ Frame each as a problem → what Tech Rig actually did → outcome. Never imply 
 
 ## Dispatch results
 - **Dispatch is ACTIVE** (not paused). Launched 2021; **~100 carriers dispatched to date**. Runs on the equipment-based percentage model (see `services.md`).
-- Results publishable only as general/historical baselines, not specific metrics: "maximized gross revenue by routing specific equipment through market shifts." No revenue/earnings/deadhead/time-savings numbers (see do-not-publish list).
+- Results publishable only as general/historical baselines, not forward-looking promises (see do-not-publish list).
+- **Cleared dispatch story (reefer, 2026-06-21), anonymous historical baseline:** a client running a 26-foot refrigerated box truck wanted steady, high-paying volume through a shifting market; using the historical dispatching network, we sourced, negotiated, and locked a dedicated reefer lane paying **$5.00 per mile, running 3 to 4 times a week**. Publish on `/reefers-trucking/` with a "results vary, not a guarantee" line. This is the only cleared dispatch result; no current dispatch clients otherwise (focus is compliance), so other trailer pages stay neutral.
 
 ## Track record (documented, publishable)
 - **Dispatch since 2021**, ~100 carriers dispatched (~4 years of hands-on freight dispatching and fleet operations).

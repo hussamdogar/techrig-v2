@@ -32,7 +32,7 @@ An ELD connects to your vehicle's engine and automatically records driving time,
 - We connect ELD into the rest of your compliance so your records line up for inspections and audits.
 - We point you to support when you need it, so a device problem does not become a compliance problem.
 
-**Price line:** [VERIFY ELD setup service fee and any device/subscription cost with the client before publishing. Device and subscription costs are third-party (Motive) and must be shown separately from any Tech Rig service fee.]
+**Price line:** No setup charge. We help you onboard through our Motive referral link; you buy the Motive device and subscription directly from Motive (those costs are Motive's, paid to Motive). Do not show a Tech Rig price chip on this page; the value is the help, not a fee.
 
 ### H2: ELD and the rest of your compliance
 An ELD is part of running interstate cleanly, alongside your [IRP](/irp-registration/) and [IFTA](/ifta-registration/) setup. New carriers usually handle ELD around the time they start hauling. If you are still standing up the company, see the [full setup](/compliance-services/).
@@ -41,7 +41,7 @@ An ELD is part of running interstate cleanly, alongside your [IRP](/irp-registra
 FAQPage schema, Grade 8:
 - "Do owner-operators need an ELD?" Most drivers subject to hours-of-service rules need one, with limited exceptions. We confirm whether you are required to run one.
 - "Which ELD should I use?" We work with Motive and help you pick a setup that fits your truck and operation.
-- "Is the device cost included?" Device and subscription costs come from the provider and are separate from any Tech Rig service fee. We show you both.
+- "What does your ELD help cost?" Nothing from us. You buy the Motive device and subscription directly from Motive; we help you get set up through our Motive referral link.
 - "Can you help if my ELD is logging wrong?" Yes. A misconfigured ELD causes inspection violations, so we make sure it is set up correctly and point you to support.
 
 ### Closing CTA band
@@ -54,13 +54,13 @@ FAQPage schema, Grade 8:
 Hub card + package; pillar (step 8); IRP/IFTA pages (interstate cluster); "what is an ELD" blog feeder if present.
 
 ## Schema (JSON-LD)
-- `Service` (serviceType "ELD setup", provider {@id #org}, areaServed US, offers price [VERIFY] USD; omit price if unset).
+- `Service` (serviceType "ELD setup", provider {@id #org}, areaServed US). OMIT `offers`/price (no Tech Rig fee; Motive device/subscription is third-party). Do not encode Motive's price.
 - `BreadcrumbList`: Home > Compliance Services > ELD Services.
 - `FAQPage`.
 
 ## Proof / claims discipline
-- Motive named as a partner, never "exclusive."
-- Device/subscription costs separated from service fee; price `[VERIFY]`.
+- Motive named as a partner, never "exclusive." Disclose the model honestly: client buys from Motive directly; Tech Rig earns a referral commission from Motive (no charge to the client).
+- No Tech Rig price on this page; Motive's device/subscription cost is paid to Motive.
 
 ## Reviewed-by
 "Reviewed by Robert Hooke, Co-Founder" (systems/technology fit).

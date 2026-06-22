@@ -17,7 +17,7 @@ One file per page. Each brief is the contract for Design and Dev: final copy plu
 - **Uniqueness:** no 8+ word sentence repeats across pages; each "who this is for" leads with a different industry + worked example.
 
 ## Pricing quick-reference (confirmed, USD; see `services.md`)
-USDOT $300 (standalone only) · MC $600 (**includes USDOT**, no extra $300) · BOC-3 $100 (one-time) · BOC-3+UCR (0-2 bracket) $200 · UCR service from $100 (2026 gov fee by bracket: 0-2 $46, 3-5 $138, 6-20 $276, 21-100 $963, 101-1,000 $4,592, 1,001+ $44,836, shown separately) · Clearinghouse $100 · Consortium $150 · DQ file $200/driver · pre-employment drug test $100 · IRP setup $175 (+ state fees by mileage/state) · IFTA setup $175 (+ state fees) · MC reinstatement $200 + gov fee · USDOT reactivation/deactivation $125 · address change $125 · MCS-150 update $125 · **full package $1,350** (was $1,650; corrected for the USDOT-in-MC overlap; includes MC + UCR 0-2 gov fees, not IRP/IFTA gov fees). On hold (do not publish price): FMCSA authority letter, LLC/consultancy ("Contact us for a quote"), ELD setup fee.
+USDOT $300 (standalone only) · MC $600 (**includes USDOT**, no extra $300) · BOC-3 $100 (one-time) · BOC-3+UCR (0-2 bracket) $200 · UCR service from $100 (2026 gov fee by bracket: 0-2 $46, 3-5 $138, 6-20 $276, 21-100 $963, 101-1,000 $4,592, 1,001+ $44,836, shown separately) · Clearinghouse $100 · Consortium $150 · DQ file $200/driver · pre-employment drug test $100 · IRP setup $175 (+ state fees by mileage/state) · IFTA setup $175 (+ state fees) · MC reinstatement $200 + gov fee · USDOT reactivation/deactivation $125 · address change $125 · MCS-150 update $125 · **full package $1,350** (was $1,650; corrected for the USDOT-in-MC overlap; includes MC + UCR 0-2 gov fees, not IRP/IFTA gov fees). **Dispatch % (confirmed):** box 8 / cargo van 5 / dry van 5 / power only 5 / flatbed 3 / reefer 3 / hot shot 8. **ELD:** free from Tech Rig (Motive referral; client buys device/subscription from Motive). Contact-for-quote: LLC/consultancy, insurance-filing coordination. Removed: FMCSA authority letter.
 
 ## Batch status
 **Batch 1 (done):** compliance-services-hub, ucr-registration, mcs-150-biennial-update, dot-registration, mc-registration, boc-3-filing.
@@ -28,10 +28,10 @@ USDOT $300 (standalone only) · MC $600 (**includes USDOT**, no extra $300) · B
 
 ALL Phase 9 page briefs COMPLETE. Compliance silo (13 packet items + hub + pillar + bundle), dispatch silo (hub + 6 trailers), home, about, states, lead-gen, blog. The bridge guide `/how-to-start-a-box-truck-business/` is the one remaining standalone brief if a full spec is wanted (currently specced inline in box-truck-dispatch + pillar links); flag if you want it as its own file.
 
-## Cross-cutting open items for Dev/client (collected from all briefs)
-- CTA **routes** for transactional intents (form vs /get-started vs /contact-us/): confirm per page.
-- **[VERIFY] government fees:** USDOT gov fee, IRP/IFTA state fees (mileage/state dependent). UCR brackets RESOLVED (2026 schedule). Full package $1,350 RESOLVED.
-- **[VERIFY] service fees still open:** ELD setup; dry-van/power-only/hot-shot dispatch percentages; insurance-filing standalone fee (if any). RESOLVED: IRP setup $175, IFTA setup $175, USDOT-in-MC overlap, full package $1,350.
-- **Logo URL + social profile URLs** (alias/brand-owned) for Organization/Person schema.
-- **[CLIENT PROOF NEEDED]:** IRP, reefer, flatbed, dry van worked-example stories (others use real clients).
-- **State stats** (e.g. TX "$1.6T freight/yr") must be sourced or removed.
+## Cross-cutting open items (most RESOLVED 2026-06-21 from the client follow-up)
+- **[DEV]** CTA **routes** for transactional intents (form vs /get-started vs /contact-us/): confirm per page. (Still open.)
+- **[DEV]** Logo asset (team delivers to the Dev staging repo) + run the redirect/blog work (`redirect-map.md`, `blog-disposition.md`).
+- **[CLIENT, pending]** Testimonial permissions (Felix/Marcus/Freddie) to publish direct quotes.
+- **RESOLVED:** all dispatch percentages; ELD (free, Motive referral); insurance (coordinate-only, contact-for-quote); LLC (contact-for-quote); FMCSA authority letter (removed); IRP/IFTA $175; UCR brackets; full package $1,350; social profile URLs.
+- **RESOLVED proof:** reefer has a real anonymous story; IRP, flatbed, dry van, TX/NY/FL confirmed to stay neutral (no clients yet); CA retained.
+- **[CLIENT]** Remaining government figures: USDOT gov fee, IRP/IFTA state fees (mileage/state dependent, quoted per carrier). State market stats (e.g. TX "$1.6T") must be sourced or removed.
