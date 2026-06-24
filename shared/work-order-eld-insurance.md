@@ -1,5 +1,7 @@
 # Work order for Dev: reframe ELD and insurance (not handled directly)
 
+> **STATUS: VERIFIED CLOSED 2026-06-24 (orchestrator).** Committed 43a1598. Spot-checked in `dev/app/`: `serviceType: "ELD partner referral"`, ELD price chip removed, CTA = "Get connected with our ELD partner", insurance hero disclaimer present (`trucking-insurance-filing/page.tsx:123`), no "files your insurance" copy survives. The find-and-fix items below were all applied. Kept for audit trail.
+
 Raised by SEO, 2026-06-21, on a client correction. **Tech Rig does NOT handle ELD or insurance directly.**
 - **ELD:** referral only. Tech Rig refers clients to an ELD partner company (Motive) who supplies and sets up the device; the client buys directly from the partner. No Tech Rig fee. Never say "we set up / install / configure your ELD."
 - **Insurance:** Tech Rig does not provide or handle insurance, does not file the BMC-91/MCS-90 (only the insurer can), and has no insurer partnerships. It coordinates with the client's own insurer so the filing clears. No Tech Rig price.
