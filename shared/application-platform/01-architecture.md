@@ -83,6 +83,8 @@ Rendering discipline: keep the marketing routes static; the lookup card is a sma
 
 **Reuse the existing, live projects (ADR-6).** The Supabase, Stripe, Resend, and Vercel KV instances behind `techrig-form` / `boc3-form-new` are still active — point the new app at them (same DB project for new tables, same Stripe account for payments, same Resend domain, same KV namespace/reference counter). Do not provision new infra. Pull the actual env values from the legacy repos' Vercel project settings. The QCMobile webKey (backup lookup) is the one genuinely new credential to obtain.
 
+**DB of record (owner-confirmed 2026-06-25):** the production Supabase project is `pqbynaaihauifomfhcxo`, labelled "BOC-3 Test Project" — the legacy name is misleading, but this IS production. Migration `0001` is applied here; all platform tables (M2 auth/`profiles`, M3 `applications`/`filings`, etc.) target this project. Do not treat the "Test" name as staging.
+
 ## 9. New runtime dependencies (added to dev/package.json over the milestones)
 `@supabase/supabase-js`, `@supabase/ssr` (auth in App Router), `stripe` + `@stripe/stripe-js` + `@stripe/react-stripe-js`, `resend`, `pdf-lib`, `@vercel/kv`, a signature-capture lib, optionally `zod` for validation and `@sentry/nextjs`. Keep the marketing bundle lean — load Stripe/signature/PDF only on the routes that need them (dynamic import), so the homepage stays fast.
 
