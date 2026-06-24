@@ -92,6 +92,18 @@ Goal (ADR-3): the service-driven multi-step application — lookup pre-fills, cl
 - 🟢 Dev: `applications` + `filings` tables, the service registry (`lib/services-registry`), dynamic step machine, autosave, server+client validation, carrier-data diff tracking, resume.
 Dependencies: M2 (accounts). Gate: a logged-in client completes a multi-service application end-to-end (no payment), data persists + resumes, only required steps show, diffs flagged, no fabricated/contradictory pricing surfaced.
 
+### Build note (Dev, 2026-06-25) — BUILD-COMPLETE
+**Shipped (`dev/**`):**
+- **`lib/services-registry.ts`** — the typed catalog driving pricing/steps/timelines. Prices ONLY from `services.md`; UCR is service-fee $100 + a separate government bracket (0-2 $46 … 21-100 $963), >100 = manual review; DQ is per-driver; MC includes USDOT (USDOT line = $0 when both selected); `eld`/`insurance` are `informationalOnly` (never billed, no filing). `computePricing()` returns lines + subtotal/total with government fees disclosed per line, never summed in.
+- **Migration `0003`** applied to prod `pqbynaaihauifomfhcxo` (pre-flight clear, no orphan `application_id`): `applications` + `filings` (owner-only RLS; filing-status writes are back-office, no client write policy), plus the `carrier_snapshots.application_id` FK.
+- **Dynamic stepper** (`lib/apply/steps.ts`): active steps = union of selected services' `requiredSteps` in canonical order, with `passenger`/`hazmat` conditional on the operations flags. `zod` schemas per step (`lib/apply/schemas.ts`), re-validated server-side.
+- **Carrier diff** (`lib/apply/diff.ts`, ported from boc3 `motus-diff`): identity edits set `carrier_data_changed` + `carrier_user_diff_json` + `needs_mcs150_update`; an MCS-150 prompt offers one-click add. OA-aware hints from the R3 snapshot (e.g. "BOC-3 already active"). New-entrant path has no snapshot/diff.
+- **Engine** (`/apply` + `/apply/[applicationId]`, authed + noindex): create (cold, or from a lookup lead/token, or the dashboard), service selection, dynamic per-step forms with server-action autosave + `current_step` resume, review with server-computed pricing, and one `filings` row per billable service on submit (status `not_started`, or `manual_review` for quote/UCR-101+). Entry points wired: homepage card → `/apply/?service=usdot`, lookup docket "Start an application" (carries the lead token), dashboard per-lookup + applications list.
+
+**Verified (real code + prod DB):** pricing for a 6-service cart = **$1,575** exactly (MC $600 + USDOT $0 included + BOC-3 $100 + UCR $100 [6-20, gov $276] + DQ $600 [3×$200] + IFTA $175); ELD/insurance excluded from priced lines; UCR 150 units → manual review; step conditionals correct (BOC-3 shows only its steps; MC+hazmat includes operations+hazmat not passenger; DQ shows drivers). Prod DB: owner inserts/reads own application + filings; **RLS isolation confirmed** (a second user and anon read 0 of both); client cannot write filing status (0 rows). `/apply` noindex + sitemap-excluded; logged-out → `/login`; home prerendered + bundle unaffected; build clean. Test users/applications created against prod were deleted.
+
+**Deferred to the consolidated QA ledger (deploy-time only):** Lighthouse on `/apply/*`; the full browser click-through of the multi-step flow with a real signed-in session (needs the auth redirect-URL allowlist from the M2 deferral — the engine's pricing/steps/RLS are verified by the real code + prod DB above).
+
 ---
 
 ## M4 — Payment capture · STATUS: PLANNED
@@ -143,7 +155,7 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 | M0 | Foundation | infra confirmed | partial | n/a |
 | M1 | Hero lookup + lead capture | BUILD-COMPLETE (R1-R3 landed) | yes | no (→ QA ledger) |
 | M2 | Accounts + dashboard shell | BUILD-COMPLETE | yes | no (→ QA ledger) |
-| M3 | Unified application engine | ACTIVE | no | no |
+| M3 | Unified application engine | BUILD-COMPLETE | yes | no (→ QA ledger) |
 | M4 | Payment capture | PLANNED | no | no |
 | M5 | Progress tracking + back-office | PLANNED | no | no |
 | M6 | Email lifecycle + documents | PLANNED | no | no |
@@ -153,4 +165,5 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 Per the deploy policy, deploy-time-only checks accumulate here and run once at the end (together with Workstream A's launch gate — `../orchestration-status.md` L1/L4). Nothing here blocks milestone progress.
 - **M1:** QCMobile backup failover on a real IP (sandbox 403 from `mobile.fmcsa.dot.gov`; confirm webKey activated), Vercel KV reference counter + rate-limit on real Upstash, Lighthouse perf/CLS on `/` and `/lookup/[usdot]/`.
 - **M2:** prod auth redirect-URL allowlist in Supabase Auth (add the launch domain's `/auth/callback`); real magic-link email deliverability + the full sign-in click-through on the deployed origin; Lighthouse on the authed routes (`/login`, `/dashboard`, `/account`).
-- (M3+ deploy-time items appended as each milestone reaches build-complete.)
+- **M3:** Lighthouse on `/apply/*`; the full multi-step click-through with a real signed-in session (depends on the M2 auth redirect-URL allowlist).
+- (M4+ deploy-time items appended as each milestone reaches build-complete.)

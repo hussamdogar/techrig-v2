@@ -99,7 +99,7 @@ export function UsdotLookupCard() {
       <div className="mt-5 space-y-1.5 border-t border-slate/10 pt-4 text-sm">
         <p>
           <Link
-            href="/dot-registration/"
+            href="/apply/?service=usdot"
             className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
           >
             Don&apos;t have a USDOT number? File for one now

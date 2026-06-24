@@ -7,6 +7,7 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { cn } from "@/lib/utils";
 import { performLookup } from "@/lib/server/lookup-capture";
 import { startClaim } from "./actions";
+import { createApplication } from "@/app/apply/actions";
 import type { CarrierData } from "@/lib/lookup/types";
 
 /**
@@ -251,9 +252,14 @@ function Docket({ carrier, usdot, token }: { carrier: CarrierData; usdot: string
       </form>
 
       <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-        <Link href="/compliance-services/" className={buttonVariants({ variant: "secondary", size: "md" })}>
-          Get your compliance done
-        </Link>
+        {/* Start an application from this lookup. The signed lead token links the
+            new application to this lead + snapshot (M3 §8). */}
+        <form action={createApplication}>
+          <input type="hidden" name="lead_token" value={token} />
+          <button type="submit" className={buttonVariants({ variant: "secondary", size: "md" })}>
+            Start an application
+          </button>
+        </form>
         <Link
           href="/"
           className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"

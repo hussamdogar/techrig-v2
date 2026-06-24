@@ -1,0 +1,329 @@
+/**
+ * Service registry (M3) — the single typed catalog that drives pricing, the
+ * dynamic stepper, and timelines. Prices come ONLY from `seo/context/services.md`
+ * (the pricing source of truth); never hardcode a contradicting price.
+ *
+ * Compliance reframe (HARD RULE, work-order-eld-insurance.md): `eld` and
+ * `insurance` are NOT billable Tech Rig filings. They appear here as
+ * informational/coordination entries with NO Tech Rig price and produce no
+ * priced `filings` row.
+ */
+
+export type StepKey =
+  | "services"
+  | "carrier-identity"
+  | "business-details"
+  | "operations"
+  | "passenger"
+  | "hazmat"
+  | "vehicles"
+  | "drivers"
+  | "ucr-details"
+  | "service-specifics"
+  | "review";
+
+export type ServiceKey =
+  | "usdot"
+  | "mc-authority"
+  | "boc-3"
+  | "ucr"
+  | "mcs-150"
+  | "clearinghouse"
+  | "consortium"
+  | "dq-files"
+  | "drug-test"
+  | "irp"
+  | "ifta"
+  | "trucking-llc"
+  | "eld"
+  | "insurance";
+
+export type ServiceDef = {
+  key: ServiceKey;
+  name: string;
+  blurb: string;
+  /** flat Tech Rig fee | per-driver fee | UCR (tiered) | quote (no auto price). */
+  priceKind: "flat" | "perDriver" | "ucr" | "quote";
+  /** Base Tech Rig service fee (USD). Omitted for ucr/quote/informational. */
+  price?: number;
+  /** Separate government/state fee disclosure, never blended into the fee. */
+  govFeeNote?: string;
+  /** Steps this service requires (drives the dynamic stepper). */
+  requiredSteps: StepKey[];
+  /** Human expected timeline (process expectation, not a metric). */
+  expectedTimeline: string;
+  /** A brand-new FMCSA registration (no MCS-150 diff applies). */
+  isNewRegistration?: boolean;
+  /** eld/insurance: surfaced for context, never billed, no filing row. */
+  informationalOnly?: boolean;
+};
+
+// Canonical step order. The active set is the union of the selected services'
+// requiredSteps (plus services + review, plus conditional passenger/hazmat),
+// rendered in THIS order.
+export const STEP_ORDER: StepKey[] = [
+  "services",
+  "carrier-identity",
+  "business-details",
+  "operations",
+  "passenger",
+  "hazmat",
+  "vehicles",
+  "drivers",
+  "ucr-details",
+  "service-specifics",
+  "review",
+];
+
+export const SERVICES: Record<ServiceKey, ServiceDef> = {
+  usdot: {
+    key: "usdot",
+    name: "USDOT registration",
+    blurb: "Your federal carrier ID. Included free when you also file MC authority.",
+    priceKind: "flat",
+    price: 300,
+    requiredSteps: ["carrier-identity", "business-details", "operations"],
+    expectedTimeline: "1 to 2 business days",
+    isNewRegistration: true,
+  },
+  "mc-authority": {
+    key: "mc-authority",
+    name: "MC operating authority",
+    blurb: "Interstate for-hire authority. Includes your USDOT number.",
+    priceKind: "flat",
+    price: 600,
+    govFeeNote: "+ FMCSA application fee, shown separately",
+    requiredSteps: ["carrier-identity", "business-details", "operations"],
+    expectedTimeline: "Activates after the 21-day federal protest period",
+    isNewRegistration: true,
+  },
+  "boc-3": {
+    key: "boc-3",
+    name: "BOC-3 filing",
+    blurb: "Blanket process-agent designation across all 50 states.",
+    priceKind: "flat",
+    price: 100,
+    requiredSteps: ["carrier-identity", "service-specifics"],
+    expectedTimeline: "24 hours on working days",
+  },
+  ucr: {
+    key: "ucr",
+    name: "UCR registration",
+    blurb: "Unified Carrier Registration. Government fee varies by fleet bracket.",
+    priceKind: "ucr",
+    govFeeNote: "+ government fee by power-unit bracket, shown separately",
+    requiredSteps: ["carrier-identity", "ucr-details"],
+    expectedTimeline: "1 to 2 business days",
+  },
+  "mcs-150": {
+    key: "mcs-150",
+    name: "MCS-150 update",
+    blurb: "Biennial update / correction that keeps your USDOT record current.",
+    priceKind: "flat",
+    price: 125,
+    requiredSteps: ["carrier-identity", "service-specifics"],
+    expectedTimeline: "7 working days",
+  },
+  clearinghouse: {
+    key: "clearinghouse",
+    name: "Clearinghouse registration",
+    blurb: "FMCSA Clearinghouse registration assistance for drug and alcohol records.",
+    priceKind: "flat",
+    price: 100,
+    requiredSteps: ["carrier-identity", "drivers"],
+    expectedTimeline: "5 working days",
+  },
+  consortium: {
+    key: "consortium",
+    name: "Drug & alcohol consortium",
+    blurb: "Consortium enrollment and random testing program management.",
+    priceKind: "flat",
+    price: 150,
+    requiredSteps: ["carrier-identity", "drivers"],
+    expectedTimeline: "7 working days",
+  },
+  "dq-files": {
+    key: "dq-files",
+    name: "Driver qualification files",
+    blurb: "Compliant DQ files, built and kept audit-ready. Priced per driver.",
+    priceKind: "perDriver",
+    price: 200,
+    requiredSteps: ["carrier-identity", "drivers"],
+    expectedTimeline: "7 working days",
+  },
+  "drug-test": {
+    key: "drug-test",
+    name: "Pre-employment drug test",
+    blurb: "Pre-employment drug-test coordination.",
+    priceKind: "flat",
+    price: 100,
+    requiredSteps: ["carrier-identity", "drivers"],
+    expectedTimeline: "7 working days",
+  },
+  irp: {
+    key: "irp",
+    name: "IRP registration",
+    blurb: "Apportioned plates for multi-state operation.",
+    priceKind: "flat",
+    price: 175,
+    govFeeNote: "+ state registration fees by mileage and states, shown separately",
+    requiredSteps: ["carrier-identity", "vehicles"],
+    expectedTimeline: "1 to 2 business days",
+  },
+  ifta: {
+    key: "ifta",
+    name: "IFTA registration",
+    blurb: "Fuel-tax registration and quarterly-filing setup.",
+    priceKind: "flat",
+    price: 175,
+    govFeeNote: "+ state fees, shown separately",
+    requiredSteps: ["carrier-identity", "vehicles"],
+    expectedTimeline: "1 to 2 business days",
+  },
+  "trucking-llc": {
+    key: "trucking-llc",
+    name: "Trucking LLC formation",
+    blurb: "Company formation. Pricing varies by state, so it is quoted.",
+    priceKind: "quote",
+    requiredSteps: ["carrier-identity", "business-details"],
+    expectedTimeline: "Varies by state",
+  },
+  // Informational only — never billed, never a priced filing (compliance reframe).
+  eld: {
+    key: "eld",
+    name: "ELD",
+    blurb: "We refer you to our ELD partner. No Tech Rig fee.",
+    priceKind: "quote",
+    requiredSteps: [],
+    expectedTimeline: "Via our ELD partner",
+    informationalOnly: true,
+  },
+  insurance: {
+    key: "insurance",
+    name: "Insurance filing coordination",
+    blurb: "We coordinate with your own insurer so the filing clears. No Tech Rig fee.",
+    priceKind: "quote",
+    requiredSteps: [],
+    expectedTimeline: "Coordinated with your insurer",
+    informationalOnly: true,
+  },
+};
+
+export const SERVICE_KEYS = Object.keys(SERVICES) as ServiceKey[];
+
+/** The services a client can SELECT and be billed for (excludes informational). */
+export const BILLABLE_SERVICE_KEYS = SERVICE_KEYS.filter((k) => !SERVICES[k].informationalOnly);
+
+export function isServiceKey(value: unknown): value is ServiceKey {
+  return typeof value === "string" && value in SERVICES;
+}
+
+// ---- UCR tiered pricing (services.md: service fee $100 + gov fee by bracket) ----
+// The Tech Rig service fee is a flat $100; the GOVERNMENT fee depends on the
+// power-unit bracket and is disclosed separately, never blended. >100 units is
+// manual review (no auto price) per the work order.
+export type UcrResult = {
+  tier: string;
+  serviceFee: number | null; // Tech Rig fee; null when manual review
+  govFee: number | null; // government fee for the bracket
+  manualReview: boolean;
+};
+
+export function calculateUcr(powerUnits: number | null | undefined): UcrResult {
+  const n = powerUnits == null || !Number.isFinite(powerUnits) ? null : Number(powerUnits);
+  if (n == null || n < 0) return { tier: "unknown", serviceFee: null, govFee: null, manualReview: true };
+  if (n <= 2) return { tier: "0-2", serviceFee: 100, govFee: 46, manualReview: false };
+  if (n <= 5) return { tier: "3-5", serviceFee: 100, govFee: 138, manualReview: false };
+  if (n <= 20) return { tier: "6-20", serviceFee: 100, govFee: 276, manualReview: false };
+  if (n <= 100) return { tier: "21-100", serviceFee: 100, govFee: 963, manualReview: false };
+  return { tier: "101+", serviceFee: null, govFee: null, manualReview: true }; // >100 = manual
+}
+
+// ---- Pricing computation (server-side; display in M3, charged in M4) ----
+export type PriceLine = {
+  key: ServiceKey;
+  name: string;
+  /** Tech Rig service fee for this line, USD. null = quote/manual review. */
+  amount: number | null;
+  ucrTier: string | null;
+  expectedTimeline: string;
+  /** A separate government/state fee to disclose (not in the Tech Rig subtotal). */
+  govFeeNote: string | null;
+  manualReview: boolean;
+  note: string | null;
+};
+
+export type PricingContext = { powerUnits?: number | null; driverCount?: number | null };
+
+export type Pricing = {
+  lines: PriceLine[];
+  /** Sum of known Tech Rig service fees (excludes quote/manual lines). */
+  subtotal: number;
+  total: number;
+  /** True if any selected service needs a manual quote/review (LLC, UCR 101+). */
+  hasManualReview: boolean;
+};
+
+/**
+ * Compute pricing for the selected services. Tech Rig service fees only;
+ * government/state fees are disclosed per line (govFeeNote) and never summed into
+ * the total. USDOT is free when MC authority is also selected (services.md: the
+ * MC fee includes the USDOT). Informational services (eld/insurance) are skipped.
+ */
+export function computePricing(selected: ServiceKey[], ctx: PricingContext): Pricing {
+  const set = new Set(selected.filter((k) => !SERVICES[k]?.informationalOnly));
+  const mcIncludesUsdot = set.has("mc-authority") && set.has("usdot");
+  const driverCount = Math.max(1, Number(ctx.driverCount ?? 1) || 1);
+
+  const lines: PriceLine[] = [];
+  for (const key of selected) {
+    const def = SERVICES[key];
+    if (!def || def.informationalOnly) continue;
+
+    let amount: number | null = null;
+    let ucrTier: string | null = null;
+    let manualReview = false;
+    let note: string | null = null;
+
+    if (def.priceKind === "flat") {
+      amount = def.price ?? null;
+      if (key === "usdot" && mcIncludesUsdot) {
+        amount = 0;
+        note = "Included with MC authority";
+      }
+    } else if (def.priceKind === "perDriver") {
+      amount = (def.price ?? 0) * driverCount;
+      note = `${driverCount} driver${driverCount === 1 ? "" : "s"} × $${def.price}`;
+    } else if (def.priceKind === "ucr") {
+      const ucr = calculateUcr(ctx.powerUnits);
+      ucrTier = ucr.tier;
+      amount = ucr.serviceFee;
+      manualReview = ucr.manualReview;
+      if (manualReview) note = "Manual review (over 100 power units)";
+      else if (ucr.govFee != null) note = `Government fee $${ucr.govFee} (${ucr.tier} bracket)`;
+    } else {
+      // quote (e.g. LLC): no auto price.
+      manualReview = true;
+      note = "Contact for quote";
+    }
+
+    lines.push({
+      key,
+      name: def.name,
+      amount,
+      ucrTier,
+      expectedTimeline: def.expectedTimeline,
+      govFeeNote: def.govFeeNote ?? null,
+      manualReview,
+      note,
+    });
+  }
+
+  const subtotal = lines.reduce((sum, l) => sum + (l.amount ?? 0), 0);
+  return {
+    lines,
+    subtotal,
+    total: subtotal,
+    hasManualReview: lines.some((l) => l.manualReview),
+  };
+}

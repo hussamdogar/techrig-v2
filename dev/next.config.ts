@@ -125,6 +125,7 @@ const nextConfig: NextConfig = {
     const noindex = [{ key: "X-Robots-Tag", value: "noindex" }];
     return [
       { source: "/lookup/:path*", headers: noindex },
+      { source: "/apply/:path*", headers: noindex },
       { source: "/dashboard/:path*", headers: noindex },
       { source: "/account/:path*", headers: noindex },
       { source: "/login", headers: noindex },
