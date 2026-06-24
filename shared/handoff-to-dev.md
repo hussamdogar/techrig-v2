@@ -13,6 +13,9 @@ The build has a `/blog/` hub but no post routes. The old site has 60 posts, ~42 
 - **Spec:** `shared/redirect-map.md` (pages) + the 18 prune redirects in `shared/blog-disposition.md`.
 - **Action:** add them to `redirects()` with `permanent: true`. Keep the silo hubs and the two built `/cost/` pages OUT of the redirect rules (they are KEEP). One hop, no chains.
 
+## 3b. Reframe ELD and insurance (client correction 2026-06-21)
+Tech Rig does NOT handle ELD or insurance directly: ELD is a referral to a partner (Motive); insurance is coordinate-only with the client's own insurer. The built ELD page currently claims "we choose, install, configure" with a price chip, and a few pages say Tech Rig "files your insurance." Full file-and-line fix list: `shared/work-order-eld-insurance.md`.
+
 ## 3. Before launch (migration-plan step 0)
 Run the full live-URL crawl union (Screaming Frog + GSC indexed export + GA4 landing pages) and confirm every real URL is either a built route or has a 301. The sitemap-derived maps above cover the known set; the crawl union catches anything off-sitemap. Then a staging crawl should show 0 unexpected 404s and 0 redirect chains.
 

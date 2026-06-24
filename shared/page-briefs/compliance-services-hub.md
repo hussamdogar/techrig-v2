@@ -42,7 +42,7 @@ Note under the list: Government and third-party fees (for example, state IRP and
 
 ### H2: What our DOT compliance services cover
 Short intro, then a card grid (Dev: 3-column responsive). Each card = service name (link), one plain-language line, and the fixed price where public. Use the pricing quick-reference. For UCR show "from $100, government fee by fleet size". For trucking LLC show "Contact for quote". Cards:
-- USDOT number, MC authority, BOC-3 filing, UCR, IRP plates, IFTA, Clearinghouse Registration, drug & alcohol consortium, DQ files, ELD setup, MCS-150 updates, trucking LLC, MC authority reinstatement/deactivation, USDOT reactivation/deactivation.
+- USDOT number, MC authority, BOC-3 filing, UCR, IRP plates, IFTA, Clearinghouse Registration, drug & alcohol consortium, DQ files, ELD (partner referral, not a Tech Rig service), MCS-150 updates, trucking LLC, MC authority reinstatement/deactivation, USDOT reactivation/deactivation. (Insurance is coordinated with the carrier's own insurer, not a Tech Rig service; do not present it as a fixed-price card.)
 
 ### H2: Why carriers choose our trucking compliance services
 Three short value blocks (no hype, proof-led):

@@ -18,7 +18,7 @@ Primary "bmc-91 filing" in: title (yes), first paragraph (yes), H2s ("What a BMC
 
 ### H1: Trucking Insurance Filing (BMC-91)
 **Hero lede:**
-Your operating authority does not activate the moment you buy insurance. It activates after your insurer files proof of that coverage with FMCSA, usually on a form like the BMC-91. This is one of the quiet steps that strands new carriers: they have a policy, they have an application, and they still cannot operate because the filing is not in. Tech Rig makes sure your insurance filing is coordinated so it lands and your authority can activate.
+Your operating authority does not activate the moment you buy insurance. It activates after your insurer files proof of that coverage with FMCSA, usually on a form like the BMC-91. This is one of the quiet steps that strands new carriers: they have a policy, they have an application, and they still cannot operate because the filing is not in. Tech Rig does not sell or handle insurance, and we are not partnered with any insurer. What we do is work with your own insurer so the required filing reaches FMCSA and your authority can activate.
 
 **Primary CTA (above fold):** button "Get help with my filing" → intake form. Until confirmed, route to `/contact-us/`. [VERIFY route.]
 

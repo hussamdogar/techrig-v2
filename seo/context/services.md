@@ -21,8 +21,8 @@ Confirmed fixed pricing (USD):
 - **Pre-employment drug-test coordination** — $100.
 - **IRP registration (apportioned plates)** — $175 setup. State registration fees are separate and depend on mileage and states.
 - **IFTA registration** — $175 setup. State fees separate.
-- **ELD setup** — $0 (no setup charge). Handled via a Tech Rig referral link: the client buys the Motive device and subscription directly from Motive; Tech Rig assists onboarding and earns a commission from Motive. Do not present a device/subscription price (that is Motive's, paid to Motive).
-- **Insurance filing** — no standalone published price; "Contact for quote" or omit. Tech Rig does NOT file BMC-91/MCS-90 (only the insurer can legally file these) and has no insurance-company partnerships; it strictly coordinates with the client's own insurer so the filing clears.
+- **ELD** — Tech Rig does NOT provide, sell, or set up ELDs. **Referral only:** we connect the client with our ELD partner company (Motive), who supplies the device and handles setup; the client buys directly from the partner. No Tech Rig fee, no price shown. (Tech Rig may earn a referral commission from the partner.)
+- **Insurance filing** — Tech Rig does NOT provide or handle insurance, does not file BMC-91/MCS-90 (only the insurer can legally file these), and has no insurer partnerships. It coordinates with the client's own insurer so the filing clears. No standalone price; "Contact for quote" or omit.
 - **Full initial compliance package** — **$1,350** (corrected: the prior $1,650 double-counted a separate $300 USDOT, which is already included in the MC fee). Includes the government fees for the MC number and UCR at the 0-2 vehicle bracket. IRP/IFTA government fees are the exception, calculated from the carrier's mileage and states.
 
 On-demand / authority management:
