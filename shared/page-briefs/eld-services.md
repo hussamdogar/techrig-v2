@@ -2,71 +2,72 @@
 
 ## Meta
 - **Action:** NEW. **Bucket:** 1. **Intent:** commercial / BOFU (CPC ~$23).
-- **Primary:** eld for owner operators (210). **Secondaries:** eld compliance (320/KD35), best eld for owner operators, eld setup.
-- **Word target:** 900 to 1,200 (tight).
-- **Partner note:** Motive is Tech Rig's ELD partner. Do NOT call it an exclusive partner (do-not-publish list).
+- **Primary:** eld for owner operators (210). **Secondaries:** eld compliance (320/KD35), best eld for owner operators.
+- **Word target:** 700 to 1,000 (tight; this is a referral/guidance page, not a service Tech Rig performs).
+- **CLIENT RULE (2026-06-21): Tech Rig does NOT handle ELD directly.** It refers clients to an ELD partner company (Motive). The page must read as "we connect you with our ELD partner," never as "we set up / install / configure your ELD." No Tech Rig fee, no price chip. Motive is the partner, never called "exclusive."
 
-## Title tag (45 chars)
-`ELD for Owner Operators and Fleets | Tech Rig`
+## Title tag (43 chars)
+`ELD for Owner Operators | Tech Rig`
 
 ## Meta description (155 chars)
-`ELD for owner operators set up and supported. We help you choose, install, and run a compliant electronic logging device so your hours of service are clean.`
+`ELD for owner operators, made simple. Tech Rig connects you with our trusted ELD partner for a compliant device, so your hours of service stay clean and audit-ready.`
 
 ## Three Kings check
-Primary "eld for owner operators" in: title (yes), first paragraph (yes), H2s ("What an ELD is and who needs one", "ELD for owner operators: how we help").
+Primary "eld for owner operators" in: title (yes), first paragraph (yes), H2s ("What an ELD is and who needs one", "How ELD works with Tech Rig").
 
 ## Heading outline + copy
 
-### H1: ELD Setup for Owner Operators and Fleets
+### H1: ELD for Owner Operators and Fleets
 **Hero lede:**
-An electronic logging device (ELD) records your hours of service automatically, and most carriers are required to run one. The hard part is not the rule, it is choosing a device that fits your operation and setting it up so your logs are clean for inspections and audits. Tech Rig helps you get the right ELD in place. We work with Motive as our ELD partner, so owner-operators and small fleets get a setup that just works.
+An electronic logging device (ELD) records your hours of service automatically, and most carriers are required to run one. We do not sell or set up ELDs ourselves. Instead, Tech Rig connects you with our trusted ELD partner, so owner-operators and small fleets get a compliant device from a provider we know, without shopping the market blind.
 
-**Primary CTA (above fold):** button "Set up my ELD" → intake form. Until confirmed, route to `/contact-us/`. [VERIFY route.]
+**Primary CTA (above fold):** button "Get connected with our ELD partner" → referral/contact route. [Dev to wire the referral link; until then route to `/contact-us/`.]
 
 ### H2: What an ELD is and who needs one
-An ELD connects to your vehicle's engine and automatically records driving time, replacing paper logs for hours-of-service compliance. Most commercial drivers subject to hours-of-service rules are required to use one, with some exceptions for certain short-haul and older-vehicle operations. Running without a required ELD, or running one set up wrong, leads to violations at inspection and hurts your safety record.
+An ELD connects to your vehicle's engine and automatically records driving time, replacing paper logs for hours-of-service compliance. Most commercial drivers subject to hours-of-service rules are required to use one, with some exceptions for certain short-haul and older-vehicle operations. Running without a required ELD, or running one set up wrong, leads to violations at inspection and hurts your safety record. We confirm whether you are required to run one.
 
-### H2: ELD for owner operators: how we help
-- We help you choose an ELD that fits your truck and operation, working with Motive.
-- We help get it installed and your account configured so your hours of service log correctly.
-- We connect ELD into the rest of your compliance so your records line up for inspections and audits.
-- We point you to support when you need it, so a device problem does not become a compliance problem.
+### H2: How ELD works with Tech Rig
+- We do not provide or install ELDs. We refer you to our ELD partner, who supplies the device and handles the setup.
+- You buy the device and subscription directly from the partner. There is no charge from Tech Rig for the referral.
+- We make sure ELD is on your radar at the right point in your compliance, alongside your [IRP](/irp-registration/) and [IFTA](/ifta-registration/), so nothing is missed when you start hauling.
 
-**Price line:** No setup charge. We help you onboard through our Motive referral link; you buy the Motive device and subscription directly from Motive (those costs are Motive's, paid to Motive). Do not show a Tech Rig price chip on this page; the value is the help, not a fee.
+**Price line:** No Tech Rig fee. Device and subscription costs are the partner's, paid to the partner. Do not show a Tech Rig price chip on this page.
 
 ### H2: ELD and the rest of your compliance
-An ELD is part of running interstate cleanly, alongside your [IRP](/irp-registration/) and [IFTA](/ifta-registration/) setup. New carriers usually handle ELD around the time they start hauling. If you are still standing up the company, see the [full setup](/compliance-services/).
+An ELD is part of running interstate cleanly, alongside your [IRP](/irp-registration/) and [IFTA](/ifta-registration/). New carriers usually sort out ELD around the time they start hauling. If you are still standing up the company, see the [full setup](/compliance-services/).
 
 ### H2: ELD FAQ
 FAQPage schema, Grade 8:
 - "Do owner-operators need an ELD?" Most drivers subject to hours-of-service rules need one, with limited exceptions. We confirm whether you are required to run one.
-- "Which ELD should I use?" We work with Motive and help you pick a setup that fits your truck and operation.
-- "What does your ELD help cost?" Nothing from us. You buy the Motive device and subscription directly from Motive; we help you get set up through our Motive referral link.
-- "Can you help if my ELD is logging wrong?" Yes. A misconfigured ELD causes inspection violations, so we make sure it is set up correctly and point you to support.
+- "Does Tech Rig set up my ELD?" No. We refer you to our ELD partner, who provides the device and the setup. We make the introduction and keep ELD in your compliance plan.
+- "What does the referral cost?" Nothing from Tech Rig. You pay the partner directly for the device and subscription.
+- "Which ELD will I get?" Our partner's compliant device, suited to your truck and operation. They handle the configuration.
 
 ### Closing CTA band
-"Need an ELD that keeps your logs clean? Get set up with the right device." Button "Set up my ELD".
+"Need a compliant ELD without the guesswork? We will connect you with our ELD partner." Button "Get connected with our ELD partner".
 
 ## Internal links out
 `/irp-registration/`, `/ifta-registration/`, `/compliance-services/`. Funnel link to `/services/` optional.
 
 ## Internal links in
-Hub card + package; pillar (step 8); IRP/IFTA pages (interstate cluster); "what is an ELD" blog feeder if present.
+Hub card; pillar (step 8); IRP/IFTA pages (interstate cluster); "what is an ELD" blog feeder if present.
 
 ## Schema (JSON-LD)
-- `Service` (serviceType "ELD setup", provider {@id #org}, areaServed US). OMIT `offers`/price (no Tech Rig fee; Motive device/subscription is third-party). Do not encode Motive's price.
+- `Service` (serviceType "ELD partner referral", provider {@id #org}, areaServed US). OMIT `offers`/price (no Tech Rig fee; the device/subscription is the partner's). Do not encode the partner's price. Do not describe Tech Rig as the ELD provider.
 - `BreadcrumbList`: Home > Compliance Services > ELD Services.
 - `FAQPage`.
 
 ## Proof / claims discipline
-- Motive named as a partner, never "exclusive." Disclose the model honestly: client buys from Motive directly; Tech Rig earns a referral commission from Motive (no charge to the client).
-- No Tech Rig price on this page; Motive's device/subscription cost is paid to Motive.
+- **Tech Rig does not provide, sell, install, or configure ELDs.** Frame strictly as a referral to the ELD partner. Never say "we set up / we install / we configure your ELD."
+- Partner (Motive) named, never "exclusive." Disclose the referral relationship honestly (Tech Rig may earn a referral commission from the partner; no charge to the client).
+- No Tech Rig price on this page.
 
 ## Reviewed-by
 "Reviewed by Robert Hooke, Co-Founder" (systems/technology fit).
 
 ## Dev / Design notes
-- Unique branded OG image ("ELD Setup"). Price chip only once confirmed.
+- Unique branded OG image ("ELD"). No price chip.
+- Wire the CTA to the ELD partner referral link when supplied.
 
 ## Uniqueness
-Lead = "choosing and configuring the device" angle; distinct from all other pages.
+Lead = "we connect you with our ELD partner" (referral angle); distinct from all other pages.
