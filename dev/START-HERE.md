@@ -6,9 +6,9 @@
 >
 > **M1 (incl. R3), M2, and M3 are all BUILD-COMPLETE.** The unified `/apply` engine (`16eab3f`) is live against the prod DB with verified pricing, RLS, and step logic.
 >
-> **ACTIVE: M4 — payment capture** (`work-orders/M4-dev.md`). Stripe in TEST mode, server-priced, idempotent signature-verified webhook, migration `0004`. **`/security-review` PASSED.** **Gov-fee decision RATIFIED (owner 2026-06-25): SERVICE FEES ONLY** — matches the existing `computePricing`, no rework. M4 reaches build-complete on the test-mode payment-flow verification (TEST card → webhook → `payments.paid`/`applications.paid`/`filings.queued`, idempotent).
+> **M0–M4 + M3-R1 are all BUILD-COMPLETE** (`321396d`): lookup (incl. R3 docket), accounts+dashboard, the application engine (incl. the $1,350 package), and Stripe TEST-mode payment. Migrations `0001–0004` live on prod.
 >
-> **ALSO ACTIVE: M3-R1 — full-package bundle** (`work-orders/M3-R1-full-package.md`, owner-confirmed contents). Add the `$1,350` fixed package to the registry. Parallel-safe with M4 (M4 prices whatever the registry produces).
+> **ACTIVE: M5 — progress tracking + filing lifecycle + back-office** (`work-orders/M5-dev.md`). Build order: admin/role model (`profiles.role`, first admin seeded manually — security-sensitive, server-side checks only) → migration `0005` `filing_events` → admin-guarded status-transition API (state machine) → `(admin)` board → client progress timeline (reuse `AuthorityStatusTracker`) → surface `needs_mcs150`/diff. Standing auth covers the additive `0005` (pre-flight first). Existing design system. Verify locally + against prod DB, NO preview deploy; deploy-time items → QA ledger. Do not print secrets.
 >
 > Standing rules still apply: additive migrations to prod after pre-flight; existing design system; verify locally + against prod DB, NO preview deploy (deploy-time items → QA ledger); prices ONLY from `seo/context/services.md`; ELD/insurance never billable; do not print secrets.
 

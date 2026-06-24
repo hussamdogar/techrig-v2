@@ -134,7 +134,7 @@ Dependencies: M3 (services selected to price). Gate: a real test-mode payment su
 
 ---
 
-## M5 — Progress tracking + filing lifecycle + back-office · STATUS: PLANNED
+## M5 — Progress tracking + filing lifecycle + back-office · STATUS: ACTIVE (Dev-led) — work order `work-orders/M5-dev.md` (M4 build-complete; unblocked)
 Goal: clients see each filing's real status; the team advances it.
 - 🔵 SEO: status labels + the client-visible status descriptions (plain, Grade-8), what each stage means.
 - 🟣 Design: the progress tracker (repurpose `AuthorityStatusTracker`?), per-filing status chips/timeline, the admin status board.
@@ -175,9 +175,9 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 | M1 | Hero lookup + lead capture | BUILD-COMPLETE (R1-R3 landed) | yes | no (→ QA ledger) |
 | M2 | Accounts + dashboard shell | BUILD-COMPLETE | yes | no (→ QA ledger) |
 | M3 | Unified application engine | BUILD-COMPLETE (+ R1 bundle work order issued) | yes | no (→ QA ledger) |
-| M3-R1 | Full-package bundle | ACTIVE | no | no |
-| M4 | Payment capture | BUILD-COMPLETE | yes | no (→ QA ledger) |
-| M5 | Progress tracking + back-office | PLANNED | no | no |
+| M3-R1 | Full-package bundle | BUILD-COMPLETE | yes | no (→ QA ledger) |
+| M4 | Payment capture | BUILD-COMPLETE (security review passed) | yes | no (→ QA ledger) |
+| M5 | Progress tracking + back-office | ACTIVE | no | no |
 | M6 | Email lifecycle + documents | PLANNED | no | no |
 | M7 | Migration + hardening | PLANNED | no | no |
 
