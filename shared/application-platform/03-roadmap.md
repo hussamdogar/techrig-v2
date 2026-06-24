@@ -85,7 +85,9 @@ Dependencies: M1 (leads exist to claim). Gate: a user signs up, lands on the das
 
 ---
 
-## M3 — Unified application engine · STATUS: ACTIVE (Dev-led) — work order `work-orders/M3-dev.md` (M2 build-complete; unblocked)
+## M3 — Unified application engine · STATUS: BUILD-COMPLETE (`16eab3f`) — 1 open item: full-package bundle
+> Shipped + verified (real code + prod DB): service registry (`lib/services-registry.ts`, prices match `services.md` exactly — orchestrator-verified line by line), migration `0003` applied to prod (pre-flight clear: `applications`+`filings`, owner-only RLS, filing-status writes back-office-reserved, `carrier_snapshots.application_id` FK), dynamic stepper (union of `requiredSteps` + passenger/hazmat conditionals, zod server-side), carrier diff + `needs_mcs150_update` + OA-aware hints from the R3 snapshot, `/apply` engine (authed, noindex; create from lookup/dashboard/cold; autosave+resume; review with server-computed pricing; one `filings` row per billable service). Homepage card link flipped to `/apply/?service=usdot`. Gate checks green: 6-service cart = $1,575 exact; ELD/insurance excluded; UCR 150 units → manual review; step conditionals correct; RLS isolation both ways; client filing-status write blocked; noindex/sitemap/logged-out→login/home-prerendered. Deploy-time items (Lighthouse `/apply/*`, full browser click-through with a real signed-in session) → QA ledger.
+> **OPEN ITEM — full-package bundle (orchestrator-flagged 2026-06-25):** the registry sells à la carte only; it has no `$1,350 full package` (a discounted bundle in `services.md`, cheaper than the sum). Without it the engine quotes MORE than the advertised package price = a standards contradiction. Pending owner decision on whether the engine sells the package self-serve and exactly which services it includes (some packet items are quote/referral-only). Tracked separately; does not block M4 (the bundle is a registry addition M4 prices automatically).
 Goal (ADR-3): the service-driven multi-step application — lookup pre-fills, client selects services, only relevant steps render, autosave + resume tied to the account. Replaces BOTH legacy flows (techrig-form 9-step + boc3 lookup→checkout) with one engine. Build order in the work order: service registry → migration `0003` → state machine → carrier diff → steps → autosave → selection/review/pricing/filings.
 - 🔵 SEO: service definitions/labels/legal copy, the service registry content, per-step microcopy, the process-agent acknowledgement wording, honoring the ELD/insurance reframe.
 - 🟣 Design: the stepper, per-step layouts, service-selection screen, review screen, validation/error patterns, save/resume affordances.
@@ -155,7 +157,7 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 | M0 | Foundation | infra confirmed | partial | n/a |
 | M1 | Hero lookup + lead capture | BUILD-COMPLETE (R1-R3 landed) | yes | no (→ QA ledger) |
 | M2 | Accounts + dashboard shell | BUILD-COMPLETE | yes | no (→ QA ledger) |
-| M3 | Unified application engine | BUILD-COMPLETE | yes | no (→ QA ledger) |
+| M3 | Unified application engine | BUILD-COMPLETE (full-package bundle open) | yes* | no (→ QA ledger) |
 | M4 | Payment capture | PLANNED | no | no |
 | M5 | Progress tracking + back-office | PLANNED | no | no |
 | M6 | Email lifecycle + documents | PLANNED | no | no |
