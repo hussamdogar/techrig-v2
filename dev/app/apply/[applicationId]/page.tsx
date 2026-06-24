@@ -15,6 +15,7 @@ import {
 } from "@/lib/services-registry";
 import { STEP_META, activeSteps, adjacentStep, resolveStep, type OperationsFlags } from "@/lib/apply/steps";
 import { carrierFacts } from "@/lib/apply/diff";
+import { ClientProgress } from "@/components/client-progress";
 import type { CarrierData } from "@/lib/lookup/types";
 import { addService, saveStep, setServices, submitApplication } from "../actions";
 import { StepFields } from "./step-fields";
@@ -54,6 +55,27 @@ export default async function ApplyPage({
   if (!user) redirect(`/login/?next=/apply/${applicationId}/`);
   const { data: app } = await supabase.from("applications").select("*").eq("id", applicationId).maybeSingle();
   if (!app) redirect("/dashboard/");
+
+  // Paid+ applications show progress tracking (M5), not the editing stepper.
+  if (["paid", "in_fulfilment", "completed"].includes(app.status)) {
+    const { data: filings } = await supabase
+      .from("filings")
+      .select("id, service_name, status, expected_timeline")
+      .eq("application_id", applicationId)
+      .order("created_at", { ascending: true });
+    const { data: events } = await supabase
+      .from("filing_events")
+      .select("to_status, note, created_at, filing_id")
+      .in("filing_id", (filings ?? []).map((f) => f.id))
+      .order("created_at", { ascending: false });
+    return (
+      <Section surface="paper" className="pt-8 md:pt-10">
+        <Container className="max-w-3xl">
+          <ClientProgress app={app} filings={filings ?? []} events={events ?? []} />
+        </Container>
+      </Section>
+    );
+  }
 
   const selected = selectedFrom(app);
   const flags = flagsFrom(app);

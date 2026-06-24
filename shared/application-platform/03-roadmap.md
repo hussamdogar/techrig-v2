@@ -134,12 +134,26 @@ Dependencies: M3 (services selected to price). Gate: a real test-mode payment su
 
 ---
 
-## M5 — Progress tracking + filing lifecycle + back-office · STATUS: ACTIVE (Dev-led) — work order `work-orders/M5-dev.md` (M4 build-complete; unblocked)
+## M5 — Progress tracking + filing lifecycle + back-office · STATUS: BUILD-COMPLETE (Dev-led) — work order `work-orders/M5-dev.md`
 Goal: clients see each filing's real status; the team advances it.
 - 🔵 SEO: status labels + the client-visible status descriptions (plain, Grade-8), what each stage means.
 - 🟣 Design: the progress tracker (repurpose `AuthorityStatusTracker`?), per-filing status chips/timeline, the admin status board.
 - 🟢 Dev: `filing_events`, status transition API (admin-guarded), the `(admin)` board, client read views, MOTUS-diff/`needs_mcs150` surfacing, status-change triggers.
 Dependencies: M3 (filings exist), M2 (auth for admin). Gate: an admin advances a filing → the client dashboard reflects it + a timeline entry; RLS prevents client writes; admin actions audited.
+
+### Build note (Dev, 2026-06-25) — BUILD-COMPLETE
+**Role model decision (security):** a separate **`admin_users`** table, NOT a `profiles.role` column — because the M2 profiles UPDATE policy lets a client update their own profile row, so a role there would be a self-escalation path. `admin_users` has RLS on with **no policies** (unreachable by anyone but the service role). `isAdmin()` reads it only via the service role, server-side. First admin is seeded manually (SQL documented in `0005`).
+**Shipped (`dev/**`):**
+- **Migration `0005`** applied to prod (pre-flight clear): `admin_users` (no client policy) + `filing_events` (owner curated-read where `client_visible`, no client write; admin/service-role write), indexes.
+- **`lib/apply/filing-status.ts`** — the lifecycle state machine (`ALLOWED_TRANSITIONS`), client-facing labels/meanings (Grade 8, brand voice), and the `AuthorityStatusTracker` step mapping.
+- **`lib/server/admin.ts`** (`isAdmin`/`getAdminUser`) + **`lib/server/filing-transition.ts`** (shared transition core).
+- **`/api/filings/[id]/transition`** — admin-gated, rate-limited; validates the move (422 on disallowed), idempotent no-op, updates status + `filed_at`/`completed_at`, writes a `filing_events` row `actor=admin:{uuid}`; all writes service-role after the gate.
+- **`/admin` board** (role-guarded, noindex) — applications + filings filterable by status, per-filing advance + note, `needs_mcs150`/diff + payment state surfaced. `/admin` added to the proxy auth guard.
+- **Client progress** — paid+ applications render `ClientProgress` on `/apply/[id]/` (per-filing tracker + status label/meaning + client-visible event timeline + MCS-150 prompt) instead of the editing stepper.
+
+**Verified (real code + prod DB):** state machine correct (queued→filed→active→completed allowed; filed→completed and completed→active rejected); a filing advanced the full lifecycle sets `filed_at`+`completed_at` and writes **3 events with `actor=admin:`**; disallowed → 422; no-op idempotent. **Authz both ways:** transition API without a session → 403; a client **cannot** write `filings.status` (0 rows) or `filing_events` (blocked), **cannot** read `admin_users` (0), and another user reads 0 of a client's events; the client reads only their own events. `/admin` noindex + sitemap-excluded + logged-out→`/login`; build clean. Test users/apps created on prod were deleted. The admin-authz boundary is flagged for the M7 security review (design + RLS verified here).
+
+**Deferred to the consolidated QA ledger (deploy-time only):** Lighthouse on `/admin` + dashboard; the full signed-in admin click-through (needs the auth redirect-URL allowlist / a live session).
 
 ---
 
@@ -177,7 +191,7 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 | M3 | Unified application engine | BUILD-COMPLETE (+ R1 bundle work order issued) | yes | no (→ QA ledger) |
 | M3-R1 | Full-package bundle | BUILD-COMPLETE | yes | no (→ QA ledger) |
 | M4 | Payment capture | BUILD-COMPLETE (security review passed) | yes | no (→ QA ledger) |
-| M5 | Progress tracking + back-office | ACTIVE | no | no |
+| M5 | Progress tracking + back-office | BUILD-COMPLETE | yes | no (→ QA ledger) |
 | M6 | Email lifecycle + documents | PLANNED | no | no |
 | M7 | Migration + hardening | PLANNED | no | no |
 
@@ -187,4 +201,5 @@ Per the deploy policy, deploy-time-only checks accumulate here and run once at t
 - **M2:** prod auth redirect-URL allowlist in Supabase Auth (add the launch domain's `/auth/callback`); real magic-link email deliverability + the full sign-in click-through on the deployed origin; Lighthouse on the authed routes (`/login`, `/dashboard`, `/account`).
 - **M3:** Lighthouse on `/apply/*`; the full multi-step click-through with a real signed-in session (depends on the M2 auth redirect-URL allowlist).
 - **M4:** register the live Stripe webhook endpoint on the deployed origin; live Stripe keys; real-card path; Lighthouse on `/apply/[id]/pay`.
-- (M5+ deploy-time items appended as each milestone reaches build-complete.)
+- **M5:** Lighthouse on `/admin` + dashboard; the full signed-in admin click-through (advance a real filing in the browser) once a live session/redirect allowlist exists.
+- (M6+ deploy-time items appended as each milestone reaches build-complete.)

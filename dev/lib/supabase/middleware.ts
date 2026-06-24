@@ -34,7 +34,9 @@ export async function updateSession(request: NextRequest): Promise<NextResponse>
   } = await supabase.auth.getUser();
 
   const path = request.nextUrl.pathname;
-  const isProtected = path.startsWith("/dashboard") || path.startsWith("/account");
+  // Auth refresh + login redirect for authed routes. The /admin ROLE check is
+  // enforced server-side in the admin pages/API (getAdminUser), not here.
+  const isProtected = path.startsWith("/dashboard") || path.startsWith("/account") || path.startsWith("/admin");
   if (isProtected && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";

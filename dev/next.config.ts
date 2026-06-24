@@ -128,6 +128,7 @@ const nextConfig: NextConfig = {
       { source: "/apply/:path*", headers: noindex },
       { source: "/dashboard/:path*", headers: noindex },
       { source: "/account/:path*", headers: noindex },
+      { source: "/admin/:path*", headers: noindex },
       { source: "/login", headers: noindex },
       { source: "/auth/:path*", headers: noindex },
     ];
