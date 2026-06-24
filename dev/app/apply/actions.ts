@@ -6,6 +6,7 @@ import { service } from "@/lib/server/supabase";
 import { nextReferenceId } from "@/lib/server/reference";
 import { decodeLeadAccessToken } from "@/lib/server/security";
 import { computePricing, isServiceKey, type ServiceKey } from "@/lib/services-registry";
+import { sendWelcomeIfNeeded } from "@/lib/email/lifecycle";
 import { activeSteps, adjacentStep, type OperationsFlags } from "@/lib/apply/steps";
 import { validateStep } from "@/lib/apply/schemas";
 import { buildCarrierDiff, computeNeedsMcs150 } from "@/lib/apply/diff";
@@ -98,8 +99,10 @@ export async function createApplication(formData: FormData) {
   if (leadId) {
     try {
       await service().from("carrier_snapshots").update({ application_id: app.id }).eq("lead_id", leadId);
+      // Welcome email (M6), guarded by leads.welcome_email_sent_at (once per lead).
+      await sendWelcomeIfNeeded(leadId, user.email);
     } catch {
-      /* snapshot linkage is best-effort */
+      /* snapshot linkage + welcome are best-effort */
     }
   }
   redirect(`/apply/${app.id}/`);

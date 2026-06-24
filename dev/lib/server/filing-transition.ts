@@ -1,6 +1,8 @@
 import "server-only";
 import { service } from "@/lib/server/supabase";
 import { canTransition, isFilingStatus, type FilingStatus } from "@/lib/apply/filing-status";
+import { sendStatusChangeEmail, sendFinalIfNeeded } from "@/lib/email/lifecycle";
+import { generateCompletionDocuments } from "@/lib/pdf/documents";
 
 /**
  * Core filing transition (M5). Shared by the transition API and the admin board's
@@ -22,7 +24,11 @@ export async function transitionFiling(
   if (!isFilingStatus(to)) return { ok: false, code: 400, error: "Unknown status." };
 
   const db = service();
-  const { data: filing } = await db.from("filings").select("id, status").eq("id", filingId).maybeSingle();
+  const { data: filing } = await db
+    .from("filings")
+    .select("id, status, service_name, application_id")
+    .eq("id", filingId)
+    .maybeSingle();
   if (!filing) return { ok: false, code: 404, error: "Filing not found." };
 
   const from = filing.status as FilingStatus;
@@ -41,6 +47,21 @@ export async function transitionFiling(
     note: note ? note.trim().slice(0, 1000) : null,
     actor: `admin:${adminId}`,
   });
+
+  // Status-change email (M6) for client-relevant transitions; best-effort, never
+  // blocks the transition.
+  await sendStatusChangeEmail(filing.application_id, filing.service_name, to);
+
+  // When every filing on the application is terminal, generate the completion
+  // PDFs and send the final email (once, guarded by final_email_sent_at).
+  if (to === "completed") {
+    const { data: all } = await db.from("filings").select("status").eq("application_id", filing.application_id);
+    const allTerminal = (all ?? []).length > 0 && (all ?? []).every((f) => f.status === "completed" || f.status === "cancelled");
+    if (allTerminal) {
+      const attachments = await generateCompletionDocuments(filing.application_id);
+      await sendFinalIfNeeded(filing.application_id, attachments);
+    }
+  }
 
   return { ok: true, status: to };
 }

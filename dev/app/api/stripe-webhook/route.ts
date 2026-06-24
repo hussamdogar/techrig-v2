@@ -1,6 +1,7 @@
 import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { service } from "@/lib/server/supabase";
+import { sendReceiptIfNeeded } from "@/lib/email/lifecycle";
 
 /**
  * POST /api/stripe-webhook  (M4). The SOURCE OF TRUTH for paid state. Verifies
@@ -51,6 +52,8 @@ export async function POST(request: Request) {
         .update({ status: "queued" })
         .eq("application_id", row.application_id)
         .in("status", ["not_started", "awaiting_info"]);
+      // Receipt email (M6), guarded by payments.receipt_sent_at (no double-send).
+      await sendReceiptIfNeeded(intentId);
     }
   }
 

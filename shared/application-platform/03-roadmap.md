@@ -157,12 +157,24 @@ Dependencies: M3 (filings exist), M2 (auth for admin). Gate: an admin advances a
 
 ---
 
-## M6 — Email lifecycle + documents · STATUS: ACTIVE (Dev-led) — work order `work-orders/M6-dev.md` (M4+M5 build-complete; unblocked)
+## M6 — Email lifecycle + documents · STATUS: BUILD-COMPLETE (Dev-led) — work order `work-orders/M6-dev.md`
 Goal: the full lifecycle email engine + PDF documents.
 - 🔵 SEO/brand: all email copy (welcome, reminders, coupon, final per-service variants, status updates), PDF legal text.
 - 🟣 Design: email layout/branding, document/receipt visual.
 - 🟢 Dev: Resend integration, cron (`vercel.json`), `*_sent_at` idempotency guards, per-service final email selection, `pdf-lib` acknowledgement + answers PDFs, Supabase Storage `documents`, coupon issuance at 72h.
 Dependencies: M4 (paid events), M5 (status events). Gate: each trigger fires exactly once, guarded; PDFs generate + attach; reminders never sent to paid leads; deliverability tested.
+
+### Build note (Dev, 2026-06-25) — BUILD-COMPLETE
+**Shipped (`dev/**`):**
+- **Migration `0006`** applied to prod (pre-flight clear): `documents` (owner-read RLS; service-role write) + a private Storage bucket `documents`; `applications.final_email_sent_at`, `payments.receipt_sent_at`, `leads.email_opt_out` (CAN-SPAM suppression) + `leads.coupon_code`.
+- **`lib/email`** — Resend wrapper (`sendEmail`, server-only key, 5/min per-recipient, no PII in logs, no-ops cleanly without a key) + six brand-voice templates (welcome, receipt, 24h, 72h promo, final, status-change). Em-dash-free, no banned words, honors the ELD/insurance reframe.
+- **Lifecycle wiring** — welcome on `createApplication` (`leads.welcome_email_sent_at`); receipt in the Stripe webhook (`payments.receipt_sent_at`); status-change from `transitionFiling` for client-relevant transitions; final + PDFs when all an application's filings go terminal (`applications.final_email_sent_at`). Each guard makes a repeat a no-op.
+- **Cron** `/api/cron/reminders` (`vercel.json` `0 22 * * *`, `CRON_SECRET` Bearer guard): 24h transactional + 72h promotional reminders to unpaid, past-threshold, not-yet-stamped leads, batched 50, never to a paid lead; 72h issues a Stripe coupon (`leads.coupon_code`) and respects `email_opt_out`. `/unsubscribe` one-click suppression via a signed lead token.
+- **PDFs** (`lib/pdf`, `pdf-lib`) — acknowledgement (FMCSA legal certification + captured signature, paginated) + answers (application data as Q&A), stored in the `documents` bucket and recorded in `documents`.
+
+**Verified (logic + prod DB; Resend sandbox recipient):** templates render with no em dashes / no banned words; the 72h promo carries the physical address + unsubscribe (html + text); receipt lists the purchased services. Welcome + receipt guards are idempotent (first send, repeat is a no-op, timestamp stamped). Cron: no secret → 401; selects only unpaid past-threshold not-stamped leads, stamps them, **never a paid lead** (paid lead got neither reminder), 72h **issued a coupon + set `coupon_code`** and **skipped the opted-out lead**. Completion generated 2 PDFs (valid `%PDF`), stored them, recorded 2 `documents` rows; **RLS: owner reads 2, another user reads 0.** Resend key server-only; no PII logged. Test data + test Storage objects deleted.
+
+**Deferred to the consolidated QA ledger (deploy-time only):** real email **deliverability** (DKIM/SPF on the sending domain + `EMAIL_FROM`), the **Vercel cron** firing on schedule, `CRON_SECRET` set on the project, and full inbox click-throughs.
 
 ---
 
@@ -192,7 +204,7 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 | M3-R1 | Full-package bundle | BUILD-COMPLETE | yes | no (→ QA ledger) |
 | M4 | Payment capture | BUILD-COMPLETE (security review passed) | yes | no (→ QA ledger) |
 | M5 | Progress tracking + back-office | BUILD-COMPLETE | yes | no (→ QA ledger) |
-| M6 | Email lifecycle + documents | ACTIVE | no | no |
+| M6 | Email lifecycle + documents | BUILD-COMPLETE | yes | no (→ QA ledger) |
 | M7 | Migration + hardening | PLANNED | no | no |
 
 ## Consolidated pre-launch QA ledger
@@ -202,4 +214,5 @@ Per the deploy policy, deploy-time-only checks accumulate here and run once at t
 - **M3:** Lighthouse on `/apply/*`; the full multi-step click-through with a real signed-in session (depends on the M2 auth redirect-URL allowlist).
 - **M4:** register the live Stripe webhook endpoint on the deployed origin; live Stripe keys; real-card path; Lighthouse on `/apply/[id]/pay`.
 - **M5:** Lighthouse on `/admin` + dashboard; the full signed-in admin click-through (advance a real filing in the browser) once a live session/redirect allowlist exists.
-- (M6+ deploy-time items appended as each milestone reaches build-complete.)
+- **M6:** email deliverability (DKIM/SPF on the sending domain) + set `RESEND_API_KEY`/`EMAIL_FROM`; set `CRON_SECRET` on the Vercel project + confirm the cron fires on schedule; full inbox click-throughs of each lifecycle email.
+- (M7+ deploy-time items appended as each milestone reaches build-complete.)
