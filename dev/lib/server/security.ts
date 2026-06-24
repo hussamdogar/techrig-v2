@@ -82,6 +82,33 @@ export function hashAccessToken(token: string): string {
   return createHmac("sha256", getTokenSecret()).update(token).digest("hex");
 }
 
+/**
+ * Verify a lead token's signature + expiry and return its payload, WITHOUT
+ * needing the leadId up front (the lead→account claim reads the leadId out of the
+ * token). Returns null if the signature is bad, the token is malformed, or it has
+ * expired.
+ */
+export function decodeLeadAccessToken(
+  token: unknown,
+): { leadId: string; referenceId?: string } | null {
+  const value = String(token || "").trim();
+  const [encoded, signature] = value.split(".");
+  if (!encoded || !signature) return null;
+
+  const expected = sign(encoded);
+  const a = Buffer.from(signature);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
+
+  try {
+    const payload = JSON.parse(base64UrlDecode(encoded).toString("utf8")) as LeadTokenPayload;
+    if (typeof payload.leadId !== "string" || payload.exp < Date.now()) return null;
+    return { leadId: payload.leadId, referenceId: payload.referenceId };
+  } catch {
+    return null;
+  }
+}
+
 /** Minimal header accessor: satisfied by both `Headers` and Next's ReadonlyHeaders. */
 type HeaderGetter = { get(name: string): string | null };
 

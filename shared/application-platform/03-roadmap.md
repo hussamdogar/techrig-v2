@@ -67,6 +67,18 @@ Goal (ADR-2): clients can sign up/log in and land on a dashboard; an anonymous l
 - 🟢 Dev: Supabase Auth (magic-link), `profiles`, RLS, dashboard pages, lead→account claim flow, route protection, authed-route noindex.
 Dependencies: M1 (leads exist to claim). Gate: a user signs up, lands on the dashboard, sees their claimed lookup; RLS verified (cannot read another user's rows); authed routes noindexed.
 
+### Build note (Dev, 2026-06-25) — BUILD-COMPLETE
+**Shipped (`dev/**`):**
+- Supabase Auth (magic-link): `@supabase/ssr` server + browser clients, `proxy.ts` (Next 16 middleware) that refreshes the session and guards `/dashboard`, `/account`. `/login` (magic-link request form), `/auth/callback` (code exchange → claim → redirect), sign-out server action.
+- **Migration `0002`** applied to prod `pqbynaaihauifomfhcxo` (pre-flight clear): `profiles` 1:1 with `auth.users`, RLS owner-only, `handle_new_user` trigger auto-creates the profile on signup.
+- **Lead → account claim:** the `/lookup/[usdot]/` page gained a "Create an account to save & track" CTA that stashes the signed lead token in an httpOnly cookie (not the URL); after auth a server action verifies the token (HMAC + stored-hash match) and sets `leads.user_id` only if unclaimed (idempotent, no reassign).
+- **Dashboard shell** (`/dashboard`): saved-lookups list (carrier, authority status, date, link to the docket) + empty Applications state with an interim CTA. **`/account`**: edit name/phone, email read-only, sign out. Built with the existing design system (in-content authed sub-nav; marketing chrome untouched).
+- All authed routes noindex (meta + `X-Robots-Tag` via `next.config.ts`) and absent from `sitemap.xml`.
+
+**Verified (local + against prod DB):** signup trigger creates the profile (with metadata name); profiles RLS (owner reads own row, anon reads none); claim is secure (token-hash match, claimed by the user, second account cannot reassign) — all run against prod with a throwaway user/lead that was then deleted. Logged-out `/dashboard` + `/account` → 307 to `/login?next=…`; `/login` renders; noindex headers present; sitemap excludes authed routes; home stays prerendered; no service-role key in the client bundle. Build clean.
+
+**Deferred to the Consolidated QA ledger (deploy-time only):** prod auth redirect-URL allowlist in Supabase Auth + the real magic-link email round-trip (deliverability + clicking the link), and Lighthouse on the authed routes. The auth mechanics (signInWithOtp wiring, callback code-exchange, trigger, RLS, claim) are verified; only the real email click needs a deployed origin in the allowlist.
+
 ---
 
 ## M3 — Unified application engine · STATUS: PLANNED (work order DRAFTED `work-orders/M3-dev.md`; activates when M2 is build-complete)
@@ -126,7 +138,7 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 | --- | --- | --- | --- | --- |
 | M0 | Foundation | infra confirmed | partial | n/a |
 | M1 | Hero lookup + lead capture | BUILD-COMPLETE | yes | no (→ QA ledger) |
-| M2 | Accounts + dashboard shell | ACTIVE | no | no |
+| M2 | Accounts + dashboard shell | BUILD-COMPLETE | yes | no (→ QA ledger) |
 | M3 | Unified application engine | PLANNED | no | no |
 | M4 | Payment capture | PLANNED | no | no |
 | M5 | Progress tracking + back-office | PLANNED | no | no |
@@ -136,4 +148,5 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 ## Consolidated pre-launch QA ledger
 Per the deploy policy, deploy-time-only checks accumulate here and run once at the end (together with Workstream A's launch gate — `../orchestration-status.md` L1/L4). Nothing here blocks milestone progress.
 - **M1:** QCMobile backup failover on a real IP (sandbox 403 from `mobile.fmcsa.dot.gov`; confirm webKey activated), Vercel KV reference counter + rate-limit on real Upstash, Lighthouse perf/CLS on `/` and `/lookup/[usdot]/`.
-- (M2+ deploy-time items appended as each milestone reaches build-complete: prod auth redirect-URL allowlist, magic-link deliverability on the real domain, Lighthouse on authed routes, etc.)
+- **M2:** prod auth redirect-URL allowlist in Supabase Auth (add the launch domain's `/auth/callback`); real magic-link email deliverability + the full sign-in click-through on the deployed origin; Lighthouse on the authed routes (`/login`, `/dashboard`, `/account`).
+- (M3+ deploy-time items appended as each milestone reaches build-complete.)

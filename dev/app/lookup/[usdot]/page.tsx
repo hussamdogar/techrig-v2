@@ -6,6 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { cn } from "@/lib/utils";
 import { performLookup } from "@/lib/server/lookup-capture";
+import { startClaim } from "./actions";
 import type { CarrierData } from "@/lib/lookup/types";
 
 /**
@@ -85,7 +86,7 @@ function AuthorityChip({ status }: { status: string | null }) {
 }
 
 // ---- the full docket ----------------------------------------------------
-function Docket({ carrier, usdot }: { carrier: CarrierData; usdot: string }) {
+function Docket({ carrier, usdot, token }: { carrier: CarrierData; usdot: string; token: string }) {
   const eq = carrier.equipmentSummary;
   // Safety rating + insurance-on-file are MOTUS-absent: label them by source so a
   // null reads honestly ("from the FMCSA QCMobile record" vs "not on file").
@@ -173,8 +174,24 @@ function Docket({ carrier, usdot }: { carrier: CarrierData; usdot: string }) {
         />
       </div>
 
-      <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-        <Link href="/compliance-services/" className={buttonVariants({ variant: "primary", size: "md" })}>
+      {/* Save & track: stash the signed lead token and route into the magic-link
+          flow; /auth/callback claims this lookup into the new account (M2). */}
+      <form
+        action={startClaim}
+        className="mt-8 flex flex-col gap-3 rounded-card border border-steel/30 bg-cloud p-5 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <input type="hidden" name="token" value={token} />
+        <p className="text-sm text-ink">
+          <span className="font-semibold">Save and track this lookup.</span> Create a free account
+          to keep this record and follow every filing to completion.
+        </p>
+        <button type="submit" className={cn(buttonVariants({ variant: "primary", size: "md" }), "shrink-0")}>
+          Create an account
+        </button>
+      </form>
+
+      <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+        <Link href="/compliance-services/" className={buttonVariants({ variant: "secondary", size: "md" })}>
           Get your compliance done
         </Link>
         <Link
@@ -222,7 +239,7 @@ export default async function LookupResultsPage({ params }: { params: Promise<{ 
         <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "USDOT lookup" }]} />
         <div className="mt-6">
           {outcome.kind === "done" && outcome.result.status === "success" && outcome.result.carrier ? (
-            <Docket carrier={outcome.result.carrier} usdot={usdot} />
+            <Docket carrier={outcome.result.carrier} usdot={usdot} token={outcome.token} />
           ) : outcome.kind === "done" && outcome.result.status === "not_found" ? (
             <Message
               usdot={usdot}

@@ -119,14 +119,16 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // Application Platform routes are noindex (ADR-5). The pages also emit a
+  // Application Platform routes are all noindex (ADR-5). The pages also emit a
   // <meta robots> tag; this header is belt-and-suspenders at the edge.
   async headers() {
+    const noindex = [{ key: "X-Robots-Tag", value: "noindex" }];
     return [
-      {
-        source: "/lookup/:path*",
-        headers: [{ key: "X-Robots-Tag", value: "noindex" }],
-      },
+      { source: "/lookup/:path*", headers: noindex },
+      { source: "/dashboard/:path*", headers: noindex },
+      { source: "/account/:path*", headers: noindex },
+      { source: "/login", headers: noindex },
+      { source: "/auth/:path*", headers: noindex },
     ];
   },
 };
