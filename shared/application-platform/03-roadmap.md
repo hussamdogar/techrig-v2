@@ -21,9 +21,9 @@ Gate: skeleton builds clean; env wired from the live projects; both lookup provi
 
 ---
 
-## M1 — Hero USDOT lookup card + lead capture · STATUS: BUILD-COMPLETE + R3 amendment OPEN (deploy-checks → QA ledger)
-> R1+R2 landed (`f0424b4`), DB gate passed against prod (`7a7c885`). The 3 deploy-time checks (QCMobile backup on a real IP, Vercel KV counter, Lighthouse) are moved to the Consolidated pre-launch QA ledger per the deploy policy — they do not block M2. 
-> **R3 amendment OPEN (owner, 2026-06-25):** complete the MOTUS data — the lookup must be a 3-step chain (carriers → matrix → `getOAPublicView` using `entityOperatingAuthorityId` from the step-1 carriers body), and must capture step-1 fields currently discarded (MCS-150 date, biennial due, USDOT status, mileage). Adds MC docket, BOC-3 (blanketFilings), and insurance (insuranceFilings) to the results page. Exact field map verified live and written in `work-orders/M1-dev.md` §M1 LOOKUP AMENDMENT. Independent of M2 (parallel-safe); verifiable in sandbox. M1 flips to fully DONE when R3 lands + the QA ledger clears at launch.
+## M1 — Hero USDOT lookup card + lead capture · STATUS: BUILD-COMPLETE (deploy-checks → QA ledger)
+> R1+R2 landed (`f0424b4`), DB gate passed against prod (`7a7c885`). The 3 deploy-time checks (QCMobile backup on a real IP, Vercel KV counter, Lighthouse) are in the Consolidated pre-launch QA ledger.
+> **R3 LANDED (`5be85a5`, 2026-06-25):** the lookup is now the full 3-step chain (carriers keeps its body + extracts OA ids → matrix → `getOAPublicView` per OA id, in parallel, each isolated). Four new docket sections (Registration & filing dates, Operating authority, Insurance on file, BOC-3). MC docket now from the OA view (`MC1004652`), superseding the matrix `mxDocketNumber`; filings filtered to current/active with honest status (canceled shown as canceled, not hidden); no-authority carriers skip step 3 → "Not on file". Primary timeout raised to 8s for the multi-call chain. Verified live (matches the orchestrator's independent ground-truth pull). M1 is fully build-complete; flips to DONE when the QA ledger clears at launch.
 Goal (ADR-4): a carrier enters a USDOT on the homepage, sees live FMCSA records (via the dual-provider lookup), and is captured as a lead; "no USDOT" routes to the file-now path. No auth, no payment yet.
 - 🟢 Dev — `work-orders/M1-dev.md` (the only M1 work order): `lib/lookup` (MOTUS primary + QCMobile backup, failover), `/api/lookup-usdot` (rate-limited), `leads` + `carrier_snapshots` tables + RLS in the live Supabase project, the hero card client island built with the existing design system, result render with all states, reference-ID generation (`DGR-`), the "file now" route, noindex on app routes. Functional copy is specified inline in the work order (brand voice; no SEO dependency). Optional welcome email if Resend is trivial to wire.
 Dependencies: M0 env from the live projects + the QCMobile webKey. No SEO/Design gating.
@@ -141,7 +141,7 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 | M | Title | Status | Build-complete | Deploy-checks cleared |
 | --- | --- | --- | --- | --- |
 | M0 | Foundation | infra confirmed | partial | n/a |
-| M1 | Hero lookup + lead capture | BUILD-COMPLETE (R3 amendment OPEN) | yes* | no (→ QA ledger) |
+| M1 | Hero lookup + lead capture | BUILD-COMPLETE (R1-R3 landed) | yes | no (→ QA ledger) |
 | M2 | Accounts + dashboard shell | BUILD-COMPLETE | yes | no (→ QA ledger) |
 | M3 | Unified application engine | ACTIVE | no | no |
 | M4 | Payment capture | PLANNED | no | no |
