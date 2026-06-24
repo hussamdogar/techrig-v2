@@ -156,8 +156,8 @@ const serviceCards: {
   },
   {
     href: "/eld-services/",
-    title: "ELD setup",
-    description: "Electronic logging device setup and hours-of-service compliance.",
+    title: "ELD",
+    description: "A referral to our ELD partner for a compliant hours-of-service device. No Tech Rig fee.",
     icon: "stamp",
   },
   {

@@ -91,7 +91,7 @@ const filingCards: {
     title: "Compliance Services hub",
     slug: "/compliance-services/",
     description:
-      "BOC-3, UCR, insurance filing, and the rest of the federal setup in one place.",
+      "BOC-3, UCR, insurance-filing coordination, and the rest of the federal setup in one place.",
   },
 ];
 

@@ -118,9 +118,13 @@ export default function TruckingInsuranceFilingPage() {
               <p className="mt-4 max-w-[60ch] text-lg text-slate">
                 This is one of the quiet steps that strands new carriers: they
                 have a policy, they have an application, and they still cannot
-                operate because the filing is not in. Tech Rig makes sure your
-                insurance filing is coordinated so it lands and your authority can
-                activate.
+                operate because the filing is not in.{" "}
+                <span className="font-medium text-ink">
+                  Tech Rig does not sell or handle insurance, and we are not
+                  partnered with any insurer.
+                </span>{" "}
+                What we do is work with your own insurer so the required filing
+                reaches FMCSA and your authority can activate.
               </p>
               <div className="mt-7">
                 <Link
@@ -200,6 +204,13 @@ export default function TruckingInsuranceFilingPage() {
           <h2 className="font-display text-3xl font-bold text-ink">
             How we help with your insurance filing
           </h2>
+          <p className="mt-4 text-slate">
+            Worth stating plainly: only your insurance provider can legally file
+            the BMC-91 and MCS-90 with FMCSA. Tech Rig does not file these forms
+            and is not partnered with any insurance company. What we do is
+            coordinate with your own insurer so the filing is actually submitted
+            and clears, on the right timeline.
+          </p>
           <ul className="mt-6 space-y-5">
             <li className="flex gap-4">
               <CheckSealIcon size={24} className="mt-0.5 shrink-0 text-steel" />

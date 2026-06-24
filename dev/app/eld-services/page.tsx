@@ -6,18 +6,12 @@ import {
   AuthorityStatusTracker,
   type Step,
 } from "@/components/authority-status-tracker";
-import { PriceChip } from "@/components/ui/price-chip";
 import { FaqAccordion, type Faq } from "@/components/faq-accordion";
 import { ReviewedBy } from "@/components/reviewed-by";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ClosingCta } from "@/components/closing-cta";
 import { JsonLd } from "@/components/json-ld";
-import {
-  CheckSealIcon,
-  ClockIcon,
-  FilingIcon,
-  StampIcon,
-} from "@/components/icons";
+import { CheckSealIcon, ClockIcon, FilingIcon } from "@/components/icons";
 import {
   breadcrumbNode,
   faqNode,
@@ -25,27 +19,32 @@ import {
   personNode,
   serviceNode,
 } from "@/lib/schema";
-import { pricing } from "@/lib/services";
-import { filingCtaHref } from "@/lib/site";
+
+// CLIENT RULE (2026-06-21, work-order-eld-insurance.md): Tech Rig does NOT handle
+// ELD directly. It refers carriers to its ELD partner (Motive), who supplies and
+// sets up the device. No Tech Rig fee, no price chip, and the page never says
+// "we set up / install / configure your ELD". The referral CTA routes to
+// /contact-us/ until the partner referral link is supplied.
+const ELD_CTA = "/contact-us/";
 
 export const metadata: Metadata = {
   title: "ELD for Owner Operators and Fleets",
   description:
-    "ELD for owner operators set up and supported. We help you choose, install, and run a compliant electronic logging device so your hours of service are clean.",
+    "ELD for owner operators, made simple. Tech Rig connects you with our trusted ELD partner for a compliant device, so your hours of service stay clean and audit-ready.",
   alternates: { canonical: "/eld-services/" },
   openGraph: {
-    title: "ELD Setup",
+    title: "ELD",
     description:
-      "ELD for owner operators set up and supported. We help you choose, install, and run a compliant electronic logging device so your hours of service are clean.",
+      "ELD for owner operators, made simple. Tech Rig connects you with our trusted ELD partner for a compliant device, so your hours of service stay clean and audit-ready.",
     url: "/eld-services/",
     type: "website",
   },
 };
 
-// Tracker scoped so ELD reads as an operational-readiness step a carrier handles
+// Tracker scoped so ELD reads as an operational-readiness step a carrier reaches
 // around the time they start hauling: after authority is active, alongside the
-// interstate setup (IRP and IFTA), not a node that gates activation. Honesty
-// rules apply: no guaranteed dates, no implied government endorsement.
+// interstate setup (IRP and IFTA). The device is supplied by the partner, not by
+// Tech Rig, so the node reads "ELD in place", never implying Tech Rig installs it.
 const eldSteps: Step[] = [
   { label: "Authority active", status: "Active", state: "active", icon: "checkSeal" },
   {
@@ -54,7 +53,7 @@ const eldSteps: Step[] = [
     state: "progress",
     icon: "clock",
   },
-  { label: "ELD installed", status: "Ready to haul", state: "filed", icon: "stamp" },
+  { label: "ELD in place", status: "Ready to haul", state: "filed", icon: "stamp" },
 ];
 
 // One source feeds both the visible FAQ and the FAQPage schema (verbatim parity).
@@ -64,16 +63,16 @@ const faqs: Faq[] = [
     a: "Most drivers subject to hours-of-service rules need one, with limited exceptions. We confirm whether you are required to run one.",
   },
   {
-    q: "Which ELD should I use?",
-    a: "We work with Motive and help you pick a setup that fits your truck and operation.",
+    q: "Does Tech Rig set up my ELD?",
+    a: "No. We refer you to our ELD partner, who provides the device and the setup. We make the introduction and keep ELD in your compliance plan.",
   },
   {
-    q: "Is the device cost included?",
-    a: "Device and subscription costs come from the provider and are separate from any Tech Rig service fee. We show you both.",
+    q: "What does the referral cost?",
+    a: "Nothing from Tech Rig. You pay the partner directly for the device and subscription.",
   },
   {
-    q: "Can you help if my ELD is logging wrong?",
-    a: "Yes. A misconfigured ELD causes inspection violations, so we make sure it is set up correctly and point you to support.",
+    q: "Which ELD will I get?",
+    a: "Our partner's compliant device, suited to your truck and operation. They handle the configuration.",
   },
 ];
 
@@ -82,12 +81,13 @@ export default function EldServicesPage() {
     <>
       <JsonLd
         data={graph(
-          // Verify-state pricing: omit the Service offer price until the fee is confirmed.
+          // Referral, not a Tech Rig service: no offers/price. The serviceType and
+          // description frame Tech Rig as the referrer, never the ELD provider.
           serviceNode({
-            serviceType: "ELD setup",
+            serviceType: "ELD partner referral",
             slug: "/eld-services/",
             description:
-              "Tech Rig helps owner-operators and small fleets choose, install, and configure a compliant electronic logging device, working with Motive, so hours of service log correctly.",
+              "Tech Rig refers owner-operators and small fleets to its ELD partner for a compliant electronic logging device. Tech Rig does not sell, install, or configure ELDs.",
           }),
           breadcrumbNode([
             { name: "Home", slug: "/" },
@@ -112,25 +112,24 @@ export default function EldServicesPage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                ELD Setup for Owner Operators and Fleets
+                ELD for Owner Operators and Fleets
               </h1>
               <p className="mt-5 max-w-[60ch] text-lg text-slate">
                 An electronic logging device (ELD) records your hours of service
                 automatically, and most carriers are required to run one.{" "}
                 <span className="font-medium text-ink">
-                  The hard part is not the rule, it is choosing a device that
-                  fits your operation and setting it up so your logs are clean
+                  We do not sell or set up ELDs ourselves.
                 </span>{" "}
-                for inspections and audits. Tech Rig helps you get the right ELD
-                in place. We work with Motive as our ELD partner, so
-                owner-operators and small fleets get a setup that just works.
+                Instead, Tech Rig connects you with our trusted ELD partner, so
+                owner-operators and small fleets get a compliant device from a
+                provider we know, without shopping the market blind.
               </p>
               <div className="mt-7">
                 <Link
-                  href={filingCtaHref}
+                  href={ELD_CTA}
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
-                  Set up my ELD
+                  Get connected with our ELD partner
                 </Link>
               </div>
               <div className="mt-5">
@@ -159,34 +158,31 @@ export default function EldServicesPage() {
               Running without a required ELD, or running one set up wrong, leads
               to violations at inspection
             </span>{" "}
-            and hurts your safety record.
+            and hurts your safety record. We confirm whether you are required to
+            run one.
           </p>
         </Container>
       </Section>
 
-      {/* ELD for owner operators: how we help */}
+      {/* How ELD works with Tech Rig (referral framing) */}
       <Section surface="paper">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
-            ELD for owner operators: how we help
+            How ELD works with Tech Rig
           </h2>
           <ul className="mt-6 space-y-5">
             {[
               {
                 Icon: CheckSealIcon,
-                text: "We help you choose an ELD that fits your truck and operation, working with Motive.",
-              },
-              {
-                Icon: StampIcon,
-                text: "We help get it installed and your account configured so your hours of service log correctly.",
+                text: "We do not provide or install ELDs. We refer you to our ELD partner, who supplies the device and handles the setup.",
               },
               {
                 Icon: FilingIcon,
-                text: "We connect ELD into the rest of your compliance so your records line up for inspections and audits.",
+                text: "You buy the device and subscription directly from the partner. There is no charge from Tech Rig for the referral.",
               },
               {
                 Icon: ClockIcon,
-                text: "We point you to support when you need it, so a device problem does not become a compliance problem.",
+                text: "We make sure ELD is on your radar at the right point in your compliance, alongside your IRP and IFTA, so nothing is missed when you start hauling.",
               },
             ].map(({ Icon, text }) => (
               <li key={text} className="flex gap-4">
@@ -196,17 +192,12 @@ export default function EldServicesPage() {
             ))}
           </ul>
 
-          {/* Pricing is unconfirmed ([VERIFY]): render the chip in its verify
-              state, never an invented number. Device and subscription costs are
-              third-party (Motive) and shown separately from any Tech Rig fee. */}
-          <div className="mt-8">
-            <PriceChip price={pricing["/eld-services/"]} label="ELD setup" />
-            <p className="mt-4 text-sm text-slate">
-              Device and subscription costs come from the provider (Motive) and
-              are shown separately from any Tech Rig service fee. You see both
-              before you decide.
-            </p>
-          </div>
+          {/* No Tech Rig price chip on this page (client rule): the device and
+              subscription are the partner's cost, paid to the partner. */}
+          <p className="mt-8 text-sm text-slate">
+            No Tech Rig fee. The device and subscription costs are the partner&apos;s,
+            paid directly to the partner.
+          </p>
         </Container>
       </Section>
 
@@ -220,8 +211,8 @@ export default function EldServicesPage() {
             An ELD is part of running interstate cleanly, alongside your{" "}
             <CrossLink href="/irp-registration/">IRP</CrossLink> and{" "}
             <CrossLink href="/ifta-registration/">IFTA</CrossLink> setup. New
-            carriers usually handle ELD around the time they start hauling. If you
-            are still standing up the company, see the{" "}
+            carriers usually sort out ELD around the time they start hauling. If
+            you are still standing up the company, see the{" "}
             <CrossLink href="/compliance-services/">full setup</CrossLink>.
           </p>
 
@@ -245,8 +236,8 @@ export default function EldServicesPage() {
       </Section>
 
       <ClosingCta
-        text="Need an ELD that keeps your logs clean? Get set up with the right device."
-        cta={{ label: "Set up my ELD", href: filingCtaHref }}
+        text="Need a compliant ELD without the guesswork? We will connect you with our ELD partner."
+        cta={{ label: "Get connected with our ELD partner", href: ELD_CTA }}
       />
     </>
   );

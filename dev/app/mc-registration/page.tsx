@@ -93,7 +93,7 @@ export default function McRegistrationPage() {
             serviceType: "MC operating authority registration",
             slug: "/mc-registration/",
             description:
-              "Tech Rig files your MC operating authority application, BOC-3, and insurance filing together so your authority actually activates after the federal protest period.",
+              "Tech Rig files your MC operating authority application and BOC-3, and coordinates your insurance filing, so your authority actually activates after the federal protest period.",
             price: 600,
           }),
           breadcrumbNode([

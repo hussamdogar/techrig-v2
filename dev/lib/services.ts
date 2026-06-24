@@ -101,8 +101,8 @@ export const pricing: Record<string, Price> = {
   // separate (govFee) because they depend on mileage and jurisdictions.
   "/irp-registration/": { kind: "flat", amount: 175, govFee: true },
   "/ifta-registration/": { kind: "flat", amount: 175, govFee: true },
-  // ELD setup fee is on hold (do not publish a price): render "Contact for quote".
-  "/eld-services/": { kind: "quote" },
+  // ELD is a partner referral with NO Tech Rig fee (client rule 2026-06-21), so
+  // it has no pricing entry: the hub card renders no price chip.
   // Service fees still not confirmed in services.md (flagged [VERIFY] in briefs).
   "/mc-dot-registration/": { kind: "verify", govFee: true },
   "/trucking-insurance-filing/": { kind: "verify" },

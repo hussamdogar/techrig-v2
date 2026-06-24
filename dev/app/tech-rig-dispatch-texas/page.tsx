@@ -91,7 +91,7 @@ const filings: {
     icon: "shield",
     title: "Compliance Services hub",
     href: "/compliance-services/",
-    description: "The full setup: BOC-3, UCR, insurance filing, and the rest.",
+    description: "The full setup: BOC-3, UCR, insurance-filing coordination, and the rest.",
   },
 ];
 
