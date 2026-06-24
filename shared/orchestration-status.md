@@ -58,7 +58,7 @@ content-writer polishes the 42 migrated blog bodies to `standards.md` (titles >6
 
 ## Git posture (orchestrator-managed)
 - `main` == `origin/main`, working tree clean. No lane is ahead of another.
-- Stale, fully-merged branches (0 ahead): `claude/hungry-boyd-00148b` (18 behind), `claude/modest-carson-36d0c0` (30 behind). Prune candidates.
-- `design/logo-and-design-system` == `main` HEAD (0/0). Keep or retire per Design.
-- Stale worktree: `seo/.claude/worktrees/hungry-boyd-00148b` pinned to the merged hungry-boyd branch. Remove once confirmed no live SEO session is using it.
+- Pruned 2026-06-24: `claude/hungry-boyd-00148b` and `claude/modest-carson-36d0c0` (both fully merged, 0 ahead) deleted local + remote. Their leftover worktree was detached from git (`git worktree list` shows only `main`).
+- Remaining branches: `main`, `design/logo-and-design-system` (== `main` HEAD, kept intentionally for Design).
+- Leftover dir `seo/.claude/worktrees/hungry-boyd-00148b` is locked by a live process (an open SEO session). Git no longer tracks it; delete the empty folder after closing that session.
 - Rule going forward: each lane commits only its own paths (SEO -> `seo/`, `shared/` SEO artifacts; Design -> `shared/design/`; Dev -> `dev/`, `shared/build-report.md`). Never `git add .`.
