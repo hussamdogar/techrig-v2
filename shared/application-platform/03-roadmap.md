@@ -46,6 +46,15 @@ Gate: enter a real USDOT → correct live FMCSA data renders (primary, and still
 
 **R1+R2 LANDED (Dev, 2026-06-25):** Shared `performLookup()` extracted to `lib/server/lookup-capture.ts` and reused by both the new page and the `/api/lookup-usdot` POST route (no logic duplication). New `app/lookup/[usdot]/page.tsx` is a server component, noindex (meta + `X-Robots-Tag` header via `next.config.ts`, absent from `sitemap.xml`); it renders the full docket in six grouped sections (Identity, Authority & status, Operation classification, Fleet & equipment, Drivers & contact, Address) with "Not on file" for nulls and safety/insurance labelled by source. The hero card is now a validate-and-navigate entry form. Verified live in-sandbox: `/lookup/3214567/` renders the full ELMI TRANSPORTATION docket end-to-end (MOTUS); not-found and error states render on the page; home stays prerendered; `/lookup` excluded from sitemap. Gate runbook next.
 
+**GATE RUNBOOK (Dev, 2026-06-25) — DB gate PASSED; two checks deferred to deploy.** Ran with the owner's `SUPABASE_ACCESS_TOKEN`.
+- **Pre-flight (read-only):** clear — `leads`/`carrier_snapshots` absent, no pre-existing `set_updated_at`. Token confirmed to own the target `pqbynaaihauifomfhcxo` ("BOC-3 Test Project", us-east-2); did not touch any other project.
+- **Migration `0001` APPLIED** to `pqbynaaihauifomfhcxo` via the Supabase Management API. Verified: both tables exist, **RLS enabled**, 4 policies (anon-insert, owner select/update, snapshot owner-select), 9 indexes, the `leads_set_updated_at` trigger.
+- **Live write PASS:** a real USDOT lookup wrote one `leads` row (status `success`, `DGR-` reference) + one immutable `carrier_snapshots` row (`source: motus`).
+- **RLS PASS:** anon REST sees 0 rows on both tables; service-role sees them. Anonymous cannot read others' rows.
+- **noindex PASS:** `/lookup` emits `<meta robots noindex>` + `X-Robots-Tag` header, absent from `sitemap.xml`.
+- **Deferred to the real deployment (sandbox-limited, owner agreed):** (1) **QCMobile backup** — `mobile.fmcsa.dot.gov` returns 403 to the sandbox IP (likely a WAF; MOTUS works), so the force-primary-fail→backup check needs a real-IP preview; (2) **KV counter** — the Upstash REST endpoint is unreachable from the sandbox so the `DGR-` counter used its fallback (works on Vercel's network); (3) **Lighthouse** on `/` — to run post-deploy.
+- **Net:** the database half of the gate is complete and verified against the live project; the remaining checks are environmental and run at deploy time. Suggest M1 stays ACTIVE until the preview confirms (1)–(3), then orchestrator → DONE.
+
 ---
 
 ## M2 — Accounts + dashboard shell · STATUS: PLANNED
