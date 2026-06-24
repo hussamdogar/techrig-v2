@@ -42,6 +42,8 @@ Gate: enter a real USDOT → correct live FMCSA data renders (primary, and still
 
 **Recommendation:** keep M1 status ACTIVE. Wire the env + webKey, apply `0001`, deploy a preview, run items 1–3; then the orchestrator flips M1 → DONE.
 
+**Revisions (owner, 2026-06-25) — land BEFORE the gate (see work order §M1 REVISIONS):** (R1) Search navigates to a dedicated noindex results page `/lookup/[usdot]/` instead of expanding the card inline; the card becomes an entry form, result/not-found/error move to the page; extract a shared `performLookup()` so the page and the POST route reuse one path. (R2) The results page renders the COMPLETE matrix docket (identity, authority, operation classification, fleet/equipment, drivers, officer contact, addresses), not the card's 8-field summary. The two-step carriers→entityId→matrix fetch is already correct (`lib/lookup/motus.ts`); the gap was display scope. Nulls show "Not on file"; safety-rating/insurance come only from the QCMobile backup.
+
 ---
 
 ## M2 — Accounts + dashboard shell · STATUS: PLANNED

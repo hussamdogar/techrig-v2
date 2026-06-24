@@ -62,3 +62,57 @@ Welcome email on lead creation only if Resend wires in trivially (domain is live
 
 ## Commit scope
 Commit only `dev/**` and this milestone's roadmap note. Never `git add .`. The hero edit touches `dev/app/page.tsx` — keep it to the card insertion.
+
+---
+
+## M1 REVISIONS (orchestrator, 2026-06-25) — client corrections; land these BEFORE the gate
+Two changes from the owner after reviewing the live build. Both must ship before the gate runbook runs.
+
+### R1 — Search navigates to a dedicated results PAGE (not an inline expand)
+Today the hero card POSTs and expands the result inline. Change it: the **Search button navigates to a dedicated results page** that displays the carrier info.
+- Route: `/lookup/[usdot]/` (path param; shareable within the session). It is a **noindex** app route (ADR-5; `robots: {index:false, follow:false}`, absent from `sitemap.xml`).
+- The **hero card** becomes a lightweight entry form: validate `^\d{1,12}$` client-side, then route to `/lookup/{usdot}/`. The result / not-found / error states move OFF the card and onto the results page. Keep the idle/focused/invalid + a brief submit/loading state on the card.
+- **Results page** performs the lookup, captures the lead, and renders. Recommended: a **server component** that calls a shared `performLookup(usdot, request)` helper (extract the lookup + rate-limit + lead/snapshot-capture logic currently inside `app/api/lookup-usdot/route.ts` into `lib/server` so BOTH the page and the existing POST route reuse it — no logic duplication). SSR keeps Supabase/Stripe out of the client bundle and the page fast. Preserve: rate-limit, lead + snapshot capture, `X-Robots-Tag: noindex`, reference + token.
+- States on the page: success (full docket, see R2), `not_found` (with a "File for a USDOT" CTA → interim `/dot-registration/`), `manual_required`, and error. Keep "Search another" → back to the card/home. The `/api/lookup-usdot` POST route stays (it will back programmatic/`/apply` use); the card simply no longer renders results itself.
+
+### R2 — Display the COMPLETE docket (the two-step data is already fetched)
+The two-step fetch is correct and present (`lib/lookup/motus.ts` `fetchMotusCarrier`: `/carriers/{usdot}` → `getEntityId` → `/public-registration-matrix/{entityId}`; the full matrix is normalized and also kept on `CarrierData.raw`). The data was "incomplete" only because the **card surfaced ~8 fields**. The new results page must render the **full docket**:
+- Identity: legal name, DBA, USDOT, MC/docket (`mxDocketNumber`), entity/business type, operation/registration type.
+- Status: operating authority status, allowed-to-operate / out-of-service, new-entrant, protest period, insurance-required, BOC-3 designation eligibility.
+- Operation classification: interstate/intrastate, for-hire/private.
+- Fleet: power units, equipment summary (truck tractors / straight trucks / trailers), reported powered vehicles.
+- People: drivers total + CDL, primary officer/contact (name, phone, email) — but treat officer PII carefully (display, do not persist beyond the snapshot; never log).
+- Addresses: physical/principal.
+- Every null shows "Not on file" — never fabricate (standards.md). Safety rating + insurance-on-file are genuinely absent from the MOTUS matrix; they populate only when the **QCMobile** backup answers (`source: qcmobile`), so label them honestly by source.
+- **Verify** against the test USDOT (3214567) that the matrix docket is fully populated end-to-end. If a field the owner expects is still missing, trace which layer drops it: (i) not in the matrix response, (ii) dropped by `normalizeMotusMatrixResponse`, or (iii) simply not displayed — and fix at the right layer. Do not add a third MOTUS call unless the matrix genuinely lacks the field.
+- Group the docket into readable sections using the existing design system; this is the page that proves Tech Rig's competence, so it should read cleanly, not as a raw dump.
+
+Acceptance for R1+R2 folds into the gate below (the "real USDOT → live data" check now means: Search → `/lookup/{usdot}/` renders the full docket; not-found/error render on the page; card no longer expands inline).
+
+---
+
+## GATE-COMPLETION RUNBOOK (orchestrator, 2026-06-24; revised 2026-06-25) — finish the gate AFTER R1+R2 land
+Authorized by the owner: pre-flight, then apply `0001` to the shared production Supabase DB (it serves the live legacy forms; the migration is additive + idempotent). Env is now in `dev/.env.local`. The dev session executes this; the orchestrator verifies the evidence and flips M1 → DONE. Run in order:
+
+1. **Pre-flight (read-only) — do NOT skip.** Against the live DB, run:
+   ```sql
+   select
+     to_regclass('public.leads')             as leads_exists,
+     to_regclass('public.carrier_snapshots') as carrier_snapshots_exists,
+     exists (select 1 from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+             where n.nspname = 'public' and p.proname = 'set_updated_at') as set_updated_at_exists;
+   ```
+   - If `leads_exists` or `carrier_snapshots_exists` is non-null → **STOP** (name collision with a legacy table); report to the orchestrator before applying.
+   - If `set_updated_at_exists` is true → inspect its definition; only let `create or replace` proceed if the body is the trivial `new.updated_at = now()` (else report).
+   - All clear → proceed.
+2. **Apply `0001`** to the live project. Confirm both tables, RLS enabled, policies, indexes, and the trigger exist afterward. Capture the output.
+3. **Preview deploy** with `.env.local` wired (Supabase + KV + `FMCSA_WEBKEY`). 
+4. **Run the gate checks** and capture evidence for each:
+   - a real USDOT → live data written: a `leads` row + immutable `carrier_snapshots` row, `DGR-` reference from the real KV counter, rate-limit exercised.
+   - **backup provider**: with `FMCSA_WEBKEY` set, force the primary to fail (or use a USDOT MOTUS lacks) → QCMobile answers, `source: qcmobile`; both unavailable → `manual_required`.
+   - **RLS**: an anon client cannot `select` any `leads`/`carrier_snapshots` row; an owner sees only their own.
+   - **Lighthouse** on `/`: perf/CLS not regressed vs. pre-card baseline; card lazy, no layout shift.
+   - **noindex**: `X-Robots-Tag`/metadata on the app routes; routes absent from `sitemap.xml`.
+5. **Report** the evidence back (append results here or to the roadmap M1 note). The orchestrator confirms and flips M1 → DONE, then opens M2.
+
+Safety: applying is the only production-touching step and is authorized for the additive migration ONLY. Any DROP/ALTER on a legacy table is out of scope — stop and escalate. Do not print secrets from `.env.local` in logs or commits.

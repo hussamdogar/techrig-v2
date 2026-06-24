@@ -1,7 +1,10 @@
 # Start here: Dev workspace
 
 > **ACTIVE WORK ORDER (orchestrator, 2026-06-24): Application Platform — M1.**
-> Build the homepage USDOT lookup card + lead capture. This is a Dev-led workstream (noindex, so no SEO; existing design system, so no new Design). Execute `../shared/application-platform/work-orders/M1-dev.md` end to end; read `../shared/application-platform/00-overview.md` → `01-architecture.md` → `02-data-model.md` first for context. Reuse the live legacy infra (Supabase/Stripe/Resend/KV); the one new credential to obtain is the FMCSA QCMobile webKey (backup lookup). First task: `lib/lookup` (MOTUS primary + QCMobile backup, failover). Honor the acceptance gate before declaring M1 done. The original site build (below) is already complete; M1 is additive.
+> M1 code is BUILT (`cf57ff8`) but has TWO owner revisions to land FIRST, then the gate. See `../shared/application-platform/work-orders/M1-dev.md`:
+> 1. **§M1 REVISIONS (2026-06-25):** R1 — Search navigates to a dedicated noindex results page `/lookup/[usdot]/` (the card becomes an entry form; result/not-found/error move to the page; extract a shared `performLookup()` so the page + POST route share one path). R2 — render the COMPLETE matrix docket on that page, not the card's 8-field summary (the two-step carriers→entityId→matrix fetch in `lib/lookup/motus.ts` is already correct; the gap is display scope). Nulls show "Not on file".
+> 2. **§GATE-COMPLETION RUNBOOK:** then pre-flight + apply migration `0001` to the live Supabase DB (AUTHORIZED, additive + idempotent; stop/escalate on any name collision), deploy a Vercel preview with `dev/.env.local` (incl. `FMCSA_WEBKEY`), and run the gate checks (full-docket render, backup provider, RLS, Lighthouse, noindex). Report evidence; the orchestrator flips M1 → DONE and opens M2.
+> Do not print secrets. The original site build (below) is already complete; M1 is additive.
 
 ---
 
