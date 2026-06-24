@@ -10,6 +10,8 @@ Goal: every filing a carrier buys gets a visible status lifecycle. Clients see r
 - No preview deploy (owner policy): verify locally + against the prod DB; deploy-time items → QA ledger.
 
 ## 1. Admin/role model — decide + build first (the security-sensitive part)
+**RESOLVED (dev, 2026-06-25): a separate `admin_users` table, NOT `profiles.role`.** Rationale (correct, overrides this work order's first suggestion): the M2 `profiles` UPDATE policy lets a client edit their own profile row, so a `role` column there would be a **self-escalation path** to admin. `admin_users` has RLS enabled with **zero policies** — unreachable by anon/authenticated; only the service role (after a server-side `isAdmin()` check) touches it. First admin seeded manually via SQL in `0005`. This is the pattern to keep. (Original guidance kept below for context.)
+
 The back-office needs an authorization model. Add a `role` to `profiles` (`'client' | 'staff' | 'admin'`, default `'client'`) — or an `admin_users` table if you prefer; pick one and justify. The first admin is seeded manually via SQL by the team (document the seed step; do not build a self-serve admin signup). Every admin/back-office route + the status-transition API checks this server-side (never trust a client claim). **This is a privilege boundary — treat it like the M4 money path:** server-side checks only, no role in client-editable state, and note it for the M7 security review (a focused review of the admin authz now is encouraged).
 
 ## 2. Migration `0005` — `filing_events`

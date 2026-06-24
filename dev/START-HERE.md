@@ -6,9 +6,9 @@
 >
 > **M1 (incl. R3), M2, and M3 are all BUILD-COMPLETE.** The unified `/apply` engine (`16eab3f`) is live against the prod DB with verified pricing, RLS, and step logic.
 >
-> **M0–M4 + M3-R1 are all BUILD-COMPLETE** (`321396d`): lookup (incl. R3 docket), accounts+dashboard, the application engine (incl. the $1,350 package), and Stripe TEST-mode payment. Migrations `0001–0004` live on prod.
+> **M0–M5 + M3-R1 are all BUILD-COMPLETE** (`45da3f7`): lookup (R3 docket), accounts+dashboard, application engine (incl. $1,350 package), Stripe TEST-mode payment, and progress tracking + back-office (`admin_users` boundary, `/admin` board, client timeline). Migrations `0001–0005` live on prod.
 >
-> **ACTIVE: M5 — progress tracking + filing lifecycle + back-office** (`work-orders/M5-dev.md`). Build order: admin/role model (`profiles.role`, first admin seeded manually — security-sensitive, server-side checks only) → migration `0005` `filing_events` → admin-guarded status-transition API (state machine) → `(admin)` board → client progress timeline (reuse `AuthorityStatusTracker`) → surface `needs_mcs150`/diff. Standing auth covers the additive `0005` (pre-flight first). Existing design system. Verify locally + against prod DB, NO preview deploy; deploy-time items → QA ledger. Do not print secrets.
+> **ACTIVE: M6 — email lifecycle + documents** (`work-orders/M6-dev.md`). Resend send wrapper + templates (brand voice, em-dash-free, honor ELD/insurance reframe), the lifecycle table of triggers→emails (welcome/receipt/24h/72h+coupon/final-per-service/status-change) each idempotent via `*_sent_at` guards, cron (`CRON_SECRET`), `pdf-lib` acknowledgement+answers → Supabase Storage `documents` (`0006`). Standing auth covers additive `0006` (pre-flight first). **Verify logic locally (Resend sandbox); real deliverability + Vercel cron → QA ledger.** CAN-SPAM (address + unsubscribe) on the promotional 72h email. Existing design system; do not print secrets.
 >
 > Standing rules still apply: additive migrations to prod after pre-flight; existing design system; verify locally + against prod DB, NO preview deploy (deploy-time items → QA ledger); prices ONLY from `seo/context/services.md`; ELD/insurance never billable; do not print secrets.
 

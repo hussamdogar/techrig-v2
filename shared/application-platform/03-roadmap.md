@@ -157,7 +157,7 @@ Dependencies: M3 (filings exist), M2 (auth for admin). Gate: an admin advances a
 
 ---
 
-## M6 — Email lifecycle + documents · STATUS: PLANNED
+## M6 — Email lifecycle + documents · STATUS: ACTIVE (Dev-led) — work order `work-orders/M6-dev.md` (M4+M5 build-complete; unblocked)
 Goal: the full lifecycle email engine + PDF documents.
 - 🔵 SEO/brand: all email copy (welcome, reminders, coupon, final per-service variants, status updates), PDF legal text.
 - 🟣 Design: email layout/branding, document/receipt visual.
@@ -192,7 +192,7 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 | M3-R1 | Full-package bundle | BUILD-COMPLETE | yes | no (→ QA ledger) |
 | M4 | Payment capture | BUILD-COMPLETE (security review passed) | yes | no (→ QA ledger) |
 | M5 | Progress tracking + back-office | BUILD-COMPLETE | yes | no (→ QA ledger) |
-| M6 | Email lifecycle + documents | PLANNED | no | no |
+| M6 | Email lifecycle + documents | ACTIVE | no | no |
 | M7 | Migration + hardening | PLANNED | no | no |
 
 ## Consolidated pre-launch QA ledger
