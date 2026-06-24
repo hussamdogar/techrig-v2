@@ -51,6 +51,13 @@ qa-report §A4 flags `/tech-rig-dispatch-[state]/` as highest duplication risk. 
 ### L8 — Post-launch content  [OWNER: SEO Operations Track]
 content-writer polishes the 42 migrated blog bodies to `standards.md` (titles >60 chars, Three Kings not enforced on posts) and picks up the 4 client-requested posts + per-page proof once client supplies it. Strictly post-launch.
 
+## Workstream B — Application Platform (NEW, 2026-06-24)
+A full client-facing application platform on the new site: USDOT lookup card, unified service-driven application, payment, lead capture, Supabase-Auth accounts, dashboard, progress tracking. Unifies the two legacy form apps (`techrig-form`, `boc3-form-new`) and adds the dashboard layer they lacked. Full docs: `application-platform/` (overview, architecture, data-model, roadmap, work-orders).
+- Decisions locked (ADR-1..4): integrated into techrig.org; real Supabase-Auth accounts; one unified service-driven engine; first milestone = hero lookup card + lead capture.
+- **M1 ACTIVE** — work orders issued to all three lanes (`application-platform/work-orders/M1-{seo,design,dev}.md`). Sequence: SEO addendum → Design spec → Dev build. Dev's MOTUS spike can start immediately (schedule risk).
+- M2–M7 PLANNED (accounts/dashboard → application engine → payment → progress tracking → email/docs → migration). See `application-platform/03-roadmap.md` status ledger.
+- Ties to Workstream A: M7 subdomain redirects (`form.`/`boc-3.techrig.org`) must fold into the L1 crawl-union before launch; pricing must stay sourced from `services.md`; the ELD/insurance reframe must not be reintroduced by the application engine.
+
 ## Closed / verified
 - ELD + insurance reframe (`work-order-eld-insurance.md`): VERIFIED CLOSED 2026-06-24. `serviceType: "ELD partner referral"`, ELD price chip removed, CTA = "Get connected with our ELD partner", insurance hero disclaimer present, no "files your insurance" survives. Committed 43a1598.
 - Blog posts built (42 KEEP at root) + 301 redirect map implemented (`handoff-dev-to-seo.md` #1, #2).
