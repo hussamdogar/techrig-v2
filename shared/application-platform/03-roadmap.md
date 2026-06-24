@@ -44,6 +44,8 @@ Gate: enter a real USDOT → correct live FMCSA data renders (primary, and still
 
 **Revisions (owner, 2026-06-25) — land BEFORE the gate (see work order §M1 REVISIONS):** (R1) Search navigates to a dedicated noindex results page `/lookup/[usdot]/` instead of expanding the card inline; the card becomes an entry form, result/not-found/error move to the page; extract a shared `performLookup()` so the page and the POST route reuse one path. (R2) The results page renders the COMPLETE matrix docket (identity, authority, operation classification, fleet/equipment, drivers, officer contact, addresses), not the card's 8-field summary. The two-step carriers→entityId→matrix fetch is already correct (`lib/lookup/motus.ts`); the gap was display scope. Nulls show "Not on file"; safety-rating/insurance come only from the QCMobile backup.
 
+**R1+R2 LANDED (Dev, 2026-06-25):** Shared `performLookup()` extracted to `lib/server/lookup-capture.ts` and reused by both the new page and the `/api/lookup-usdot` POST route (no logic duplication). New `app/lookup/[usdot]/page.tsx` is a server component, noindex (meta + `X-Robots-Tag` header via `next.config.ts`, absent from `sitemap.xml`); it renders the full docket in six grouped sections (Identity, Authority & status, Operation classification, Fleet & equipment, Drivers & contact, Address) with "Not on file" for nulls and safety/insurance labelled by source. The hero card is now a validate-and-navigate entry form. Verified live in-sandbox: `/lookup/3214567/` renders the full ELMI TRANSPORTATION docket end-to-end (MOTUS); not-found and error states render on the page; home stays prerendered; `/lookup` excluded from sitemap. Gate runbook next.
+
 ---
 
 ## M2 — Accounts + dashboard shell · STATUS: PLANNED

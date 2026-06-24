@@ -82,8 +82,11 @@ export function hashAccessToken(token: string): string {
   return createHmac("sha256", getTokenSecret()).update(token).digest("hex");
 }
 
+/** Minimal header accessor: satisfied by both `Headers` and Next's ReadonlyHeaders. */
+type HeaderGetter = { get(name: string): string | null };
+
 /** Client IP from the proxy headers (Vercel sets x-forwarded-for). */
-export function getClientIp(headers: Headers): string {
+export function getClientIp(headers: HeaderGetter): string {
   const forwarded = headers.get("x-forwarded-for") || "";
   return forwarded.split(",")[0]?.trim() || headers.get("x-real-ip") || "unknown";
 }
@@ -111,7 +114,7 @@ export async function checkRateLimit({
   limit,
   windowMs,
 }: {
-  headers: Headers;
+  headers: HeaderGetter;
   key: string;
   limit: number;
   windowMs: number;
