@@ -5,7 +5,9 @@ Decompose the build so nothing is dropped. Each milestone is independently shipp
 
 **This is a Dev-led workstream (ADR-5/-8).** The platform is noindex, so SEO is not a lane; the design language is locked, so Design is not a lane. Dev owns the UI (built with the existing system), functional copy in the brand voice, and all engineering. The 🔵/🟣 bullets in M2–M7 below are folded into Dev: read "🔵" as "Dev, copy in brand voice" and "🟣" as "Dev, existing design system"; escalate to Design only for a genuinely new pattern. Each milestone still gets its own Dev work order when it activates.
 
-Sequencing rule: a milestone does not start until its dependencies' gates pass.
+Sequencing rule: a milestone does not start until its dependencies' **build-complete** state is reached (code shipped + verifiable parts of its gate passed). It does NOT wait on deploy-time checks (see policy below).
+
+**Deploy & QA policy (owner, 2026-06-25): nothing deploys, not even a preview, until the whole site is complete and QA'd.** Consequence: each milestone is built and verified locally/in-sandbox and against the prod Supabase project, then marked BUILD-COMPLETE so the next milestone proceeds. Every deploy-time-only check (real-IP external APIs, Vercel KV, Lighthouse, prod auth redirect URLs, deliverability) accumulates in the **Consolidated pre-launch QA ledger** at the bottom of this file and runs once, together with Workstream A's launch gate, at the end. A milestone is fully DONE when build-complete; its deploy-time items are tracked separately and cleared at the consolidated QA.
 
 Legend: 🟢 Dev (owns) · ⚙️ orchestrator/shared · (🔵 copy-in-brand-voice / 🟣 existing-design — both Dev)
 
@@ -19,7 +21,8 @@ Gate: skeleton builds clean; env wired from the live projects; both lookup provi
 
 ---
 
-## M1 — Hero USDOT lookup card + lead capture · STATUS: ACTIVE (Dev-led)
+## M1 — Hero USDOT lookup card + lead capture · STATUS: BUILD-COMPLETE (deploy-checks → QA ledger)
+> R1+R2 landed (`f0424b4`), DB gate passed against prod (`7a7c885`). The 3 deploy-time checks (QCMobile backup on a real IP, Vercel KV counter, Lighthouse) are moved to the Consolidated pre-launch QA ledger per the deploy policy — they do not block M2. M1 is build-complete; it flips to fully DONE when the QA ledger clears at launch.
 Goal (ADR-4): a carrier enters a USDOT on the homepage, sees live FMCSA records (via the dual-provider lookup), and is captured as a lead; "no USDOT" routes to the file-now path. No auth, no payment yet.
 - 🟢 Dev — `work-orders/M1-dev.md` (the only M1 work order): `lib/lookup` (MOTUS primary + QCMobile backup, failover), `/api/lookup-usdot` (rate-limited), `leads` + `carrier_snapshots` tables + RLS in the live Supabase project, the hero card client island built with the existing design system, result render with all states, reference-ID generation (`DGR-`), the "file now" route, noindex on app routes. Functional copy is specified inline in the work order (brand voice; no SEO dependency). Optional welcome email if Resend is trivial to wire.
 Dependencies: M0 env from the live projects + the QCMobile webKey. No SEO/Design gating.
@@ -57,7 +60,7 @@ Gate: enter a real USDOT → correct live FMCSA data renders (primary, and still
 
 ---
 
-## M2 — Accounts + dashboard shell · STATUS: PLANNED
+## M2 — Accounts + dashboard shell · STATUS: ACTIVE (Dev-led) — work order `work-orders/M2-dev.md`
 Goal (ADR-2): clients can sign up/log in and land on a dashboard; an anonymous lead claims into the account.
 - 🔵 SEO: dashboard/account copy, empty states, transactional email subject/copy (magic link), any noindex rules for authed routes.
 - 🟣 Design: dashboard IA + nav, logged-out vs logged-in home, empty/populated states, account/profile screens.
@@ -118,13 +121,18 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 - **Docs discipline:** each milestone updates its work order with "what shipped" + opens the next; the orchestrator keeps this page and `../orchestration-status.md` in sync. No silent scope changes.
 
 ## Status ledger
-| M | Title | Status | Gate passed |
-| --- | --- | --- | --- |
-| M0 | Foundation | PARTIAL (docs done) | no |
-| M1 | Hero lookup + lead capture | ACTIVE | no |
-| M2 | Accounts + dashboard shell | PLANNED | no |
-| M3 | Unified application engine | PLANNED | no |
-| M4 | Payment capture | PLANNED | no |
-| M5 | Progress tracking + back-office | PLANNED | no |
-| M6 | Email lifecycle + documents | PLANNED | no |
-| M7 | Migration + hardening | PLANNED | no |
+| M | Title | Status | Build-complete | Deploy-checks cleared |
+| --- | --- | --- | --- | --- |
+| M0 | Foundation | infra confirmed | partial | n/a |
+| M1 | Hero lookup + lead capture | BUILD-COMPLETE | yes | no (→ QA ledger) |
+| M2 | Accounts + dashboard shell | ACTIVE | no | no |
+| M3 | Unified application engine | PLANNED | no | no |
+| M4 | Payment capture | PLANNED | no | no |
+| M5 | Progress tracking + back-office | PLANNED | no | no |
+| M6 | Email lifecycle + documents | PLANNED | no | no |
+| M7 | Migration + hardening | PLANNED | no | no |
+
+## Consolidated pre-launch QA ledger
+Per the deploy policy, deploy-time-only checks accumulate here and run once at the end (together with Workstream A's launch gate — `../orchestration-status.md` L1/L4). Nothing here blocks milestone progress.
+- **M1:** QCMobile backup failover on a real IP (sandbox 403 from `mobile.fmcsa.dot.gov`; confirm webKey activated), Vercel KV reference counter + rate-limit on real Upstash, Lighthouse perf/CLS on `/` and `/lookup/[usdot]/`.
+- (M2+ deploy-time items appended as each milestone reaches build-complete: prod auth redirect-URL allowlist, magic-link deliverability on the real domain, Lighthouse on authed routes, etc.)

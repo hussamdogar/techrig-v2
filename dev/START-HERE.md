@@ -1,10 +1,9 @@
 # Start here: Dev workspace
 
 > **ACTIVE WORK ORDER (orchestrator, 2026-06-24): Application Platform — M1.**
-> M1 code is BUILT (`cf57ff8`) but has TWO owner revisions to land FIRST, then the gate. See `../shared/application-platform/work-orders/M1-dev.md`:
-> 1. **§M1 REVISIONS (2026-06-25):** R1 — Search navigates to a dedicated noindex results page `/lookup/[usdot]/` (the card becomes an entry form; result/not-found/error move to the page; extract a shared `performLookup()` so the page + POST route share one path). R2 — render the COMPLETE matrix docket on that page, not the card's 8-field summary (the two-step carriers→entityId→matrix fetch in `lib/lookup/motus.ts` is already correct; the gap is display scope). Nulls show "Not on file".
-> 2. **§GATE-COMPLETION RUNBOOK:** then pre-flight + apply migration `0001` to the live Supabase DB (AUTHORIZED, additive + idempotent; stop/escalate on any name collision), deploy a Vercel preview with `dev/.env.local` (incl. `FMCSA_WEBKEY`), and run the gate checks (full-docket render, backup provider, RLS, Lighthouse, noindex). Report evidence; the orchestrator flips M1 → DONE and opens M2.
-> Do not print secrets. The original site build (below) is already complete; M1 is additive.
+> **M1 is BUILD-COMPLETE** (`f0424b4` + DB gate `7a7c885`). Its 3 deploy-time checks are deferred to the consolidated pre-launch QA (owner policy: nothing deploys, even to preview, until the whole site is complete + QA'd).
+>
+> **ACTIVE: M2 — Accounts + dashboard shell.** Execute `../shared/application-platform/work-orders/M2-dev.md`. Scope: Supabase Auth (magic-link) + `profiles` migration `0002` (pre-flight then apply to the prod project `pqbynaaihauifomfhcxo`, additive) + RLS + signup trigger; the lead→account claim (the M1 `/lookup/[usdot]/` page carries the signed lead token; post-auth a server action sets `leads.user_id`); the `/dashboard` shell (authed, noindex) listing claimed lookups + an empty applications state; `/account`. Reuse the existing design system (ADR-8). Verify locally + against the prod DB — NO preview deploy; log deploy-time items to the QA ledger in `03-roadmap.md`. Do not print secrets.
 
 ---
 
