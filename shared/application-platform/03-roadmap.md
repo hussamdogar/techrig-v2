@@ -118,6 +118,7 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 - **Standards:** no fabricated FMCSA/metric data (show "not on file"); no em dashes; pricing only from `services.md`; honor the ELD/insurance reframe.
 - **Performance:** never regress the marketing homepage; load Stripe/PDF/signature only where needed.
 - **Security:** RLS + rate limits + signature verification from the first DB write; `/security-review` before M4 and M7 ship.
+- **DB migration policy (owner, 2026-06-25): standing authorization for ADDITIVE migrations.** The dev session may apply additive migrations (new tables/columns/indexes/policies only) to the prod project `pqbynaaihauifomfhcxo` after the read-only pre-flight existence check, with no per-migration approval. Any `DROP`/`ALTER` touching an existing table, or anything affecting the legacy `registrations`/`boc-3-new` data, requires explicit owner sign-off (stop and escalate). Every migration still: runs pre-flight first, is reversible/idempotent where possible, and is logged in its milestone build note.
 - **Docs discipline:** each milestone updates its work order with "what shipped" + opens the next; the orchestrator keeps this page and `../orchestration-status.md` in sync. No silent scope changes.
 
 ## Status ledger
