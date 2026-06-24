@@ -52,6 +52,7 @@ Validation: `zod` schemas shared client + server; re-validate every save server-
 
 ## 6. Carrier pre-fill + diff tracking (port `boc3` `motus-diff`)
 - If the application started from a lookup, pre-fill carrier-identity from the immutable `carrier_snapshots.data_json`.
+- **Use the OA detail captured by M1's R3 amendment** (`operatingAuthorities[]`: MC docket, BOC-3 `blanketFilings`, `insuranceFilings`, plus `mcs150Date`/`biennialDueDate`): the snapshot already says what the carrier HAS. Use it to pre-filter/flag service selection (e.g. don't push BOC-3 if an active blanket filing exists; surface "insurance on file" vs "insurance required"; prompt MCS-150 if `biennialDueDate` is near or carrier data changed). Do not re-fetch MOTUS in M3; read it from the snapshot.
 - On submit of carrier-identity, diff the user's values against the snapshot (fields: companyName, usdotNumber, physicalAddress, powerUnits). Set `carrier_data_changed`, populate `carrier_user_diff_json` (`[{field,label,snapshotValue,userValue,changed}]`), and set `needs_mcs150_update = carrier_data_changed && !selected_services.includes('mcs-150')`. Surface the MCS-150 prompt (the boc3 `Mcs150Modal` behavior) so the client can add the update.
 - **New-entrant / no-USDOT path:** no snapshot to diff against; carrier identity is hand-entered; USDOT/MC services are treated as new registrations (`isNewRegistration`), not updates. No diff/MCS-150 logic.
 

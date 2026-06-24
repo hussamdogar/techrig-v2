@@ -116,3 +116,46 @@ Authorized by the owner: pre-flight, then apply `0001` to the shared production 
 5. **Report** the evidence back (append results here or to the roadmap M1 note). The orchestrator confirms and flips M1 → DONE, then opens M2.
 
 Safety: applying is the only production-touching step and is authorized for the additive migration ONLY. Any DROP/ALTER on a legacy table is out of scope — stop and escalate. Do not print secrets from `.env.local` in logs or commits.
+
+---
+
+## M1 LOOKUP AMENDMENT (R3, owner, 2026-06-25) — complete the MOTUS data: 3-step chain + first-call fields
+High priority, but **independent of M2** (touches only `lib/lookup` + the `/lookup/[usdot]/` page); can run in parallel with M2 auth work. The lookup is the product's front door, so get it fully right. **The orchestrator verified the entire chain live from this environment against USDOT 3214567 (ELMI TRANSPORTATION); the exact field paths below are confirmed, not guessed.** MOTUS is reachable in-sandbox, so Dev verifies this without a deploy.
+
+### The lookup must be a 3-STEP chain, not 2 (the current build does 2)
+Current `fetchMotusCarrier` does step 1→2 and uses the step-1 body only to extract `entityId`. Two gaps: it discards the rest of step 1, and it never calls the operating-authority view (step 3). Fix both.
+
+**Step 1 — `GET /api/carriers/{usdot}`** (already fetched; STOP discarding the body). Capture into `CarrierData`:
+- USDOT status → `entityDotNumber.dotNumberStatus.dotNumberStatus` (e.g. "Active")
+- MCS-150 last filed → `carrierEntityDetail.mcs150Date`; mileage → `carrierEntityDetail.mcs150Mileage` + `mcs150MileageYear`
+- Biennial update due → `carrierEntityDetail.biennialDueDate`
+- Recent mileage → `carrierEntityDetail.recentMileage` + `recentMileageYear`
+- Safety review → `carrierEntityDetail.mxRatingDate`, `mxReviewResult`, `mxReviewType`
+- Incorporation → `carrierEntityDetail.stateOfIncorp`, `yearOfIncorp`, `businessType` (already partly used)
+- **Extract the OA id(s)** → `entityRegistrations[].entityRegistrationOperatingAuthorities[].entityOperatingAuthorityId`. **This is where the id lives — NOT the matrix.** A carrier can have 0, 1, or many.
+
+**Step 2 — `GET /api/public-registration-matrix/{entityId}`** (keep as-is): operation classification + status flags (`operatingAuthorityStatus`, `isOAInsuranceRequired`, `canDesignateProcessAgentBoc3`, `isInterstate/Intrastate/Forhire/Private`, `hasProtestPeriod`, `isNewEntrant`). Note: `entityOperatingAuthorityId` is NOT in this response.
+
+**Step 3 — NEW — `GET /api/regulatedEntity/oa/{entityOperatingAuthorityId}/getOAPublicView`** (one call per OA id):
+- MC docket → `docketNumber` (e.g. "MC1004652"). **This is the real MC; supersede the matrix `mxDocketNumber`.**
+- OA status/type → `operatingAuthorityStatus.operatingAuthorityStatusName` ("Active"), `operatingAuthorityType`, `protestPeriodStartDate`.
+- **Insurance on file** → `insuranceFilings[]` (filter to the CURRENT/active filing — the array includes canceled/historical; the test carrier's `[0]` is "Canceled"): insurer = `legacyFilerNumber.companyName` ("GEICO Commercial Insurance"); form = `insuranceForm.insuranceForm` ("BMC-91X") + `insuranceFormDesc`; class = `insuranceClass.insuranceClassDesc` ("Primary"); coverage = `maxCovAmount` ("750000.00"); `effectiveDate`; `policyNumber`; status = `status.filingStatusDesc`.
+- **BOC-3 / process agent** → `blanketFilings[]` (current/active): agent = `blanketEntity.entityName` / `legacyFilerNumber.companyName` ("TRUCKERS NATIONWIDE, INC."); filer number = `legacyFilerNumber.filerNumber` ("20824"); status = `status.filingStatusDesc` ("Active"); `receivedDate`.
+
+### Edge cases (handle, do not fabricate)
+- **No operating authority** (new entrant / intrastate-only): `entityRegistrationOperatingAuthorities` is empty → skip step 3 → MC/BOC-3/insurance render "Not on file". Never error the whole lookup.
+- **Multiple OA ids**: fetch each; aggregate/display each authority. Keep calls isolated with the existing timeout/failover discipline — a step-3 failure when an OA id exists degrades just that section; identity + matrix still render.
+- **Filings**: always select the CURRENT/active filing; never show a canceled/historical filing as current. "Not on file" if none active.
+
+### `CarrierData` + display
+- Extend `CarrierData`: `usdotStatus`, `mcs150Date`, `biennialDueDate`, `mcs150Mileage`/`Year`, `recentMileage`/`Year`, `safetyRatingDate`, and `operatingAuthorities[]` (each: `docketNumber`, `type`, `status`, `protestPeriodStartDate`, `insurance[]` {insurer, form, formDesc, class, coverageAmount, effectiveDate, policyNumber, status}, `boc3[]` {agentName, filerNumber, status, receivedDate}). No migration needed — `carrier_snapshots.data_json` already stores the whole `CarrierData`; just the richer shape.
+- `/lookup/[usdot]/` page: add/augment sections — **Registration & filing dates** (USDOT status, MCS-150 last filed, biennial due, mileage), **Operating authority** (MC docket(s), type/status, protest period), **Insurance on file** (insurer, form e.g. BMC-91X, coverage, effective date, status), **BOC-3 / process agent** (agent, filer number, status). Keep "Not on file" for nulls; no fabrication.
+
+### Supersede the earlier note
+The M1 build note said insurance/safety "are not in MOTUS, come only from QCMobile" — that was true of the MATRIX only. **Insurance is available via the OA view (step 3).** Update the build note. QCMobile remains the backup for when MOTUS is unreachable entirely.
+
+### Cross-link to M3 (note for later, do not build now)
+The OA view reveals what the carrier already HAS (active MC, BOC-3 on file, insurance on file); M3 service-selection can use it to avoid offering services already in place, and `mcs150Date`/`biennialDueDate` feed M3's `needs_mcs150_update` logic. Captured in the M3 work order context.
+
+### Acceptance (verifiable now, in sandbox — MOTUS is reachable)
+USDOT 3214567 → the page shows MC `MC1004652`, OA status Active, BOC-3 agent "Trucker's Nationwide, Inc." (Active), an insurance filing (GEICO / BMC-91X / coverage / effective date) reflecting the current active filing, and the date block (USDOT Active, MCS-150 date, biennial due). A no-authority USDOT → those sections show "Not on file" with no error. Keep noindex.
