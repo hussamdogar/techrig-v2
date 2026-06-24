@@ -6,7 +6,7 @@
 >
 > **M1 (incl. R3), M2, and M3 are all BUILD-COMPLETE.** The unified `/apply` engine (`16eab3f`) is live against the prod DB with verified pricing, RLS, and step logic.
 >
-> **ACTIVE: M4 — payment capture** (`work-orders/M4-dev.md`). Stripe in TEST mode, server-priced from the registry, idempotent signature-verified webhook, migration `0004`. **First money-touching milestone — run `/security-review` before calling it build-complete.** One open decision is flagged in the work order (gov-fee collection) — confirm with the orchestrator before finalizing charge totals.
+> **ACTIVE: M4 — payment capture** (`work-orders/M4-dev.md`). Stripe in TEST mode, server-priced, idempotent signature-verified webhook, migration `0004`. **`/security-review` PASSED.** **Gov-fee decision RATIFIED (owner 2026-06-25): SERVICE FEES ONLY** — matches the existing `computePricing`, no rework. M4 reaches build-complete on the test-mode payment-flow verification (TEST card → webhook → `payments.paid`/`applications.paid`/`filings.queued`, idempotent).
 >
 > **ALSO ACTIVE: M3-R1 — full-package bundle** (`work-orders/M3-R1-full-package.md`, owner-confirmed contents). Add the `$1,350` fixed package to the registry. Parallel-safe with M4 (M4 prices whatever the registry produces).
 >
