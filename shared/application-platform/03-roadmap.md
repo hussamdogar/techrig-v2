@@ -61,7 +61,8 @@ Gate: enter a real USDOT → correct live FMCSA data renders (primary, and still
 
 ---
 
-## M2 — Accounts + dashboard shell · STATUS: ACTIVE (Dev-led) — work order `work-orders/M2-dev.md`
+## M2 — Accounts + dashboard shell · STATUS: BUILD-COMPLETE (`ed88a8f`)
+> Shipped + verified against prod (throwaway user/lead, deleted): Supabase Auth magic-link via `@supabase/ssr`; `proxy.ts` (Next 16's renamed middleware) guards `/dashboard` + `/account`; `/login`, `/auth/callback`, sign-out. Migration `0002` applied to prod (pre-flight clear): `profiles` 1:1 + RLS + `handle_new_user` trigger. Lead→account claim via httpOnly cookie (HMAC + stored-hash verify, claim-only-if-unclaimed). `/dashboard` + `/account` in the existing design system; all authed routes noindex + sitemap-excluded. Gate checks all green (signup→profile, RLS, claim no-reassign, logged-out 307, noindex, no service-key in bundle). Deploy-time items → QA ledger. Fully DONE when the ledger clears at launch.
 Goal (ADR-2): clients can sign up/log in and land on a dashboard; an anonymous lead claims into the account.
 - 🔵 SEO: dashboard/account copy, empty states, transactional email subject/copy (magic link), any noindex rules for authed routes.
 - 🟣 Design: dashboard IA + nav, logged-out vs logged-in home, empty/populated states, account/profile screens.
@@ -82,7 +83,7 @@ Dependencies: M1 (leads exist to claim). Gate: a user signs up, lands on the das
 
 ---
 
-## M3 — Unified application engine · STATUS: PLANNED (work order DRAFTED `work-orders/M3-dev.md`; activates when M2 is build-complete)
+## M3 — Unified application engine · STATUS: ACTIVE (Dev-led) — work order `work-orders/M3-dev.md` (M2 build-complete; unblocked)
 Goal (ADR-3): the service-driven multi-step application — lookup pre-fills, client selects services, only relevant steps render, autosave + resume tied to the account. Replaces BOTH legacy flows (techrig-form 9-step + boc3 lookup→checkout) with one engine. Build order in the work order: service registry → migration `0003` → state machine → carrier diff → steps → autosave → selection/review/pricing/filings.
 - 🔵 SEO: service definitions/labels/legal copy, the service registry content, per-step microcopy, the process-agent acknowledgement wording, honoring the ELD/insurance reframe.
 - 🟣 Design: the stepper, per-step layouts, service-selection screen, review screen, validation/error patterns, save/resume affordances.
@@ -138,9 +139,9 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 | M | Title | Status | Build-complete | Deploy-checks cleared |
 | --- | --- | --- | --- | --- |
 | M0 | Foundation | infra confirmed | partial | n/a |
-| M1 | Hero lookup + lead capture | BUILD-COMPLETE | yes | no (→ QA ledger) |
+| M1 | Hero lookup + lead capture | BUILD-COMPLETE (R3 amendment OPEN) | yes* | no (→ QA ledger) |
 | M2 | Accounts + dashboard shell | BUILD-COMPLETE | yes | no (→ QA ledger) |
-| M3 | Unified application engine | PLANNED | no | no |
+| M3 | Unified application engine | ACTIVE | no | no |
 | M4 | Payment capture | PLANNED | no | no |
 | M5 | Progress tracking + back-office | PLANNED | no | no |
 | M6 | Email lifecycle + documents | PLANNED | no | no |
