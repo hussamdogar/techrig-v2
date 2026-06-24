@@ -69,8 +69,8 @@ Dependencies: M1 (leads exist to claim). Gate: a user signs up, lands on the das
 
 ---
 
-## M3 — Unified application engine · STATUS: PLANNED
-Goal (ADR-3): the service-driven multi-step application — lookup pre-fills, client selects services, only relevant steps render, autosave + resume tied to the account.
+## M3 — Unified application engine · STATUS: PLANNED (work order DRAFTED `work-orders/M3-dev.md`; activates when M2 is build-complete)
+Goal (ADR-3): the service-driven multi-step application — lookup pre-fills, client selects services, only relevant steps render, autosave + resume tied to the account. Replaces BOTH legacy flows (techrig-form 9-step + boc3 lookup→checkout) with one engine. Build order in the work order: service registry → migration `0003` → state machine → carrier diff → steps → autosave → selection/review/pricing/filings.
 - 🔵 SEO: service definitions/labels/legal copy, the service registry content, per-step microcopy, the process-agent acknowledgement wording, honoring the ELD/insurance reframe.
 - 🟣 Design: the stepper, per-step layouts, service-selection screen, review screen, validation/error patterns, save/resume affordances.
 - 🟢 Dev: `applications` + `filings` tables, the service registry (`lib/services-registry`), dynamic step machine, autosave, server+client validation, carrier-data diff tracking, resume.
