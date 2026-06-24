@@ -20,7 +20,10 @@ export * from "./types";
 export { normalizeMotusMatrixResponse } from "./motus";
 export { normalizeQcMobileResponse } from "./qcmobile";
 
-const PRIMARY_TIMEOUT_MS = 2500;
+// MOTUS is now a 3-step chain (carriers -> matrix -> per-OA getOAPublicView), and
+// the lookup renders on a server page (not the inline card), so it can afford a
+// larger budget than the original single card fetch.
+const PRIMARY_TIMEOUT_MS = 8000;
 const BACKUP_TIMEOUT_MS = 3000;
 
 type Provider = "motus" | "qcmobile";

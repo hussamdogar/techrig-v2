@@ -17,6 +17,38 @@ export type EquipmentSummary = {
   nonCommercialVehicles: number;
 };
 
+/** One insurance filing on an operating authority (R3, MOTUS step 3). */
+export type InsuranceFiling = {
+  insurer: string | null;
+  form: string | null;
+  formDesc: string | null;
+  class: string | null;
+  coverageAmount: string | null;
+  effectiveDate: string | null;
+  policyNumber: string | null;
+  status: string | null;
+};
+
+/** One BOC-3 / blanket process-agent filing (R3, MOTUS step 3). */
+export type Boc3Filing = {
+  agentName: string | null;
+  filerNumber: string | null;
+  status: string | null;
+  receivedDate: string | null;
+};
+
+/** One operating authority with its MC docket and current filings (R3). */
+export type OperatingAuthority = {
+  docketNumber: string | null; // e.g. "MC1004652"
+  type: string | null;
+  status: string | null; // "Active" | ...
+  protestPeriodStartDate: string | null;
+  /** The current/most-relevant insurance filing (0 or 1), with its true status. */
+  insurance: InsuranceFiling[];
+  /** The current/most-relevant BOC-3 filing (0 or 1). */
+  boc3: Boc3Filing[];
+};
+
 export type CarrierData = {
   // Identity
   entityId: string | null;
@@ -39,6 +71,20 @@ export type CarrierData = {
   contactLastName: string | null;
   contactPhone: string | null;
   contactEmail: string | null;
+
+  // Registration & filing dates (R3, MOTUS step 1)
+  usdotStatus: string | null;
+  mcs150Date: string | null;
+  biennialDueDate: string | null;
+  mcs150Mileage: number | null;
+  mcs150MileageYear: number | null;
+  recentMileage: number | null;
+  recentMileageYear: number | null;
+  safetyRatingDate: string | null;
+
+  // Operating authorities with MC docket + insurance + BOC-3 (R3, MOTUS step 3).
+  // Empty for carriers with no operating authority (new entrant / intrastate).
+  operatingAuthorities: OperatingAuthority[];
 
   // Richer MOTUS signals kept for the application engine + MCS-150 diff (M3+)
   driverTotal: number | null;

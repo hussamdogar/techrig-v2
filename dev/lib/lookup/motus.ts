@@ -8,7 +8,13 @@
  * until then they fall back to null and the card shows "Not on file" (never a
  * fabricated value, per standards.md).
  */
-import type { CarrierData, EquipmentSummary } from "./types";
+import type {
+  Boc3Filing,
+  CarrierData,
+  EquipmentSummary,
+  InsuranceFiling,
+  OperatingAuthority,
+} from "./types";
 
 const MOTUS_BASE = "https://motus.dot.gov/api";
 
@@ -172,21 +178,80 @@ function getMotusPowerUnits(entity: any): number | null {
   return equipmentPowerUnits;
 }
 
-// MC docket lives in the matrix as `mxDocketNumber` (confirmed against a live
-// MOTUS response). It is null for carriers without operating authority, which is
-// honest: the card then shows "Not on file".
-function getMotusMcNumber(primaryMatrix: any): string | null {
-  return firstString(primaryMatrix?.mxDocketNumber, primaryMatrix?.docketNumber);
-}
-// Safety rating and insurance-on-file are NOT present in the MOTUS public
-// registration matrix (confirmed against a live response: only mxRatingDate and
-// isOAInsuranceRequired exist). They come from the QCMobile backup instead, so
-// MOTUS leaves them null and the card shows "Not on file".
+// The safety-rating CODE is not in the MOTUS data (only the rating DATE,
+// mxRatingDate); the code comes from the QCMobile backup. MOTUS leaves the
+// rating null and surfaces the rating date separately (R3).
 function getMotusSafetyRating(): string | null {
   return null;
 }
-function getMotusInsuranceOnFile(): string | null {
-  return null;
+
+// ---- R3: operating-authority ids + step-3 (getOAPublicView) parsing ----
+
+/** Every entityOperatingAuthorityId from the step-1 carriers body (0..many). */
+export function extractOaIds(carriers: any): string[] {
+  const entity = carriers?.entity ?? carriers;
+  const regs = Array.isArray(entity?.entityRegistrations) ? entity.entityRegistrations : [];
+  const ids = regs.flatMap((r: any) =>
+    (Array.isArray(r?.entityRegistrationOperatingAuthorities) ? r.entityRegistrationOperatingAuthorities : []).map(
+      (o: any) => o?.entityOperatingAuthorityId,
+    ),
+  );
+  return Array.from(new Set(ids.filter((id: unknown): id is string => typeof id === "string" && id !== "")));
+}
+
+// Choose the CURRENT filing: prefer an Active one; else the most recent by date.
+// We display it WITH its true status (e.g. "Canceled"), never relabeling a
+// historical filing as active (R3 §filings discipline).
+function pickCurrent<T>(filings: T[], dateOf: (f: T) => string | null, statusOf: (f: T) => string | null): T | null {
+  if (filings.length === 0) return null;
+  const active = filings.find((f) => /active/i.test(statusOf(f) || ""));
+  if (active) return active;
+  return [...filings].sort((a, b) => (dateOf(b) || "").localeCompare(dateOf(a) || ""))[0] ?? null;
+}
+
+function mapInsurance(f: any): InsuranceFiling {
+  return {
+    insurer: firstString(f?.legacyFilerNumber?.companyName),
+    form: firstString(f?.insuranceForm?.insuranceForm),
+    formDesc: firstString(f?.insuranceForm?.insuranceFormDesc, f?.insuranceFormDesc),
+    class: firstString(f?.insuranceClass?.insuranceClassDesc),
+    coverageAmount: firstString(f?.maxCovAmount),
+    effectiveDate: firstString(f?.effectiveDate),
+    policyNumber: firstString(f?.policyNumber),
+    status: firstString(f?.status?.filingStatusDesc),
+  };
+}
+function mapBoc3(b: any): Boc3Filing {
+  return {
+    agentName: firstString(b?.blanketEntity?.entityName, b?.legacyFilerNumber?.companyName),
+    filerNumber: firstString(b?.legacyFilerNumber?.filerNumber),
+    status: firstString(b?.status?.filingStatusDesc),
+    receivedDate: firstString(b?.receivedDate),
+  };
+}
+
+/** Parse one getOAPublicView response into an OperatingAuthority. */
+export function parseOaView(oa: any): OperatingAuthority {
+  const insFilings = Array.isArray(oa?.insuranceFilings) ? oa.insuranceFilings : [];
+  const bocFilings = Array.isArray(oa?.blanketFilings) ? oa.blanketFilings : [];
+  const curIns = pickCurrent(
+    insFilings,
+    (f: any) => f?.effectiveDate ?? null,
+    (f: any) => f?.status?.filingStatusDesc ?? null,
+  );
+  const curBoc = pickCurrent(
+    bocFilings,
+    (f: any) => f?.receivedDate ?? null,
+    (f: any) => f?.status?.filingStatusDesc ?? null,
+  );
+  return {
+    docketNumber: firstString(oa?.docketNumber),
+    type: firstString(oa?.operatingAuthorityType?.operatingAuthorityTypeDesc),
+    status: firstString(oa?.operatingAuthorityStatus?.operatingAuthorityStatusName),
+    protestPeriodStartDate: firstString(oa?.protestPeriodStartDate),
+    insurance: curIns ? [mapInsurance(curIns)] : [],
+    boc3: curBoc ? [mapBoc3(curBoc)] : [],
+  };
 }
 
 export function getEntityId(data: any): string | null {
@@ -194,13 +259,21 @@ export function getEntityId(data: any): string | null {
   return entityId ? String(entityId) : null;
 }
 
-/** Normalize the MOTUS public-registration-matrix response to CarrierData. */
-export function normalizeMotusMatrixResponse(response: any): CarrierData {
-  const entity = response?.entity;
+/**
+ * Build CarrierData from the three MOTUS sources: the step-1 carriers body
+ * (USDOT status, MCS-150 dates, mileage, OA ids), the step-2 matrix
+ * (classification + status flags + the entity detail used for equipment /
+ * officer / address), and the step-3 OA views (MC docket, insurance, BOC-3).
+ * `carriers` may equal `matrix` for the backward-compat matrix-only path.
+ */
+export function buildMotusCarrierData(carriers: any, matrix: any, oaViews: any[]): CarrierData {
+  const entity = matrix?.entity;
   if (!entity || typeof entity !== "object") {
     throw new Error("Carrier data was not found in the MOTUS matrix response.");
   }
-  const matrixProperties = Array.isArray(response?.matrixProperties) ? response.matrixProperties : [];
+  const carriersEntity = carriers?.entity ?? carriers ?? entity;
+  const detail = carriersEntity?.carrierEntityDetail ?? entity?.carrierEntityDetail ?? {};
+  const matrixProperties = Array.isArray(matrix?.matrixProperties) ? matrix.matrixProperties : [];
   const primaryMatrix = matrixProperties[0] || null;
   const primaryOfficer = getMotusPrimaryOfficer(entity);
   const dotNumber = entity?.entityDotNumber?.dotNumber ?? null;
@@ -211,19 +284,41 @@ export function normalizeMotusMatrixResponse(response: any): CarrierData {
   const businessType = entity?.carrierEntityDetail?.businessType?.businessTypeName ?? null;
   const registrationType = primaryMatrix?.registrationTypeLabel ?? null;
 
+  const operatingAuthorities = oaViews.map(parseOaView);
+  // The real MC docket is the OA view's docketNumber (step 3); fall back to the
+  // matrix mxDocketNumber only when no OA view answered.
+  const mcNumber =
+    operatingAuthorities.find((oa) => oa.docketNumber)?.docketNumber ??
+    firstString(primaryMatrix?.mxDocketNumber);
+  const hasActiveInsurance = operatingAuthorities.some((oa) =>
+    oa.insurance.some((f) => /active/i.test(f.status || "")),
+  );
+
   return {
     entityId: entity?.entityId ?? null,
     legalName: getMotusLegalName(entity),
     dbaName: getMotusDbaName(entity),
     usdotNumber: dotNumber == null ? null : Number(dotNumber),
-    mcNumber: getMotusMcNumber(primaryMatrix),
+    mcNumber,
     physicalAddress: formatMotusAddress(getMotusPrimaryLocation(entity)),
     entityType: businessType ?? registrationType,
     authorityStatus: primaryMatrix?.operatingAuthorityStatus ?? null,
     safetyRating: getMotusSafetyRating(),
-    insuranceOnFile: getMotusInsuranceOnFile(),
+    insuranceOnFile: hasActiveInsurance ? "Yes" : null,
     allowedToOperate: entity?.outOfService === true ? "No" : "Yes",
     powerUnits: getMotusPowerUnits(entity),
+    usdotStatus: firstString(
+      carriersEntity?.entityDotNumber?.dotNumberStatus?.dotNumberStatus,
+      entity?.entityDotNumber?.dotNumberStatus?.dotNumberStatus,
+    ),
+    mcs150Date: firstString(detail?.mcs150Date),
+    biennialDueDate: firstString(detail?.biennialDueDate),
+    mcs150Mileage: toNumberOrNull(detail?.mcs150Mileage),
+    mcs150MileageYear: toNumberOrNull(detail?.mcs150MileageYear),
+    recentMileage: toNumberOrNull(detail?.recentMileage),
+    recentMileageYear: toNumberOrNull(detail?.recentMileageYear),
+    safetyRatingDate: firstString(detail?.mxRatingDate),
+    operatingAuthorities,
     contactFirstName: primaryOfficer?.firstName || null,
     contactLastName: primaryOfficer?.lastName || null,
     contactPhone: primaryOfficer?.phoneNumber || getMotusPrimaryPhone(entity),
@@ -251,16 +346,29 @@ export function normalizeMotusMatrixResponse(response: any): CarrierData {
     cdlSignalReason: cdlLikely ? "Truck tractor reported in FMCSA/MOTUS equipment data" : null,
     operationType: registrationType,
     source: "motus",
-    raw: response,
+    raw: { carriers, matrix, oaViews },
   };
 }
 
+/** Backward-compat: normalize from the matrix alone (no step-1/step-3 data). */
+export function normalizeMotusMatrixResponse(matrix: any): CarrierData {
+  return buildMotusCarrierData(matrix, matrix, []);
+}
+
+const oaViewUrl = (id: string) =>
+  `${MOTUS_BASE}/regulatedEntity/oa/${encodeURIComponent(id)}/getOAPublicView`;
+
 /**
- * Fetch a carrier from MOTUS: entity lookup, then the registration matrix. Each
- * fetch carries the caller's AbortSignal so the failover timeout can cut it off.
- * Returns null only for a CLEAN not-found (404 or no entity); THROWS on any
- * transport/server error or timeout so the orchestrator can tell "no such
- * carrier" apart from "provider unavailable" and pick the right status.
+ * Fetch a carrier from MOTUS as a 3-step chain (R3):
+ *   1. /carriers/{usdot}                        identity, MCS-150 dates, OA ids
+ *   2. /public-registration-matrix/{entityId}   classification + status flags
+ *   3. /regulatedEntity/oa/{id}/getOAPublicView (per OA id, parallel)
+ *                                               MC docket, insurance, BOC-3
+ * Each fetch carries the caller's AbortSignal. Returns null only for a CLEAN
+ * not-found (404 / no entity); THROWS on transport errors so the orchestrator can
+ * fail over. Step 3 is isolated per OA id: a failure there degrades only the
+ * authority/filing sections; identity + matrix still render. Carriers with no OA
+ * skip step 3 entirely.
  */
 export async function fetchMotusCarrier(
   usdot: string,
@@ -273,7 +381,8 @@ export async function fetchMotusCarrier(
   if (carrierRes.status === 404) return null; // clean not-found
   if (!carrierRes.ok) throw new Error(`MOTUS carrier lookup failed: ${carrierRes.status}`);
 
-  const entityId = getEntityId(await carrierRes.json());
+  const carriers = await carrierRes.json();
+  const entityId = getEntityId(carriers);
   if (!entityId) return null; // carrier endpoint returned no entity = not-found
 
   const matrixRes = await fetch(
@@ -282,6 +391,21 @@ export async function fetchMotusCarrier(
   );
   // The entity exists, so a matrix failure is an error (fail over), not not-found.
   if (!matrixRes.ok) throw new Error(`MOTUS matrix lookup failed: ${matrixRes.status}`);
+  const matrix = await matrixRes.json();
 
-  return normalizeMotusMatrixResponse(await matrixRes.json());
+  // Step 3: one getOAPublicView per OA id, in parallel, each isolated.
+  const oaViews = (
+    await Promise.all(
+      extractOaIds(carriers).map(async (id) => {
+        try {
+          const r = await fetch(oaViewUrl(id), { headers: { Accept: "application/json" }, signal });
+          return r.ok ? await r.json() : null;
+        } catch {
+          return null;
+        }
+      }),
+    )
+  ).filter(Boolean);
+
+  return buildMotusCarrierData(carriers, matrix, oaViews);
 }

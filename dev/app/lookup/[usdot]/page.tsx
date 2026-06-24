@@ -35,6 +35,18 @@ function bool(v: boolean | null | undefined): string | null {
   if (v === null || v === undefined) return null;
   return v ? "Yes" : "No";
 }
+function date(v: string | null | undefined): string | null {
+  if (!v) return null;
+  const d = new Date(v);
+  return Number.isNaN(d.getTime())
+    ? text(v)
+    : d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
+}
+function money(v: string | null | undefined): string | null {
+  if (!v) return null;
+  const n = Number(v);
+  return Number.isNaN(n) ? text(v) : `$${n.toLocaleString("en-US")}`;
+}
 
 function Row({ label, value }: { label: string; value: string | null }) {
   return (
@@ -93,6 +105,19 @@ function Docket({ carrier, usdot, token }: { carrier: CarrierData; usdot: string
   const fromQc = carrier.source === "qcmobile";
   const officerName = [carrier.contactFirstName, carrier.contactLastName].filter(Boolean).join(" ").trim() || null;
 
+  // Operating authorities (R3, MOTUS step 3). Aggregate across OAs for the named
+  // sections; the dockets list shows all. The current insurance/BOC-3 filing is
+  // already selected per-OA in the normalizer (Active preferred, else most recent).
+  const oas = carrier.operatingAuthorities ?? [];
+  const dockets = oas.map((o) => o.docketNumber).filter(Boolean) as string[];
+  const primaryOa = oas[0] ?? null;
+  const ins = (oas.find((o) => o.insurance.length) ?? primaryOa)?.insurance[0] ?? null;
+  const boc = (oas.find((o) => o.boc3.length) ?? primaryOa)?.boc3[0] ?? null;
+  const mileage =
+    carrier.mcs150Mileage != null
+      ? `${money(String(carrier.mcs150Mileage))?.replace("$", "")} mi${carrier.mcs150MileageYear ? ` (${carrier.mcs150MileageYear})` : ""}`
+      : null;
+
   return (
     <>
       <div className="flex items-center justify-between gap-4">
@@ -133,10 +158,45 @@ function Docket({ carrier, usdot, token }: { carrier: CarrierData; usdot: string
               label: "Safety rating",
               value: text(carrier.safetyRating) ?? (fromQc ? null : "Not in MOTUS record"),
             },
-            {
-              label: "Insurance on file",
-              value: text(carrier.insuranceOnFile) ?? (fromQc ? null : "Not in MOTUS record"),
-            },
+          ]}
+        />
+        <DocketSection
+          title="Registration & filing dates"
+          rows={[
+            { label: "USDOT status", value: text(carrier.usdotStatus) },
+            { label: "MCS-150 last filed", value: date(carrier.mcs150Date) },
+            { label: "Biennial update due", value: date(carrier.biennialDueDate) },
+            { label: "MCS-150 mileage", value: mileage },
+            { label: "Safety review date", value: date(carrier.safetyRatingDate) },
+          ]}
+        />
+        <DocketSection
+          title="Operating authority"
+          rows={[
+            { label: "MC docket", value: dockets.length ? dockets.join(", ") : null },
+            { label: "Type", value: text(primaryOa?.type) },
+            { label: "Status", value: text(primaryOa?.status) },
+            { label: "Protest period start", value: date(primaryOa?.protestPeriodStartDate) },
+          ]}
+        />
+        <DocketSection
+          title="Insurance on file"
+          rows={[
+            { label: "Insurer", value: text(ins?.insurer) },
+            { label: "Form", value: text(ins?.form) },
+            { label: "Class", value: text(ins?.class) },
+            { label: "Coverage", value: money(ins?.coverageAmount) },
+            { label: "Effective", value: date(ins?.effectiveDate) },
+            { label: "Status", value: text(ins?.status) },
+          ]}
+        />
+        <DocketSection
+          title="BOC-3 / process agent"
+          rows={[
+            { label: "Process agent", value: text(boc?.agentName) },
+            { label: "Filer number", value: text(boc?.filerNumber) },
+            { label: "Status", value: text(boc?.status) },
+            { label: "Received", value: date(boc?.receivedDate) },
           ]}
         />
         <DocketSection

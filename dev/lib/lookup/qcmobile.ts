@@ -59,6 +59,18 @@ export function normalizeQcMobileResponse(response: any): CarrierData {
     insuranceOnFile: bipdOnFile === null ? null : bipdOnFile > 0 ? "Yes" : "No",
     allowedToOperate: str(c?.allowedToOperate) === "Y" ? "Yes" : str(c?.allowedToOperate) === "N" ? "No" : null,
     powerUnits: num(c?.totalPowerUnits),
+    // R3 fields: the QCMobile carrier endpoint does not expose the operating-
+    // authority view, MCS-150 dates, or filings, so these are null/empty on the
+    // backup path. The backup only answers when MOTUS is unreachable entirely.
+    usdotStatus: statusCode === "A" ? "Active" : statusCode === "I" ? "Inactive" : null,
+    mcs150Date: null,
+    biennialDueDate: null,
+    mcs150Mileage: null,
+    mcs150MileageYear: null,
+    recentMileage: null,
+    recentMileageYear: null,
+    safetyRatingDate: null,
+    operatingAuthorities: [],
     contactFirstName: null,
     contactLastName: null,
     contactPhone: str(c?.telephone),
