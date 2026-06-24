@@ -5,13 +5,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { service } from "@/lib/server/supabase";
 import { nextReferenceId } from "@/lib/server/reference";
 import { decodeLeadAccessToken } from "@/lib/server/security";
-import {
-  BILLABLE_SERVICE_KEYS,
-  SERVICES,
-  computePricing,
-  isServiceKey,
-  type ServiceKey,
-} from "@/lib/services-registry";
+import { computePricing, isServiceKey, type ServiceKey } from "@/lib/services-registry";
 import { activeSteps, adjacentStep, type OperationsFlags } from "@/lib/apply/steps";
 import { validateStep } from "@/lib/apply/schemas";
 import { buildCarrierDiff, computeNeedsMcs150 } from "@/lib/apply/diff";
@@ -228,18 +222,19 @@ export async function submitApplication(applicationId: string, formData: FormDat
   // has no client-write policy). Idempotent: replace any prior set for this app.
   const db = service();
   await db.from("filings").delete().eq("application_id", applicationId);
-  const rows = pricing.lines
-    .filter((l) => BILLABLE_SERVICE_KEYS.includes(l.key))
-    .map((l) => ({
-      application_id: applicationId,
-      service_key: l.key,
-      service_name: l.name,
-      price_amount: l.amount,
-      ucr_tier: l.ucrTier,
-      status: l.manualReview ? "manual_review" : "not_started",
-      expected_timeline: SERVICES[l.key]?.expectedTimeline ?? null,
-    }));
+  const rows = pricing.filings.map((f) => ({
+    application_id: applicationId,
+    service_key: f.service_key,
+    service_name: f.service_name,
+    price_amount: f.price_amount,
+    ucr_tier: f.ucr_tier,
+    status: f.status,
+    expected_timeline: f.expected_timeline,
+  }));
   if (rows.length) await db.from("filings").insert(rows);
 
+  // If there is a chargeable total, go to payment (M4); otherwise show the
+  // submitted confirmation (quote-only applications have nothing to pay online).
+  if (pricing.total > 0) redirect(`/apply/${applicationId}/pay/`);
   redirect(`/apply/${applicationId}/?step=review&submitted=1`);
 }

@@ -106,15 +106,31 @@ Dependencies: M2 (accounts). Gate: a logged-in client completes a multi-service 
 
 **Deferred to the consolidated QA ledger (deploy-time only):** Lighthouse on `/apply/*`; the full browser click-through of the multi-step flow with a real signed-in session (needs the auth redirect-URL allowlist from the M2 deferral — the engine's pricing/steps/RLS are verified by the real code + prod DB above).
 
+### M3-R1 LANDED (Dev, 2026-06-25) — full-package bundle
+Added the advertised `$1,350` full compliance package to the registry (`priceKind: "package"`, `includes` MC, BOC-3, UCR, Clearinghouse, consortium, drug test; `govFeesIncluded` covers the MC FMCSA fee + UCR 0-2 gov fee). `computePricing` now de-dups constituents (selecting the package never double-charges them), prices the bundle at a flat $1,350, discloses the **UCR government-fee difference** separately when the carrier is above the 0-2 bracket (never absorbed/overcharged; 101+ → manual on the UCR portion), and emits one filing per constituent (price 0, package-covered) so M5 still tracks each. A non-blocking OA-aware hint suggests à la carte when the carrier already holds an active authority/BOC-3. Verified against the real code: package selection quotes exactly $1,350 and produces the 6 constituent filings; prices trace to `services.md`; ELD/insurance still excluded.
+
 ---
 
-## M4 — Payment capture · STATUS: ACTIVE (Dev-led) — work order `work-orders/M4-dev.md`
+## M4 — Payment capture · STATUS: BUILD-COMPLETE (Dev-led) — work order `work-orders/M4-dev.md`
 > First money-touching milestone: `/security-review` mandatory before build-complete. Stripe (TEST mode) server-priced from the registry, idempotent webhook → `payments.paid` + `applications.paid` + `filings.queued`, migration `0004`. **OPEN DECISION (confirm with owner before charge totals): does Tech Rig collect government fees or only service fees?** (`services.md` shows gov fees separately; the $1,350 package includes MC + UCR-0-2 gov — so those ARE collected.) Can run alongside M3-R1.
 Goal: take payment for selected services, server-priced, with a reliable paid state.
 - 🔵 SEO: confirm every price/label against `seo/context/services.md`; refund/terms copy; receipt copy.
 - 🟣 Design: payment screen, order summary, success/receipt, failure states.
 - 🟢 Dev: Stripe (intent/checkout — pick one), server-side pricing engine (UCR tiers, add-ons, 101+ manual review), webhook (signature-verified, idempotent), `payments` table, verify-on-return, coupon support.
 Dependencies: M3 (services selected to price). Gate: a real test-mode payment succeeds → `payments.paid` + application `paid`; webhook idempotent; amount provably from `services.md`; no PII in metadata/logs; `/security-review` passed on the payment path.
+
+### Build note (Dev, 2026-06-25) — BUILD-COMPLETE
+**Owner decision (2026-06-25):** charge **service fees only** for à-la-carte; government/state fees are shown as separate disclosed lines and paid by the customer directly. The $1,350 package keeps its included MC + UCR-0-2 gov fees (collected as the fixed price). The charge total = `computePricing.total`.
+- **Stripe shape:** PaymentIntent + embedded `PaymentElement` (in-site UX, boc3 pattern) — chosen for a cohesive flow; Stripe loads only on the payment route (isolated from every other bundle).
+- **Migration `0004`** applied to prod (pre-flight clear): `payments` (owner-**read** RLS only; all writes service-role/webhook — clients never write payment state). Stripe deps added.
+- **`/api/checkout`** — auth + ownership (owner-scoped load), rate-limited, **server-priced** from the registry (client never sends an amount), idempotency key = `hash(applicationId | sorted services | amount)`, metadata = `applicationId` + `reference_id` only (no PII). Persists a `payments` row.
+- **`/api/stripe-webhook`** — signature-verified (raw body), idempotent source of truth: on `payment_intent.succeeded` → `payments.paid` + `applications.paid` + that app's `filings` → `queued` (skipped if already paid). Keys off the persisted `payments` row's `application_id`, not the metadata.
+- **UI:** payment step after review (order summary + Stripe Element + total), verify-on-return success/receipt page (retrieves the intent), failure retry. All authed + noindex. Submit routes to `/pay` when there's a chargeable total.
+
+**Verified (Stripe TEST mode + prod DB + live webhook):** TEST card → intent `succeeded` → signed webhook → `payments.paid` + `applications.paid` + `filings.queued`; **replay is idempotent** (one paid, same `paid_at`); **bad signature → 400**; checkout without a session → 401; a client JWT cannot write `payments` (403); payment routes carry `X-Robots-Tag: noindex`; **Stripe is absent from the home bundle** (isolated to the pay-route chunk). Test users/apps/payments created on prod were deleted; TEST-mode Stripe only.
+**`/security-review` run — CLEAN** (no high-confidence findings on the payment/auth paths: webhook authenticity, server pricing, ownership/RLS, no-PII metadata, payments write-locked all verified).
+
+**Deferred to the consolidated QA ledger (deploy-time only):** registering the live Stripe **webhook endpoint** on the deployed origin, **live keys**, the real-card path, and Lighthouse on the payment route.
 
 ---
 
@@ -160,7 +176,7 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 | M2 | Accounts + dashboard shell | BUILD-COMPLETE | yes | no (→ QA ledger) |
 | M3 | Unified application engine | BUILD-COMPLETE (+ R1 bundle work order issued) | yes | no (→ QA ledger) |
 | M3-R1 | Full-package bundle | ACTIVE | no | no |
-| M4 | Payment capture | ACTIVE | no | no |
+| M4 | Payment capture | BUILD-COMPLETE | yes | no (→ QA ledger) |
 | M5 | Progress tracking + back-office | PLANNED | no | no |
 | M6 | Email lifecycle + documents | PLANNED | no | no |
 | M7 | Migration + hardening | PLANNED | no | no |
@@ -170,4 +186,5 @@ Per the deploy policy, deploy-time-only checks accumulate here and run once at t
 - **M1:** QCMobile backup failover on a real IP (sandbox 403 from `mobile.fmcsa.dot.gov`; confirm webKey activated), Vercel KV reference counter + rate-limit on real Upstash, Lighthouse perf/CLS on `/` and `/lookup/[usdot]/`.
 - **M2:** prod auth redirect-URL allowlist in Supabase Auth (add the launch domain's `/auth/callback`); real magic-link email deliverability + the full sign-in click-through on the deployed origin; Lighthouse on the authed routes (`/login`, `/dashboard`, `/account`).
 - **M3:** Lighthouse on `/apply/*`; the full multi-step click-through with a real signed-in session (depends on the M2 auth redirect-URL allowlist).
-- (M4+ deploy-time items appended as each milestone reaches build-complete.)
+- **M4:** register the live Stripe webhook endpoint on the deployed origin; live Stripe keys; real-card path; Lighthouse on `/apply/[id]/pay`.
+- (M5+ deploy-time items appended as each milestone reaches build-complete.)

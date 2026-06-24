@@ -35,6 +35,7 @@ export type ServiceKey =
   | "irp"
   | "ifta"
   | "trucking-llc"
+  | "full-package"
   | "eld"
   | "insurance";
 
@@ -42,12 +43,16 @@ export type ServiceDef = {
   key: ServiceKey;
   name: string;
   blurb: string;
-  /** flat Tech Rig fee | per-driver fee | UCR (tiered) | quote (no auto price). */
-  priceKind: "flat" | "perDriver" | "ucr" | "quote";
+  /** flat fee | per-driver | UCR (tiered) | quote (no auto price) | fixed package. */
+  priceKind: "flat" | "perDriver" | "ucr" | "quote" | "package";
   /** Base Tech Rig service fee (USD). Omitted for ucr/quote/informational. */
   price?: number;
   /** Separate government/state fee disclosure, never blended into the fee. */
   govFeeNote?: string;
+  /** Constituent services a package bundles (M3-R1). */
+  includes?: ServiceKey[];
+  /** Package note: which government fees the fixed price already covers. */
+  govFeesIncluded?: string;
   /** Steps this service requires (drives the dynamic stepper). */
   requiredSteps: StepKey[];
   /** Human expected timeline (process expectation, not a metric). */
@@ -188,6 +193,27 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     requiredSteps: ["carrier-identity", "business-details"],
     expectedTimeline: "Varies by state",
   },
+  // The advertised discounted bundle (M3-R1, services.md $1,350). Fixed price;
+  // selecting it includes its constituents (no double-charge). The price already
+  // covers the MC FMCSA fee and the UCR 0-2 government fee.
+  "full-package": {
+    key: "full-package",
+    name: "Full compliance package",
+    blurb: "MC authority, BOC-3, UCR, Clearinghouse, consortium, and the drug test, at a fixed $1,350.",
+    priceKind: "package",
+    price: 1350,
+    includes: ["mc-authority", "boc-3", "ucr", "clearinghouse", "consortium", "drug-test"],
+    govFeesIncluded: "Includes the MC FMCSA fee and the UCR 0-2 government fee, no separate add.",
+    requiredSteps: [
+      "carrier-identity",
+      "business-details",
+      "operations",
+      "ucr-details",
+      "service-specifics",
+      "drivers",
+    ],
+    expectedTimeline: "Each filing on its own timeline; authority activates after the 21-day protest period",
+  },
   // Informational only — never billed, never a priced filing (compliance reframe).
   eld: {
     key: "eld",
@@ -255,9 +281,24 @@ export type PriceLine = {
 
 export type PricingContext = { powerUnits?: number | null; driverCount?: number | null };
 
+/** One filing to create on submit (M3 §9 / M3-R1 §5). Package constituents carry
+ *  price 0 (covered by the package total) and in_package = true. */
+export type FilingRow = {
+  service_key: ServiceKey;
+  service_name: string;
+  price_amount: number | null;
+  ucr_tier: string | null;
+  status: "not_started" | "manual_review";
+  expected_timeline: string | null;
+  in_package: boolean;
+};
+
 export type Pricing = {
+  /** Charged/display lines (the package is a single $1,350 line). */
   lines: PriceLine[];
-  /** Sum of known Tech Rig service fees (excludes quote/manual lines). */
+  /** One row per service to create as a filing (package -> its constituents). */
+  filings: FilingRow[];
+  /** Sum of known Tech Rig charges (package + à-la-carte fees; gov-diff not summed). */
   subtotal: number;
   total: number;
   /** True if any selected service needs a manual quote/review (LLC, UCR 101+). */
@@ -265,20 +306,80 @@ export type Pricing = {
 };
 
 /**
- * Compute pricing for the selected services. Tech Rig service fees only;
- * government/state fees are disclosed per line (govFeeNote) and never summed into
- * the total. USDOT is free when MC authority is also selected (services.md: the
- * MC fee includes the USDOT). Informational services (eld/insurance) are skipped.
+ * Compute pricing for the selected services. Tech Rig charges only (service fees +
+ * the fixed package price); government/state fees are disclosed per line and never
+ * summed into the total (owner decision 2026-06-25: à-la-carte gov fees are paid
+ * by the customer directly). Selecting the full-package includes its constituents
+ * at the fixed $1,350 (no double charge); a UCR bracket above 0-2 shows the
+ * government-fee difference separately. USDOT is free when MC authority is also
+ * selected. Informational services (eld/insurance) are skipped.
  */
 export function computePricing(selected: ServiceKey[], ctx: PricingContext): Pricing {
-  const set = new Set(selected.filter((k) => !SERVICES[k]?.informationalOnly));
-  const mcIncludesUsdot = set.has("mc-authority") && set.has("usdot");
+  const sel = selected.filter((k) => SERVICES[k] && !SERVICES[k].informationalOnly);
+  const hasPackage = sel.includes("full-package");
+  const pkg = SERVICES["full-package"];
+  const constituents = new Set<ServiceKey>(hasPackage ? pkg.includes ?? [] : []);
+  const mcIncludesUsdot = !hasPackage && sel.includes("mc-authority") && sel.includes("usdot");
   const driverCount = Math.max(1, Number(ctx.driverCount ?? 1) || 1);
+  const ucr = calculateUcr(ctx.powerUnits);
 
   const lines: PriceLine[] = [];
+  const filings: FilingRow[] = [];
+
+  if (hasPackage) {
+    lines.push({
+      key: "full-package",
+      name: pkg.name,
+      amount: pkg.price ?? 1350,
+      ucrTier: "0-2",
+      expectedTimeline: pkg.expectedTimeline,
+      govFeeNote: pkg.govFeesIncluded ?? null,
+      manualReview: false,
+      note: "Includes MC authority, BOC-3, UCR (0-2), Clearinghouse, consortium, and the drug test",
+    });
+    // UCR bracket above 0-2: disclose the government-fee difference, never charge
+    // or silently absorb it (M3-R1 §4).
+    if (ucr.manualReview) {
+      lines.push({
+        key: "ucr",
+        name: "UCR — over 100 units",
+        amount: null,
+        ucrTier: ucr.tier,
+        expectedTimeline: SERVICES.ucr.expectedTimeline,
+        govFeeNote: null,
+        manualReview: true,
+        note: "Over 100 power units: the UCR portion is reviewed manually.",
+      });
+    } else if (ucr.tier !== "0-2" && ucr.govFee != null) {
+      lines.push({
+        key: "ucr",
+        name: "UCR government-fee difference",
+        amount: null,
+        ucrTier: ucr.tier,
+        expectedTimeline: SERVICES.ucr.expectedTimeline,
+        govFeeNote: null,
+        manualReview: false,
+        note: `${ucr.tier} bracket government fee is $${ucr.govFee}; $${ucr.govFee - 46} above the 0-2 amount the package includes, paid separately.`,
+      });
+    }
+    for (const k of pkg.includes ?? []) {
+      filings.push({
+        service_key: k,
+        service_name: SERVICES[k].name,
+        price_amount: 0, // covered by the package total
+        ucr_tier: k === "ucr" ? ucr.tier : null,
+        status: k === "ucr" && ucr.manualReview ? "manual_review" : "not_started",
+        expected_timeline: SERVICES[k].expectedTimeline,
+        in_package: true,
+      });
+    }
+  }
+
   for (const key of selected) {
+    if (key === "full-package") continue;
     const def = SERVICES[key];
     if (!def || def.informationalOnly) continue;
+    if (constituents.has(key)) continue; // already in the package (de-dup, no double charge)
 
     let amount: number | null = null;
     let ucrTier: string | null = null;
@@ -295,35 +396,28 @@ export function computePricing(selected: ServiceKey[], ctx: PricingContext): Pri
       amount = (def.price ?? 0) * driverCount;
       note = `${driverCount} driver${driverCount === 1 ? "" : "s"} × $${def.price}`;
     } else if (def.priceKind === "ucr") {
-      const ucr = calculateUcr(ctx.powerUnits);
       ucrTier = ucr.tier;
       amount = ucr.serviceFee;
       manualReview = ucr.manualReview;
       if (manualReview) note = "Manual review (over 100 power units)";
       else if (ucr.govFee != null) note = `Government fee $${ucr.govFee} (${ucr.tier} bracket)`;
     } else {
-      // quote (e.g. LLC): no auto price.
       manualReview = true;
       note = "Contact for quote";
     }
 
-    lines.push({
-      key,
-      name: def.name,
-      amount,
-      ucrTier,
-      expectedTimeline: def.expectedTimeline,
-      govFeeNote: def.govFeeNote ?? null,
-      manualReview,
-      note,
+    lines.push({ key, name: def.name, amount, ucrTier, expectedTimeline: def.expectedTimeline, govFeeNote: def.govFeeNote ?? null, manualReview, note });
+    filings.push({
+      service_key: key,
+      service_name: def.name,
+      price_amount: amount,
+      ucr_tier: ucrTier,
+      status: manualReview ? "manual_review" : "not_started",
+      expected_timeline: def.expectedTimeline,
+      in_package: false,
     });
   }
 
   const subtotal = lines.reduce((sum, l) => sum + (l.amount ?? 0), 0);
-  return {
-    lines,
-    subtotal,
-    total: subtotal,
-    hasManualReview: lines.some((l) => l.manualReview),
-  };
+  return { lines, filings, subtotal, total: subtotal, hasManualReview: lines.some((l) => l.manualReview) };
 }
