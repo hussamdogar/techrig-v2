@@ -178,7 +178,7 @@ Dependencies: M4 (paid events), M5 (status events). Gate: each trigger fires exa
 
 ---
 
-## M7 — Migration, redirects, launch hardening · STATUS: PLANNED
+## M7 — Migration, redirects, launch hardening · STATUS: ACTIVE (Dev-led, FINAL milestone) — work order `work-orders/M7-dev.md` (M1–M6 build-complete)
 Goal: cut over from the legacy subdomains and harden.
 - 🔵 SEO: fold the new routes + subdomain redirects into the crawl-union (orchestration L1); confirm no ranking URL regresses; same-domain GA4 events.
 - 🟣 Design: final QA of every state on real devices.
@@ -205,7 +205,7 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 | M4 | Payment capture | BUILD-COMPLETE (security review passed) | yes | no (→ QA ledger) |
 | M5 | Progress tracking + back-office | BUILD-COMPLETE | yes | no (→ QA ledger) |
 | M6 | Email lifecycle + documents | BUILD-COMPLETE | yes | no (→ QA ledger) |
-| M7 | Migration + hardening | PLANNED | no | no |
+| M7 | Migration + hardening (FINAL) | ACTIVE | no | no |
 
 ## Consolidated pre-launch QA ledger
 Per the deploy policy, deploy-time-only checks accumulate here and run once at the end (together with Workstream A's launch gate — `../orchestration-status.md` L1/L4). Nothing here blocks milestone progress.
