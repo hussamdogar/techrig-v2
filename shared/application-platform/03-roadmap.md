@@ -25,6 +25,23 @@ Goal (ADR-4): a carrier enters a USDOT on the homepage, sees live FMCSA records 
 Dependencies: M0 env from the live projects + the QCMobile webKey. No SEO/Design gating.
 Gate: enter a real USDOT → correct live FMCSA data renders (primary, and still works when the primary is forced to fail → backup answers); a `leads` + `carrier_snapshots` row is written; not-found/error handled gracefully; rate-limited; homepage Lighthouse not regressed (no CLS, card lazy); app routes noindex + absent from sitemap.
 
+### Build note (Dev, 2026-06-24) — CODE-COMPLETE; live gate partially passed, remainder blocked on credentials
+**Shipped (`dev/**`):**
+- `lib/lookup/` — dual-provider lookup with failover. MOTUS primary ported from `boc3-form-new` (`normalizeMotusMatrixResponse` + two-step carriers→matrix fetch); QCMobile backup normalized to the same `CarrierData`; `lookupCarrier()` runs primary (~2.5s timeout) → backup → `manual_required`, isolates each call, logs provider + latency, and distinguishes a clean `not_found` from provider-unavailable.
+- `lib/server/` — HMAC lead token (+ at-rest hash), KV rate limit (in-memory fallback), `DGR-YYYYMMDD-NNN` KV reference counter, Supabase service/anon clients (`server-only`). `.env.example` documents every key.
+- `supabase/migrations/0001_leads_carrier_snapshots.sql` — `leads` + `carrier_snapshots` (additive), RLS (anon insert; owner-only reads; write-once snapshots), indexes. **Not yet applied** to the live project.
+- `app/api/lookup-usdot/route.ts` — validate `^\d{1,12}$`, rate-limit 20/15min, reference+token, lookup, best-effort lead+snapshot insert (degrades gracefully without DB), `X-Robots-Tag: noindex`.
+- `components/usdot-lookup-card.tsx` + `app/page.tsx` — hero card client island (verbatim copy; idle/loading/result/not-found/error/reset states; status chip; "Not on file" for null fields; a11y). Replaces the decorative `AuthorityStatusTracker` (kept for M5). Deps added: `@supabase/supabase-js`, `@supabase/ssr`, `@vercel/kv`, `zod`.
+
+**Verified in sandbox (live):** real USDOT 3214567 → correct live MOTUS data (`source: motus`, authority Active, 6 power units); absurd USDOT → `not_found` (status logic correct); invalid input → 400; `X-Robots-Tag: noindex` present; home stays prerendered (`○ /`) with the card server-rendered (no CLS) and no Supabase/Stripe in the client bundle; KV reference falls back cleanly when KV is absent. Confirmed against a live matrix response: MC = `mxDocketNumber`; safety-rating and insurance-on-file are NOT in the MOTUS matrix (they come from QCMobile), so MOTUS leaves them null honestly.
+
+**Gate items still OPEN (need credentials/infra Dev cannot self-provision):**
+1. **QCMobile webKey (`FMCSA_WEBKEY`)** — the one new credential. Without it the backup is unavailable, so the "force primary to fail → backup answers" gate check is untested live (code path is in place).
+2. **Live Supabase + KV env** (pull from the legacy Vercel projects) — needed to actually write `leads`/`carrier_snapshots`, exercise the real KV counter/rate-limit, and **apply migration `0001`** to the live project. Applying to the shared production DB is held for explicit go-ahead.
+3. **Preview verification** — Lighthouse (perf/CLS) and RLS (anon cannot read others' rows) on a Vercel preview with the env wired.
+
+**Recommendation:** keep M1 status ACTIVE. Wire the env + webKey, apply `0001`, deploy a preview, run items 1–3; then the orchestrator flips M1 → DONE.
+
 ---
 
 ## M2 — Accounts + dashboard shell · STATUS: PLANNED

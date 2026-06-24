@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
-import { AuthorityStatusTracker } from "@/components/authority-status-tracker";
+import { UsdotLookupCard } from "@/components/usdot-lookup-card";
 import { dispatchNav } from "@/lib/services";
 import { site } from "@/lib/site";
 import {
@@ -73,10 +73,11 @@ export default function Home() {
             </div>
           </div>
 
-          {/* The signature visual: the journey resolving into dispatch. */}
-          <AuthorityStatusTracker
-            handoff={{ label: "keep loaded", href: "/services/" }}
-          />
+          {/* The hero's lead-generating front door (Application Platform M1).
+              Replaces the decorative AuthorityStatusTracker, which is reserved
+              for reuse as the real dashboard progress tracker in M5. Client
+              island: the homepage stays prerendered and ships no DB/payment. */}
+          <UsdotLookupCard />
         </Container>
       </Section>
 

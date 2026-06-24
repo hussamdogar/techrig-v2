@@ -1,0 +1,77 @@
+/**
+ * Provider-agnostic carrier data shape (Application Platform M1, ADR-7).
+ *
+ * Both lookup providers (MOTUS primary, FMCSA QCMobile backup) normalize their
+ * raw responses into THIS shape, so the API, the hero card, and the stored
+ * carrier snapshot never care which provider answered. The richer MOTUS-only
+ * fields (diff/CDL signals, equipment) are preserved for the later application
+ * engine; a backup provider that cannot supply a field sets it to null. Per
+ * standards.md we never fabricate a value: a missing field is null and renders
+ * as "Not on file", never a guessed value.
+ */
+
+export type EquipmentSummary = {
+  truckTractors: number;
+  straightTrucks: number;
+  trailers: number;
+  nonCommercialVehicles: number;
+};
+
+export type CarrierData = {
+  // Identity
+  entityId: string | null;
+  legalName: string | null;
+  dbaName: string | null;
+  usdotNumber: number | null;
+  mcNumber: string | null;
+  physicalAddress: string | null;
+
+  // Classification / status (the hero result panel reads these)
+  entityType: string | null; // operation/business type, the "Entity type" row
+  authorityStatus: string | null; // the "Authority status" chip
+  safetyRating: string | null; // the "Safety rating" row
+  insuranceOnFile: string | null; // the "Insurance on file" row ("Yes" | "No" | null)
+  allowedToOperate: string | null;
+  powerUnits: number | null;
+
+  // Contact (not shown on the card; used to pre-fill the application later)
+  contactFirstName: string | null;
+  contactLastName: string | null;
+  contactPhone: string | null;
+  contactEmail: string | null;
+
+  // Richer MOTUS signals kept for the application engine + MCS-150 diff (M3+)
+  driverTotal: number | null;
+  cdlDriverTotal: number | null;
+  businessType: string | null;
+  registrationType: string | null;
+  isInterstate: boolean | null;
+  isIntrastate: boolean | null;
+  isForHire: boolean | null;
+  isPrivate: boolean | null;
+  canDesignateBoc3: boolean | null;
+  insuranceRequired: boolean | null;
+  hasProtestPeriod: boolean | null;
+  isNewEntrant: boolean | null;
+  equipmentSummary: EquipmentSummary;
+  reportedPoweredVehicles: number;
+  cdlLikely: boolean;
+  cdlSignalReason: string | null;
+  operationType: string | null;
+
+  // Provenance
+  source: LookupProvider;
+  raw: unknown;
+};
+
+/** Which provider produced a snapshot. `manual` = neither provider answered. */
+export type LookupProvider = "motus" | "qcmobile" | "manual";
+
+export type LookupStatus = "success" | "not_found" | "manual_required";
+
+export type LookupResult = {
+  status: LookupStatus;
+  carrier?: CarrierData;
+  /** The provider that answered (or attempted last). */
+  provider: LookupProvider;
+};
