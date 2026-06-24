@@ -3,28 +3,27 @@
 Owner: orchestrator. Status: M1 ACTIVE (work orders issued); M2–M7 PLANNED.
 Decompose the build so nothing is dropped. Each milestone is independently shippable, has explicit lane routing, hard dependencies, and an acceptance gate. A milestone is DONE only when its gate passes and the orchestrator flips it on this page + `../orchestration-status.md`.
 
-Sequencing rule: a milestone does not start until its dependencies' gates pass. Within a milestone, SEO specs → Design specs → Dev implements (the project's build sequence), though SEO and Design can run in parallel where they do not block each other.
+**This is a Dev-led workstream (ADR-5/-8).** The platform is noindex, so SEO is not a lane; the design language is locked, so Design is not a lane. Dev owns the UI (built with the existing system), functional copy in the brand voice, and all engineering. The 🔵/🟣 bullets in M2–M7 below are folded into Dev: read "🔵" as "Dev, copy in brand voice" and "🟣" as "Dev, existing design system"; escalate to Design only for a genuinely new pattern. Each milestone still gets its own Dev work order when it activates.
 
-Legend: 🔵 SEO · 🟣 Design · 🟢 Dev · ⚙️ orchestrator/shared
+Sequencing rule: a milestone does not start until its dependencies' gates pass.
+
+Legend: 🟢 Dev (owns) · ⚙️ orchestrator/shared · (🔵 copy-in-brand-voice / 🟣 existing-design — both Dev)
 
 ---
 
-## M0 — Foundation (shared) · STATUS: PARTIAL (docs done)
+## M0 — Foundation (Dev) · STATUS: PARTIAL (docs done; infra confirmed)
 Goal: lock decisions, stand up the skeleton, no client-visible change.
-- ⚙️ ADRs + these docs (DONE). Reference-ID prefix decision (TR vs DGR). Confirm Supabase/Stripe/Resend accounts (reuse legacy or provision new).
-- 🟢 Add the `(app)` route group scaffold + `lib/supabase` client + env wiring (no features). Decide JSONB-vs-columns for `application_data`. MOTUS reachability spike (see M1).
-- 🟣 Define the "application surface" design tokens/components that differ from marketing (forms, steppers, status chips, dashboard shell) within the locked system.
-Gate: skeleton builds clean; env documented; accounts confirmed.
+- ⚙️ ADRs + these docs (DONE). Accounts CONFIRMED: reuse the live legacy infra (ADR-6). Reference-ID prefix stays `DGR-` (ADR-6).
+- 🟢 Pull env from the legacy Vercel projects; add the `(app)` route group scaffold + `lib/supabase` client + env wiring (no features); obtain the QCMobile webKey (backup lookup). Decide JSONB-vs-columns for `application_data`.
+Gate: skeleton builds clean; env wired from the live projects; both lookup providers reachable.
 
 ---
 
-## M1 — Hero USDOT lookup card + lead capture · STATUS: ACTIVE
-Goal (ADR-4): a carrier enters a USDOT on the homepage, sees live FMCSA records, and is captured as a lead; "no USDOT" routes to the file-now path. No auth, no payment yet.
-- 🔵 SEO — `work-orders/M1-seo.md`: hero composition (card vs `AuthorityStatusTracker`), all card copy + microcopy + result-panel labels, the not-found/empty/error copy, the "Don't have a USDOT number? File for one now" link target, lead-capture intent, any schema, and a guarantee the change does not regress the home page's ranking signals.
-- 🟣 Design — `work-orders/M1-design.md`: the card UI + result panel in the design system, all states (idle/loading/result/not-found/error), trust treatment of FMCSA fields, mobile, no-CLS placement in the hero.
-- 🟢 Dev — `work-orders/M1-dev.md`: `lib/motus` (spike + normalizer port), `/api/lookup-usdot` (rate-limited), `leads` + `carrier_snapshots` tables + RLS, the hero card client island, result render, reference-ID generation, "file now" route, optional welcome email.
-Dependencies: M0 env (Supabase project + lookup data source). 
-Gate: enter a real USDOT → correct live FMCSA data renders; a lead row is written; bad/again-not-found inputs handled gracefully; rate-limited; homepage Lighthouse not regressed (no CLS, card lazy); copy matches the SEO brief.
+## M1 — Hero USDOT lookup card + lead capture · STATUS: ACTIVE (Dev-led)
+Goal (ADR-4): a carrier enters a USDOT on the homepage, sees live FMCSA records (via the dual-provider lookup), and is captured as a lead; "no USDOT" routes to the file-now path. No auth, no payment yet.
+- 🟢 Dev — `work-orders/M1-dev.md` (the only M1 work order): `lib/lookup` (MOTUS primary + QCMobile backup, failover), `/api/lookup-usdot` (rate-limited), `leads` + `carrier_snapshots` tables + RLS in the live Supabase project, the hero card client island built with the existing design system, result render with all states, reference-ID generation (`DGR-`), the "file now" route, noindex on app routes. Functional copy is specified inline in the work order (brand voice; no SEO dependency). Optional welcome email if Resend is trivial to wire.
+Dependencies: M0 env from the live projects + the QCMobile webKey. No SEO/Design gating.
+Gate: enter a real USDOT → correct live FMCSA data renders (primary, and still works when the primary is forced to fail → backup answers); a `leads` + `carrier_snapshots` row is written; not-found/error handled gracefully; rate-limited; homepage Lighthouse not regressed (no CLS, card lazy); app routes noindex + absent from sitemap.
 
 ---
 

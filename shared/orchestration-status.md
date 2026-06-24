@@ -53,10 +53,11 @@ content-writer polishes the 42 migrated blog bodies to `standards.md` (titles >6
 
 ## Workstream B — Application Platform (NEW, 2026-06-24)
 A full client-facing application platform on the new site: USDOT lookup card, unified service-driven application, payment, lead capture, Supabase-Auth accounts, dashboard, progress tracking. Unifies the two legacy form apps (`techrig-form`, `boc3-form-new`) and adds the dashboard layer they lacked. Full docs: `application-platform/` (overview, architecture, data-model, roadmap, work-orders).
-- Decisions locked (ADR-1..4): integrated into techrig.org; real Supabase-Auth accounts; one unified service-driven engine; first milestone = hero lookup card + lead capture.
-- **M1 ACTIVE** — work orders issued to all three lanes (`application-platform/work-orders/M1-{seo,design,dev}.md`). Sequence: SEO addendum → Design spec → Dev build. Dev's MOTUS spike can start immediately (schedule risk).
+- Decisions locked (ADR-1..8): integrated into techrig.org; real Supabase-Auth accounts; one unified service-driven engine; first milestone = hero lookup card + lead capture; **whole platform is noindex (so SEO is not a lane)**; **reuse the live legacy infra** (Supabase/Stripe/Resend/KV still active — no provisioning); **dual lookup provider with failover** (MOTUS primary, FMCSA QCMobile backup); **reuse the locked design language** (so Design is not a lane).
+- **This is a Dev-led workstream.** SEO out (noindex); Design out (existing system). M0 infra CONFIRMED (reuse legacy). 
+- **M1 ACTIVE** — single Dev work order `application-platform/work-orders/M1-dev.md` (self-contained: dual lookup, tables+RLS, hero card with inline copy, noindex). Dev can start now; first task is the `lib/lookup` dual-provider build. No SEO/Design gating.
 - M2–M7 PLANNED (accounts/dashboard → application engine → payment → progress tracking → email/docs → migration). See `application-platform/03-roadmap.md` status ledger.
-- Ties to Workstream A: M7 subdomain redirects (`form.`/`boc-3.techrig.org`) must fold into the L1 crawl-union before launch; pricing must stay sourced from `services.md`; the ELD/insurance reframe must not be reintroduced by the application engine.
+- Ties to Workstream A: M7 subdomain redirects (`form.`/`boc-3.techrig.org`) fold into the L1 crawl-union (note: redirect targets are noindex by design); pricing stays sourced from `services.md`; the ELD/insurance reframe must not be reintroduced by the application engine.
 
 ## Closed / verified
 - ELD + insurance reframe (`work-order-eld-insurance.md`): VERIFIED CLOSED 2026-06-24. `serviceType: "ELD partner referral"`, ELD price chip removed, CTA = "Get connected with our ELD partner", insurance hero disclaimer present, no "files your insurance" survives. Committed 43a1598.

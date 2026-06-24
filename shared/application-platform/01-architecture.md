@@ -39,11 +39,21 @@ Rendering discipline: keep the marketing routes static; the lookup card is a sma
 - RLS everywhere: clients read/write only their own `applications`/`filings`/`payments`; admins use the service role behind the `(admin)` routes (never expose the service key to the browser).
 - Keep the legacy **signed-token** pattern (HMAC, short TTL) ONLY for the pre-account window (resume-by-link from a lifecycle email before the client has made an account). After account creation, auth session governs access.
 
-## 4. USDOT lookup + FMCSA data
-- Source: **MOTUS** (`motus.dot.gov/api/carriers/{usdot}` then `/api/public-registration-matrix/{entityId}`), as used by `boc3-form-new`. Port the `normalizeMotusMatrixResponse()` shape into a shared `lib/motus` module.
-- **M1 spike (Dev):** verify MOTUS endpoints are still reachable from Vercel, whether they need auth/keys/allow-listing, rate/usage limits, and latency. If MOTUS is unavailable or gated, fall back to the FMCSA QCMobile / SAFER web service (requires a free webKey). Record the chosen source + keys in the env table. Do not block the card UI on a single provider — design `lib/motus` behind an interface.
-- Store the raw normalized pull as an immutable **carrier snapshot**; user edits are diffed against it (the boc3 `motus_user_diff` / `needs_mcs150_update` pattern) so the back-office knows when an MCS-150 update is implied.
-- Display fields on the card result: legal name, USDOT/MC, entity type, operating authority status, safety rating, insurance-on-file, power units. Never invent a field MOTUS did not return; show "not on file" rather than a fabricated value (standards.md).
+## 4. USDOT lookup + FMCSA data — DUAL PROVIDER WITH FAILOVER (ADR-7)
+- A shared `lib/lookup` module exposes one interface: `lookupCarrier(usdot) → { status: 'success'|'not_found'|'manual_required', carrier?, provider }`. It runs providers in order with failover:
+  1. **Primary — MOTUS** (`motus.dot.gov/api/carriers/{usdot}` then `/api/public-registration-matrix/{entityId}`), the live source already proven in `boc3-form-new`. Port `normalizeMotusMatrixResponse()` here.
+  2. **Backup — FMCSA QCMobile** (`mobile.fmcsa.dot.gov/qc/services/carriers/{usdot}?webKey=…`, official API, free webKey). Normalize its response into the same `CarrierData` shape.
+  3. **Last resort** — SAFER/manual: return `manual_required` so the client can proceed with hand-entered data (the boc3 manual path).
+- **Failover triggers:** primary errors, times out (tight budget, e.g. ~2.5s), is rate-limited, or returns empty/unusable → try backup. If backup also fails → `manual_required`. Each provider call is isolated so one being down never takes the card down.
+- `carrier_snapshots.source` records which provider answered (`'motus' | 'qcmobile' | 'manual'`) for observability — track the failover rate so we know if the primary degrades.
+- **M1 task (Dev):** confirm both providers from a Vercel-like environment (MOTUS is known-working in the live boc3 app; obtain the QCMobile webKey), wire the failover, log provider + latency. Keep `CarrierData` normalization identical across providers so the UI is provider-agnostic.
+- Store the normalized pull as an immutable **carrier snapshot**; user edits are diffed against it (the boc3 `motus_user_diff` / `needs_mcs150_update` pattern) so the back-office knows when an MCS-150 update is implied.
+- Display fields on the card result: legal name, USDOT/MC, entity type, operating authority status, safety rating, insurance-on-file, power units. Never invent a field a provider did not return; show "not on file" rather than a fabricated value (standards.md).
+
+## 4a. Indexing — the whole platform is `noindex` (ADR-5)
+- Every application route (`/lookup`, `/apply`, `/dashboard`, `/account`, `(admin)`) sets `robots: { index: false, follow: false }` (Next.js metadata) and/or an `X-Robots-Tag: noindex` header. None appear in `sitemap.xml`.
+- The homepage stays indexable; only the embedded card is interactive (the card is not its own indexable URL).
+- The legacy subdomains were transactional and non-ranking; their 301s (M7) land on noindex routes, which is fine — note this in the Workstream-A crawl-union so the new routes are not flagged as "missing from index."
 
 ## 5. Payment
 - Stripe. Standardize on **PaymentIntent + embedded Elements** (boc3 pattern) for in-site UX, or Checkout Session (techrig-form pattern) if a hosted page is preferred — Dev picks one and uses it everywhere. Decision logged in the M4 work order.
@@ -71,7 +81,7 @@ Rendering discipline: keep the marketing routes static; the lookup card is a sma
 | `CRON_SECRET` | Vercel cron auth | M6 |
 | `SENTRY_*` | Sentry (optional, error tracking) | any |
 
-Reuse the existing Supabase/Vercel projects if the team already has them from the legacy apps; otherwise provision new. Confirm with the client which Stripe account receives payments.
+**Reuse the existing, live projects (ADR-6).** The Supabase, Stripe, Resend, and Vercel KV instances behind `techrig-form` / `boc3-form-new` are still active — point the new app at them (same DB project for new tables, same Stripe account for payments, same Resend domain, same KV namespace/reference counter). Do not provision new infra. Pull the actual env values from the legacy repos' Vercel project settings. The QCMobile webKey (backup lookup) is the one genuinely new credential to obtain.
 
 ## 9. New runtime dependencies (added to dev/package.json over the milestones)
 `@supabase/supabase-js`, `@supabase/ssr` (auth in App Router), `stripe` + `@stripe/stripe-js` + `@stripe/react-stripe-js`, `resend`, `pdf-lib`, `@vercel/kv`, a signature-capture lib, optionally `zod` for validation and `@sentry/nextjs`. Keep the marketing bundle lean — load Stripe/signature/PDF only on the routes that need them (dynamic import), so the homepage stays fast.
