@@ -15,17 +15,18 @@ Locale US/USD. Canonical host + HTTPS enforced (confirm www vs non-www in pre-la
 │   /dot-registration/                     USDOT money page                Bucket 1  [REPURPOSE]
 │   /mc-registration/                      MC authority money page         Bucket 1  [REPURPOSE]
 │   /ucr-registration/                     UCR money page                  Bucket 1  [NEW]
-│   /mcs-150-biennial-update/              MCS-150 / biennial money page   Bucket 1  [NEW]
+│   /mcs-150-biennial-update/              Biennial Update (card label)    Bucket 1  [NEW]
+│   /usdot-correction/                     USDOT Correction ($125) NEW     Bucket 1  [NEW]
 │   /boc-3-filing/                         BOC-3 money page                Bucket 1  [NEW]
 │   /irp-registration/                     IRP / apportioned plates page   Bucket 1  [NEW]
-│   /ifta-registration/                    IFTA fuel-tax money page        Bucket 1  [NEW]
+│   /ifta-registration/                    IFTA (+ quarterly filing svc)   Bucket 1  [NEW]
 │   /fmcsa-clearinghouse-registration/     Clearinghouse money page        Bucket 1  [NEW]
 │   /drug-and-alcohol-consortium/          D&A consortium (+ drug test)    Bucket 1  [NEW]
 │   /driver-qualification-files/           DQ files money page             Bucket 1  [NEW]
-│   /eld-services/                         ELD setup money page            Bucket 1  [NEW]
-│   /trucking-insurance-filing/            Insurance filing (low-pri)      Bucket 1  [NEW]
-│   /trucking-llc/                         Trucking LLC formation page     Bucket 1  [NEW]
+│   /eld-services/                         ELD partner referral (Motive)   Bucket 1  [NEW]
+│   /trucking-llc/                         Trucking LLC (Inc Authority ref)Bucket 1  [NEW]
 │   /lead-generation/                      Brokers for new authority       Bucket 1  [PRESERVE]
+│   (/trucking-insurance-filing/ REMOVED per client QA 2026-06-21; 301 → /compliance-services/)
 │
 ├── DISPATCH (retention) ──────────────────────────────────────────────────────────
 │   /services/                             Dispatch services HUB           Bucket 1  [REFRESH]

@@ -44,7 +44,7 @@ Because we are an FMCSA-listed blanket process agent, your BOC-3 is direct, not 
 **Mid-page CTA:** text link "File my BOC-3".
 
 ### H2: BOC-3 as part of getting road-legal
-Real worked example (publishable, distinct to this page): a North Carolina power-only carrier first came to us just to buy a BOC-3. When we looked at her file, her self-filed USDOT and MC were full of errors, and because she had not established her MOTUS account yet, she was locked out of fixing them online. Claiming an existing USDOT on MOTUS needs a USDOT PIN, and FMCSA had stopped emailing PINs, so she was stuck waiting on a mailed letter. We moved her forward with paper filings and then an official FMCSA callback to verify her identity and unlock the record. A simple BOC-3 request turned into untangling the whole authority, which is exactly the kind of thing we catch.
+Real worked example (publishable, distinct to this page): a North Carolina power-only carrier first came to us just to buy a BOC-3. When we looked at her file, her self-filed USDOT and MC were full of errors, and because she had not established her MOTUS account yet, she was locked out of fixing them online. Claiming an existing USDOT on MOTUS needs a USDOT PIN, which FMCSA mails to the carrier, so she was waiting on the letter to arrive. We moved her forward with paper filings and then an official FMCSA callback to verify her identity and unlock the record. A simple BOC-3 request turned into untangling the whole authority, which is exactly the kind of thing we catch.
 
 ### H2: BOC-3 filing FAQ
 FAQPage schema, Grade 8:
