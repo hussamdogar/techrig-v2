@@ -3,6 +3,12 @@
 Owner: orchestrator (coordination only; does not implement in any lane).
 Last updated: 2026-06-25. Source of truth for "who owns what next" across SEO, Design, Dev.
 
+> ## ▶ RESUME HERE (next session)
+> **You are the orchestrator.** Role + working pattern: read the [[techrig-orchestrator-role]] memory (doc map, git discipline, verify-before-confirm). 
+> **State:** the marketing revamp (Workstream A) AND the application platform (Workstream B, M0–M7 + M3-R1) are **BUILD-COMPLETE**; the client QA revision (pricing → $1,700 package / $50 UCR, +USDOT-Correction/+IFTA-Quarterly, insurance page removed, MOTUS terminology) is **build-complete and parity-verified** (`c74bffb`). **Nothing is deployed.** Git: `main` clean + synced (HEAD `57b0d6f`), branches = `main` + `design/` only, no open PRs.
+> **What's next — the JOINT LAUNCH** (`launch-plan.md`): blocked on the client/owner answering `client-questions.md` (esp. **Q2.1 recurring-billing — may add build**, and **Q1.1/Q1.2 — C/TPA claim + partner links we can't publish unverified**) and provisioning Phase-0 live creds. When answers/creds arrive: route each answer to its tagged page/work order → staging deploy → run the Consolidated QA ledger (`application-platform/03-roadmap.md`) + Workstream A's L1 crawl-union/L2/L4 together → drain legacy + DNS cutover → go live as one deploy. SEO must be re-engaged for the crawl-union (outside Dev's lane).
+> **Doc map:** this board + `launch-plan.md` + `client-questions.md` + `application-platform/{00..03 + work-orders}` + `build-report.md`.
+
 **Open client inputs are tracked in `client-questions.md`** (consolidated, client-ready, tagged by what each unblocks). Highest-impact open items: Q2.1 recurring-billing model (may add build) and Q1.1–Q1.2 unverifiable claims/partner links. This supersedes the scattered L7 client-input notes below.
 
 ## Lane status at a glance
