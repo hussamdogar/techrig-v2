@@ -68,7 +68,7 @@ The client answered all open questions; reconciled against verified code into `w
 
 ### L10 — Tracker-scope inconsistency (design parity)  [OWNER: Design then Dev] — pre-launch, non-blocking
 Design flagged (DZ1, `7caf5f2`; memory [[techrig-tracker-scope-conflict]]): design-system §13 scopes the Authority Status Tracker to authority-activation pages, but the older `/ifta-registration/` and `/mcs-150-biennial-update/` specs (and likely the built pages) still show it — neither asserts authority-lifecycle status, so it's a §13 violation. The DZ1 specs correctly omit it. Out of DZ1 scope, so left as-is.
-- Disposition: a design-parity fix (Design updates the 2 specs to drop the tracker → Dev removes it from those 2 built pages if present). Non-blocking for launch (scope-inconsistent, not a false claim), but should be reconciled for consistency before go-live. Owner/orchestrator to schedule.
+- Disposition: **FOLDED INTO THIS PASS (owner-approved 2026-06-25).** Dev **D13** removes the tracker from the 2 built pages (per §13, verify-if-present; Dev is already in these files for D8 + the IFTA Quarterly cross-links); Design **DZ2** aligns the 2 stale specs (`ifta-registration.md`, `mcs-150-biennial-update.md`) so spec == build. Routed in `work-order-client-answers.md`.
 
 ## Workstream B — Application Platform (NEW, 2026-06-24)
 A full client-facing application platform on the new site: USDOT lookup card, unified service-driven application, payment, lead capture, Supabase-Auth accounts, dashboard, progress tracking. Unifies the two legacy form apps (`techrig-form`, `boc3-form-new`) and adds the dashboard layer they lacked. Full docs: `application-platform/` (overview, architecture, data-model, roadmap, work-orders).

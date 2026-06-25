@@ -86,6 +86,10 @@ File anchors verified in `dev/lib/services-registry.ts` unless noted.
 - Client provided the key on the current BOC-3 form: `mk_1TQSnGBUKzFDGSEhTE8lrbVQ`. This is **not a standard Stripe API key prefix** (live keys are `sk_`/`pk_`/`rk_`/`whsec_`); checkout uses `paymentIntents.create`, which needs a secret key.
 - Do: verify the key type; request the standard **live `sk_`/`pk_`/`whsec_`** credentials (client will provide securely). Set receipt details: DGR TECH RIG LLC / info@techrig.org / 30 N Gould Street, Sheridan, Wyoming / no sales tax.
 
+**D13 — Remove the out-of-scope Authority Status Tracker (L10 fold-in, owner-approved 2026-06-25).**
+- design-system §13 scopes the Authority Status Tracker to authority-activation pages. `/ifta-registration/` (a fuel-tax return) and `/mcs-150-biennial-update/` (a record upkeep filing) assert no authority-lifecycle status, so the tracker does not belong there.
+- Do: verify whether the built `/ifta-registration/` and `/mcs-150-biennial-update/` pages render the tracker; **if present, remove it** per §13 (drop the component + any authority-status labels; keep the rest of the page). §13 is the governing locked rule, so this is implementing the design system, not redefining it. The DZ1 specs already omit it; the 2 older specs are being aligned in parallel (Design DZ2). You are in these files anyway for D8 (mcs-150 timeline) and the new IFTA Quarterly cross-links, so fold this in here.
+
 ## SEO deltas
 - **S1 — Three new page briefs:** USDOT Correction ($125), IFTA Quarterly Filing ($150 + gov), FMCSA Portal to MOTUS Migration ($125). Money-page/service intent; add to `sitemap-plan.md`, `keyword-map.md`, `services.md`, footer.
 - **S2 — Relocate the California legacy story** to the MOTUS Migration page. NOTE for accuracy: it currently lives on the **MC pages** (`mc-registration/page.tsx:243-253`, `mc-dot-registration/page.tsx:277-285`) as a dismissed-MC reinstatement story, **not** on `/dot-registration/` (which uses a Texas new-carrier example). The client's instruction assumed it was on the USDOT page; route the narrative to the migration page from the MC pages, and confirm `/dot-registration/` stays clean.
@@ -97,7 +101,8 @@ File anchors verified in `dev/lib/services-registry.ts` unless noted.
 - **S8 — `services.md` master update:** expanded package contents, DQ tiers, MOTUS migration line, turnaround times — so the SEO master equals the registry after the Dev deltas.
 
 ## Design deltas
-- **DZ1 — Specs for the 3 new service pages** (USDOT Correction, IFTA Quarterly, MOTUS Migration). Reuse the locked service-page pattern from `design/design-system.md`; no new design-system work.
+- **DZ1 — Specs for the 3 new service pages** (USDOT Correction, IFTA Quarterly, MOTUS Migration). Reuse the locked service-page pattern from `design/design-system.md`; no new design-system work. **✅ DONE (`7caf5f2`).**
+- **DZ2 — Align the 2 stale specs to §13 (L10 fold-in, owner-approved 2026-06-25).** Update `shared/design/ifta-registration.md` and `shared/design/mcs-150-biennial-update.md` to **remove the Authority Status Tracker** and add the explicit "do not add the tracker (per §13)" note, mirroring the DZ1 specs. Small edit; keeps the specs in sync with Dev's D13 removal so a future rebuild does not reintroduce the tracker.
 
 ## Provisioning (config, not build) — for the launch credential request
 - **Stripe:** existing account; verify key type, request live `sk_`/`pk_`/`whsec_`; receipt details as in D12. (Q5.1)
