@@ -102,7 +102,7 @@ File anchors verified in `dev/lib/services-registry.ts` unless noted.
 
 ## Design deltas
 - **DZ1 — Specs for the 3 new service pages** (USDOT Correction, IFTA Quarterly, MOTUS Migration). Reuse the locked service-page pattern from `design/design-system.md`; no new design-system work. **✅ DONE (`7caf5f2`).**
-- **DZ2 — Align the 2 stale specs to §13 (L10 fold-in, owner-approved 2026-06-25).** Update `shared/design/ifta-registration.md` and `shared/design/mcs-150-biennial-update.md` to **remove the Authority Status Tracker** and add the explicit "do not add the tracker (per §13)" note, mirroring the DZ1 specs. Small edit; keeps the specs in sync with Dev's D13 removal so a future rebuild does not reintroduce the tracker.
+- **DZ2 — Align the 2 stale specs to §13 (L10 fold-in). ✅ DONE (`6abfdb9`, orchestrator-verified).** Both `shared/design/ifta-registration.md` and `shared/design/mcs-150-biennial-update.md` now omit the Authority Status Tracker (hero → spot illustration) and carry the explicit "do not add (per §13)" note, mirroring the DZ1 specs. The spec side is reconciled; **Dev D13** (remove the tracker from the 2 built pages) is the remaining piece for spec == build.
 
 ## Provisioning (config, not build) — for the launch credential request
 - **Stripe:** existing account; verify key type, request live `sk_`/`pk_`/`whsec_`; receipt details as in D12. (Q5.1)
