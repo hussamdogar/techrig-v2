@@ -1,7 +1,9 @@
 # Orchestration status board
 
 Owner: orchestrator (coordination only; does not implement in any lane).
-Last updated: 2026-06-24. Source of truth for "who owns what next" across SEO, Design, Dev.
+Last updated: 2026-06-25. Source of truth for "who owns what next" across SEO, Design, Dev.
+
+**Open client inputs are tracked in `client-questions.md`** (consolidated, client-ready, tagged by what each unblocks). Highest-impact open items: Q2.1 recurring-billing model (may add build) and Q1.1–Q1.2 unverifiable claims/partner links. This supersedes the scattered L7 client-input notes below.
 
 ## Lane status at a glance
 | Lane | State | Blocking anyone? | Blocked on |
