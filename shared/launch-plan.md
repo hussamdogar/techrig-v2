@@ -4,6 +4,8 @@ Owner: orchestrator. Created 2026-06-25, at the convergence point (all platform 
 
 Status: **BUILD-COMPLETE, pre-launch.** Nothing is deployed yet. The "no preview until complete" policy now inverts — a staging deploy for QA is the next step.
 
+> **Update 2026-06-25:** the client answered all open questions (`client-answers-2026-06-25.md`). Provisioning is now mostly supplied (Resend domain, prod domain/DNS, Sentry yes, admin seed = info@techrig.org); only the **QCMobile webKey** (Hussam, at deploy) and a **standard live Stripe credential** remain open (the provided `mk_...` key is not a usable Stripe API key — see `work-order-client-answers.md` D12). **New precondition before the staging deploy:** the client-answer build deltas **D1-D9** (`work-order-client-answers.md`) land first — they change engine prices and add 3 indexable pages to the crawl-union. D10/D11 are fast-follow.
+
 ## Phase 0 — Owner-provisioned launch credentials (the gate to deploying)
 Everything was built against the prod Supabase DB; these are the remaining live creds/config the team supplies on the Vercel project. All documented in `application-platform/build-report.md` + `.env.example`.
 - **FMCSA QCMobile webKey** (`FMCSA_WEBKEY`) — M1 backup lookup (primary MOTUS already works).
@@ -42,7 +44,7 @@ From `orchestration-status.md` (the parked marketing launch loops):
 1. **Provision Phase-0 creds** + authorize the staging deploy (this is what unblocks everything).
 2. **Launch window/timing** — when to cut over.
 3. **Confirm the drain execution** (default recorded above) and who flips DNS.
-4. **Client inputs still open in `orchestration-status.md` L7** (gov-fee figures source/remove, testimonial permissions) — independent of the platform, but part of the marketing launch polish.
+4. **Client inputs RESOLVED 2026-06-25** (`client-questions.md`, routed in `work-order-client-answers.md`). The launch-gating build deltas are **D1-D9**; still open: QCMobile webKey (Q5.3), a live Stripe credential (D12), and final team filing ownership (Q6.2).
 
 ## Roles at launch
 - **Orchestrator:** sequences the launch, runs the convergence, keeps the gate.

@@ -1,115 +1,46 @@
-# Client Questions — Tech Rig (open clarifications)
+# Client Questions — Tech Rig (RESOLVED 2026-06-25)
 
-Owner: orchestrator. Created 2026-06-25. The consolidated list of things we need from the client to finish accurately and launch. Send this over; the client answers inline under each item. We track status here and apply answers to the tagged page/work order.
+Owner: orchestrator. Created 2026-06-25; client answered 2026-06-25.
+Verbatim answers: `client-answers-2026-06-25.md`. Routed build/content deltas: `work-order-client-answers.md`.
 
-**How to read each item:** the question, a one-line why, **Unblocks** (the page/work order/launch step it gates), **Priority**, **Status**, and an **Answer** line for the client.
+**All items answered (one credential still pending: Q5.3 QCMobile webKey).** Each item below records the answer and where it routes. "Delta" = it changes the build; "consistent" = already matches the code; "config" = a provisioning value.
 
-**Status:** 🔴 OPEN · 🟡 PARTIAL · 🟢 ANSWERED
-**Priority:** `[BUILD]` could change what we build · `[PUBLISH]` gates publishing an accurate claim · `[DEPLOY]` needed to go live · `[POLISH]` content/trust, not blocking
-
----
-
-## 1. Factual claims we must verify before publishing
-We will not publish a claim about your business on faith (no fabricated statements).
-
-**Q1.1 — Is Tech Rig a registered C/TPA with the FMCSA Drug & Alcohol Clearinghouse?** If yes, share the proof/registration detail. The brief asks us to state this; if it's not accurate we won't publish it.
-- Unblocks: `/fmcsa-clearinghouse-registration/` (work-order-qa-revision §C, clearinghouse) · Priority: `[PUBLISH]` · Status: 🔴 OPEN
-- Answer: _____
-
-**Q1.2 — Confirm the two partner referral links are final and live:** ELD → `partners.gomotive.com/DGR-TECH-RIG`; LLC → `goto.incauthority.com/QY2keP`.
-- Unblocks: `/eld-services/`, `/trucking-llc/` (work-order §C / §12) · Priority: `[PUBLISH]` · Status: 🔴 OPEN
-- Answer: _____
-
-**Q1.3 — Confirm the government-fee figures are current (2026):** MC FMCSA application fee, and the UCR brackets ($46 / $138 / $276 / $963 / $4,592 / $44,836).
-- Unblocks: `services.md` + registry + UCR/MC pricing copy · Priority: `[PUBLISH]` · Status: 🔴 OPEN
-- Answer: _____
-
-**Q1.4 — Confirm FMCSA is still mailing USDOT PINs.** The brief says so; we're rewording the PIN copy around it.
-- Unblocks: `/dot-registration/`, `/mcs-150-biennial-update/`, `/boc-3-filing/` (work-order §C, PINs) · Priority: `[PUBLISH]` · Status: 🔴 OPEN
-- Answer: _____
+**Status:** 🟢 ANSWERED · 🟡 PENDING (credential)
 
 ---
 
-## 2. Billing model (the biggest open question — may require additional build)
+## 1. Factual claims before publishing
+- **Q1.1 — C/TPA registration:** 🟢 YES, DGR Tech Rig LLC is a registered C/TPA; written confirmation usable. → **Publish-cleared** (SEO S6); the clearinghouse claim is no longer on hold.
+- **Q1.2 — Partner links:** 🟢 Both final and match the code exactly (Motive `partners.gomotive.com/DGR-TECH-RIG`, Inc Authority `goto.incauthority.com/QY2keP`). → Publish-cleared (SEO S6). Consistent.
+- **Q1.3 — Government fees:** 🟢 Publish UCR **government brackets** ($46/$138/$276/$963/$4,592/$44,836) + a **separate $50** Tech Rig fee on the UCR page; no full table in the form; **no separate MC gov-fee figure**. → **Delta** (Dev D6 UCR presentation, D7 remove MC placeholder). The /apply form already hides the table — consistent.
+- **Q1.4 — USDOT PINs:** 🟢 FMCSA still mailing PINs. → Publish-cleared (SEO S6); QA-rev already removed the "stopped mailing" wording. Consistent.
 
-**Q2.1 — How should recurring services be billed?** UCR (annual), Consortium (annual), DQ files (annual/driver), and IFTA Quarterly are renewable, but the platform currently takes a **one-time** payment. Do you want **auto-renewing subscriptions**, or a **manual re-invoice** each cycle?
-- Unblocks: M4 payment + the renewable services in the registry (subscriptions are not built yet — this answer may add build work) · Priority: `[BUILD]` · Status: 🔴 OPEN
-- Answer: _____
+## 2. Billing model
+- **Q2.1 — Recurring billing:** 🟢 **Manual re-invoice + reminders** before each due date (UCR/Consortium/DQ annual, IFTA quarterly); auto-charge only with express consent. NOT subscriptions. → **Delta** (Dev D10, fast-follow — first renewals are a quarter/year out; no subscription build).
+- **Q2.2 — $1,700 package contents:** 🟢 Now **9 items** (adds IFTA setup, IRP setup, one DQ file). DQ pricing tiered ($200/$350/$450/custom). → **Delta** (Dev D1 package, D2 DQ tiers). **Supersedes qa-rev §G.1** (was frozen at 6). Framing locked: all-in bundle, no "discount" claim (service-fee sum $1,650 < $1,700; discount only holds once unpublished gov fees are counted).
+- **Q2.3 — IRP/IFTA at checkout:** 🟢 Service fee only at checkout; gov/state calculated and billed separately later. → Consistent (already the built model; verify /apply disclosure).
 
-**Q2.2 — Confirm the $1,700 Full Initial Package contents.** We've built it as: MC Authority + USDOT, BOC-3, UCR (0-2 bracket), Clearinghouse, Consortium, pre-employment drug test. The brief set the price but didn't list contents.
-- Unblocks: registry `full-package` + `services.md` · Priority: `[BUILD]` · Status: 🟡 PARTIAL (assumed; confirm)
-- Answer: _____
-
-**Q2.3 — How should IRP/IFTA state/jurisdiction fees be presented at checkout?** They're separate and vary by mileage/states. A disclosure note, an estimate, or collected later?
-- Unblocks: `/irp-registration/`, `/ifta-registration/` + the `/apply` checkout disclosure · Priority: `[BUILD]` · Status: 🔴 OPEN
-- Answer: _____
-
----
-
-## 3. New services & pages scope
-
-**Q3.1 — Do USDOT Correction ($125) and IFTA Quarterly ($150) need dedicated landing pages,** or are cards on the compliance hub enough? Dedicated pages help SEO and direct linking.
-- Unblocks: compliance-hub cards vs. new routes (build-report.md §8) · Priority: `[POLISH]` · Status: 🔴 OPEN
-- Answer: _____
-
-**Q3.2 — Is there a reinstatement / legacy-to-MOTUS migration page,** or should we build one? The brief wants the California legacy-migration story moved off the new-USDOT page to there.
-- Unblocks: `/dot-registration/` (CA example relocation, work-order §D) · Priority: `[POLISH]` · Status: 🔴 OPEN
-- Answer: _____
-
----
+## 3. New services & pages
+- **Q3.1 — USDOT Correction + IFTA Quarterly:** 🟢 YES, **dedicated pages** ($125 / $150 + gov). → **Delta** (registry entries exist; pages do not — Dev D3/D4, SEO S1, Design DZ1).
+- **Q3.2 — MOTUS Migration page:** 🟢 New **FMCSA Portal to MOTUS Migration** page + **$125** service; move the CA legacy story there (turnaround ~1-2 weeks). → **Delta** (new service Dev D5, page SEO S1/Design DZ1). Note: CA story is on the **MC pages**, not `/dot-registration/` (SEO S2).
 
 ## 4. Trust content
+- **Q4.1 — Testimonials:** 🟢 First name + company for Felix/Marcus/Freddie; genuine wording only; grammar cleanup OK; nothing invented. → SEO S7, **post-launch** (L8).
+- **Q4.2 — State market stats:** 🟢 Remove unsupported numbers (TX "$1.6T"); generalize. → SEO S5 (state pages).
 
-**Q4.1 — Final permission + exact attribution wording for the testimonials** (Felix / Marcus / Freddie). Outreach was in progress.
-- Unblocks: `/about-us/` + money-page proof (qa-report §E) · Priority: `[POLISH]` · Status: 🟡 PARTIAL (outreach in progress)
-- Answer: _____
-
-**Q4.2 — Provide a source for the state market stats (e.g., Texas "$1.6T"), or we remove them.**
-- Unblocks: state pages (qa-report §E) · Priority: `[POLISH]` · Status: 🔴 OPEN
-- Answer: _____
-
----
-
-## 5. To deploy (provisioning — needed for the launch)
-These map to Launch Plan Phase 0 (`launch-plan.md`).
-
-**Q5.1 — Stripe:** live keys + which Stripe account receives funds; tax/receipt details.
-- Unblocks: launch Phase 0 → M4 payment go-live · Priority: `[DEPLOY]` · Status: 🔴 OPEN
-- Answer: _____
-
-**Q5.2 — Resend (email):** sending domain + DKIM/SPF access, and the `from` + reply-to addresses.
-- Unblocks: launch Phase 0 → M6 email deliverability · Priority: `[DEPLOY]` · Status: 🔴 OPEN
-- Answer: _____
-
-**Q5.3 — FMCSA QCMobile webKey** (the backup lookup provider).
-- Unblocks: launch Phase 0 → M1 lookup failover · Priority: `[DEPLOY]` · Status: 🔴 OPEN
-- Answer: _____
-
-**Q5.4 — Confirm the production domain (techrig.org) + DNS access,** the Supabase auth redirect domain, and a Sentry DSN (or confirm we skip error tracking).
-- Unblocks: launch Phase 0 → auth redirects, subdomain 301s, monitoring · Priority: `[DEPLOY]` · Status: 🔴 OPEN
-- Answer: _____
-
----
+## 5. Deployment / provisioning
+- **Q5.1 — Stripe:** 🟢/⚠️ Existing account; key on the BOC-3 form is `mk_1TQSnGBUKzFDGSEhTE8lrbVQ` — **not a standard Stripe key prefix**; dev to verify and request live `sk_`/`pk_`/`whsec_`. Receipt: DGR TECH RIG LLC / info@techrig.org / 30 N Gould St, Sheridan WY / no sales tax. → Dev D12 + provisioning.
+- **Q5.2 — Resend:** 🟢 `mail.techrig.org`, from + reply-to `info@techrig.org`, DNS access for SPF/DKIM; dev may adjust. → Config (Phase 0).
+- **Q5.3 — QCMobile webKey:** 🟡 **PENDING** — Hussam provides at deploy. MOTUS primary works, so not build-blocking. → Phase 0 (the one still-open item).
+- **Q5.4 — Domain/DNS/Sentry/auth:** 🟢 `techrig.org`, DNS available, Supabase auth redirect for techrig.org + callbacks, add Sentry. → Config (Phase 0).
 
 ## 6. Back-office & cutover
-
-**Q6.1 — Which team accounts (emails) should have back-office / filing-management (admin) access?** We seed these manually.
-- Unblocks: M5 `admin_users` seed · Priority: `[DEPLOY]` · Status: 🔴 OPEN
-- Answer: _____
-
-**Q6.2 — Confirm the per-service turnaround times we show clients,** and who on the team advances each filing.
-- Unblocks: M5 progress timeline (`expectedTimeline` in the registry) · Priority: `[POLISH]` · Status: 🔴 OPEN
-- Answer: _____
-
-**Q6.3 — Does the existing refund policy cover application payments,** or do you want different terms for paid filings?
-- Unblocks: `/refund-policy/` · Priority: `[PUBLISH]` · Status: 🔴 OPEN
-- Answer: _____
-
-**Q6.4 — Cutover: when to drain the legacy forms and flip DNS,** is anyone mid-application on `form.`/`boc-3.techrig.org` right now, and confirm we do NOT need to migrate legacy form data (we keep it as historical record).
-- Unblocks: launch Phase 3 / M7 drain + subdomain 301s · Priority: `[DEPLOY]` · Status: 🔴 OPEN
-- Answer: _____
+- **Q6.1 — Admin access:** 🟢 `info@techrig.org` only initially; team later. → M5 `admin_users` seed (config).
+- **Q6.2 — Turnaround times:** 🟢 Specific per-service times given; team ownership TBD. → **Delta** (Dev D8 `expectedTimeline` updates — several materially off). Team ownership still open.
+- **Q6.3 — Refund policy:** 🟢 Full new policy, no flat $50 fee, 3-day no-work full refund, deduct only actual processing fee, up to 75% partial, dated June 25 2026. → **Delta** (Dev D9 page + PDF; SEO S3 copy). Page is currently a stub; the PDF "non-refundable regardless of outcome" line now conflicts.
+- **Q6.4 — Cutover & legacy:** 🟢 `form.` not in use; `boc-3.` live (keep until tested, then 301 on dev timing); **import historical records where practical + keep editable**, else preserve-as-historical; never delay launch. → **Delta** (Dev D11 — modifies the M7 "DRAIN not ETL" decision).
 
 ---
 
 ## Tracking
-As answers arrive: flip the item's Status to 🟢, record the Answer, and the orchestrator routes it to the tagged page/work order (and updates `orchestration-status.md`). The two highest-impact: **Q2.1 (recurring billing — may add build)** and **Q1.1–Q1.2 (claims/links we cannot publish unverified)**.
+All answers recorded and routed to `work-order-client-answers.md` (Dev D1-D12, SEO S1-S8, Design DZ1) and reflected in `orchestration-status.md`. Build deltas D1-D9 land before the joint launch; D10/D11 are fast-follow. **Open after this pass:** Q5.3 QCMobile webKey, Q6.2 team filing ownership, Q5.1 live Stripe credential, and the package-framing copy direction (resolved to all-in bundle, executed in D1).
