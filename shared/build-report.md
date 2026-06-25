@@ -113,3 +113,26 @@ Hand to the crawl-union; each must resolve as a built route or a one-hop redirec
 - `https://boc-3.techrig.org/*` → `https://techrig.org/apply/?service=boc-3` (308)
 
 Legacy data tables (`registrations`, `boc-3-new`) remain in place (drain decision); no URLs served from them after cutover.
+
+---
+
+## 8. Client QA revision (2026-06-25) — build-complete, not deployed
+
+Implements `shared/work-order-qa-revision.md` (client brief `seo/output/client-qa-brief-2026-06.md`) site-wide: marketing pages (§A–F) AND the application platform (§G). `next build` clean (compiled successfully, no type/lint errors); `/trucking-insurance-filing` no longer in the route table.
+
+**Platform / parity anchor (`dev/lib/services-registry.ts`):**
+- UCR Tech Rig filing fee `$100 → $50` (`calculateUcr` all brackets). Gov-fee figures unchanged; totals now 0-2 $96 / 3-5 $188 / 6-20 $326 / 21-100 $1,013. Over 100 units stays manual-review.
+- Full package `$1,350 → $1,700` (price + blurb + `computePricing` fallback + comments). Contents unchanged (owner-confirmed).
+- `mcs-150` display name → **"Biennial Update"** (key unchanged; "MCS-150" kept in body copy only).
+- Added **`usdot-correction`** ($125 flat) and **`ifta-quarterly`** ($150 flat + gov fee). No DB migration needed: `filings.service_key` is unconstrained `text`. New `service-specifics` fields (`usdot_correction_details`, `ifta_quarter`) added to `schemas.ts` + `step-fields.tsx`. The `/apply` selection/review render dynamically from the registry, so both new services appear automatically; Stripe checkout, receipt email, and persisted totals are server-priced from `computePricing`.
+- `/apply` `needs_mcs150_update` prompt labels renamed to "Biennial Update".
+
+**Insurance route removal (§A1 / §G2):** deleted `dev/app/trucking-insurance-filing/` (page + OG image); one-hop **301 `/trucking-insurance-filing/` → `/compliance-services/`** in `next.config.ts`; reefer `insurance-requirements` override re-pointed to the hub (no two-hop chain); removed from `lib/services.ts` nav + pricing (sitemap derives from nav, so it drops automatically); all internal links removed (`mc-registration`, `mc-dot-registration`, `how-to-start-a-trucking-company`).
+
+**`lib/services.ts`:** dropped the insurance nav entry + pricing entry; nav label "MCS-150 Update" → "Biennial Update"; `/dot-registration/` `govFee` removed (USDOT $300 never shows "+ gov fee"); UCR `amount 100 → 50`.
+
+**Marketing copy (16 pages):** package $1,700 everywhere; insurance reframed to coordinate-only (Tech Rig never sells/files insurance; insurer files proof with FMCSA); UCR removed from MC-activation requirements; MOTUS Portal naming for new registrations (legacy "FMCSA Portal" only in migration context); removed all "FMCSA stopped mailing PINs" claims (FMCSA still mails PINs); DQ 10,001 lb GVWR threshold; Clearinghouse stated as registered C/TPA + pre-employment link; consortium 30-day/same-company rule + location-pin icons removed; IRP/IFTA eligibility + exemptions; **new IFTA quarterly $150 service** on the IFTA page; **new USDOT Correction $125 card** on the compliance hub; ELD→Motive (`partners.gomotive.com/DGR-TECH-RIG`) and LLC→Inc Authority (`goto.incauthority.com/QY2keP`) partner-referral links; home-page insurance/ELD reframe. UCR `BOC-3 + UCR` bundle chip `$200 → $150` (BOC-3 $100 + UCR fee $50, gov fee shown separately).
+
+**Parity gate — PASS:** `services.md` = `services-registry.ts` = `/apply` review = receipt, zero contradictions.
+
+**Deferred to the pre-launch QA ledger (deploy-time):** end-to-end `/apply` click-through for the two new services (`usdot-correction`, `ifta-quarterly`) with a live session; the USDOT Correction hub card renders without a dedicated page link (mirrors the existing reactivation/deactivation card pattern) and the IFTA quarterly card CTA uses the IFTA page's `/contact-us/` convention, so if dedicated routes or an `/apply` deep-link are wanted later, add them then.

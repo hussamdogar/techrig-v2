@@ -24,9 +24,8 @@ export const complianceNav: NavLink[] = [
   { slug: "/dot-registration/", label: "USDOT Registration" },
   { slug: "/mc-registration/", label: "MC Authority" },
   { slug: "/boc-3-filing/", label: "BOC-3 Filing" },
-  { slug: "/trucking-insurance-filing/", label: "Insurance Filing" },
   { slug: "/ucr-registration/", label: "UCR Registration" },
-  { slug: "/mcs-150-biennial-update/", label: "MCS-150 Update" },
+  { slug: "/mcs-150-biennial-update/", label: "Biennial Update" },
   { slug: "/irp-registration/", label: "IRP Registration" },
   { slug: "/ifta-registration/", label: "IFTA Registration" },
   { slug: "/driver-qualification-files/", label: "Driver Qualification Files" },
@@ -88,10 +87,12 @@ export type Price = {
 };
 
 export const pricing: Record<string, Price> = {
-  "/dot-registration/": { kind: "flat", amount: 300, govFee: true },
+  // USDOT is a $300 total with no separate federal fee, so it never shows
+  // "+ government fee" (client QA 2026-06 / services.md).
+  "/dot-registration/": { kind: "flat", amount: 300 },
   "/mc-registration/": { kind: "flat", amount: 600, govFee: true },
   "/boc-3-filing/": { kind: "flat", amount: 100 },
-  "/ucr-registration/": { kind: "from", amount: 100, govFee: true },
+  "/ucr-registration/": { kind: "from", amount: 50, govFee: true },
   "/mcs-150-biennial-update/": { kind: "flat", amount: 125 },
   "/fmcsa-clearinghouse-registration/": { kind: "flat", amount: 100 },
   "/drug-and-alcohol-consortium/": { kind: "flat", amount: 150 },
@@ -102,8 +103,8 @@ export const pricing: Record<string, Price> = {
   "/irp-registration/": { kind: "flat", amount: 175, govFee: true },
   "/ifta-registration/": { kind: "flat", amount: 175, govFee: true },
   // ELD is a partner referral with NO Tech Rig fee (client rule 2026-06-21), so
-  // it has no pricing entry: the hub card renders no price chip.
+  // it has no pricing entry: the hub card renders no price chip. Insurance is
+  // coordinate-only and its page is removed, so it has no entry either.
   // Service fees still not confirmed in services.md (flagged [VERIFY] in briefs).
   "/mc-dot-registration/": { kind: "verify", govFee: true },
-  "/trucking-insurance-filing/": { kind: "verify" },
 };

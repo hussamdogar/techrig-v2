@@ -32,12 +32,12 @@ import { filingCtaHref } from "@/lib/site";
 export const metadata: Metadata = {
   title: { absolute: "How to Get Your MC Number | Tech Rig Filing" },
   description:
-    "How to get an MC number and operating authority the right way. Tech Rig files your MC application, BOC-3, and insurance so your authority actually activates.",
+    "How to get an MC number and operating authority the right way. Tech Rig files your MC application and BOC-3, and coordinates your insurance, so your authority actually activates.",
   alternates: { canonical: "/mc-registration/" },
   openGraph: {
     title: "How to Get Your MC Number | Tech Rig Filing",
     description:
-      "How to get an MC number and operating authority the right way. Tech Rig files your MC application, BOC-3, and insurance so your authority actually activates.",
+      "How to get an MC number and operating authority the right way. Tech Rig files your MC application and BOC-3, and coordinates your insurance, so your authority actually activates.",
     url: "/mc-registration/",
     type: "website",
   },
@@ -76,7 +76,7 @@ const faqs: Faq[] = [
   },
   {
     q: "Why did my authority not activate after 21 days?",
-    a: "Almost always a missing or incorrect BOC-3, insurance filing, or UCR. We make sure all three are correct so activation is not held up.",
+    a: "Almost always a missing or incorrect BOC-3 or insurance filing. We make sure both are right so activation is not held up. UCR is a separate registration and is not an activation requirement.",
   },
   {
     q: "Can you fix an MC I started myself?",
@@ -126,8 +126,8 @@ export default function McRegistrationPage() {
                 to haul regulated freight for hire across state lines. A USDOT
                 number identifies you; an MC number lets you legally carry other
                 people&apos;s goods for money. Getting one means more than
-                submitting a form. Tech Rig files your MC application, your
-                BOC-3, and lines up your insurance filing so your authority
+                submitting a form. Tech Rig files your MC application and your
+                BOC-3, and coordinates with your insurer, so your authority
                 actually activates instead of stalling at the finish line.
               </p>
               <div className="mt-7">
@@ -224,9 +224,9 @@ export default function McRegistrationPage() {
               as a quiet warning callout (left Steel rule, Slate text). */}
           <p className="mt-8 border-l-4 border-steel pl-4 text-slate">
             The trap: carriers reach the end of the 21-day window and discover
-            their authority still will not activate, because the BOC-3, the
-            insurance filing, or the UCR was missing or wrong. Submitting the
-            application is not the same as being ready to operate.
+            their authority still will not activate, because the BOC-3 or the
+            insurance filing was missing or wrong. Submitting the application is
+            not the same as being ready to operate.
           </p>
         </Container>
       </Section>
@@ -247,7 +247,7 @@ export default function McRegistrationPage() {
             Amazon Relay requirement. We had to explain that a dismissed MC
             cannot simply be reinstated: we filed a brand-new operating
             authority application (he keeps the old MC number, but the age clock
-            resets), set up his FMCSA portal, and filed the MC application,
+            resets), set up his MOTUS Portal, and filed the MC application,
             BOC-3, and UCR in one day, then waited out the protest period. He is
             active now and has hired a driver.
           </p>
@@ -306,7 +306,7 @@ export default function McRegistrationPage() {
             />
             <PriceChip
               price={pricing["/boc-3-filing/"]}
-              label="required to activate authority"
+              label="required for most for-hire applicants"
             />
           </div>
 
@@ -317,13 +317,10 @@ export default function McRegistrationPage() {
               do not pay the standalone USDOT fee on top.
             </li>
             <li>
-              <span className="font-medium text-ink">Insurance filing:</span>{" "}
-              filed by your insurer; the premium is separate. We coordinate the
-              filing so it lands. See{" "}
-              <CrossLink href="/trucking-insurance-filing/">
-                insurance filing
-              </CrossLink>
-              .
+              <span className="font-medium text-ink">Insurance:</span> your
+              insurance provider must file the required proof of insurance
+              directly with FMCSA, and the premium is separate. Tech Rig does not
+              sell or file insurance; we coordinate so the filing lands on time.
             </li>
             <li>
               <span className="font-medium text-ink">Government fee:</span> any
@@ -333,7 +330,7 @@ export default function McRegistrationPage() {
             <li>
               Want it all handled at once? The{" "}
               <CrossLink href="/compliance-services/">full setup</CrossLink>{" "}
-              bundles USDOT, MC, BOC-3, insurance, UCR, and driver compliance.
+              bundles USDOT, MC, BOC-3, UCR, and driver compliance.
             </li>
           </ul>
         </Container>

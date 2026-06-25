@@ -23,9 +23,9 @@ import {
 // CLIENT RULE (2026-06-21, work-order-eld-insurance.md): Tech Rig does NOT handle
 // ELD directly. It refers carriers to its ELD partner (Motive), who supplies and
 // sets up the device. No Tech Rig fee, no price chip, and the page never says
-// "we set up / install / configure your ELD". The referral CTA routes to
-// /contact-us/ until the partner referral link is supplied.
-const ELD_CTA = "/contact-us/";
+// "we set up / install / configure your ELD". The referral CTA is the partner's
+// external link, opened in a new tab and disclosed as a partner referral.
+const ELD_CTA = "https://partners.gomotive.com/DGR-TECH-RIG";
 
 export const metadata: Metadata = {
   title: "ELD for Owner Operators and Fleets",
@@ -127,10 +127,18 @@ export default function EldServicesPage() {
               <div className="mt-7">
                 <Link
                   href={ELD_CTA}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
                   Get connected with our ELD partner
                 </Link>
+                {/* Partner referral disclosure: the CTA links out to Motive,
+                    Tech Rig's ELD partner, not to a Tech Rig product. */}
+                <p className="mt-3 text-sm text-slate">
+                  Partner referral. This links to Motive, our ELD partner. You
+                  buy the device and subscription directly from them.
+                </p>
               </div>
               <div className="mt-5">
                 <ReviewedBy name="Robert Hooke" />

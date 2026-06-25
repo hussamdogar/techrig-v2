@@ -97,7 +97,7 @@ const faqs: Faq[] = [
   },
   {
     q: "Do I need anything else for my authority to activate?",
-    a: "Usually your MC application, insurance filing, and UCR. We can handle the full setup so nothing is missed.",
+    a: "Usually your MC application and UCR, plus proof of insurance filed by your own insurer. We handle the filings on our side so nothing is missed.",
   },
 ];
 
@@ -210,6 +210,13 @@ export default function Boc3FilingPage() {
             <li className="flex gap-3 text-ink">
               <FilingIcon size={20} className="mt-0.5 shrink-0 text-steel" />
               <span>
+                A private motor carrier that is not operating for hire generally
+                does not need a BOC-3.
+              </span>
+            </li>
+            <li className="flex gap-3 text-ink">
+              <FilingIcon size={20} className="mt-0.5 shrink-0 text-steel" />
+              <span>
                 You file it once during setup. It is generally a one-time filing.
                 You only refile if you change process agents or another specific
                 circumstance requires it.
@@ -271,8 +278,8 @@ export default function Boc3FilingPage() {
                 text: (
                   <>
                     If your BOC-3 is part of getting your authority, we line it up
-                    with your MC application and insurance so activation is not
-                    held up.
+                    with your MC application, and we coordinate so your insurer's
+                    proof of insurance lands, so activation is not held up.
                   </>
                 ),
               },
@@ -326,8 +333,9 @@ export default function Boc3FilingPage() {
             BOC-3. When we looked at her file, her self-filed USDOT and MC were
             full of errors, and because she had not established her MOTUS account
             yet, she was locked out of fixing them online. Claiming an existing
-            USDOT on MOTUS needs a USDOT PIN, and FMCSA had stopped emailing PINs,
-            so she was stuck waiting on a mailed letter. We moved her forward with
+            USDOT on MOTUS needs a USDOT PIN, and getting that PIN was lagging
+            during the MOTUS transition, so she was stuck waiting on a mailed
+            letter. We moved her forward with
             paper filings and then an official FMCSA callback to verify her
             identity and unlock the record. A simple BOC-3 request turned into
             untangling the whole authority, which is exactly the kind of thing we

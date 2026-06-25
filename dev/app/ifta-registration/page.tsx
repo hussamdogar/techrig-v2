@@ -26,8 +26,13 @@ import {
   personNode,
   serviceNode,
 } from "@/lib/schema";
-import { pricing } from "@/lib/services";
+import { pricing, type Price } from "@/lib/services";
 import { filingCtaHref } from "@/lib/site";
+
+// IFTA quarterly filing is a separate recurring service from the one-time $175
+// setup: $150 service fee plus a government fee. Not in the per-slug map because
+// it is a recurring filing, not a page-level setup price.
+const quarterlyPrice: Price = { kind: "flat", amount: 150, govFee: true };
 
 export const metadata: Metadata = {
   title: "IFTA Registration and Filing",
@@ -171,8 +176,19 @@ export default function IftaRegistrationPage() {
             You register in your base jurisdiction, receive an IFTA license and
             decals (stickers) for your vehicles, and file one quarterly fuel-tax
             return that reconciles the fuel you bought against the miles you ran
-            in each state. It applies to qualifying interstate vehicles,
-            generally those over a weight threshold or with enough axles.
+            in each state. It applies when a commercial vehicle operates across
+            multiple member jurisdictions and carries persons or property, and:
+            has two axles with a gross or registered weight over 26,000 lbs; or
+            three or more axles regardless of weight; or is used in combination
+            with a combined weight over 26,000 lbs.
+          </p>
+
+          {/* Exemptions (client QA): so carriers can self-qualify out. */}
+          <p className="mt-6 border-l-4 border-steel pl-4 text-slate">
+            Some operations are exempt: running entirely within one
+            jurisdiction, recreational vehicles and personal non-commercial use,
+            and certain government vehicles. If you are not sure IFTA applies, we
+            confirm before you pay.
           </p>
         </Container>
       </Section>
@@ -262,8 +278,45 @@ export default function IftaRegistrationPage() {
         </Container>
       </Section>
 
-      {/* FAQ */}
+      {/* Quarterly filing: a separate recurring service, distinct from setup. */}
       <Section surface="paper">
+        <Container className="max-w-3xl">
+          <h2 className="font-display text-3xl font-bold text-ink">
+            IFTA quarterly filing
+          </h2>
+          <p className="mt-4 text-slate">
+            The setup above is a one-time account and decal setup. The quarterly
+            filing is the recurring part: every quarter you file one fuel-tax
+            return that reconciles the miles you ran and the fuel you bought in
+            each member jurisdiction, then settle the balance. We prepare and
+            file that return for you each quarter so you do not miss a deadline.
+          </p>
+
+          <div className="mt-8">
+            <PriceChip
+              price={quarterlyPrice}
+              label="IFTA quarterly filing"
+              govFeeNote="+ government fee"
+            />
+          </div>
+          <p className="mt-4 text-slate">
+            Our quarterly filing fee is $150, plus the government fee. This is
+            separate from the one-time $175 setup.
+          </p>
+
+          <p className="mt-6">
+            <Link
+              href={filingCtaHref}
+              className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
+            >
+              Set up quarterly filing
+            </Link>
+          </p>
+        </Container>
+      </Section>
+
+      {/* FAQ */}
+      <Section surface="cloud">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             IFTA registration FAQ

@@ -67,6 +67,8 @@ export const ucrDetailsSchema = z.object({
 export const serviceSpecificsSchema = z.object({
   boc3_process_agent_ack: z.coerce.boolean().optional().default(false),
   mcs150_update_reason: optionalText,
+  usdot_correction_details: optionalText,
+  ifta_quarter: optionalText,
 });
 
 export const STEP_SCHEMAS: Partial<Record<StepKey, z.ZodTypeAny>> = {

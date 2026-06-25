@@ -263,7 +263,7 @@ export default function HotShotDispatchPage() {
           </h2>
           <p className="mt-4 text-cloud/80">
             New to your own authority? We can get a hot shot setup legally
-            running first: USDOT, MC authority, BOC-3, insurance, and the driver
+            running first: USDOT, MC authority, BOC-3, and the driver
             paperwork. See{" "}
             <InkLink href="/compliance-services/">compliance services</InkLink>.
             One team gets you road-legal, then keeps you on expedite freight after.

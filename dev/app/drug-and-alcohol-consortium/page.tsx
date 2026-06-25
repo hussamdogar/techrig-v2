@@ -16,7 +16,6 @@ import {
   ArrowRightIcon,
   CheckSealIcon,
   FilingIcon,
-  RouteNodeIcon,
   ShieldIcon,
 } from "@/components/icons";
 import {
@@ -304,10 +303,13 @@ export default function DrugAndAlcoholConsortiumPage() {
             Pre-employment drug test
           </h2>
           <p className="mt-4 text-slate">
-            Before a driver can perform safety-sensitive work, they generally need
-            a negative pre-employment drug test on file. Timing matters: a test
-            that is too old does not count. We coordinate pre-employment testing so
-            the timing is right and the result is documented in the{" "}
+            A pre-employment drug test is required when a driver begins
+            safety-sensitive work for a new employer. A prior test counts only if
+            it was within the previous{" "}
+            <span className="font-mono tabular-nums text-ink">30 days</span> and for
+            the same company; otherwise a new test is needed. We coordinate
+            pre-employment testing so the timing is right and the result is
+            documented in the{" "}
             <CrossLink href="/driver-qualification-files/">
               driver&apos;s qualification file
             </CrossLink>
@@ -386,19 +388,13 @@ export default function DrugAndAlcoholConsortiumPage() {
         <Container className="max-w-3xl">
           <p className="text-slate">
             The rest of the driver-compliance set:{" "}
-            <span className="inline-flex items-center gap-1.5">
-              <RouteNodeIcon size={18} className="shrink-0 text-steel" />
-              <CrossLink href="/fmcsa-clearinghouse-registration/">
-                FMCSA Clearinghouse
-              </CrossLink>
-            </span>{" "}
+            <CrossLink href="/fmcsa-clearinghouse-registration/">
+              FMCSA Clearinghouse
+            </CrossLink>{" "}
             and{" "}
-            <span className="inline-flex items-center gap-1.5">
-              <RouteNodeIcon size={18} className="shrink-0 text-steel" />
-              <CrossLink href="/driver-qualification-files/">
-                driver qualification files
-              </CrossLink>
-            </span>
+            <CrossLink href="/driver-qualification-files/">
+              driver qualification files
+            </CrossLink>
             .
           </p>
 

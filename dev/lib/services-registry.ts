@@ -28,12 +28,14 @@ export type ServiceKey =
   | "boc-3"
   | "ucr"
   | "mcs-150"
+  | "usdot-correction"
   | "clearinghouse"
   | "consortium"
   | "dq-files"
   | "drug-test"
   | "irp"
   | "ifta"
+  | "ifta-quarterly"
   | "trucking-llc"
   | "full-package"
   | "eld"
@@ -120,10 +122,24 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     requiredSteps: ["carrier-identity", "ucr-details"],
     expectedTimeline: "1 to 2 business days",
   },
+  // Display label is "Biennial Update" (client QA 2026-06); the key stays mcs-150
+  // and "MCS-150" may still appear in explanatory body copy. The biennial filing
+  // only; record corrections live in the separate usdot-correction service.
   "mcs-150": {
     key: "mcs-150",
-    name: "MCS-150 update",
-    blurb: "Biennial update / correction that keeps your USDOT record current.",
+    name: "Biennial Update",
+    blurb: "The biennial MCS-150 filing that keeps your USDOT record current and active.",
+    priceKind: "flat",
+    price: 125,
+    requiredSteps: ["carrier-identity", "service-specifics"],
+    expectedTimeline: "7 working days",
+  },
+  // Record correction, separate from the Biennial Update (client QA 2026-06).
+  "usdot-correction": {
+    key: "usdot-correction",
+    name: "USDOT Correction",
+    blurb:
+      "Correct your USDOT record: address, legal or business name, email, phone, operating status, or truck and driver counts.",
     priceKind: "flat",
     price: 125,
     requiredSteps: ["carrier-identity", "service-specifics"],
@@ -178,12 +194,23 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
   ifta: {
     key: "ifta",
     name: "IFTA registration",
-    blurb: "Fuel-tax registration and quarterly-filing setup.",
+    blurb: "One-time fuel-tax registration setup.",
     priceKind: "flat",
     price: 175,
     govFeeNote: "+ state fees, shown separately",
     requiredSteps: ["carrier-identity", "vehicles"],
     expectedTimeline: "1 to 2 business days",
+  },
+  // Recurring quarterly return, distinct from the one-time ifta setup (client QA 2026-06).
+  "ifta-quarterly": {
+    key: "ifta-quarterly",
+    name: "IFTA quarterly filing",
+    blurb: "Recurring quarterly fuel-tax return. Separate from the one-time IFTA setup.",
+    priceKind: "flat",
+    price: 150,
+    govFeeNote: "+ government fee, shown separately",
+    requiredSteps: ["carrier-identity", "service-specifics"],
+    expectedTimeline: "Filed each quarter by the IFTA deadline",
   },
   "trucking-llc": {
     key: "trucking-llc",
@@ -193,15 +220,16 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     requiredSteps: ["carrier-identity", "business-details"],
     expectedTimeline: "Varies by state",
   },
-  // The advertised discounted bundle (M3-R1, services.md $1,350). Fixed price;
+  // The advertised full-setup bundle (M3-R1, services.md $1,700). Fixed price;
   // selecting it includes its constituents (no double-charge). The price already
-  // covers the MC FMCSA fee and the UCR 0-2 government fee.
+  // covers the MC FMCSA fee and the UCR 0-2 government fee. Contents unchanged
+  // after the 2026-06 UCR-fee change (owner-confirmed: the fixed $1,700 stands).
   "full-package": {
     key: "full-package",
     name: "Full compliance package",
-    blurb: "MC authority, BOC-3, UCR, Clearinghouse, consortium, and the drug test, at a fixed $1,350.",
+    blurb: "MC authority, BOC-3, UCR, Clearinghouse, consortium, and the drug test, at a fixed $1,700.",
     priceKind: "package",
-    price: 1350,
+    price: 1700,
     includes: ["mc-authority", "boc-3", "ucr", "clearinghouse", "consortium", "drug-test"],
     govFeesIncluded: "Includes the MC FMCSA fee and the UCR 0-2 government fee, no separate add.",
     requiredSteps: [
@@ -244,8 +272,8 @@ export function isServiceKey(value: unknown): value is ServiceKey {
   return typeof value === "string" && value in SERVICES;
 }
 
-// ---- UCR tiered pricing (services.md: service fee $100 + gov fee by bracket) ----
-// The Tech Rig service fee is a flat $100; the GOVERNMENT fee depends on the
+// ---- UCR tiered pricing (services.md: service fee $50 + gov fee by bracket) ----
+// The Tech Rig service fee is a flat $50; the GOVERNMENT fee depends on the
 // power-unit bracket and is disclosed separately, never blended. >100 units is
 // manual review (no auto price) per the work order.
 export type UcrResult = {
@@ -258,10 +286,10 @@ export type UcrResult = {
 export function calculateUcr(powerUnits: number | null | undefined): UcrResult {
   const n = powerUnits == null || !Number.isFinite(powerUnits) ? null : Number(powerUnits);
   if (n == null || n < 0) return { tier: "unknown", serviceFee: null, govFee: null, manualReview: true };
-  if (n <= 2) return { tier: "0-2", serviceFee: 100, govFee: 46, manualReview: false };
-  if (n <= 5) return { tier: "3-5", serviceFee: 100, govFee: 138, manualReview: false };
-  if (n <= 20) return { tier: "6-20", serviceFee: 100, govFee: 276, manualReview: false };
-  if (n <= 100) return { tier: "21-100", serviceFee: 100, govFee: 963, manualReview: false };
+  if (n <= 2) return { tier: "0-2", serviceFee: 50, govFee: 46, manualReview: false };
+  if (n <= 5) return { tier: "3-5", serviceFee: 50, govFee: 138, manualReview: false };
+  if (n <= 20) return { tier: "6-20", serviceFee: 50, govFee: 276, manualReview: false };
+  if (n <= 100) return { tier: "21-100", serviceFee: 50, govFee: 963, manualReview: false };
   return { tier: "101+", serviceFee: null, govFee: null, manualReview: true }; // >100 = manual
 }
 
@@ -294,7 +322,7 @@ export type FilingRow = {
 };
 
 export type Pricing = {
-  /** Charged/display lines (the package is a single $1,350 line). */
+  /** Charged/display lines (the package is a single $1,700 line). */
   lines: PriceLine[];
   /** One row per service to create as a filing (package -> its constituents). */
   filings: FilingRow[];
@@ -310,7 +338,7 @@ export type Pricing = {
  * the fixed package price); government/state fees are disclosed per line and never
  * summed into the total (owner decision 2026-06-25: à-la-carte gov fees are paid
  * by the customer directly). Selecting the full-package includes its constituents
- * at the fixed $1,350 (no double charge); a UCR bracket above 0-2 shows the
+ * at the fixed $1,700 (no double charge); a UCR bracket above 0-2 shows the
  * government-fee difference separately. USDOT is free when MC authority is also
  * selected. Informational services (eld/insurance) are skipped.
  */
@@ -330,7 +358,7 @@ export function computePricing(selected: ServiceKey[], ctx: PricingContext): Pri
     lines.push({
       key: "full-package",
       name: pkg.name,
-      amount: pkg.price ?? 1350,
+      amount: pkg.price ?? 1700,
       ucrTier: "0-2",
       expectedTimeline: pkg.expectedTimeline,
       govFeeNote: pkg.govFeesIncluded ?? null,
@@ -342,7 +370,7 @@ export function computePricing(selected: ServiceKey[], ctx: PricingContext): Pri
     if (ucr.manualReview) {
       lines.push({
         key: "ucr",
-        name: "UCR — over 100 units",
+        name: "UCR, over 100 units",
         amount: null,
         ucrTier: ucr.tier,
         expectedTimeline: SERVICES.ucr.expectedTimeline,

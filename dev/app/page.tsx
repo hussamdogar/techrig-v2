@@ -90,10 +90,9 @@ export default function Home() {
           <p className="mt-4 text-slate">
             Starting out, or fixing a setup that stalled? We handle USDOT and MC
             authority, BOC-3, UCR, driver compliance, IRP and IFTA, plus ELD
-            through our partner and insurance-filing coordination, individually
-            or as one package. We are officially listed by FMCSA as a BOC-3
-            blanket process-agent company, and we know the new MOTUS system
-            inside out.
+            through our partner, individually or as one package. We are
+            officially listed by FMCSA as a BOC-3 blanket process-agent company,
+            and we know the new MOTUS system inside out.
           </p>
 
           {/* Curated cluster of the top filings, labeled links with line icons. */}

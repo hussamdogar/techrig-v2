@@ -57,16 +57,18 @@ const ucrSteps: Step[] = [
   { label: "Renews annually", status: "Every year", state: "progress", icon: "clock" },
 ];
 
-// Official 2026 UCR government fees (the government portion, separate from the
-// Tech Rig service fee). Source: the UCR Plan fee-bracket schedule. Re-verify
-// against the official schedule each registration year.
+// Bracket totals: the $50 Tech Rig filing fee plus the UCR government fee for
+// each fleet-size bracket. Bracket = number of qualifying commercial vehicles;
+// an operation running only non-CMVs stays in 0-2 even with more than two of
+// them. Re-verify the government portion against the official UCR Plan schedule
+// each registration year.
 const brackets = [
-  { size: "0 to 2 (and brokers / leasing)", fee: "$46" },
-  { size: "3 to 5", fee: "$138" },
-  { size: "6 to 20", fee: "$276" },
-  { size: "21 to 100", fee: "$963" },
-  { size: "101 to 1,000", fee: "$4,592" },
-  { size: "1,001+", fee: "$44,836" },
+  { size: "0 to 2 (and brokers / leasing)", fee: "$96" },
+  { size: "3 to 5", fee: "$188" },
+  { size: "6 to 20", fee: "$326" },
+  { size: "21 to 100", fee: "$1,013" },
+  { size: "101 to 1,000", fee: "$4,642" },
+  { size: "1,001+", fee: "$44,886" },
 ];
 
 // One source feeds both the visible FAQ and the FAQPage schema (verbatim parity).
@@ -93,8 +95,10 @@ const faqs: Faq[] = [
   },
 ];
 
-// The BOC-3 + UCR bundle price (a separate, quiet option, not in the per-slug map).
-const bundlePrice: Price = { kind: "flat", amount: 200 };
+// The BOC-3 + UCR bundle price (a separate, quiet option, not in the per-slug
+// map): BOC-3 $100 + UCR filing $50 = $150 in Tech Rig service fees. The UCR
+// government fee is bracket-based and shown separately, never blended in.
+const bundlePrice: Price = { kind: "flat", amount: 150 };
 
 export default function UcrRegistrationPage() {
   return (
@@ -106,7 +110,7 @@ export default function UcrRegistrationPage() {
             slug: "/ucr-registration/",
             description:
               "Tech Rig files your annual Unified Carrier Registration, confirms the correct fleet bracket, and reminds you before each renewal.",
-            price: 100,
+            price: 50,
           }),
           breadcrumbNode([
             { name: "Home", slug: "/" },
@@ -206,11 +210,11 @@ export default function UcrRegistrationPage() {
             How UCR fees work (and why brackets matter)
           </h2>
           <p className="mt-4 text-slate">
-            The government fee is tiered by the number of commercial vehicles you
-            operate, and the brackets jump fast, so a miscount can cost you.
-            Brokers and forwarders without vehicles pay the lowest bracket. The
-            official 2026 UCR fees (the government portion, separate from our
-            service fee) are:
+            The government fee is tiered by the number of qualifying commercial
+            vehicles you operate, and the brackets jump fast, so a miscount can
+            cost you. Brokers and forwarders without vehicles pay the lowest
+            bracket. The totals below combine our $50 filing fee with the 2026
+            UCR government fee for each bracket:
           </p>
 
           <table className="mt-6 w-full border-collapse text-left">
@@ -220,7 +224,7 @@ export default function UcrRegistrationPage() {
                   Fleet size (vehicles)
                 </th>
                 <th className="py-2 font-display text-sm font-semibold text-ink">
-                  2026 UCR government fee
+                  Total (our $50 filing + 2026 gov fee)
                 </th>
               </tr>
             </thead>
@@ -261,7 +265,8 @@ export default function UcrRegistrationPage() {
             />
             <PriceChip
               price={bundlePrice}
-              label="BOC-3 + UCR, 0 to 2 vehicle bracket"
+              label="BOC-3 + UCR filing"
+              govFeeNote="+ UCR gov fee by bracket"
             />
           </div>
 
@@ -305,7 +310,7 @@ export default function UcrRegistrationPage() {
               },
               {
                 Icon: FilingIcon,
-                text: "If your UCR is part of a larger setup, we line it up with your USDOT, MC, and BOC-3 so nothing blocks your authority.",
+                text: "If your UCR is part of a larger setup, we line it up with your USDOT, MC, and BOC-3 so your annual obligations are handled together. UCR is a separate annual filing, not a step that activates your authority.",
               },
             ].map(({ Icon, text, weight }) => (
               <li key={text} className="flex gap-4">

@@ -29,7 +29,9 @@ const reeferComplianceOverrides: { sub: string; destination: string }[] = [
   { sub: "driver-training", destination: "/driver-qualification-files/" },
   { sub: "record-keeping", destination: "/driver-qualification-files/" },
   { sub: "compliance-training-programs", destination: "/driver-qualification-files/" },
-  { sub: "insurance-requirements", destination: "/trucking-insurance-filing/" },
+  // Insurance is no longer a page (client QA 2026-06); point straight at the
+  // compliance hub so this stays a single hop, not insurance-filing → hub.
+  { sub: "insurance-requirements", destination: "/compliance-services/" },
 ];
 
 // Dispatch silos whose deep sub-pages collapse to the silo hub (redirect-map.md
@@ -95,6 +97,9 @@ const nextConfig: NextConfig = {
       { source: "/home-backup/", destination: "/", permanent: true },
       { source: "/clone-home/", destination: "/", permanent: true },
       { source: "/start-compliance/", destination: "/compliance-services/", permanent: true },
+      // Insurance-filing page removed (client QA 2026-06): insurance is coordinate
+      // only, never a Tech Rig service. One-hop 301 for anyone holding the old URL.
+      { source: "/trucking-insurance-filing/", destination: "/compliance-services/", permanent: true },
       { source: "/introduction/", destination: "/how-to-start-a-trucking-company/", permanent: true },
       { source: "/step-by-step-process/", destination: "/how-to-start-a-trucking-company/", permanent: true },
 

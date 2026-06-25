@@ -89,7 +89,7 @@ const faqs: Faq[] = [
 const includes: { link: { href: string; label: string }; rest: React.ReactNode }[] = [
   {
     link: { href: "/dot-registration/", label: "USDOT number" },
-    rest: <> registration and FMCSA portal setup.</>,
+    rest: <> registration and MOTUS Portal setup.</>,
   },
   {
     link: { href: "/mc-registration/", label: "MC operating authority" },
@@ -102,10 +102,6 @@ const includes: { link: { href: string; label: string }; rest: React.ReactNode }
   {
     link: { href: "/ucr-registration/", label: "UCR registration" },
     rest: <> for the current year.</>,
-  },
-  {
-    link: { href: "/trucking-insurance-filing/", label: "Insurance filing" },
-    rest: <> coordination so it lands before activation.</>,
   },
 ];
 
@@ -198,6 +194,14 @@ export default function McDotRegistrationPage() {
             ))}
           </ul>
 
+          {/* Insurance is coordinate-only (client QA 2026-06): never sold or
+              filed by us, so it is a neutral note, not a bundled service item. */}
+          <p className="mt-6 text-slate">
+            Insurance is coordinated, not sold or filed by us: your insurer files
+            the required proof of insurance directly with FMCSA, and we make sure
+            it lands before your authority activates.
+          </p>
+
           {/* Step-up line: visually subordinate Slate cross-link that routes the
               bigger-need carrier up without competing with the package CTA. */}
           <p className="mt-8 text-slate">
@@ -206,7 +210,7 @@ export default function McDotRegistrationPage() {
             <CrossLink href="/compliance-services/">
               full compliance package
             </CrossLink>{" "}
-            at $1,350.
+            at $1,700.
           </p>
         </Container>
       </Section>
@@ -225,7 +229,7 @@ export default function McDotRegistrationPage() {
 
           {/* Core service-fee chips, single-sourced from services.md. The MC
               fee ($600) includes the USDOT number, so there is no separate USDOT
-              chip; BOC-3 and UCR complete the core. UCR keeps its "from $100". */}
+              chip; BOC-3 and UCR complete the core. UCR keeps its "from $50". */}
           <div className="mt-6 flex flex-wrap gap-4">
             <PriceChip
               price={{ ...pricing["/mc-registration/"], govFee: false }}
@@ -252,7 +256,7 @@ export default function McDotRegistrationPage() {
           <p className="mt-6 text-slate">
             The complete setup with driver and interstate compliance is the{" "}
             <CrossLink href="/compliance-services/">
-              $1,350 full package
+              $1,700 full package
             </CrossLink>
             , which already includes the MC and UCR (0 to 2 bracket) government
             fees.
@@ -272,7 +276,7 @@ export default function McDotRegistrationPage() {
               callout tied back to the hero tracker. Past result, not a promise. */}
           <p className="mt-4 border-l-4 border-steel pl-4 text-slate">
             A California box-truck owner whose MC had been dismissed needed a new
-            authority application, FMCSA portal setup, BOC-3, and UCR. We filed
+            authority application, MOTUS Portal setup, BOC-3, and UCR. We filed
             all of it in a single day, then waited out the protest period, and he
             is active and hiring. Doing those filings separately, in the wrong
             order, is exactly how carriers end up at day 21 with an authority

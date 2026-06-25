@@ -241,7 +241,7 @@ export default function BoxTruckDispatchPage() {
           </h2>
           <p className="mt-4 text-cloud/80">
             Not active yet? We can get your box truck legally set up: USDOT, MC
-            authority, BOC-3, insurance, and the rest. See{" "}
+            authority, BOC-3, and the rest. See{" "}
             <InkLink href="/compliance-services/">compliance services</InkLink>.
             The same team that gets you road-legal keeps you loaded after.
           </p>

@@ -25,17 +25,23 @@ import {
   serviceNode,
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
-import { filingCtaHref } from "@/lib/site";
+
+// CLIENT RULE (2026-06 QA): Tech Rig does NOT form the LLC itself. It refers
+// carriers to its formation partner (Inc Authority), who files the entity. The
+// primary CTA is the partner's external referral link, opened in a new tab and
+// disclosed as a partner referral. No invented Tech Rig price (PriceChip renders
+// "Contact for quote" from the quote pricing kind).
+const LLC_REFERRAL = "https://goto.incauthority.com/QY2keP";
 
 export const metadata: Metadata = {
   title: "LLC for Your Trucking Company",
   description:
-    "Form an LLC for your trucking company the right way. We set up your trucking LLC and EIN so your authority, insurance, and banking all line up from day one.",
+    "Form an LLC for your trucking company the right way. We point you to our formation partner and keep the entity details lined up with your FMCSA filings.",
   alternates: { canonical: "/trucking-llc/" },
   openGraph: {
     title: "Trucking LLC",
     description:
-      "Form an LLC for your trucking company the right way. We set up your trucking LLC and EIN so your authority, insurance, and banking line up from day one.",
+      "Form an LLC for your trucking company the right way. We point you to our formation partner and keep the entity details lined up with your FMCSA filings.",
     url: "/trucking-llc/",
     type: "website",
   },
@@ -95,10 +101,10 @@ export default function TruckingLlcPage() {
       <JsonLd
         data={graph(
           serviceNode({
-            serviceType: "Trucking LLC formation",
+            serviceType: "Trucking LLC formation referral",
             slug: "/trucking-llc/",
             description:
-              "Tech Rig forms an LLC for your trucking company and obtains your EIN, with the company details kept consistent with the FMCSA filings that follow.",
+              "Tech Rig refers owner-operators and carriers to its LLC formation partner, then keeps the entity details consistent with the FMCSA filings that follow. Tech Rig does not file the LLC itself.",
           }),
           breadcrumbNode([
             { name: "Home", slug: "/" },
@@ -131,16 +137,26 @@ export default function TruckingLlcPage() {
                 the clean entity that your authority, insurance, and bank account
                 all attach to. Set the entity up wrong, or with details that do
                 not match your FMCSA filings, and you create problems that surface
-                later. Tech Rig forms an LLC for your trucking company and gets
-                your EIN, so the foundation is right before you file for authority.
+                later. We point you to our formation partner to file the LLC and
+                EIN, then keep those details lined up with the authority work that
+                follows.
               </p>
               <div className="mt-7">
                 <Link
-                  href={filingCtaHref}
+                  href={LLC_REFERRAL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
-                  Form my trucking LLC
+                  Form my LLC with our partner
                 </Link>
+                {/* Partner referral disclosure: the CTA links out to Inc
+                    Authority, Tech Rig's formation partner, not a Tech Rig
+                    product. Tech Rig refers; it does not file the LLC itself. */}
+                <p className="mt-3 text-sm text-slate">
+                  Partner referral. This links to Inc Authority, our formation
+                  partner, who files your LLC.
+                </p>
               </div>
               <div className="mt-5">
                 <ReviewedBy name="Adam Smith" />
@@ -225,12 +241,15 @@ export default function TruckingLlcPage() {
       <Section surface="paper">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
-            What our LLC for trucking company setup includes
+            How the LLC for your trucking company gets done
           </h2>
           <ul className="mt-6 space-y-5">
             <li className="flex gap-4">
               <StampIcon size={24} className="mt-0.5 shrink-0 text-status-active" />
-              <span className="text-ink">We form your LLC in your chosen state.</span>
+              <span className="text-ink">
+                We refer you to our formation partner, who files your LLC in your
+                chosen state.
+              </span>
             </li>
             <li className="flex gap-4">
               <CheckSealIcon
@@ -238,7 +257,7 @@ export default function TruckingLlcPage() {
                 className="mt-0.5 shrink-0 text-status-active"
               />
               <span className="text-ink">
-                We obtain your EIN (your federal tax ID).
+                Your partner formation includes your EIN (your federal tax ID).
               </span>
             </li>
             <li className="flex gap-4">
@@ -340,7 +359,7 @@ export default function TruckingLlcPage() {
 
       <ClosingCta
         text="Starting your trucking company? Set the entity up right before you file for authority."
-        cta={{ label: "Form my trucking LLC", href: filingCtaHref }}
+        cta={{ label: "Form my LLC with our partner", href: LLC_REFERRAL }}
       />
     </>
   );

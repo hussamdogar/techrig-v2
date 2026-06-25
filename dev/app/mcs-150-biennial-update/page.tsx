@@ -319,8 +319,9 @@ export default function Mcs150BiennialUpdatePage() {
           <p className="mt-4 text-slate">
             FMCSA&apos;s move to the MOTUS system has made some updates harder than
             they used to be. To claim or change an existing USDOT online you may
-            need a USDOT PIN, and FMCSA no longer emails PINs the way it once did,
-            which can leave carriers waiting on a mailed letter. When the online
+            need a USDOT PIN, and getting one can lag during the MOTUS transition,
+            since the record has to be claimed and linked and account lockouts are
+            common, which can leave carriers waiting. When the online
             path is blocked, we know the workarounds, including paper filings and
             triggering an official FMCSA callback so a live agent can verify your
             identity and unlock the record. This is daily work for us.

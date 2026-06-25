@@ -182,8 +182,11 @@ export default function IrpRegistrationPage() {
             every state you drive through, you register once and your fees are
             apportioned, split among states in proportion to the miles you run in
             each. The plates you receive are called apportioned plates. IRP
-            generally applies to vehicles over a certain weight, or with three or
-            more axles, used interstate.
+            applies when a commercial vehicle operates in two or more
+            jurisdictions (U.S. states or Canadian provinces) and meets a
+            threshold: a power unit with a gross or registered weight over 26,000
+            lbs; or three or more axles regardless of weight; or used in
+            combination when the combined weight is over 26,000 lbs.
           </p>
 
           {/* Small apportionment line diagram: a base-state node with shares
@@ -263,7 +266,7 @@ export default function IrpRegistrationPage() {
           </h2>
           <ul className="mt-6 space-y-3">
             {[
-              "You operate a qualifying interstate vehicle (weight or axle thresholds).",
+              "You run in two or more jurisdictions (states or provinces) and your power unit is over 26,000 lbs, has three or more axles, or runs in combination over 26,000 lbs combined.",
               "You cross state lines for hire or for your own freight in interstate commerce.",
               "You are adding trucks to a fleet that already runs interstate.",
             ].map((item) => (
@@ -281,6 +284,13 @@ export default function IrpRegistrationPage() {
           <p className="mt-6 border-l-4 border-steel pl-4 text-slate">
             If you only ever run inside one state, IRP may not apply to you. We
             confirm before you pay.
+          </p>
+
+          {/* Enforcement consequence (client QA): running without IRP
+              credentials carries real roadside risk. */}
+          <p className="mt-4 border-l-4 border-steel pl-4 text-slate">
+            Operating without valid IRP credentials can mean fines, or being
+            placed out of service at a weigh station until it is resolved.
           </p>
 
           {/* [CLIENT PROOF NEEDED]: a real multi-state IRP setup story. Rendered

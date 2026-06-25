@@ -96,9 +96,9 @@ const steps: RoadmapStep[] = [
     title: "Get insurance and have it filed with FMCSA",
     body: (
       <>
-        Your authority will not activate until the insurance filing is in. See{" "}
-        <CrossLink href="/trucking-insurance-filing/">insurance filing</CrossLink>
-        .
+        Your authority will not activate until your insurer files proof of
+        insurance with FMCSA. Insurance is arranged with your own insurer; we do
+        not sell or file it.
       </>
     ),
   },
@@ -165,7 +165,7 @@ const mistakes: { Icon: typeof ShieldIcon; lead: string; rest: string }[] = [
   {
     Icon: FilingIcon,
     lead: "Submitting an application is not the same as being ready to operate.",
-    rest: "Carriers reach day 21 and cannot activate because the BOC-3, insurance, or UCR was missing or wrong.",
+    rest: "Carriers reach day 21 and cannot activate because the BOC-3 or insurance was missing or wrong. UCR is separate and does not gate activation.",
   },
   {
     Icon: ShieldIcon,
@@ -194,12 +194,12 @@ const mistakes: { Icon: typeof ShieldIcon; lead: string; rest: string }[] = [
   },
 ];
 
-// The full setup package fee ($1,350, from the brief and services.md).
+// The full setup package fee ($1,700, from the brief and services.md).
 // services.ts has no "/compliance-services/" pricing key, so the package figure
 // is declared inline here rather than read from the single pricing source. If a
 // package slug is added to lib/services pricing, switch this to read from it so
 // the number cannot drift.
-const packagePrice: Price = { kind: "flat", amount: 1350 };
+const packagePrice: Price = { kind: "flat", amount: 1700 };
 
 // One source feeds both the visible FAQ and the FAQPage schema (verbatim parity).
 const faqs: Faq[] = [
@@ -430,7 +430,7 @@ export default function HowToStartATruckingCompanyPage() {
         </Container>
       </Section>
 
-      {/* How much it costs: honest framing. The $1,350 package renders from the
+      {/* How much it costs: honest framing. The $1,700 package renders from the
           single PriceChip source; government and insurance costs stay on
           separate Slate lines, never blended into the service fee. */}
       <Section surface="cloud" id="costs" className="scroll-mt-24">
@@ -450,7 +450,7 @@ export default function HowToStartATruckingCompanyPage() {
             <p>
               Company and authority filings (USDOT, MC, BOC-3) plus driver
               compliance are the main service costs. Our full package that covers
-              the setup is $1,350, and individual services are listed on each
+              the setup is $1,700, and individual services are listed on each
               page.
             </p>
             <p>

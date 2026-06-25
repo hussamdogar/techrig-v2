@@ -126,8 +126,8 @@ export default async function ApplyPage({
           ))}
         </ol>
 
-        {/* MCS-150 prompt (boc3 Mcs150Modal behavior): carrier data changed and an
-            update is not yet selected. */}
+        {/* Biennial Update prompt (boc3 Mcs150Modal behavior): carrier data changed
+            and an MCS-150 update is not yet selected. */}
         {app.needs_mcs150_update ? (
           <form
             action={addService.bind(null, applicationId)}
@@ -135,11 +135,11 @@ export default async function ApplyPage({
           >
             <input type="hidden" name="service" value="mcs-150" />
             <p className="text-sm text-ink">
-              Your details differ from the FMCSA record, so an{" "}
-              <span className="font-semibold">MCS-150 update</span> is likely needed.
+              Your details differ from the FMCSA record, so a{" "}
+              <span className="font-semibold">Biennial Update</span> is likely needed.
             </p>
             <button type="submit" className={cn(buttonVariants({ variant: "primary", size: "sm" }), "shrink-0")}>
-              Add MCS-150 update
+              Add Biennial Update
             </button>
           </form>
         ) : null}

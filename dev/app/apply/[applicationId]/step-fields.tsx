@@ -222,11 +222,26 @@ export function StepFields({
           ) : null}
           {selected.includes("mcs-150") ? (
             <div>
-              <Label htmlFor="mcs150_update_reason">Reason for the MCS-150 update</Label>
-              <input id="mcs150_update_reason" name="mcs150_update_reason" placeholder="e.g. biennial update, address change" defaultValue={v("mcs150_update_reason")} className={inputClass} />
+              <Label htmlFor="mcs150_update_reason">Reason for the Biennial Update</Label>
+              <input id="mcs150_update_reason" name="mcs150_update_reason" placeholder="e.g. biennial update due" defaultValue={v("mcs150_update_reason")} className={inputClass} />
             </div>
           ) : null}
-          {!selected.includes("boc-3") && !selected.includes("mcs-150") ? (
+          {selected.includes("usdot-correction") ? (
+            <div>
+              <Label htmlFor="usdot_correction_details">What needs correcting on your USDOT record</Label>
+              <input id="usdot_correction_details" name="usdot_correction_details" placeholder="e.g. address, legal name, phone, truck/driver count" defaultValue={v("usdot_correction_details")} className={inputClass} />
+            </div>
+          ) : null}
+          {selected.includes("ifta-quarterly") ? (
+            <div>
+              <Label htmlFor="ifta_quarter">Which quarter to file</Label>
+              <input id="ifta_quarter" name="ifta_quarter" placeholder="e.g. Q1 2026" defaultValue={v("ifta_quarter")} className={inputClass} />
+            </div>
+          ) : null}
+          {!selected.includes("boc-3") &&
+          !selected.includes("mcs-150") &&
+          !selected.includes("usdot-correction") &&
+          !selected.includes("ifta-quarterly") ? (
             <p className="text-slate">No additional details needed for the services you selected.</p>
           ) : null}
         </>

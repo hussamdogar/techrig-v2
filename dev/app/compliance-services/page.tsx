@@ -46,7 +46,7 @@ export const metadata: Metadata = {
 // The full-package price. Not a per-slug entry in lib/services pricing (it is a
 // hub-level bundle), so it is a local single-source Price object rendered by the
 // same PriceChip as every other price, so it cannot drift in formatting.
-const packagePrice: Price = { kind: "flat", amount: 1350 };
+const packagePrice: Price = { kind: "flat", amount: 1700 };
 
 // The package checklist. Each item is an inline 1 to 3 word contextual link with
 // a small line icon and a status-active check mark. Anchors and destinations are
@@ -162,9 +162,18 @@ const serviceCards: {
   },
   {
     href: "/mcs-150-biennial-update/",
-    title: "MCS-150 updates",
-    description: "Biennial MCS-150 updates that keep your USDOT record current.",
+    title: "Biennial Update",
+    description: "The biennial MCS-150 filing that keeps your USDOT record current.",
     icon: "filing",
+  },
+  {
+    // No dedicated page yet, so it carries its own price and a link-free render
+    // (same pattern as the reactivation cards below). Scope and the separation
+    // from the Biennial Update come straight from the client QA brief.
+    title: "USDOT Correction",
+    description: "Correct your USDOT record: address, legal or business name, email, phone, operating status, and truck and driver counts. Separate from the Biennial Update.",
+    icon: "stamp",
+    price: { kind: "flat", amount: 125 },
   },
   {
     href: "/trucking-llc/",
@@ -316,7 +325,7 @@ export default function ComplianceServicesPage() {
             <p className="mt-5 text-slate">
               Most new carriers do not want to assemble this piece by piece. Our
               full compliance package covers what it takes to stand up a motor
-              carrier and onboard your first driver, for a fixed $1,350. You can
+              carrier and onboard your first driver, for a fixed $1,700. You can
               also buy any service on its own. The package price already includes
               the government fees for your MC number and your UCR in the 0 to 2
               vehicle bracket. IRP and IFTA are the exception: those government
@@ -420,7 +429,7 @@ export default function ComplianceServicesPage() {
               </p>
               <p className="mt-3 text-slate">
                 Plenty of applications clear the 21-day protest period and still
-                cannot operate because the BOC-3, insurance, or UCR was wrong. We
+                cannot operate because the BOC-3 or insurance was wrong. We
                 sequence the filings so that does not happen.
               </p>
               <p className="mt-4 border-l-4 border-steel pl-4 text-slate">

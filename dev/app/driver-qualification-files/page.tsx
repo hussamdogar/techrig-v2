@@ -194,6 +194,18 @@ export default function DriverQualificationFilesPage() {
             current. Missing or outdated DQ files show up fast in an audit.
           </p>
 
+          {/* Applicability threshold: the federal DQ requirement keys off vehicle
+              weight rating. Stated without state-specific claims, per the brief. */}
+          <p className="mt-4 text-slate">
+            The federal requirement generally applies when a driver operates a
+            commercial motor vehicle with a gross vehicle or combination weight
+            rating, or actual weight, of{" "}
+            <span className="font-mono tabular-nums text-ink">10,001 lbs</span> or
+            more in applicable commerce. Below that threshold, a federal DQ file is
+            not required. We confirm where your operation falls before building
+            files.
+          </p>
+
           {/* The recurring-maintenance point, pulled into a quiet emphasis callout:
               it is what carriers underestimate and it justifies the yearly-update
               pricing later. Styled paragraph, never a heading. */}

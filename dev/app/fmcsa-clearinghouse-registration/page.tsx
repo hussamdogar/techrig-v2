@@ -269,6 +269,18 @@ export default function FmcsaClearinghouseRegistrationPage() {
             </li>
           </ul>
 
+          {/* Pre-employment requirement, with the inline link to where the
+              pre-employment drug test is detailed. No dedicated route exists, so
+              the anchor points to the consortium page where that test has its own
+              section and price. */}
+          <p className="mt-6 text-slate">
+            New CDL drivers, including owner-operators, must complete{" "}
+            <CrossLink href="/drug-and-alcohol-consortium/">
+              pre-employment drug testing
+            </CrossLink>{" "}
+            before they perform safety-sensitive work.
+          </p>
+
           {/* The honesty qualifier, set apart in Slate so it reads as scope. */}
           <p className="mt-6 border-l-4 border-steel pl-4 text-slate">
             Whether CDL drug-and-alcohol rules apply depends on your operation.
@@ -283,6 +295,13 @@ export default function FmcsaClearinghouseRegistrationPage() {
           <h2 className="font-display text-3xl font-bold text-ink">
             What our FMCSA Clearinghouse registration service includes
           </h2>
+          {/* Standing statement: Tech Rig is a registered C/TPA with the FMCSA
+              Drug & Alcohol Clearinghouse. Styled paragraph, never a heading. */}
+          <p className="mt-4 text-slate">
+            Tech Rig is registered as a C/TPA (consortium/third-party
+            administrator) with the FMCSA Drug &amp; Alcohol Clearinghouse, so we
+            handle this as part of your program directly.
+          </p>
           <ul className="mt-6 space-y-5">
             <li className="flex gap-4">
               <CheckSealIcon size={24} className="mt-0.5 shrink-0 text-steel" />

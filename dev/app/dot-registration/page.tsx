@@ -31,12 +31,12 @@ import { filingCtaHref } from "@/lib/site";
 export const metadata: Metadata = {
   title: "How to Get a DOT Number for Trucking",
   description:
-    "How to get a DOT number without the headaches. Tech Rig sets up your USDOT registration, handles the FMCSA portal, and gets your number right the first time.",
+    "How to get a DOT number without the headaches. Tech Rig sets up your USDOT registration, handles the MOTUS Portal, and gets your number right the first time.",
   alternates: { canonical: "/dot-registration/" },
   openGraph: {
     title: "How to Get a DOT Number for Trucking",
     description:
-      "How to get a DOT number without the headaches. Tech Rig sets up your USDOT registration, handles the FMCSA portal, and gets your number right the first time.",
+      "How to get a DOT number without the headaches. Tech Rig sets up your USDOT registration, handles the MOTUS Portal, and gets your number right the first time.",
     url: "/dot-registration/",
     type: "website",
   },
@@ -104,7 +104,7 @@ export default function DotRegistrationPage() {
             serviceType: "USDOT registration",
             slug: "/dot-registration/",
             description:
-              "Tech Rig sets up your USDOT registration, handles the FMCSA portal and MOTUS account, and confirms your number the first time.",
+              "Tech Rig sets up your USDOT registration, handles the MOTUS Portal account, and confirms your number the first time.",
             price: 300,
           }),
           breadcrumbNode([
@@ -137,7 +137,7 @@ export default function DotRegistrationPage() {
                 tracks your trucking operation. If you run a commercial vehicle
                 over a certain weight, carry enough passengers, or haul
                 interstate, you need one before you operate. Figuring out how to
-                get a DOT number on your own means navigating the FMCSA portal,
+                get a DOT number on your own means navigating the MOTUS Portal,
                 the right operation classifications, and the MOTUS system. Tech
                 Rig does it for you and gets it right the first time.
               </p>
@@ -224,7 +224,7 @@ export default function DotRegistrationPage() {
               },
               {
                 n: "02",
-                body: <>Set up your FMCSA portal account in the MOTUS system.</>,
+                body: <>Set up your MOTUS Portal account.</>,
               },
               {
                 n: "03",
@@ -281,21 +281,17 @@ export default function DotRegistrationPage() {
             <PriceChip
               price={pricing["/dot-registration/"]}
               label="USDOT registration, one time"
-              govFeeNote="+ gov fee, shown separately"
             />
           </div>
 
           <p className="mt-6 text-slate">
             Tech Rig service fee: $300, one-time, to register your USDOT number
-            and set up your FMCSA portal correctly. This standalone price is for
-            carriers who need a USDOT number only. If you also need operating
-            authority, your{" "}
+            and set up your MOTUS Portal correctly. That $300 is the total for a
+            standalone USDOT registration: there is no separate federal USDOT
+            application fee. This price is for carriers who need a USDOT number
+            only. If you also need operating authority, your{" "}
             <CrossLink href="/mc-registration/">MC filing</CrossLink> includes the
             USDOT, so you would not pay this separately.
-          </p>
-          <p className="mt-4 text-slate">
-            The USDOT number itself is issued by FMCSA. Any government fee is
-            shown separately from our service fee.
           </p>
           <p className="mt-4 text-slate">
             Need authority too? See the{" "}
@@ -314,17 +310,16 @@ export default function DotRegistrationPage() {
             Let us handle how to get a DOT number for you
           </h2>
 
-          {/* The page's unique worked example. Real past case, framed as such. */}
+          {/* The page's unique worked example. New-carrier registration. */}
           <p className="mt-4 border-l-4 border-steel pl-4 text-slate">
-            A California box-truck owner wanted to restart using an old, inactive
-            operation, but FMCSA's move to the MOTUS system meant his company
-            records would not surface when we tried to link his old USDOT to the
-            new account, which blocked everything. We caught the migration issue,
-            opened a support ticket, and submitted his corporate documents to
-            bridge the old data into MOTUS, and the account came through. The
-            legacy-to-MOTUS transition is exactly the kind of thing that turns a
-            simple registration into weeks of back-and-forth if you do not know
-            the path.
+            A Texas owner-operator starting a single-truck dry van company came to
+            us before he had any federal record. We opened his MOTUS Portal
+            account, classified him as an interstate for-hire carrier with one
+            power unit and one driver, and filed the MCS-150 with his cargo and
+            operation details. His USDOT number issued on that registration. The
+            piece new carriers most often get wrong is the operation
+            classification, and a wrong answer there follows you into every later
+            filing, so we set it correctly the first time.
           </p>
 
           <p className="mt-6 font-display text-sm font-semibold text-ink">
@@ -338,7 +333,7 @@ export default function DotRegistrationPage() {
               },
               {
                 Icon: FilingIcon,
-                text: "Your FMCSA portal and MOTUS account set up properly.",
+                text: "Your MOTUS Portal account set up properly.",
               },
               {
                 Icon: StampIcon,
