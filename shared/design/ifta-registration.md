@@ -5,13 +5,15 @@ Design-only spec. Consumes `shared/page-briefs/ifta-registration.md`. SEO owns c
 ## Page role
 A tight transactional money page for interstate carriers setting up fuel-tax reporting under the International Fuel Tax Agreement. The intent is navigational and does not need a long page, so this is the most compact of the compliance specs: explain IFTA and the quarterly return plainly, disambiguate it from IRP, separate Tech Rig's service fee from state fees, and move the carrier to "set up my IFTA." Operationally paired with `/irp-registration/`; the two cross-link and are usually set up together. BOFU, honest, no padding.
 
+Tracker note: per design-system Section 13, the Authority Status Tracker is OMITTED on fuel-tax pages. IFTA setup is interstate fuel-tax readiness, not authority activation, so an "Authority active" node would assert a lifecycle status this page does not support. The hero uses a spot illustration instead (see Imagery).
+
 ## Section order and layout
 
 1. Header (global, per `global-footer.md`). Persistent primary CTA "Set up my IFTA". Breadcrumb Home > Compliance Services > IFTA Registration below the header in the mono label treatment.
 
 2. Hero (Paper, asymmetric two-column; copy-first stack on mobile)
    - Left: H1 "IFTA Registration and Filing" (Archivo). Styled hero lede (Plex Sans Body L), never an H-tag. Primary button "Set up my IFTA" (Signal amber, Ink text) -> IFTA intake, route to `/contact-us/` until confirmed [VERIFY route]. Small "Reviewed by Robert Hooke, Co-Founder" credibility line under the lede (mono label + name).
-   - Right (signature visual): the Authority Status Tracker, scoped to where this filing sits. IFTA is an interstate-operations setup step for an already-active carrier, so the tracker shows "Authority active" with IFTA setup as the interstate-readiness action, not a new-authority application. This keeps the signature consistent across the silo while honestly framing IFTA as fuel-tax setup, not authority activation. No guaranteed dates. On a page this short, keep the tracker visually lighter so it does not overwhelm the compact body.
+   - Right (signature visual): a spot illustration in the line system, the IFTA license and its decals (the cab stickers) issued for interstate fuel-tax setup, two-tone Ink/Steel with one Signal accent on the active decal. No tracker, no "Authority active" assertion, no authority-lifecycle status, no guaranteed dates. On a page this short, keep the illustration compact so it does not overwhelm the body.
 
 3. What it is: H2 "What IFTA registration is". A plain Cloud text block, Grade 8, with one small line icon (a fuel/decal icon). Explains the license, the decals (stickers), and the single quarterly return reconciling fuel bought against miles run. Kept to the brief's copy, no diagram needed at this length unless a small quarterly-cycle line motif helps; if used, keep it minimal.
 
@@ -32,13 +34,13 @@ A tight transactional money page for interstate carriers setting up fuel-tax rep
 11. Mega-footer (global).
 
 ## Hierarchy and the visual path
-Eye path: H1 -> primary amber CTA -> the tracker (interstate-readiness framing, kept light) -> what IFTA is -> IFTA vs IRP disambiguation -> what we do + price/fee separation -> FAQ -> dispatch handoff -> single closing CTA. Signal amber is rationed to the primary action (hero, close, header CTA); the IRP cross-links and the handoff are Steel and subordinate. One primary action per view. Because the page is short, the rhythm stays tight: fewer, denser sections, no filler bands.
+Eye path: H1 -> primary amber CTA -> the IFTA license and decals spot illustration -> what IFTA is -> IFTA vs IRP disambiguation -> what we do + price/fee separation -> FAQ -> dispatch handoff -> single closing CTA. Signal amber is rationed to the primary action (hero, close, header CTA); the IRP cross-links and the handoff are Steel and subordinate. One primary action per view. Because the page is short, the rhythm stays tight: fewer, denser sections, no filler bands.
 
 ## Imagery and illustration
-No photography. Hero: the Authority Status Tracker scoped to interstate readiness, visually lighter than on longer pages. "What IFTA is" uses one small fuel/decal line icon, with an optional minimal quarterly-cycle motif only if it earns its place. IFTA vs IRP uses two distinct line icons (a fuel icon and a plate icon), not mirrored cards. All single-line SVG, lightweight for CWV (this page should be especially fast given its tight scope).
+No photography, and no Authority Status Tracker (per Section 13). Hero: a compact IFTA license and decals spot illustration for interstate fuel-tax setup, two-tone, one Signal accent. "What IFTA is" uses one small fuel/decal line icon, with an optional minimal quarterly-cycle motif only if it earns its place. IFTA vs IRP uses two distinct line icons (a fuel icon and a plate icon), not mirrored cards. All single-line SVG, lightweight for CWV (this page should be especially fast given its tight scope).
 
 ## Motion
-Minimal. Hero tracker staggered reveal (<=200ms steps), kept subtle. Accordion chevron rotates. Price chip static. Sticky mobile CTA appears after the hero. No per-section scroll-fade. `prefers-reduced-motion` gives final static states.
+Minimal. Hero spot illustration fades in once (<=200ms), kept subtle. Accordion chevron rotates. Price chip static. Sticky mobile CTA appears after the hero. No per-section scroll-fade. `prefers-reduced-motion` gives final static states.
 
 ## CRO treatment
 - One dominant action ("Set up my IFTA"), Signal amber, at hero and close. The page is short enough that two well-placed CTAs suffice; no mid-page button is added, keeping it clean.
@@ -54,6 +56,7 @@ Unique branded OG from the system template: Ink or Paper field, mono wordmark, t
 ## What Dev must preserve
 - SEO copy, the heading structure, and every internal link and destination exactly, including both `/irp-registration/` cross-links. The hero lede is a styled paragraph, never an H-tag.
 - The price chip from the single source (`services.md`): the "Contact for quote" state until the IFTA service fee is confirmed, then the service-fee chip with a separate state-fee line. No price hardcoded; state fees never encoded as the price or blended into the service fee.
+- No Authority Status Tracker on this page (per Section 13); do not add one by analogy to other compliance specs. No status labels, protest-period figure, or authority-lifecycle text.
 - Amber-never-white-text; one Signal action per view; AA contrast; visible keyboard focus; reduced-motion behavior; hit targets >=44px.
 - Honest framing only: no guaranteed setup date, no invented fee figures, no invented worked example or testimonial (none exists for this page), no metrics or ratings.
 - The tight scope: do not pad the page with sections the brief does not specify.
