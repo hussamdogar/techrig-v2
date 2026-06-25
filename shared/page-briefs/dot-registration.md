@@ -19,7 +19,7 @@ Primary "how to get a dot number" in: title (yes), first paragraph (yes), H2s ("
 
 ### H1: How to Get a DOT Number
 **Hero lede:**
-A USDOT number is how the federal government identifies and tracks your trucking operation. If you run a commercial vehicle over a certain weight, carry enough passengers, or haul interstate, you need one before you operate. Figuring out how to get a DOT number on your own means navigating the FMCSA portal, the right operation classifications, and the MOTUS system. Tech Rig does it for you and gets it right the first time.
+A USDOT number is how the federal government identifies and tracks your trucking operation. If you run a commercial vehicle over a certain weight, carry enough passengers, or haul interstate, you need one before you operate. Figuring out how to get a DOT number on your own means navigating the MOTUS system, the right operation classifications, and FMCSA's requirements. Tech Rig does it for you and gets it right the first time.
 
 **Primary CTA (above fold):** button "Get my USDOT number" → USDOT intake form. Until confirmed, route to `/contact-us/`. [VERIFY route with Dev.]
 
@@ -29,7 +29,7 @@ A USDOT number is your unique federal ID as a motor carrier. FMCSA uses it for s
 ### H2: How to get a DOT number, step by step
 Numbered, Grade 8, honest about the work:
 1. Decide your operation type and classification (carrier, interstate or intrastate, cargo type). Getting this wrong causes problems later.
-2. Set up your FMCSA portal account in the MOTUS system.
+2. Set up your MOTUS account.
 3. Complete the MCS-150 application, which creates your USDOT record.
 4. Submit and receive your USDOT number.
 5. If you also need operating authority, file your [MC application](/mc-registration/) and [BOC-3](/boc-3-filing/) next.
@@ -42,11 +42,11 @@ This is doable yourself. It is also where new carriers most often stall, because
 - Need authority too? See the [MC authority](/mc-registration/) page, or get the [full setup](/compliance-services/) as one package.
 
 ### H2: Let us handle how to get a DOT number for you
-Real worked example (publishable, distinct to this page): a California box-truck owner wanted to restart using an old, inactive operation, but FMCSA's move to the MOTUS system meant his company records would not surface when we tried to link his old USDOT to the new account, which blocked everything. We caught the migration issue, opened a support ticket, and submitted his corporate documents to bridge the old data into MOTUS, and the account came through. The legacy-to-MOTUS transition is exactly the kind of thing that turns a simple registration into weeks of back-and-forth if you do not know the path.
+Worked example (new-carrier, straightforward): a Texas operator starting a new box-truck company came to us to get road-legal. We confirmed the correct operation classification and entity details, set up the MOTUS account, and filed the application with the right vehicle and driver counts and cargo type, and a new USDOT number was issued. A clean new registration is quick when the classification and details are right the first time, which is where DIY filings usually go wrong. (Migrating an OLDER account into MOTUS is a different job, see our [MOTUS migration](/motus-migration/) service.)
 
 What you get with us:
 - Correct operation classification from the start.
-- Your FMCSA portal and MOTUS account set up properly.
+- Your MOTUS account set up properly.
 - Your USDOT number registered and confirmed.
 - A clean handoff into MC authority, BOC-3, and the rest if you need them.
 
@@ -57,7 +57,7 @@ FAQPage schema, Grade 8:
 - "Do I need a USDOT number, an MC number, or both?" It depends on your operation. Interstate for-hire carriers usually need both. Some carriers need only a USDOT number. We confirm which applies to you.
 - "How long does it take to get a USDOT number?" The registration itself is quick once the application is correct. Government processing and MOTUS issues can add time, so we do not promise a date, but we keep your side moving.
 - "What is MOTUS and why does it matter?" MOTUS is FMCSA's newer system. Existing records sometimes have to be claimed or linked before you can register or update, and that is where carriers get stuck. We handle it.
-- "Can you reactivate an old USDOT number?" Yes. Reactivation often starts with an MCS-150 and may involve a MOTUS linkage. We do this regularly.
+- "Can you reactivate an old USDOT number?" Yes. Reactivation often starts with an MCS-150 and may involve a MOTUS linkage; if your older account will not come over, that is our [MOTUS migration](/motus-migration/) service.
 - "Is the USDOT number a one-time thing?" The number is yours, but you must keep it current with [MCS-150 updates](/mcs-150-biennial-update/), including the biennial update.
 
 ### Closing CTA band
@@ -75,7 +75,7 @@ Hub card + package; pillar; MC page (cross "DOT vs MC"); the "how to get DOT and
 - `FAQPage`.
 
 ## Proof / claims discipline
-- No guaranteed timelines. MOTUS example is a real past case, framed as such.
+- No guaranteed timelines. Worked example is now a clean new-carrier (TX) registration; the CA legacy-migration story was relocated to `/motus-migration/` (S2). For new registrations use "MOTUS," not "FMCSA Portal."
 - Do not state a specific government USDOT fee until verified.
 
 ## Reviewed-by
@@ -87,4 +87,4 @@ Hub card + package; pillar; MC page (cross "DOT vs MC"); the "how to get DOT and
 - Price chip from single source.
 
 ## Uniqueness
-Worked example = CA box truck, old USDOT to MOTUS linkage. Distinct from all other pages. "DOT number" (9,900) used only in body/H2, never as the sole primary (gov-owned SERP).
+Worked example = TX new-carrier clean registration (kept migration-free per S2). "DOT number" (9,900) used only in body/H2, never as the sole primary (gov-owned SERP).

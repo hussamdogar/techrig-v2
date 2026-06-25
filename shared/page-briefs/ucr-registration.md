@@ -34,20 +34,18 @@ Who has to register (plain list):
 Note: Not every operation owes UCR the same way. Purely intrastate carriers and some operations are treated differently. If you are not sure UCR applies to you, we will tell you before you pay.
 
 ### H2: How UCR fees work (and why brackets matter)
-The government fee is tiered by the number of commercial vehicles you operate, and the brackets jump fast, so a miscount can cost you. Brokers and forwarders without vehicles pay the lowest bracket. The official 2026 UCR fees (the government portion, separate from our service fee) are:
+The government fee is tiered by the number of commercial vehicles you operate, and the brackets jump fast, so a miscount can cost you. Brokers and forwarders without vehicles pay the lowest bracket. **Display rule (client Q1.3): show the government brackets and the $50 Tech Rig filing fee as SEPARATE lines, not combined totals.** The government UCR fee by bracket:
 
-Our pricing is a flat **$50 filing fee plus the applicable UCR government fee**. The total per bracket:
+| Bracket (qualifying CMVs) | Government fee |
+|---|---|
+| 0-2 | $46 |
+| 3-5 | $138 |
+| 6-20 | $276 |
+| 21-100 | $963 |
+| 101-1,000 | $4,592 |
+| 1,001+ | $44,836 |
 
-| Bracket (qualifying CMVs) | Government fee | Total (with $50 filing) |
-|---|---|---|
-| 0-2 | $46 | $96 |
-| 3-5 | $138 | $188 |
-| 6-20 | $276 | $326 |
-| 21-100 | $963 | $1,013 |
-| 101-1,000 | $4,592 | $4,642 |
-| 1,001+ | $44,836 | $44,886 |
-
-The bracket is the number of qualifying trucks (CMVs). A business operating only non-CMVs stays in the 0-2 bracket even with more than two of them (for example, 20 non-CMVs still use the $46 bracket). Annual renewal. (Re-verify the government schedule each registration year.)
+**Plus a separate Tech Rig filing fee of $50** (one line, shown apart from the government fee). The bracket is the number of qualifying trucks (CMVs). A business operating only non-CMVs stays in the 0-2 bracket even with more than two of them (for example, 20 non-CMVs still use the $46 bracket). Annual renewal. (Re-verify the government schedule each registration year. Do NOT show this table inside the `/apply` form, only the carrier's own bracket.)
 
 What this means for you: the most common mistake we fix is a carrier who paid the wrong bracket. We confirm your correct bracket first, then file. **UCR is a separate annual obligation; it is not required to activate your MC authority.**
 
