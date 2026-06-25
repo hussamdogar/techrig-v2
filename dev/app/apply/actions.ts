@@ -42,10 +42,19 @@ export async function createApplication(formData: FormData) {
   if (!user) redirect("/login/?next=/apply/");
   const userId = user.id;
 
-  // Lead linkage: an explicit lead_id (dashboard) or a signed lead token (the
-  // lookup page, which only holds the token, not the raw id).
-  let leadId = (formData.get("lead_id") as string) || null;
-  if (!leadId) {
+  // Lead linkage. Two trusted sources only, so a caller can never seed an
+  // application from someone else's lead/snapshot (the reads below use the
+  // service role, which bypasses RLS):
+  //   1. A raw lead_id (dashboard) is accepted ONLY if the RLS-scoped client can
+  //      read it, i.e. the lead belongs to the caller (leads_select_owner).
+  //   2. A signed lead_token (lookup page) is HMAC-verified; possession of the
+  //      token is the capability to use that still-unclaimed lead.
+  let leadId: string | null = null;
+  const rawLeadId = (formData.get("lead_id") as string) || null;
+  if (rawLeadId) {
+    const { data: ownLead } = await supabase.from("leads").select("id").eq("id", rawLeadId).maybeSingle();
+    if (ownLead) leadId = ownLead.id;
+  } else {
     const tokenLead = decodeLeadAccessToken(formData.get("lead_token"));
     if (tokenLead) leadId = tokenLead.leadId;
   }

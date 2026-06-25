@@ -74,6 +74,23 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
+      // M7 §1. Legacy application subdomains → the new platform entry, one hop,
+      // host-based so they win over every path rule below regardless of path.
+      // The targets are noindex by design (transactional flows, ADR-5). The full
+      // legacy URL set is handed to Workstream A's crawl-union (build-report.md).
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "form.techrig.org" }],
+        destination: "https://techrig.org/apply/",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "boc-3.techrig.org" }],
+        destination: "https://techrig.org/apply/?service=boc-3",
+        permanent: true,
+      },
+
       // §B. Exact-match named pages.
       { source: "/home-backup/", destination: "/", permanent: true },
       { source: "/clone-home/", destination: "/", permanent: true },

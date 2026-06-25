@@ -178,12 +178,28 @@ Dependencies: M4 (paid events), M5 (status events). Gate: each trigger fires exa
 
 ---
 
-## M7 — Migration, redirects, launch hardening · STATUS: ACTIVE (Dev-led, FINAL milestone) — work order `work-orders/M7-dev.md` (M1–M6 build-complete)
+## M7 — Migration, redirects, launch hardening · STATUS: BUILD-COMPLETE (Dev-led, FINAL milestone) — work order `work-orders/M7-dev.md`
 Goal: cut over from the legacy subdomains and harden.
 - 🔵 SEO: fold the new routes + subdomain redirects into the crawl-union (orchestration L1); confirm no ranking URL regresses; same-domain GA4 events.
 - 🟣 Design: final QA of every state on real devices.
 - 🟢 Dev: 301/308 `form.techrig.org`→`/apply/`, `boc-3.techrig.org`→`/apply/?service=boc-3`; legacy data drain-or-ETL (decision); load/rate-limit test; full `/security-review`; Sentry on.
 Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set; one-hop redirects; security review clean; legacy apps drained; analytics verified.
+
+### Build note (Dev, 2026-06-25) — BUILD-COMPLETE
+**Owner decision (2026-06-25): DRAIN, not ETL.** Stop new traffic to the legacy apps, let in-flight sessions finish there, then flip the 301s. No data migration; the legacy `registrations`/`boc-3-new` tables are untouched as historical record (no ALTER/DROP).
+**Shipped (`dev/**`):**
+- **Subdomain 301s** in `next.config.ts` (host-based, prepended so they win): `form.techrig.org/*` → `https://techrig.org/apply/`, `boc-3.techrig.org/*` → `.../apply/?service=boc-3`. Verified one-hop (308); marketing path redirects unaffected; targets noindex by design. URL set handed to the crawl-union in `build-report.md` §7.
+- **Sentry** (`@sentry/nextjs`): server + edge + client init, DSN-gated (no-ops without a DSN), `sendDefaultPii: false` + `beforeSend` strips request cookies/headers/body/query + the user object. Env documented.
+- **Hardening verified:** no secret in any client bundle (only the public anon + publishable keys ship; the service-role key signature is absent — the apparent match was the shared JWT header/payload prefix); every app route noindex + sitemap-excluded; marketing unregressed (82 sitemap URLs).
+- **`shared/build-report.md`** written (M0–M7: surfaces, the 6-migration data model, every subsystem, all owner decisions, the security model, the full deferred-to-QA list + required Vercel env vars, the crawl-union URL set).
+
+**Full-platform `/security-review` (the mandatory gate): one HIGH finding, FIXED; everything else clean.**
+- **HIGH (fixed): IDOR in `createApplication`** — a raw `lead_id` form field was used with the service role (bypassing RLS) with no ownership check, letting a caller seed their application from / rebind the snapshot of another tenant's lead. Fix: a raw `lead_id` is accepted only if the RLS-scoped client can read it (caller owns it); the `lead_token` path stays HMAC-verified for unclaimed leads. Verified against prod: a second user reads another's lead via RLS → 0 rows (linkage rejected), owner → 1.
+- Clean across payment (server-priced, signature-verified idempotent webhook), the admin boundary (`admin_users` no-policy + server gate), HMAC tokens, HTML-escaped emails, private Storage (no traversal), no PII in logs/metadata/Sentry, no SSRF, all RLS 0001–0006.
+
+**Deferred to the consolidated QA ledger (the joint launch event):** DNS cutover + live 301 verification; the staging crawl-union with Workstream A (0 unexpected 404s, 0 chains); Sentry source-map upload (`SENTRY_AUTH_TOKEN`); plus every M1–M6 deploy-time item.
+
+**M7 is the convergence point — all seven milestones (M0–M7) are now build-complete.** Re-engage Workstream A (L1 crawl-union, L2 blog, L3 build-report ✓, L4 claims-vs-code) for one joint launch running the consolidated QA ledger once.
 
 ---
 
@@ -205,7 +221,7 @@ Dependencies: M1–M6 gates. Gate: 0 unexpected 404s across the unioned URL set;
 | M4 | Payment capture | BUILD-COMPLETE (security review passed) | yes | no (→ QA ledger) |
 | M5 | Progress tracking + back-office | BUILD-COMPLETE | yes | no (→ QA ledger) |
 | M6 | Email lifecycle + documents | BUILD-COMPLETE | yes | no (→ QA ledger) |
-| M7 | Migration + hardening (FINAL) | ACTIVE | no | no |
+| M7 | Migration + hardening (FINAL) | BUILD-COMPLETE | yes (security review clean) | no (→ joint launch QA) |
 
 ## Consolidated pre-launch QA ledger
 Per the deploy policy, deploy-time-only checks accumulate here and run once at the end (together with Workstream A's launch gate — `../orchestration-status.md` L1/L4). Nothing here blocks milestone progress.
@@ -215,4 +231,5 @@ Per the deploy policy, deploy-time-only checks accumulate here and run once at t
 - **M4:** register the live Stripe webhook endpoint on the deployed origin; live Stripe keys; real-card path; Lighthouse on `/apply/[id]/pay`.
 - **M5:** Lighthouse on `/admin` + dashboard; the full signed-in admin click-through (advance a real filing in the browser) once a live session/redirect allowlist exists.
 - **M6:** email deliverability (DKIM/SPF on the sending domain) + set `RESEND_API_KEY`/`EMAIL_FROM`; set `CRON_SECRET` on the Vercel project + confirm the cron fires on schedule; full inbox click-throughs of each lifecycle email.
-- (M7+ deploy-time items appended as each milestone reaches build-complete.)
+- **M7:** DNS cutover + live one-hop 301 verification on the real subdomains; the staging crawl-union with Workstream A (0 unexpected 404s, 0 chains across the unioned legacy + new URL set); Sentry source-map upload (`SENTRY_AUTH_TOKEN`) + confirm events arrive with PII scrubbed; legacy-app drain executed before the DNS flip.
+- **All seven milestones are build-complete (2026-06-25). This ledger now runs once, together with Workstream A's launch gate, at the single joint deploy.**
