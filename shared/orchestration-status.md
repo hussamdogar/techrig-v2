@@ -71,6 +71,13 @@ A full client-facing application platform on the new site: USDOT lookup card, un
 - **✅ WORKSTREAM B COMPLETE (build):** all of M0–M7 + M3-R1 build-complete, 6 prod migrations, clean security review. Nothing deployed. **Convergence reached → joint launch with Workstream A: see `launch-plan.md`.**
 - Ties to Workstream A: M7 subdomain redirects (`form.`/`boc-3.techrig.org`) fold into the L1 crawl-union (note: redirect targets are noindex by design); pricing stays sourced from `services.md`; the ELD/insurance reframe must not be reintroduced by the application engine.
 
+## Client QA revision (2026-06-25) — CONFIRMED, active pre-launch task
+Client content/pricing/compliance-language revision (`work-order-qa-revision.md`; client brief at `seo/output/client-qa-brief-2026-06.md`). SEO did its part correctly but on a **stale branch** (PR #6, based on old main, missing the whole platform), and the new pricing **contradicted the just-built platform**. Orchestrator remediation:
+- **Re-staged** SEO's source changes onto current main via clean cherry-pick (`424ac80`): `services.md` now UCR $50 / full package $1,700; insurance page-brief deleted; QA work order + client brief added. **PR #6 closed** (superseded); stale branch `claude/hungry-boyd-00148b` pruned.
+- **Expanded the work order with §G Application Platform delta** (the original predated the platform): registry `dev/lib/services-registry.ts` → UCR $100→$50, package $1,350→$1,700 (**same 6 services, owner-confirmed** — this supersedes the earlier $1,350), add USDOT Correction $125 + IFTA Quarterly $150, rename `mcs-150` display → "Biennial Update"; remove `/trucking-insurance-filing/` route + 301; find-and-fix across `/apply` + M6 emails/PDFs. ELD/insurance reframe already done on main → VERIFY not re-apply.
+- **Parity gate** before build-complete: `services.md` = registry = `/apply` review = receipt, zero price/term contradictions.
+- **Sequencing:** lands BEFORE the joint launch (it changes prices the engine charges). Routed to Dev via `dev/START-HERE.md`.
+
 ## Closed / verified
 - ELD + insurance reframe (`work-order-eld-insurance.md`): VERIFIED CLOSED 2026-06-24. `serviceType: "ELD partner referral"`, ELD price chip removed, CTA = "Get connected with our ELD partner", insurance hero disclaimer present, no "files your insurance" survives. Committed 43a1598.
 - Blog posts built (42 KEEP at root) + 301 redirect map implemented (`handoff-dev-to-seo.md` #1, #2).

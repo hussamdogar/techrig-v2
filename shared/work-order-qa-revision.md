@@ -39,3 +39,25 @@ Search the codebase/CMS for: `insurance filing`, `ELD`, `FMCSA Portal`, `MCS-150
 
 ## F. SEO source updated alongside this (for reference/parity)
 `seo/context/services.md` (master pricing + language rules), `shared/sitemap-plan.md`, `shared/keyword-map.md`, `shared/page-briefs/*` (eld, insurance removal, mcs-150/biennial, irp, ifta, dq, clearinghouse, consortium, mc, dot, ucr, boc-3, hub, home, trucking-llc, footer), `shared/schema-specs.md`.
+
+---
+
+## G. APPLICATION PLATFORM DELTA (orchestrator, 2026-06-25) — REQUIRED, read first
+This work order was authored against a pre-platform snapshot of the site. Since then the **application platform (M0–M7) shipped on main**: a USDOT lookup, accounts, the `/apply/` engine, Stripe payment, back-office, and email/PDFs — all priced from a **typed registry** (`dev/lib/services-registry.ts`) that must equal `services.md` ("prices only from `services.md`"; "no metric contradicts another"). Sections A–F above are correct but cover the **marketing pages only**. These platform-side changes are mandatory so the engine does not charge a price the marketing pages no longer show.
+
+1. **Registry pricing (`dev/lib/services-registry.ts`) — update to the new `services.md`:**
+   - **UCR filing fee `$100 → $50`** (the `calculateUcr` serviceFee). New totals: 0-2 $96, 3-5 $188, 6-20 $326, 21-100 $1,013, 101-1,000 $4,642, 1,001+ $44,886.
+   - **Full package `$1,350 → $1,700`** (the `full-package` price). **Contents UNCHANGED** (owner-confirmed 2026-06-25: MC incl. USDOT + BOC-3 + UCR-0-2 + Clearinghouse + Consortium + pre-employment drug test). Re-check the package blurb math now that UCR filing is $50; the fixed $1,700 stands.
+   - **Add `usdot-correction`** — $125 flat, separate from `mcs-150`. Scope: address, legal/business name, email, phone, operating-status, # trucks, # drivers. Required steps: carrier-identity + the correction fields.
+   - **Add `ifta-quarterly`** — $150 flat + government fee separate; a SEPARATE recurring filing, distinct from the `ifta` $175 setup.
+   - **Rename the `mcs-150` display name → "Biennial Update"** (keep the key; "MCS-150" may stay in explanatory body copy).
+   - Insurance + ELD stay informational-only (no priced filing) — verify, do not regress.
+   - After the edits, EVERY registry price must equal `services.md` (run the §E sweep against `dev/lib` + `/apply` too).
+
+2. **Remove the insurance route (platform side, mirrors §A1):** delete `dev/app/trucking-insurance-filing/` (route + `opengraph-image`), drop it from `sitemap.xml`, and add a one-hop **301 `/trucking-insurance-filing/` → `/compliance-services/`** in `dev/next.config.ts` (alongside the existing redirects). Remove internal links to it across the app.
+
+3. **Scope the find-and-fix sweep (§E) across the platform too**, not just marketing pages: the `/apply` service-selection labels, the review/pricing screen, the filings, and the **M6 email templates + PDF generators** (receipts/final emails read prices from the registry, but confirm no hardcoded `$1,350`/`$1,650`/`$100 UCR`, no "insurance filing" as a service, no "FMCSA Portal" for new registrations, no UCR-as-MC-activation).
+
+4. **ELD/insurance reframe is ALREADY DONE on main** (commit `43a1598`, orchestrator-verified). For the marketing pages, §C's ELD/insurance items are **VERIFY (find-and-fix), not re-apply** — the work order's "currently says we choose/install/configure + price chip" descriptions are STALE; confirm the live state and only change what is genuinely still wrong. `work-order-eld-insurance.md` was already closed on main; this work order does not reopen it, it absorbs the residual.
+
+5. **Parity gate:** before this is build-complete, a price/term diff between `services.md`, `dev/lib/services-registry.ts`, the `/apply` review screen, and a generated receipt must show ZERO contradictions.
