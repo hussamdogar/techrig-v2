@@ -8,7 +8,8 @@ This work order is the routed delta list. It records, per item: the client's ans
 ## Progress
 - **SEO S1-S8: ✅ DONE** — shipped as PR #7, merged to `main` (`35c002e`, 2026-06-25), orchestrator-verified (not stale: branched off `0ba17f0`; lane-clean: 16 seo/+shared/ files; parity master correct). `seo/context/services.md` is now the live pricing master + the 3 new page briefs + refund copy are on main. **Dev can now match the registry to it; Design can start DZ1.**
   - Parity note for Dev: `services.md` lists two copy-only authority-management prices that are NOT `/apply`-billable registry services and are **pre-existing** (not from this client pass): **MC reinstatement $200** and **USDOT reactivation/deactivation $125**. Do not treat their absence from the registry as a parity failure; they passed every prior gate as informational/contact copy.
-- **Dev D1-D12, Design DZ1: PENDING** (Dev may begin code-only deltas now; new-page builds after Design specs land).
+- **Design DZ1: ✅ DONE** — committed to main (`7caf5f2`), orchestrator-verified (3 shared/design/ specs; tracker omitted per §13; prices from single source; CA case on MOTUS as a past example; D10 copy honest). The 3 new pages now have both a brief and a design spec → the build-sequence gate is satisfied. Design also flagged a pre-existing §13 tracker-scope inconsistency on the older ifta-registration + mcs-150 specs (tracked as L10 in `orchestration-status.md`; non-blocking).
+- **Dev D1-D12: the sole remaining build lane.** Everything is unblocked — code-only deltas and the page-builds (D3/D4/D5/D6/D9) can all proceed.
 
 ## Locked decisions (orchestrator + owner, 2026-06-25)
 - **Package $1,700 = all-in bundle framing.** No "discount" claim. Never publish the MC government-fee figure. Frame as folding in the FMCSA application fee + the UCR government fee you would otherwise pay separately. (Owner decision; the discount-on-service-fees math no longer holds — see D1.)
