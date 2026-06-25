@@ -5,6 +5,11 @@ Source of truth: `shared/client-answers-2026-06-25.md` (the client's completed a
 
 This work order is the routed delta list. It records, per item: the client's answer, the **verified current code state** (read 2026-06-25, file:line cited), the **delta**, and the owning lane. Where it conflicts with `work-order-qa-revision.md`, this work order wins (client's latest answer supersedes the earlier owner-confirmation, per the source-of-truth precedence rule).
 
+## Progress
+- **SEO S1-S8: ✅ DONE** — shipped as PR #7, merged to `main` (`35c002e`, 2026-06-25), orchestrator-verified (not stale: branched off `0ba17f0`; lane-clean: 16 seo/+shared/ files; parity master correct). `seo/context/services.md` is now the live pricing master + the 3 new page briefs + refund copy are on main. **Dev can now match the registry to it; Design can start DZ1.**
+  - Parity note for Dev: `services.md` lists two copy-only authority-management prices that are NOT `/apply`-billable registry services and are **pre-existing** (not from this client pass): **MC reinstatement $200** and **USDOT reactivation/deactivation $125**. Do not treat their absence from the registry as a parity failure; they passed every prior gate as informational/contact copy.
+- **Dev D1-D12, Design DZ1: PENDING** (Dev may begin code-only deltas now; new-page builds after Design specs land).
+
 ## Locked decisions (orchestrator + owner, 2026-06-25)
 - **Package $1,700 = all-in bundle framing.** No "discount" claim. Never publish the MC government-fee figure. Frame as folding in the FMCSA application fee + the UCR government fee you would otherwise pay separately. (Owner decision; the discount-on-service-fees math no longer holds — see D1.)
 - **Recurring billing = manual re-invoice + reminders**, NOT Stripe subscriptions. Auto-charge only with the customer's express consent.
