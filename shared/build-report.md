@@ -136,3 +136,35 @@ Implements `shared/work-order-qa-revision.md` (client brief `seo/output/client-q
 **Parity gate — PASS:** `services.md` = `services-registry.ts` = `/apply` review = receipt, zero contradictions.
 
 **Deferred to the pre-launch QA ledger (deploy-time):** end-to-end `/apply` click-through for the two new services (`usdot-correction`, `ifta-quarterly`) with a live session; the USDOT Correction hub card renders without a dedicated page link (mirrors the existing reactivation/deactivation card pattern) and the IFTA quarterly card CTA uses the IFTA page's `/contact-us/` convention, so if dedicated routes or an `/apply` deep-link are wanted later, add them then.
+
+---
+
+## 9. Client-answer deltas D1-D13 (2026-06-26) — build-complete, not deployed
+
+Implements `shared/work-order-client-answers.md` (client answers `shared/client-answers-2026-06-25.md`), reconciled against the merged SEO master (S1-S8, `35c002e`) and Design specs (DZ1 `7caf5f2`, DZ2). `next build` clean (compiled successfully, 96 routes, no type/lint errors). This supersedes parts of §8 (`work-order-qa-revision.md` §G): the $1,700 package is now 9 items, and the UCR page shows gov brackets + a separate $50 line (not combined totals). Nothing deployed.
+
+**Registry (`dev/lib/services-registry.ts`):**
+- **D1** full-package expanded to **9 items**: `includes += ifta, irp, dq-files`; blurb + the `computePricing` line note list all 9; price stays **$1,700**; stale "contents unchanged" comment replaced with the all-in-bundle / no-"discount" framing; added `vehicles` to the package `requiredSteps` (IRP/IFTA need it).
+- **D2** DQ tiered pricing via new `calculateDqFiles` helper (1=$200, 2=$350, 3=$450, >3 = manual custom-quote, mirroring the UCR >100 path); wired into the `perDriver` branch.
+- **D5** new service `motus-migration` ($125 flat, ~1-2 week timeline) added to the `ServiceKey` union + `SERVICES`; `service-specifics` field `motus_migration_details` added to `schemas.ts` + `step-fields.tsx`. No DB migration (unconstrained `service_key`).
+- **D8** every `expectedTimeline` updated to the Q6.2 wording (Clearinghouse 5→1 day, Consortium 7→1-2, IRP/IFTA fixed→varies, USDOT/MC/BOC-3/UCR refined, etc.); verbatim parity with the `services.md` turnaround section.
+
+**New indexable money pages (built from brief + DZ1 spec, price chip from the single source, no Authority Status Tracker per §13, CTA → `/apply/?service=<key>`):**
+- **D3** `/usdot-correction/` ($125, reviewed by Adam Smith).
+- **D4** `/ifta-quarterly-filing/` ($150 + fuel tax separate, reviewed by Robert Hooke; was only a section inside `/ifta-registration/`).
+- **D5** `/motus-migration/` ($125, reviewed by Robert Hooke) — **holds the relocated California legacy case study** (S2).
+Each has its own branded `opengraph-image`. All three wired into `lib/services.ts` nav + pricing (so the sitemap + footer pick them up) and added as compliance-hub cards.
+
+**Page edits:**
+- **D6** `/ucr-registration/`: bracket table re-presented as **government fees** ($46/$138/$276/$963/$4,592/$44,836) with a separate flat **$50 Tech Rig filing fee** line (not combined totals). The `/apply` form already hides the full table (verified, unchanged).
+- **D7** `/mc-registration/`: removed the "Current FMCSA fee to be confirmed" placeholder; kept the amount-free "FMCSA application fee shown separately" wording (no MC gov-fee figure anywhere).
+- **D9** `/refund-policy/` rebuilt from the SEO copy (full/partial/non-refundable terms, no $50 processing fee, dated June 25 2026); PDF acknowledgement (`lib/pdf/generate.ts`) reworded from "final and non-refundable regardless of outcome" → "Refunds are governed by our Refund Policy at techrig.org/refund-policy/."
+- **D13 (L10)** removed the Authority Status Tracker from `/ifta-registration/` and `/mcs-150-biennial-update/` (component, import, steps const, hero collapsed to single column) per design-system §13; added the "do not reintroduce" note.
+- **S2** removed the California dismissed-MC story from `/mc-registration/` and `/mc-dot-registration/`, each now linking to `/motus-migration/` for that buyer.
+
+**Parity gate — PASS:** `services.md` = `services-registry.ts` = `/apply` review = generated receipt = marketing pages, zero contradictions. MC reinstatement $200 and USDOT reactivation $125 remain copy-only hub cards (not `/apply`-billable), which is not a parity failure (per the work order).
+
+**Owner-action / fast-follow (NOT built this pass):**
+- **D12** the provided Stripe key `mk_1TQSnGBUKzFDGSEhTE8lrbVQ` is **not a standard Stripe prefix** (`sk_`/`pk_`/`whsec_`); needs the live credentials from the owner. Receipt identity (DGR TECH RIG LLC / info@techrig.org / 30 N Gould St, Sheridan WY / no sales tax) already flows from `lib/site` + the no-tax checkout.
+- **D11** legacy `boc-3.techrig.org` import: needs the legacy DB export to assess (import-if-practical-and-editable, else preserve-as-historical). Parallel, never launch-blocking. `form.techrig.org` not in use; `boc-3.` stays live until the new flow is fully tested, then 301.
+- **D10** renewal reminders (UCR/Consortium/DQ annual + IFTA quarterly) = manual invoice + reminders, NOT Stripe subscriptions, auto-charge only with express consent. First renewals are a quarter/year out → fast-follow. Launch copy kept honest (manual reminder, never "automated").

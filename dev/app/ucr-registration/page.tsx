@@ -57,18 +57,18 @@ const ucrSteps: Step[] = [
   { label: "Renews annually", status: "Every year", state: "progress", icon: "clock" },
 ];
 
-// Bracket totals: the $50 Tech Rig filing fee plus the UCR government fee for
-// each fleet-size bracket. Bracket = number of qualifying commercial vehicles;
-// an operation running only non-CMVs stays in 0-2 even with more than two of
-// them. Re-verify the government portion against the official UCR Plan schedule
-// each registration year.
+// Government fee per fleet-size bracket (the UCR program fee), shown separately
+// from the flat $50 Tech Rig filing fee, never blended (client Q1.3 / D6).
+// Bracket = number of qualifying commercial vehicles; an operation running only
+// non-CMVs stays in 0-2 even with more than two of them. Re-verify the
+// government portion against the official UCR Plan schedule each registration year.
 const brackets = [
-  { size: "0 to 2 (and brokers / leasing)", fee: "$96" },
-  { size: "3 to 5", fee: "$188" },
-  { size: "6 to 20", fee: "$326" },
-  { size: "21 to 100", fee: "$1,013" },
-  { size: "101 to 1,000", fee: "$4,642" },
-  { size: "1,001+", fee: "$44,886" },
+  { size: "0 to 2 (and brokers / leasing)", fee: "$46" },
+  { size: "3 to 5", fee: "$138" },
+  { size: "6 to 20", fee: "$276" },
+  { size: "21 to 100", fee: "$963" },
+  { size: "101 to 1,000", fee: "$4,592" },
+  { size: "1,001+", fee: "$44,836" },
 ];
 
 // One source feeds both the visible FAQ and the FAQPage schema (verbatim parity).
@@ -213,8 +213,8 @@ export default function UcrRegistrationPage() {
             The government fee is tiered by the number of qualifying commercial
             vehicles you operate, and the brackets jump fast, so a miscount can
             cost you. Brokers and forwarders without vehicles pay the lowest
-            bracket. The totals below combine our $50 filing fee with the 2026
-            UCR government fee for each bracket:
+            bracket. Our filing fee is a flat $50 per registration, added on top
+            of the government fee for your bracket shown below:
           </p>
 
           <table className="mt-6 w-full border-collapse text-left">
@@ -224,7 +224,7 @@ export default function UcrRegistrationPage() {
                   Fleet size (vehicles)
                 </th>
                 <th className="py-2 font-display text-sm font-semibold text-ink">
-                  Total (our $50 filing + 2026 gov fee)
+                  2026 UCR government fee
                 </th>
               </tr>
             </thead>

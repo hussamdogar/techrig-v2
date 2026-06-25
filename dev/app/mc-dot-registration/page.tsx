@@ -271,17 +271,16 @@ export default function McDotRegistrationPage() {
             Why a trucking authority package beats filing piecemeal
           </h2>
 
-          {/* The page's distinct facet (CA dismissed-MC carrier, one-day
-              combined-filing speed angle), set as a quiet Steel-rule example
-              callout tied back to the hero tracker. Past result, not a promise. */}
+          {/* The CA dismissed-MC worked example moved to the MOTUS migration
+              page (client S2); keep the piecemeal argument and point that buyer
+              there. */}
           <p className="mt-4 border-l-4 border-steel pl-4 text-slate">
-            A California box-truck owner whose MC had been dismissed needed a new
-            authority application, MOTUS Portal setup, BOC-3, and UCR. We filed
-            all of it in a single day, then waited out the protest period, and he
-            is active and hiring. Doing those filings separately, in the wrong
-            order, is exactly how carriers end up at day 21 with an authority
-            that will not activate. The package exists so nothing is missed and
-            nothing waits on something you did not know you needed.
+            Filing piecemeal, in the wrong order, is exactly how carriers end up
+            at day 21 with an authority that will not activate. The package exists
+            so nothing is missed and nothing waits on something you did not know
+            you needed. Reinstating a dismissed MC, or moving an older account
+            into MOTUS, is a different path. See{" "}
+            <CrossLink href="/motus-migration/">MOTUS migration</CrossLink>.
           </p>
         </Container>
       </Section>

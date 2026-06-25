@@ -26,8 +26,11 @@ export const complianceNav: NavLink[] = [
   { slug: "/boc-3-filing/", label: "BOC-3 Filing" },
   { slug: "/ucr-registration/", label: "UCR Registration" },
   { slug: "/mcs-150-biennial-update/", label: "Biennial Update" },
+  { slug: "/usdot-correction/", label: "USDOT Correction" },
+  { slug: "/motus-migration/", label: "FMCSA Portal to MOTUS Migration" },
   { slug: "/irp-registration/", label: "IRP Registration" },
   { slug: "/ifta-registration/", label: "IFTA Registration" },
+  { slug: "/ifta-quarterly-filing/", label: "IFTA Quarterly Filing" },
   { slug: "/driver-qualification-files/", label: "Driver Qualification Files" },
   { slug: "/drug-and-alcohol-consortium/", label: "Drug & Alcohol Consortium" },
   { slug: "/fmcsa-clearinghouse-registration/", label: "FMCSA Clearinghouse" },
@@ -94,6 +97,8 @@ export const pricing: Record<string, Price> = {
   "/boc-3-filing/": { kind: "flat", amount: 100 },
   "/ucr-registration/": { kind: "from", amount: 50, govFee: true },
   "/mcs-150-biennial-update/": { kind: "flat", amount: 125 },
+  "/usdot-correction/": { kind: "flat", amount: 125 },
+  "/motus-migration/": { kind: "flat", amount: 125 },
   "/fmcsa-clearinghouse-registration/": { kind: "flat", amount: 100 },
   "/drug-and-alcohol-consortium/": { kind: "flat", amount: 150 },
   "/driver-qualification-files/": { kind: "flat", amount: 200, unit: "per driver" },
@@ -102,6 +107,7 @@ export const pricing: Record<string, Price> = {
   // separate (govFee) because they depend on mileage and jurisdictions.
   "/irp-registration/": { kind: "flat", amount: 175, govFee: true },
   "/ifta-registration/": { kind: "flat", amount: 175, govFee: true },
+  "/ifta-quarterly-filing/": { kind: "flat", amount: 150, govFee: true },
   // ELD is a partner referral with NO Tech Rig fee (client rule 2026-06-21), so
   // it has no pricing entry: the hub card renders no price chip. Insurance is
   // coordinate-only and its page is removed, so it has no entry either.

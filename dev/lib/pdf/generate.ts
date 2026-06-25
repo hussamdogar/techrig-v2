@@ -73,7 +73,7 @@ const ACK_PARAGRAPHS = (fullName: string): string[] => [
   `By submitting this form and application to Tech Rig, I certify that all information I have provided is accurate and truthful. I authorize Tech Rig to act on my behalf in all matters related to FMCSA registration, including applying for a USDOT number, MC number, and any associated filings or compliance actions.`,
   `I authorize Tech Rig to create and manage a login.gov account on my behalf to facilitate the processing of my FMCSA registration. I grant Tech Rig permission to communicate with the FMCSA using the information I have provided and to represent my interests as necessary to complete the registration.`,
   `I agree to be contacted by Tech Rig via phone, email, and SMS for updates regarding my application and related services. Message and data rates may apply. I may reply STOP to unsubscribe.`,
-  `I understand and accept that once my application process has started, all service fees are final and non-refundable, regardless of the outcome of the application or any decision made by the FMCSA.`,
+  `I understand that refunds are governed by our Refund Policy at techrig.org/refund-policy/.`,
   `I acknowledge that I have reviewed and accepted Tech Rig's Terms of Service, Privacy Policy, and Refund Policy, and the Power of Attorney provided by Tech Rig, granting Tech Rig the authority to act on my behalf as specified.`,
 ];
 

@@ -238,10 +238,17 @@ export function StepFields({
               <input id="ifta_quarter" name="ifta_quarter" placeholder="e.g. Q1 2026" defaultValue={v("ifta_quarter")} className={inputClass} />
             </div>
           ) : null}
+          {selected.includes("motus-migration") ? (
+            <div>
+              <Label htmlFor="motus_migration_details">What is happening with your MOTUS or FMCSA Portal account</Label>
+              <input id="motus_migration_details" name="motus_migration_details" placeholder="e.g. cannot claim USDOT, need Company Official assigned, MC missing in MOTUS" defaultValue={v("motus_migration_details")} className={inputClass} />
+            </div>
+          ) : null}
           {!selected.includes("boc-3") &&
           !selected.includes("mcs-150") &&
           !selected.includes("usdot-correction") &&
-          !selected.includes("ifta-quarterly") ? (
+          !selected.includes("ifta-quarterly") &&
+          !selected.includes("motus-migration") ? (
             <p className="text-slate">No additional details needed for the services you selected.</p>
           ) : null}
         </>

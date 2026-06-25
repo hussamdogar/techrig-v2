@@ -78,7 +78,7 @@ const packageItems: { label: string; href?: string; icon: IconName }[] = [
   { label: "IFTA", href: "/ifta-registration/", icon: "routeNode" },
 ];
 
-// The service-card grid (14 cards), in brief order. Descriptions are transcribed
+// The service-card grid, in brief order. Descriptions are transcribed
 // from the brief; prices come from the single-source map unless a card carries
 // its own `price` (the bundle-less services that have no per-slug pricing entry).
 // `href` is omitted for services with no dedicated page (rendered link-free, so
@@ -132,9 +132,16 @@ const serviceCards: {
   {
     href: "/ifta-registration/",
     title: "IFTA",
-    description: "Fuel-tax registration and quarterly filing for interstate miles.",
+    description: "One-time fuel-tax registration setup for interstate miles.",
     icon: "routeNode",
     govFeeNote: "+ state fees",
+  },
+  {
+    href: "/ifta-quarterly-filing/",
+    title: "IFTA quarterly filing",
+    description: "The recurring quarterly fuel-tax return, prepared and filed from your mileage and fuel records.",
+    icon: "routeNode",
+    govFeeNote: "+ fuel tax due",
   },
   {
     href: "/fmcsa-clearinghouse-registration/",
@@ -167,13 +174,18 @@ const serviceCards: {
     icon: "filing",
   },
   {
-    // No dedicated page yet, so it carries its own price and a link-free render
-    // (same pattern as the reactivation cards below). Scope and the separation
-    // from the Biennial Update come straight from the client QA brief.
+    // Dedicated page now exists (client D3); price reads from the single source.
+    // Scope and the separation from the Biennial Update come from the QA brief.
+    href: "/usdot-correction/",
     title: "USDOT Correction",
     description: "Correct your USDOT record: address, legal or business name, email, phone, operating status, and truck and driver counts. Separate from the Biennial Update.",
     icon: "stamp",
-    price: { kind: "flat", amount: 125 },
+  },
+  {
+    href: "/motus-migration/",
+    title: "FMCSA Portal to MOTUS Migration",
+    description: "Move a legacy FMCSA Portal account into MOTUS: claim your USDOT, assign a Company Official, and clear verification or missing-authority issues.",
+    icon: "stamp",
   },
   {
     href: "/trucking-llc/",

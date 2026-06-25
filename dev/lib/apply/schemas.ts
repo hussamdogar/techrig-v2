@@ -69,6 +69,7 @@ export const serviceSpecificsSchema = z.object({
   mcs150_update_reason: optionalText,
   usdot_correction_details: optionalText,
   ifta_quarter: optionalText,
+  motus_migration_details: optionalText,
 });
 
 export const STEP_SCHEMAS: Partial<Record<StepKey, z.ZodTypeAny>> = {

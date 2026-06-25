@@ -238,18 +238,14 @@ export default function McRegistrationPage() {
             How to get an MC number with Tech Rig
           </h2>
 
-          {/* This page's unique worked example. Real past case, framed as such:
-              no metrics, no celebratory styling, no guaranteed timeline. */}
+          {/* The dismissed-MC / legacy-account worked example now lives on the
+              MOTUS migration page (client S2); point that buyer there instead. */}
           <p className="mt-4 border-l-4 border-steel pl-4 text-slate">
-            A California box-truck owner already had a USDOT and MC, but he had
-            missed his insurance and BOC-3 deadline, so FMCSA dismissed his MC.
-            He wanted it reinstated to keep a one-year-old authority for an
-            Amazon Relay requirement. We had to explain that a dismissed MC
-            cannot simply be reinstated: we filed a brand-new operating
-            authority application (he keeps the old MC number, but the age clock
-            resets), set up his MOTUS Portal, and filed the MC application,
-            BOC-3, and UCR in one day, then waited out the protest period. He is
-            active now and has hired a driver.
+            Already had an MC that was dismissed, or an older account stuck
+            outside MOTUS? That is a different path. A dismissed MC generally
+            cannot be reinstated, so we file a new authority and get your record
+            claimed in MOTUS. See{" "}
+            <CrossLink href="/motus-migration/">MOTUS migration</CrossLink>.
           </p>
 
           <p className="mt-8 font-medium text-ink">What you get with us:</p>
@@ -324,8 +320,7 @@ export default function McRegistrationPage() {
             </li>
             <li>
               <span className="font-medium text-ink">Government fee:</span> any
-              FMCSA application fee is shown separately. Current FMCSA fee to be
-              confirmed.
+              FMCSA application fee is shown separately.
             </li>
             <li>
               Want it all handled at once? The{" "}

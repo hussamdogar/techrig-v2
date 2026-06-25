@@ -29,6 +29,7 @@ export type ServiceKey =
   | "ucr"
   | "mcs-150"
   | "usdot-correction"
+  | "motus-migration"
   | "clearinghouse"
   | "consortium"
   | "dq-files"
@@ -90,7 +91,7 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     priceKind: "flat",
     price: 300,
     requiredSteps: ["carrier-identity", "business-details", "operations"],
-    expectedTimeline: "1 to 2 business days",
+    expectedTimeline: "Filed within 24 hours; active immediately after a successful submission",
     isNewRegistration: true,
   },
   "mc-authority": {
@@ -101,7 +102,7 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     price: 600,
     govFeeNote: "+ FMCSA application fee, shown separately",
     requiredSteps: ["carrier-identity", "business-details", "operations"],
-    expectedTimeline: "Activates after the 21-day federal protest period",
+    expectedTimeline: "Filed within 24 hours; activates after the 21-day protest period, and requires BOC-3 and insurance",
     isNewRegistration: true,
   },
   "boc-3": {
@@ -111,7 +112,7 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     priceKind: "flat",
     price: 100,
     requiredSteps: ["carrier-identity", "service-specifics"],
-    expectedTimeline: "24 hours on working days",
+    expectedTimeline: "Same business day when ordered with your information during business hours",
   },
   ucr: {
     key: "ucr",
@@ -120,7 +121,7 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     priceKind: "ucr",
     govFeeNote: "+ government fee by power-unit bracket, shown separately",
     requiredSteps: ["carrier-identity", "ucr-details"],
-    expectedTimeline: "1 to 2 business days",
+    expectedTimeline: "Same day when you are in the UCR database; a new USDOT may take 1 to 2 days to appear",
   },
   // Display label is "Biennial Update" (client QA 2026-06); the key stays mcs-150
   // and "MCS-150" may still appear in explanatory body copy. The biennial filing
@@ -132,7 +133,8 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     priceKind: "flat",
     price: 125,
     requiredSteps: ["carrier-identity", "service-specifics"],
-    expectedTimeline: "7 working days",
+    expectedTimeline:
+      "Normally same day; the same 7 to 10 business-day FMCSA delay applies if record linking is needed",
   },
   // Record correction, separate from the Biennial Update (client QA 2026-06).
   "usdot-correction": {
@@ -143,7 +145,19 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     priceKind: "flat",
     price: 125,
     requiredSteps: ["carrier-identity", "service-specifics"],
-    expectedTimeline: "7 working days",
+    expectedTimeline:
+      "Normally same day when MOTUS is active and your USDOT is linked; FMCSA linking or support can take up to 7 to 10 business days",
+  },
+  // Help migrating a legacy FMCSA Portal account into MOTUS (client answers 2026-06-25).
+  "motus-migration": {
+    key: "motus-migration",
+    name: "FMCSA Portal to MOTUS Migration",
+    blurb:
+      "Move your legacy FMCSA Portal account into MOTUS: claim your USDOT, assign a Company Official, and clear verification or missing-authority issues.",
+    priceKind: "flat",
+    price: 125,
+    requiredSteps: ["carrier-identity", "service-specifics"],
+    expectedTimeline: "Approximately 1 to 2 weeks",
   },
   clearinghouse: {
     key: "clearinghouse",
@@ -152,7 +166,7 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     priceKind: "flat",
     price: 100,
     requiredSteps: ["carrier-identity", "drivers"],
-    expectedTimeline: "5 working days",
+    expectedTimeline: "Within 1 business day",
   },
   consortium: {
     key: "consortium",
@@ -161,16 +175,16 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     priceKind: "flat",
     price: 150,
     requiredSteps: ["carrier-identity", "drivers"],
-    expectedTimeline: "7 working days",
+    expectedTimeline: "Within 1 to 2 business days",
   },
   "dq-files": {
     key: "dq-files",
     name: "Driver qualification files",
-    blurb: "Compliant DQ files, built and kept audit-ready. Priced per driver.",
+    blurb: "Compliant DQ files, built and kept audit-ready. Tiered by driver count.",
     priceKind: "perDriver",
     price: 200,
     requiredSteps: ["carrier-identity", "drivers"],
-    expectedTimeline: "7 working days",
+    expectedTimeline: "Within 1 to 3 business days after documents are received",
   },
   "drug-test": {
     key: "drug-test",
@@ -179,7 +193,7 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     priceKind: "flat",
     price: 100,
     requiredSteps: ["carrier-identity", "drivers"],
-    expectedTimeline: "7 working days",
+    expectedTimeline: "Scheduled after consortium enrollment, based on carrier and driver availability",
   },
   irp: {
     key: "irp",
@@ -189,7 +203,7 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     price: 175,
     govFeeNote: "+ state registration fees by mileage and states, shown separately",
     requiredSteps: ["carrier-identity", "vehicles"],
-    expectedTimeline: "1 to 2 business days",
+    expectedTimeline: "Varies by state and document availability",
   },
   ifta: {
     key: "ifta",
@@ -199,7 +213,7 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     price: 175,
     govFeeNote: "+ state fees, shown separately",
     requiredSteps: ["carrier-identity", "vehicles"],
-    expectedTimeline: "1 to 2 business days",
+    expectedTimeline: "Varies by state and document availability",
   },
   // Recurring quarterly return, distinct from the one-time ifta setup (client QA 2026-06).
   "ifta-quarterly": {
@@ -210,7 +224,7 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     price: 150,
     govFeeNote: "+ government fee, shown separately",
     requiredSteps: ["carrier-identity", "service-specifics"],
-    expectedTimeline: "Filed each quarter by the IFTA deadline",
+    expectedTimeline: "Within 1 to 3 business days after complete mileage and fuel records",
   },
   "trucking-llc": {
     key: "trucking-llc",
@@ -220,22 +234,36 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     requiredSteps: ["carrier-identity", "business-details"],
     expectedTimeline: "Varies by state",
   },
-  // The advertised full-setup bundle (M3-R1, services.md $1,700). Fixed price;
-  // selecting it includes its constituents (no double-charge). The price already
-  // covers the MC FMCSA fee and the UCR 0-2 government fee. Contents unchanged
-  // after the 2026-06 UCR-fee change (owner-confirmed: the fixed $1,700 stands).
+  // The all-in setup bundle (client answers 2026-06-25; services.md $1,700, 9
+  // items). Fixed price; selecting it includes its constituents (no double-charge).
+  // It folds in the MC FMCSA application fee and the UCR 0-2 government fee a
+  // carrier would otherwise pay separately. Framing rule: all-in bundle, never a
+  // "discount" claim (the sum of listed service fees is ~$1,650, so the only
+  // saving is the included government fees, which are not published).
   "full-package": {
     key: "full-package",
     name: "Full compliance package",
-    blurb: "MC authority, BOC-3, UCR, Clearinghouse, consortium, and the drug test, at a fixed $1,700.",
+    blurb:
+      "MC authority and USDOT, BOC-3, UCR, Clearinghouse, consortium, the drug test, IFTA setup, IRP setup, and one DQ file, at a fixed $1,700.",
     priceKind: "package",
     price: 1700,
-    includes: ["mc-authority", "boc-3", "ucr", "clearinghouse", "consortium", "drug-test"],
+    includes: [
+      "mc-authority",
+      "boc-3",
+      "ucr",
+      "clearinghouse",
+      "consortium",
+      "drug-test",
+      "ifta",
+      "irp",
+      "dq-files",
+    ],
     govFeesIncluded: "Includes the MC FMCSA fee and the UCR 0-2 government fee, no separate add.",
     requiredSteps: [
       "carrier-identity",
       "business-details",
       "operations",
+      "vehicles",
       "ucr-details",
       "service-specifics",
       "drivers",
@@ -291,6 +319,22 @@ export function calculateUcr(powerUnits: number | null | undefined): UcrResult {
   if (n <= 20) return { tier: "6-20", serviceFee: 50, govFee: 276, manualReview: false };
   if (n <= 100) return { tier: "21-100", serviceFee: 50, govFee: 963, manualReview: false };
   return { tier: "101+", serviceFee: null, govFee: null, manualReview: true }; // >100 = manual
+}
+
+// ---- DQ file tiered pricing (client answers 2026-06-25) ----
+// Flat totals by driver count: 1 = $200, 2 = $350, 3 = $450; more than 3 routes
+// to a custom quote (manual path, mirroring UCR over 100 units). Drives the
+// `perDriver` priceKind, which only `dq-files` uses.
+export function calculateDqFiles(driverCount: number | null | undefined): {
+  amount: number | null;
+  manualReview: boolean;
+  note: string;
+} {
+  const n = Math.max(1, Number(driverCount ?? 1) || 1);
+  if (n === 1) return { amount: 200, manualReview: false, note: "1 driver" };
+  if (n === 2) return { amount: 350, manualReview: false, note: "2 drivers, flat total" };
+  if (n === 3) return { amount: 450, manualReview: false, note: "3 drivers, flat total" };
+  return { amount: null, manualReview: true, note: "More than 3 drivers: custom quote" };
 }
 
 // ---- Pricing computation (server-side; display in M3, charged in M4) ----
@@ -363,7 +407,7 @@ export function computePricing(selected: ServiceKey[], ctx: PricingContext): Pri
       expectedTimeline: pkg.expectedTimeline,
       govFeeNote: pkg.govFeesIncluded ?? null,
       manualReview: false,
-      note: "Includes MC authority, BOC-3, UCR (0-2), Clearinghouse, consortium, and the drug test",
+      note: "Includes MC authority and USDOT, BOC-3, UCR (0-2), Clearinghouse, consortium, the drug test, IFTA setup, IRP setup, and one DQ file",
     });
     // UCR bracket above 0-2: disclose the government-fee difference, never charge
     // or silently absorb it (M3-R1 §4).
@@ -421,8 +465,10 @@ export function computePricing(selected: ServiceKey[], ctx: PricingContext): Pri
         note = "Included with MC authority";
       }
     } else if (def.priceKind === "perDriver") {
-      amount = (def.price ?? 0) * driverCount;
-      note = `${driverCount} driver${driverCount === 1 ? "" : "s"} × $${def.price}`;
+      const dq = calculateDqFiles(driverCount);
+      amount = dq.amount;
+      manualReview = dq.manualReview;
+      note = dq.note;
     } else if (def.priceKind === "ucr") {
       ucrTier = ucr.tier;
       amount = ucr.serviceFee;

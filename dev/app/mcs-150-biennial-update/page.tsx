@@ -2,10 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
-import {
-  AuthorityStatusTracker,
-  type Step,
-} from "@/components/authority-status-tracker";
 import { PriceChip } from "@/components/ui/price-chip";
 import { FaqAccordion, type Faq } from "@/components/faq-accordion";
 import { ReviewedBy } from "@/components/reviewed-by";
@@ -42,25 +38,9 @@ export const metadata: Metadata = {
   },
 };
 
-// Tracker scoped to where MCS-150 sits: upkeep on an already-active authority.
-// The journey resolves to "Authority active" as the maintained state, then frames
-// the biennial MCS-150 as the recurring keep-active action (status-progress). No
-// guaranteed dates; the deactivation risk reads as a state, not a countdown.
-const mcs150Steps: Step[] = [
-  { label: "Authority active", status: "Active", state: "active", icon: "checkSeal" },
-  {
-    label: "MCS-150 update filed",
-    status: "Filed",
-    state: "filed",
-    icon: "stamp",
-  },
-  {
-    label: "Renews every two years",
-    status: "Biennial",
-    state: "progress",
-    icon: "clock",
-  },
-];
+// Per design-system Section 13 (DZ2), the Authority Status Tracker is omitted
+// here: the Biennial Update is record upkeep, not an authority-activation page,
+// so it asserts no authority-lifecycle status. Do not reintroduce the tracker.
 
 // One source feeds both the visible FAQ and the FAQPage schema (verbatim parity).
 const faqs: Faq[] = [
@@ -118,7 +98,7 @@ export default function Mcs150BiennialUpdatePage() {
               { name: "MCS-150 Update" },
             ]}
           />
-          <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="mt-6 max-w-3xl">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
                 MCS-150 Update and Biennial Filing
@@ -143,8 +123,6 @@ export default function Mcs150BiennialUpdatePage() {
                 <ReviewedBy name="Adam Smith" />
               </div>
             </div>
-
-            <AuthorityStatusTracker steps={mcs150Steps} />
           </div>
         </Container>
       </Section>
