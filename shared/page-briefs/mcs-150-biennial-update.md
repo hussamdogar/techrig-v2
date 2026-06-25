@@ -49,7 +49,7 @@ Real worked example (publishable, distinct to this page): a New Jersey power-onl
 **Mid-page CTA:** text link "Update my MCS-150".
 
 ### H2: MOTUS, PINs, and why updates get stuck
-Short, demonstrates expertise. FMCSA's move to the MOTUS system has made some updates harder than they used to be. To claim or change an existing USDOT online you may need a USDOT PIN, and FMCSA no longer emails PINs the way it once did, which can leave carriers waiting on a mailed letter. When the online path is blocked, we know the workarounds, including paper filings and triggering an official FMCSA callback so a live agent can verify your identity and unlock the record. This is daily work for us.
+Short, demonstrates expertise. FMCSA's move to the MOTUS system has made some updates harder than they used to be. To claim or change an existing USDOT online you may need a USDOT PIN, which FMCSA mails to the carrier, so there can be a wait for it to arrive. When the online path is blocked, we know the workarounds, including paper filings and triggering an official FMCSA callback so a live agent can verify your identity and unlock the record. This is daily work for us. (Do not state that FMCSA stopped mailing PINs; it still does.)
 
 ### H2: MCS-150 update FAQ
 FAQPage schema, Grade 8:

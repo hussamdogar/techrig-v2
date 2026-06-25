@@ -4,7 +4,7 @@
 - **Action:** NEW (HUB). **Bucket:** 1 (money). **Intent:** commercial / BOFU.
 - **Primary:** dot compliance services (880/KD~0). **Secondaries:** trucking compliance services (320), trucking compliance (320/11), trucking compliance company (70/3), trucking authority (880).
 - **Word target:** 900 to 1,200 (category hub, not a deep filing page).
-- **Role:** the front door to the compliance silo. Links to every filing page + the bundle. Presents the full $1,350 package as the hero offer.
+- **Role:** the front door to the compliance silo. Links to every filing page + the bundle. Presents the full $1,700 package as the hero offer.
 
 ## Title tag (52 chars)
 `DOT Compliance Services for Trucking | Tech Rig`
@@ -28,7 +28,7 @@ Getting a truck on the road is not one filing. It is a sequence, and any missed 
 
 ### H2: The full compliance package
 One paragraph + a list. Lead:
-Most new carriers do not want to assemble this piece by piece. Our full compliance package covers what it takes to stand up a motor carrier and onboard your first driver, for a fixed $1,350. You can also buy any service on its own. The package price already includes the government fees for your MC number and your UCR in the 0 to 2 vehicle bracket. IRP and IFTA are the exception: those government fees depend on your mileage and states, so we calculate them once you share those details.
+Most new carriers do not want to assemble this piece by piece. Our full compliance package covers what it takes to stand up a motor carrier and onboard your first driver, for a fixed $1,700. You can also buy any service on its own. The package price already includes the government fees for your MC number and your UCR in the 0 to 2 vehicle bracket. IRP and IFTA are the exception: those government fees depend on your mileage and states, so we calculate them once you share those details.
 
 Package contents (each item links to its page on a 1 to 3 word anchor):
 - [USDOT number](/dot-registration/)

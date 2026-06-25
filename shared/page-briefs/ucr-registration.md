@@ -36,24 +36,24 @@ Note: Not every operation owes UCR the same way. Purely intrastate carriers and 
 ### H2: How UCR fees work (and why brackets matter)
 The government fee is tiered by the number of commercial vehicles you operate, and the brackets jump fast, so a miscount can cost you. Brokers and forwarders without vehicles pay the lowest bracket. The official 2026 UCR fees (the government portion, separate from our service fee) are:
 
-| Fleet size (vehicles) | 2026 UCR government fee |
-|---|---|
-| 0-2 (and brokers/leasing) | $46 |
-| 3-5 | $138 |
-| 6-20 | $276 |
-| 21-100 | $963 |
-| 101-1,000 | $4,592 |
-| 1,001+ | $44,836 |
+Our pricing is a flat **$50 filing fee plus the applicable UCR government fee**. The total per bracket:
 
-(2026 registration year; fees were unchanged from 2025. Source: the UCR Plan fee-bracket schedule. Dev/SEO: re-verify against the official schedule each registration year and update.)
+| Bracket (qualifying CMVs) | Government fee | Total (with $50 filing) |
+|---|---|---|
+| 0-2 | $46 | $96 |
+| 3-5 | $138 | $188 |
+| 6-20 | $276 | $326 |
+| 21-100 | $963 | $1,013 |
+| 101-1,000 | $4,592 | $4,642 |
+| 1,001+ | $44,836 | $44,886 |
 
-What this means for you: the most common mistake we fix is a carrier who paid the wrong bracket, either overpaying or underpaying and getting flagged. We confirm your correct bracket first, then file.
+The bracket is the number of qualifying trucks (CMVs). A business operating only non-CMVs stays in the 0-2 bracket even with more than two of them (for example, 20 non-CMVs still use the $46 bracket). Annual renewal. (Re-verify the government schedule each registration year.)
+
+What this means for you: the most common mistake we fix is a carrier who paid the wrong bracket. We confirm your correct bracket first, then file. **UCR is a separate annual obligation; it is not required to activate your MC authority.**
 
 ### H2: What our UCR registration service costs
-Plain pricing, fees separated:
-- **Tech Rig service fee:** from $100 to file your UCR.
-- **BOC-3 plus UCR together:** $200 for carriers in the 0 to 2 vehicle bracket, a common new-carrier combination.
-- **Government UCR fee:** set by your fleet bracket and paid to the program, shown to you separately before you pay.
+- **Tech Rig filing fee:** $50.
+- **Government UCR fee:** by bracket (table above), paid to the program and shown separately before you pay.
 
 We do not advertise one flat UCR price for every carrier, because the government fee genuinely depends on your fleet size. You see both numbers up front.
 
