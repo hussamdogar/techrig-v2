@@ -18,9 +18,9 @@ Primary "llc for trucking company" in: title (as "LLC for your trucking company"
 
 ### H1: Form an LLC for Your Trucking Company
 **Hero lede:**
-Most carriers start their company as an LLC, and for good reason: it separates your business from your personal assets and gives you the clean entity that your authority, insurance, and bank account all attach to. Set the entity up wrong, or with details that do not match your FMCSA filings, and you create problems that surface later. Tech Rig forms an LLC for your trucking company and gets your EIN, so the foundation is right before you file for authority.
+Most carriers start their company as an LLC, and for good reason: it separates your business from your personal assets and gives you the clean entity that your authority, insurance, and bank account all attach to. Tech Rig does not form LLCs in-house; we connect you with our LLC formation partner, Inc Authority, so the foundation is set right before you file for authority, and then we line your USDOT and MC filings up to match.
 
-**Primary CTA (above fold):** button "Form my trucking LLC" → intake form. Until confirmed, route to `/contact-us/`. [VERIFY route.]
+**Primary CTA (above fold):** button "Form your LLC with our partner" → Inc Authority referral link `https://goto.incauthority.com/QY2keP` (external; `target="_blank" rel="noopener"`; disclose as a partner/referral link).
 
 ### H2: Why form an LLC for your trucking company
 - **Liability separation.** An LLC helps keep your personal assets separate from business risk.
@@ -28,13 +28,12 @@ Most carriers start their company as an LLC, and for good reason: it separates y
 - **Credibility with brokers and factoring.** A registered company is the baseline most brokers and factoring partners expect.
 The entity decision also interacts with your authority type. Choosing the wrong setup, like registering in a way that does not match how you actually operate, is a real and costly mistake we have had to correct for carriers.
 
-### H2: What our LLC for trucking company setup includes
-- We form your LLC in your chosen state.
-- We obtain your EIN (your federal tax ID).
-- We make sure the company details are consistent with the FMCSA filings that come next, so your [USDOT](/dot-registration/) and [MC authority](/mc-registration/) line up cleanly.
-- We hand off straight into the rest of your setup if you want it done as one package.
+### H2: How LLC formation works with Tech Rig
+- We refer you to our LLC formation partner, Inc Authority, who forms your LLC in your chosen state.
+- They handle the formation and your EIN; you set it up directly with them through our referral link.
+- We then make sure the company details match the FMCSA filings that come next, so your [USDOT](/dot-registration/) and [MC authority](/mc-registration/) line up cleanly.
 
-**Price line:** LLC formation pricing depends on your state and scope. [Contact us for a quote](/contact-us/). State filing fees are separate and set by your state. (Do not publish a flat LLC price until confirmed.)
+**Price line:** LLC formation is handled by our partner (Inc Authority); pricing depends on your state and scope, so it is "Contact for quote" / set by the partner. State filing fees are separate. No flat Tech Rig LLC price is published.
 
 ### H2: LLC, then authority: the right order
 Forming the company is step one. Then comes your [USDOT number](/dot-registration/), [MC authority](/mc-registration/), [BOC-3](/boc-3-filing/), insurance, and [UCR](/ucr-registration/). Doing them in order, with matching details, is what keeps your authority from stalling. See the full path in our [guide to starting a trucking company](/how-to-start-a-trucking-company/), or have us handle the [full setup](/compliance-services/).

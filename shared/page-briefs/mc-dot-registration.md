@@ -38,14 +38,14 @@ Need driver compliance and interstate filings too (DQ files, Clearinghouse, cons
 - The complete setup with driver and interstate compliance is the [$1,350 full package](/compliance-services/), which already includes the MC and UCR (0-2 bracket) government fees.
 
 ### H2: Why a trucking authority package beats filing piecemeal
-Real worked example (publishable, distinct facet): a California box-truck owner whose MC had been dismissed needed a new authority application, FMCSA portal setup, BOC-3, and UCR. We filed all of it in a single day, then waited out the protest period, and he is active and hiring. Doing those filings separately, in the wrong order, is exactly how carriers end up at day 21 with an authority that will not activate. The package exists so nothing is missed and nothing waits on something you did not know you needed.
+Filing the pieces separately, in the wrong order, is exactly how carriers reach day 21 with an authority that still will not activate, because the BOC-3 or insurance filing was missing. The package exists so nothing is missed and nothing waits on a step you did not know you needed. (The dismissed-authority and legacy-account scenarios are handled separately by our [MOTUS migration](/motus-migration/) service.)
 
 ### H2: Trucking authority package FAQ
 FAQPage schema:
 - "What is the difference between a USDOT and an MC number?" The USDOT number identifies your operation; the MC number is your authority to haul regulated freight for hire. Many interstate carriers need both. See [USDOT](/dot-registration/) and [MC authority](/mc-registration/).
 - "Do I need the package, or can I buy one filing?" You can buy any filing on its own. The package is for new carriers who want the whole authority handled together so the pieces line up.
 - "How long until I am active?" After filing, FMCSA requires a mandatory 21-day protest period, and activation depends on your insurance and BOC-3 being in. We do not promise a date; we make sure nothing on your side delays it.
-- "Can you fix a dismissed or stalled authority?" Yes. We file new authority applications and untangle stalled ones regularly.
+- "Can you fix a dismissed or stalled authority?" Yes, that is our [MOTUS migration](/motus-migration/) service: we file new authority applications and untangle stalled or legacy-portal accounts regularly.
 
 ### Closing CTA band
 "Get the whole authority handled, in the right order. Start your package." Button "Get my authority package".
@@ -62,7 +62,7 @@ Hub (prominent), pillar, DOT/MC pages (lateral "get them together"), home.
 - `FAQPage`.
 
 ## Proof / claims discipline
-- No guaranteed timelines. Dismissed-MC example reused only as a different facet (one-day filing speed); ensure sentences differ from `/mc-registration/` to satisfy the duplicate-string rule.
+- No guaranteed timelines. The dismissed-MC worked example was removed from this page (relocated to `/motus-migration/`, S2 2026-06-25); this page is research-led and routes migration intent to the MOTUS page.
 - Do not invent a bundle price; mark `[VERIFY]`.
 
 ## Reviewed-by
@@ -73,4 +73,4 @@ Hub (prominent), pillar, DOT/MC pages (lateral "get them together"), home.
 - Preserve ad-conversion tracking on this repurposed URL.
 
 ## Uniqueness
-Lead facet = the one-day combined filing for the CA dismissed-MC carrier (speed/sequence angle), worded differently from the `/mc-registration/` telling of the same client.
+Lead = the "filed in the right order" sequencing angle; no client worked example here (the CA dismissed-MC story moved to `/motus-migration/`).

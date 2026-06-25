@@ -10,13 +10,13 @@ One brief for the four existing state pages and the repeatable template. These p
 - **Reuse the national money pages**, do not duplicate their content. The state page routes to `/dot-registration/`, `/mc-registration/`, `/compliance-services/`, etc. State page adds only the state-specific layer.
 - **Uniqueness:** each state page MUST lead with a different state-specific fact and a different worked example or local detail. No shared 8+ word sentences across states (these are the highest duplication risk on the site, so write each state's intro and nuances independently).
 - **Title** ≤60; **meta** 150-160 with the state primary.
-- **Claims:** no fabricated state market statistics (e.g. the old Texas "$1.6 trillion freight/yr" must be sourced or removed). No guaranteed timelines.
+- **Claims:** no state market statistics unless a reliable source is cited. Per client Q4.2/S5 (2026-06-25), the old Texas "$1.6 trillion freight/yr" figure is REMOVED; use general wording instead, e.g. "Texas is one of the largest freight and trucking markets in the United States." No guaranteed timelines.
 
 ## Per-page table
 
 | URL | Primary | Title tag | State-specific lead (must differ) |
 |---|---|---|---|
-| `/tech-rig-dispatch-texas/` | how to start a trucking company in texas (50) | `Start a Trucking Company in Texas \| Tech Rig` | Texas intrastate vs interstate authority nuance; large in-state freight base. Remove/￼source the old "$1.6 trillion" stat. [VERIFY any stat.] |
+| `/tech-rig-dispatch-texas/` | how to start a trucking company in texas (50) | `Start a Trucking Company in Texas \| Tech Rig` | Texas intrastate vs interstate authority nuance. The "$1.6 trillion" stat is REMOVED (S5); use "one of the largest freight and trucking markets in the United States." |
 | `/tech-rig-dispatch-california/` | how to start a trucking company in california (20) | `Start a Trucking Company in California \| Tech Rig` | California-specific registration/regulatory environment (e.g. CARB context) at a high, accurate level. [VERIFY any regulatory claim.] Real CA box-truck client context can anchor it (distinct wording). |
 | `/tech-rig-dispatch-new-york/` | how to start a trucking company in new york | `Start a Trucking Company in New York \| Tech Rig` | NY/Northeast operating context; HUT (highway use tax) mention if accurate. [VERIFY.] |
 | `/tech-rig-dispatch-florida/` | how to start a trucking company in florida | `Start a Trucking Company in Florida \| Tech Rig` | Florida operating context; port/import freight angle if accurate. [VERIFY.] |

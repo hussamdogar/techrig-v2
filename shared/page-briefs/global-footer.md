@@ -16,18 +16,20 @@ Header links to the hub `/compliance-services/`. Then list ALL items:
 - [USDOT Registration](/dot-registration/)
 - [MC Authority](/mc-registration/)
 - [BOC-3 Filing](/boc-3-filing/)
-- [Insurance Filing](/trucking-insurance-filing/)
 - [UCR Registration](/ucr-registration/)
-- [MCS-150 Update](/mcs-150-biennial-update/)
+- [Biennial Update](/mcs-150-biennial-update/)
+- [USDOT Correction](/usdot-correction/)
+- [MOTUS Migration](/motus-migration/)
 - [IRP Registration](/irp-registration/)
 - [IFTA Registration](/ifta-registration/)
+- [IFTA Quarterly Filing](/ifta-quarterly-filing/)
 - [Driver Qualification Files](/driver-qualification-files/)
 - [Drug & Alcohol Consortium](/drug-and-alcohol-consortium/)
 - [FMCSA Clearinghouse](/fmcsa-clearinghouse-registration/)
 - [ELD Services](/eld-services/)
 - [Trucking LLC](/trucking-llc/)
 
-(15 links. If a single column is too long visually, split into two sub-columns under one "Compliance Services" header. Order = the build/priority order, hub and bundle first.)
+(No "Insurance Filing" link — that page was removed. ~17 links; if the column is long, split into two sub-columns under one "Compliance Services" header. Order = build/priority order.)
 
 ### Column 2: Dispatch Services
 Header links to the hub `/services/`. Then:

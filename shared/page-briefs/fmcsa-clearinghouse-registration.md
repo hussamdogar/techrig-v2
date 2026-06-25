@@ -18,7 +18,7 @@ Primary "fmcsa clearinghouse registration" in: title (yes), first paragraph (yes
 
 ### H1: FMCSA Clearinghouse Registration
 **Hero lede:**
-The FMCSA Clearinghouse is the federal database of CDL drug and alcohol violations, and carriers are required to register and run the right queries on their drivers. New carriers often have it on their setup list without knowing exactly what it does or how it connects to their testing program. Tech Rig handles your FMCSA Clearinghouse registration and ties it to your [consortium](/drug-and-alcohol-consortium/) so the whole driver-compliance picture is in place.
+The FMCSA Clearinghouse is the federal database of CDL drug and alcohol violations, and carriers are required to register and run the right queries on their drivers. New carriers often have it on their setup list without knowing exactly what it does or how it connects to their testing program. DGR Tech Rig LLC is registered as a C/TPA (consortium/third-party administrator) with the FMCSA Drug and Alcohol Clearinghouse, so we handle your Clearinghouse registration and tie it to your [consortium](/drug-and-alcohol-consortium/) and [pre-employment drug testing](/drug-and-alcohol-consortium/). New CDL drivers, including owner-operators, must complete the pre-employment drug-testing process before performing safety-sensitive work.
 
 **Primary CTA (above fold):** button "Register with the Clearinghouse" → intake form. Until confirmed, route to `/contact-us/`. [VERIFY route.]
 

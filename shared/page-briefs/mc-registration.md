@@ -36,10 +36,10 @@ Numbered, Grade 8:
 5. Get your insurance filed with FMCSA by your insurer.
 6. Clear the mandatory 21-day protest period, after which the authority can activate if everything else is in place.
 
-The trap: carriers reach the end of the 21-day window and discover their authority still will not activate, because the BOC-3, the insurance filing, or the UCR was missing or wrong. Submitting the application is not the same as being ready to operate.
+The trap: carriers reach the end of the 21-day window and discover their authority still will not activate, because the BOC-3 or the insurance filing was missing or wrong. Submitting the application is not the same as being ready to operate. (UCR is a separate annual obligation, not an activation requirement.)
 
 ### H2: How to get an MC number with Tech Rig
-Real worked example (publishable, distinct to this page): a California box-truck owner already had a USDOT and MC, but he had missed his insurance and BOC-3 deadline, so FMCSA dismissed his MC. He wanted it reinstated to keep a one-year-old authority for an Amazon Relay requirement. We had to explain that a dismissed MC cannot simply be reinstated: we filed a brand-new operating authority application (he keeps the old MC number, but the age clock resets), set up his FMCSA portal, and filed the MC application, BOC-3, and UCR in one day, then waited out the protest period. He is active now and has hired a driver.
+We confirm you actually need operating authority and the correct authority type, then file your MC application and BOC-3 and coordinate your insurance so nothing blocks activation. Already have an older or dismissed authority stuck in the FMCSA-to-MOTUS transition? That is a different job, our [MOTUS migration](/motus-migration/) service handles claiming an existing USDOT, reinstating after a dismissal (a dismissed MC cannot simply be reinstated, so we file a new authority application), and untangling legacy-portal problems.
 
 What you get with us:
 - Confirmation that you need authority, and the correct authority type.
@@ -54,14 +54,14 @@ What you get with us:
 - **BOC-3:** $100, required to activate authority (often filed with the MC application).
 - **Insurance filing:** filed by your insurer; the premium is separate. We coordinate the filing so it lands. See [insurance filing](/trucking-insurance-filing/).
 - **Government fee:** any FMCSA application fee is shown separately. [VERIFY current FMCSA fee.]
-- Want it all handled at once? The [full setup](/compliance-services/) bundles USDOT, MC, BOC-3, insurance, UCR, and driver compliance.
+- Want it all handled at once? The [full $1,700 package](/compliance-services/) bundles MC + USDOT, BOC-3, UCR, Clearinghouse, consortium, pre-employment drug test, IFTA setup, IRP setup, and one DQ file (insurance is coordinated with your own insurer, not a Tech Rig service).
 
 ### H2: MC authority FAQ
 FAQPage schema, Grade 8:
 - "Do I need an MC number or just a USDOT number?" Many interstate for-hire carriers need both. Private carriers and some exempt freight may need only a USDOT number. We confirm before you pay.
 - "How long does it take to get an MC number?" After filing, FMCSA requires a mandatory 21-day protest period, and activation also depends on your BOC-3 and insurance being in place. We do not promise a date, but we make sure nothing on your side delays it.
-- "My MC was dismissed. Can you reinstate it?" A dismissed MC generally cannot be reinstated. We file a new operating authority application; you usually keep the old MC number, but the authority age resets. We do this often.
-- "Why did my authority not activate after 21 days?" Almost always a missing or incorrect BOC-3, insurance filing, or UCR. We make sure all three are correct so activation is not held up.
+- "My MC was dismissed. Can you reinstate it?" A dismissed MC generally cannot be reinstated. We file a new operating authority application (you usually keep the old MC number, but the authority age resets), often as part of our [MOTUS migration](/motus-migration/) service.
+- "Why did my authority not activate after 21 days?" Almost always a missing or incorrect BOC-3 or insurance filing. We make sure both are correct so activation is not held up. (UCR is separate and is not an activation requirement.)
 - "Can you fix an MC I started myself?" Yes. Correcting wrong classifications and incomplete DIY filings is a large part of our work.
 
 ### Closing CTA band
@@ -91,4 +91,4 @@ Hub card + package; pillar; DOT page (cross "DOT vs MC"); bundle page; "how to g
 - Price chip from single source.
 
 ## Uniqueness
-Worked example = CA box truck, dismissed MC, Amazon one-year authority-age. Distinct from all other pages.
+No client worked example on this page anymore: the CA dismissed-MC/Amazon story was relocated to `/motus-migration/` (S2, 2026-06-25). This page is research-led + routes reinstatement/migration intent to the MOTUS page.

@@ -1,6 +1,6 @@
 # services
 
-Pricing and service scope per the client QA brief, 2026-06-21 (`../output/client-qa-brief-2026-06.md`), which supersedes earlier figures. Display rules and claims governed by `brand-guidelines.md`.
+Pricing and service scope per the client answers of 2026-06-25 (`../../shared/client-answers-2026-06-25.md` + `../../shared/work-order-client-answers.md`), which supersede the 2026-06-21 QA brief where they differ. This file is the pricing MASTER that the Dev typed registry (`dev/lib/services-registry.ts`) and the `/apply` flow must equal (parity gate). Display rules and claims governed by `brand-guidelines.md`.
 
 ## Service lines (two, funnel-ordered)
 
@@ -13,31 +13,33 @@ Master pricing (USD). IRP/IFTA are setup fees only; all other prices include the
 - **USDOT registration (standalone)** — **$300** total. Includes the government fee; there is NO separate federal USDOT application fee. Never display "+ government fee" on USDOT.
 - **MC Authority + USDOT** — **$600**, one-time total. Includes the USDOT number and the applicable government fee. (Card title: "MC Authority + USDOT".)
 - **BOC-3 filing** — **$100**, one-time. Add a dedicated titled $100 "BOC-3 Filing" card wherever MC costs are shown. NOT an annual renewal. Generally NOT required for a private motor carrier that is not operating for hire.
-- **UCR registration** — **Tech Rig filing fee $50 + the applicable UCR government fee.** Annual renewal. Show the total per bracket:
+- **UCR registration** — **Tech Rig filing fee $50** (a separate line) **plus the applicable UCR government fee.** Annual renewal. On the UCR page, show the government brackets and the $50 filing fee as SEPARATE lines, NOT combined totals (client Q1.3/D6). Do NOT show the bracket table inside the `/apply` form.
 
-  | Bracket (qualifying CMVs) | Gov fee | Total (with $50) |
-  |---|---|---|
-  | 0-2 | $46 | $96 |
-  | 3-5 | $138 | $188 |
-  | 6-20 | $276 | $326 |
-  | 21-100 | $963 | $1,013 |
-  | 101-1,000 | $4,592 | $4,642 |
-  | 1,001+ | $44,836 | $44,886 |
+  | Bracket (qualifying CMVs) | Government fee |
+  |---|---|
+  | 0-2 | $46 |
+  | 3-5 | $138 |
+  | 6-20 | $276 |
+  | 21-100 | $963 |
+  | 101-1,000 | $4,592 |
+  | 1,001+ | $44,836 |
 
   Bracket = number of qualifying trucks. A business operating only non-CMVs stays in 0-2 even with >2 non-CMVs (e.g. 20 non-CMVs = $46 bracket). UCR is NOT a prerequisite for MC authority activation.
 - **Clearinghouse setup** — **$100**.
 - **Drug & Alcohol Consortium enrollment** — **$150**, annual renewal.
-- **Driver Qualification (DQ) file** — **$200 per driver**, annual renewal $200/driver.
+- **Driver Qualification (DQ) file** — **tiered: 1 driver $200; 2 drivers $350 total; 3 drivers $450 total; more than 3 drivers = custom quote** (manual path, like UCR >100 units). Annual renewal.
 - **Pre-employment drug test** — **$100**, when applicable.
 - **IRP setup fee only** — **$175**. Government/jurisdiction fees separate. Annual renewal.
 - **IFTA setup fee only** — **$175**. Government fees separate.
 - **IFTA quarterly filing** — **$150 + government fee**. Separate recurring filing service.
-- **USDOT Correction** — **$125** (NEW). Scope: address, legal/business name, email, phone, operating-status changes, number of trucks, number of drivers. Keep separate from the Biennial Update.
-- **Full Initial Package** — **$1,700** (update every occurrence site-wide; replaces the earlier $1,350/$1,650 figures).
+- **USDOT Correction** — **$125** (NEW; dedicated page). Scope: address, legal/business name, email, phone, operating-authority status, number of trucks, number of drivers. Keep separate from the Biennial Update.
+- **IFTA Quarterly Filing** — **$150 + government fee** (NEW; dedicated page). Recurring per-quarter filing service, distinct from IFTA setup.
+- **FMCSA Portal to MOTUS Migration** — **$125** (NEW; dedicated page). Covers claiming an existing USDOT, Company Official assignment, manual verification, missing MC authority in MOTUS, legacy FMCSA Portal account problems, and FMCSA support-ticket assistance. The relocated California legacy case study lives here.
+- **Full Initial Package** — **$1,700**, all-in bundle (replaces every earlier $1,350/$1,650 figure). **Contents (9 items):** MC authority + USDOT · BOC-3 · UCR (0-2 bracket) · Clearinghouse · consortium · pre-employment drug test · IFTA setup · IRP setup · one DQ file. The package folds in the FMCSA application (OP-1) fee and the UCR government fee a carrier would otherwise pay separately. **Framing rule: all-in bundle, NO "discount" claim.** (Sum of listed service fees is ~$1,650 — 600+100+50+100+150+100+175+175+200 — so $1,700 is not a discount on service fees; the only saving is the included government fees, which are not published.) IRP/IFTA government, state, plate, permit, mileage, and jurisdiction charges remain separate and are collected later once calculated.
 
 On-demand / authority management:
 - **Biennial Update** — **$125** (the MCS-150 biennial filing). Card/menu label is "Biennial Update"; the term MCS-150 may appear in body text. Keep separate from USDOT Correction.
-- **MC reinstatement** — $200 service fee; any FMCSA government fee shown separately.
+- **MC reinstatement** — $200 service fee; any FMCSA government fee shown separately. (Distinct from the MOTUS Migration service above.)
 - **USDOT reactivation / deactivation** — $125.
 - (Standalone "address change" is now folded into the **USDOT Correction** card above.)
 
@@ -56,7 +58,28 @@ Removed per client (do not publish):
 - **MOTUS:** for new registrations use "MOTUS"/"MOTUS Portal," not "FMCSA Portal." The legacy "FMCSA Portal" is mentioned only when explaining migration of an older account into MOTUS.
 - **USDOT PINs:** FMCSA IS still mailing USDOT PINs. Do NOT say FMCSA stopped mailing/emailing PINs anywhere.
 - **DQ threshold:** federal DQ-file requirements generally apply to drivers operating a CMV with a GVWR/GCWR/GVW/GCW of 10,001 lbs or more in applicable commerce; not required below 10,001 lbs (avoid state-specific claims).
-- **Clearinghouse:** Tech Rig is registered as a C/TPA with the FMCSA Drug & Alcohol Clearinghouse.
+- **Clearinghouse:** Tech Rig is registered as a C/TPA with the FMCSA Drug & Alcohol Clearinghouse (written confirmation usable; publish-cleared 2026-06-25).
+- **MC government fee:** never publish a separate MC authority government-fee figure. Keep the amount-free "shown separately" wording.
+
+## Turnaround times (client Q6.2 — `expectedTimeline` parity with the registry)
+Each service's turnaround. Use this wording; never state a guaranteed activation date (FMCSA timing is outside Tech Rig's control).
+- **USDOT registration** — filed within 24 hours; active immediately after successful submission.
+- **BOC-3** — same business day when the order and required info are received during business hours.
+- **UCR** — same day when the carrier is in the UCR database; a new USDOT may take 1-2 days to appear.
+- **MC authority** — filed within 24 hours; activates after the 21-day protest period and requires BOC-3 + insurance (if either is missing after the protest period, activation stays pending until submitted).
+- **USDOT Correction** — normally same day when the MOTUS account is active and the USDOT is linked; FMCSA linking/support issues may take ~7-10 business days.
+- **Biennial Update** — normally same day when MOTUS/USDOT are accessible; same ~7-10 business-day FMCSA delay if linking is needed.
+- **Clearinghouse setup** — within 1 business day.
+- **Consortium enrollment** — within 1-2 business days.
+- **Driver Qualification file** — within 1-3 business days after all documents are received.
+- **Pre-employment drug test** — scheduled after consortium enrollment, per carrier/driver availability.
+- **IRP setup** — varies by state and document availability.
+- **IFTA setup** — varies by state and document availability.
+- **IFTA quarterly filing** — within 1-3 business days after complete mileage + fuel records.
+- **FMCSA Portal to MOTUS Migration** — approximately 1-2 weeks.
+
+## Billing model (client Q2.1)
+Recurring services (UCR annual, Consortium annual, DQ annual, IFTA quarterly) are billed by **reminder before the due date, then a manual invoice**. Auto-charge only with the customer's express consent. NOT Stripe subscriptions. Launch copy must not promise an automated reminder that does not yet exist.
 
 ### 2. Truck dispatch (retention / recurring retainer) — ACTIVE
 The original service, launched 2021 (~100 carriers dispatched to date) and still actively offered. Present as fully bookable.
