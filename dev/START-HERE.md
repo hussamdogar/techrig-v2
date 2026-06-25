@@ -6,9 +6,9 @@
 >
 > **M1 (incl. R3), M2, and M3 are all BUILD-COMPLETE.** The unified `/apply` engine (`16eab3f`) is live against the prod DB with verified pricing, RLS, and step logic.
 >
-> **M0–M6 + M3-R1 are all BUILD-COMPLETE** (`81cd4a5`): lookup, accounts+dashboard, application engine (incl. $1,350 package), Stripe payment, progress tracking + back-office, and the email lifecycle + PDFs. Migrations `0001–0006` live on prod.
+> **✅ APPLICATION PLATFORM BUILD-COMPLETE (`ba3f45e`).** All of M0–M7 + M3-R1 are build-complete; 6 prod migrations; full-platform `/security-review` clean (one HIGH IDOR found + fixed). Nothing is deployed.
 >
-> **ACTIVE: M7 — migration, redirects, launch hardening (FINAL milestone)** (`work-orders/M7-dev.md`). Subdomain 301s (`form.`/`boc-3.techrig.org` → `/apply/`) handed to the crawl-union; legacy **drain-vs-ETL** decision (flag to orchestrator before cutover — legacy apps are live, real carriers may be mid-flow); **full platform `/security-review` is the mandatory gate** (re-review the M5 admin boundary, all RLS 0001–0006, payment, cron/unsubscribe); Sentry on; rate-limit/load sanity; write `shared/build-report.md`. Standing auth still applies; do NOT ALTER/DROP the legacy `registrations`/`boc-3-new` tables (owner sign-off required). After M7 build-complete, the orchestrator converges Workstream A + B for one launch.
+> **No active build milestone.** Next is the **joint launch with Workstream A** — see `../shared/launch-plan.md`. The dev role now is to execute, when the owner provisions launch creds, the **staging deploy + the Consolidated QA ledger** (the deferred deploy-time checks across M1–M7 in `../shared/application-platform/03-roadmap.md`) plus the Workstream-A code-side L4 items. Do NOT deploy or ALTER/DROP legacy tables without owner sign-off. The orchestrator sequences the launch.
 >
 > Standing rules still apply: additive migrations to prod after pre-flight; existing design system; verify locally + against prod DB, NO preview deploy (deploy-time items → QA ledger); prices ONLY from `seo/context/services.md`; ELD/insurance never billable; do not print secrets.
 

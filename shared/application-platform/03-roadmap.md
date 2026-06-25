@@ -1,6 +1,6 @@
 # Application Platform — Milestone Roadmap
 
-Owner: orchestrator. Status: M1 ACTIVE (work orders issued); M2–M7 PLANNED.
+Owner: orchestrator. Status (2026-06-25): **ALL milestones M0–M7 + M3-R1 BUILD-COMPLETE; full-platform `/security-review` clean (one HIGH IDOR found + fixed). Pre-launch.** Next: the joint launch with Workstream A — see `../launch-plan.md`. Deploy-time checks are in the Consolidated QA ledger below.
 Decompose the build so nothing is dropped. Each milestone is independently shippable, has explicit lane routing, hard dependencies, and an acceptance gate. A milestone is DONE only when its gate passes and the orchestrator flips it on this page + `../orchestration-status.md`.
 
 **This is a Dev-led workstream (ADR-5/-8).** The platform is noindex, so SEO is not a lane; the design language is locked, so Design is not a lane. Dev owns the UI (built with the existing system), functional copy in the brand voice, and all engineering. The 🔵/🟣 bullets in M2–M7 below are folded into Dev: read "🔵" as "Dev, copy in brand voice" and "🟣" as "Dev, existing design system"; escalate to Design only for a genuinely new pattern. Each milestone still gets its own Dev work order when it activates.
