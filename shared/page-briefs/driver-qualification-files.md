@@ -20,7 +20,7 @@ Primary "driver qualification files" in: title (yes), first paragraph (yes), H2s
 **Hero lede:**
 Driver qualification files are the records FMCSA expects you to keep proving each of your drivers is legally qualified to operate. They are one of the first things a new-carrier safety audit checks, and incomplete files are a common reason carriers get marked down. Tech Rig builds and maintains compliant driver qualification files so your drivers are covered and your audit goes smoothly. This applies even if you are the only driver in the company.
 
-**Primary CTA (above fold):** button "Set up my DQ files" → DQ intake form. Until confirmed, route to `/contact-us/`. [VERIFY route.]
+**Primary CTA (above fold):** button "Set up my DQ files" → `/apply/?service=dq-files` (the in-app application flow). Mid-page and closing CTAs use the same route.
 
 ### H2: What driver qualification files are
 A driver qualification file (DQ file) is a per-driver record that documents the driver meets federal qualification requirements. FMCSA requires carriers to maintain one for each driver and to keep it current. The file is not a one-time form; parts of it have to be refreshed on a schedule, for example the annual review of the driving record. Missing or outdated DQ files show up fast in an audit.

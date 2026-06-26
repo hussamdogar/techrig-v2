@@ -22,7 +22,7 @@ Primary "trucking authority package" in: title (as the concept "MC and DOT toget
 **Hero lede:**
 Most new for-hire carriers do not need one filing, they need the set, in the right order. Our trucking authority package files your USDOT number, your MC operating authority, your BOC-3, and your UCR together, and coordinates your insurance filing, so the pieces line up and your authority actually activates. One process, one point of contact, no gaps for something to fall through.
 
-**Primary CTA (above fold):** button "Get my authority package" → bundle intake form / `/get-started`. [VERIFY route.]
+**Primary CTA (above fold):** button "Get my authority package" → `/apply/?service=mc-authority` (the in-app application flow; the bundle starts from the MC authority service). Mid-page and closing CTAs use the same route.
 
 ### H2: What the trucking authority package includes
 - [USDOT number](/dot-registration/) registration and FMCSA portal setup.

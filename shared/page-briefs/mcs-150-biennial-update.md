@@ -20,7 +20,7 @@ Primary "mcs-150 update" in: title (yes), first paragraph (yes), H2s ("When you 
 **Hero lede:**
 Your USDOT record is not set-and-forget. FMCSA requires an MCS-150 update every two years, and again any time your address, fleet size, company name, or operation changes. Let it lapse and FMCSA can deactivate your USDOT number, which stops you from operating legally. Tech Rig files your MCS-150 update for you, so your record stays current and your number stays active.
 
-**Primary CTA (above fold):** button "Update my MCS-150" → UCR/MCS-150 intake form. Until confirmed, route to `/contact-us/`. [VERIFY route with Dev.]
+**Primary CTA (above fold):** button "Update my MCS-150" → `/apply/?service=mcs-150` (the in-app application flow). Mid-page and closing CTAs use the same route.
 
 ### H2: What the MCS-150 is
 The MCS-150 is the form that creates and maintains your USDOT number record with FMCSA. It carries your company details, your operation type, your number of power units and drivers, and your mileage. FMCSA uses it to keep your safety profile accurate. There are two reasons you file one: the regular biennial update, and an out-of-cycle update when something changes.

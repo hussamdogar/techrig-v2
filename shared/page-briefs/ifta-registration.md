@@ -21,7 +21,7 @@ Primary "ifta registration" in: title (yes), first paragraph (yes), H2s ("What I
 **Hero lede:**
 IFTA registration is how interstate carriers report and pay fuel taxes across the states they run, through one quarterly return instead of dealing with each state separately. Get your IFTA account and stickers set up wrong, or miss a quarterly filing, and you face penalties and audit headaches. Tech Rig sets up your IFTA registration correctly so the fuel-tax side of running interstate is one less thing to worry about.
 
-**Primary CTA (above fold):** button "Set up my IFTA" → IFTA intake form. Until confirmed, route to `/contact-us/`. [VERIFY route.]
+**Primary CTA (above fold):** button "Set up my IFTA" → `/apply/?service=ifta` (the in-app application flow). Mid-page and closing CTAs use the same route.
 
 ### H2: What IFTA registration is
 The International Fuel Tax Agreement (IFTA) simplifies fuel-tax reporting for carriers operating in more than one state or province. You register in your base jurisdiction, receive an IFTA license and decals (stickers) for your vehicles, and file one quarterly fuel-tax return that reconciles the fuel you bought against the miles you ran in each state. It applies to qualifying interstate vehicles, generally those over a weight threshold or with enough axles.

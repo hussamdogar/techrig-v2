@@ -1,7 +1,7 @@
 # Brief: /boc-3-filing/
 
 ## Meta
-- **Action:** NEW (on-domain content page; CTA into the existing `boc-3.techrig.org` form). **Bucket:** 1. **Intent:** BOFU.
+- **Action:** NEW (on-domain content page; active CTA into the new `/apply/` flow). **Bucket:** 1. **Intent:** BOFU. Legacy `boc-3.techrig.org` stays live until the new flow is tested, then 301s (drain per Q6.4) — it is NEVER the active CTA.
 - **Primary:** boc-3 (3,600/KD10). **Secondaries:** boc-3 filing (1,600/KD14), what is a boc-3 (480), process agent trucking.
 - **Word target:** 1,500+ (intent allows slightly less if every section earns its place; do not pad).
 
@@ -20,7 +20,7 @@ Primary "boc-3" in: title (yes), first paragraph (yes), H2s ("What a BOC-3 is", 
 **Hero lede:**
 A BOC-3 is one of the small filings that quietly decides whether your operating authority activates. It names a process agent in every state where you operate, someone who can receive legal documents on your behalf. No BOC-3, no active authority. DGR Tech Rig LLC is officially listed by FMCSA as a BOC-3 blanket process-agent company, so we can file your BOC-3 across all 50 states, for $100, one time.
 
-**Primary CTA (above fold):** button "File my BOC-3" → `https://boc-3.techrig.org` (existing form/subdomain).
+**Primary CTA (above fold):** button "File my BOC-3" → `/apply/?service=boc-3` (the in-app application flow). Mid-page and closing CTAs use the same route. (Do NOT point the active CTA at the legacy `boc-3.techrig.org`.)
 
 ### H2: What a BOC-3 is
 The BOC-3 is the federal form that designates a process agent in each state: a person or company authorized to accept legal papers for you in that state. FMCSA requires it for motor carriers, brokers, and freight forwarders before operating authority can be granted. A "blanket" process agent covers all 50 states in one filing, which is why most carriers use a blanket company instead of naming individual agents state by state. The BOC-3 is filed electronically; it is not a printed certificate FMCSA hands you, and you can verify it on your public FMCSA record.
@@ -34,7 +34,7 @@ Important: a BOC-3 is not an annual renewal. If anyone tells you to renew your B
 
 ### H2: How our BOC-3 filing works
 Because we are an FMCSA-listed blanket process agent, your BOC-3 is direct, not outsourced:
-1. You give us your company details through our [BOC-3 form](https://boc-3.techrig.org).
+1. You give us your company details through our [application](/apply/?service=boc-3).
 2. We file your BOC-3 designating coverage across all 50 states.
 3. Your filing posts to your FMCSA record, where it can be verified.
 4. If your BOC-3 is part of getting your authority, we line it up with your MC application and insurance so activation is not held up.
@@ -59,7 +59,7 @@ FAQPage schema, Grade 8:
 "Need a BOC-3 to activate your authority? File it directly with an FMCSA-listed process agent." Button "File my BOC-3".
 
 ## Internal links out
-`/mc-registration/`, `/ucr-registration/`, `/compliance-services/`. The CTA goes to the `boc-3.techrig.org` subdomain form (external host, same brand, allowed as a transactional endpoint).
+`/mc-registration/`, `/ucr-registration/`, `/compliance-services/`. The active CTA goes to `/apply/?service=boc-3` (the in-app flow). The legacy `boc-3.techrig.org` form is a drain-only endpoint until cutover, not linked as the CTA.
 
 ## Internal links in
 Hub card + package; MC page (BOC-3 is required there); UCR page (bundle); pillar; "what is a process agent / BOC-3" blog feeder if present.
@@ -80,7 +80,7 @@ Hub card + package; MC page (BOC-3 is required there); UCR page (bundle); pillar
 
 ## Dev / Design notes
 - Unique branded OG image ("BOC-3 Filing").
-- CTA routes to the existing `boc-3.techrig.org` form; confirm it is live and tracked.
+- CTA routes to `/apply/?service=boc-3` (D14). The legacy `boc-3.techrig.org` stays live until the new flow is tested, then 301s (Q6.4 / D11); handle any transition submissions manually.
 - Price chip from single source.
 
 ## Uniqueness

@@ -21,7 +21,7 @@ Primary "irp registration" in: title (yes), first paragraph (yes), H2s ("What IR
 **Hero lede:**
 If you run a qualifying commercial vehicle across state lines, you need apportioned plates through the International Registration Plan. IRP registration lets you operate in multiple states on one set of plates, with your registration fees split among the states you travel based on the miles you run in each. Tech Rig handles your IRP registration so you can run interstate legally, without learning a new state portal.
 
-**Primary CTA (above fold):** button "Start my IRP registration" → IRP intake form. Until confirmed, route to `/contact-us/`. [VERIFY route.]
+**Primary CTA (above fold):** button "Start my IRP registration" → `/apply/?service=irp` (the in-app application flow). Mid-page and closing CTAs use the same route.
 
 ### H2: What IRP registration is
 The International Registration Plan is an agreement among the U.S. states and Canadian provinces that lets interstate carriers register in their base state and operate across member jurisdictions on apportioned plates. Instead of registering your truck separately in every state you drive through, you register once and your fees are apportioned, split among states in proportion to the miles you run in each. The plates you receive are called apportioned plates. IRP generally applies to vehicles over a certain weight, or with three or more axles, used interstate.

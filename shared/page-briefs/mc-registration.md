@@ -22,7 +22,7 @@ Primary "mc number" in: title (yes), first paragraph (yes), H2s ("What an MC num
 **Hero lede:**
 An MC number is your operating authority: the federal permission to haul regulated freight for hire across state lines. A USDOT number identifies you; an MC number lets you legally carry other people's goods for money. Getting one means more than submitting a form. Tech Rig files your MC application, your BOC-3, and lines up your insurance filing so your authority actually activates instead of stalling at the finish line.
 
-**Primary CTA (above fold):** button "Get my MC authority" → MC intake form. Until confirmed, route to `/contact-us/`. [VERIFY route with Dev.]
+**Primary CTA (above fold):** button "Get my MC authority" → `/apply/?service=mc-authority` (the in-app application flow). Mid-page and closing CTAs use the same route.
 
 ### H2: What an MC number is
 An MC number (motor carrier operating authority) is issued by FMCSA and is required for most for-hire carriers moving regulated commodities in interstate commerce. It is separate from your USDOT number. Many interstate for-hire carriers need both: the USDOT number for identification and safety, the MC number for the authority to haul for pay. Private carriers hauling only their own goods, and some exempt commodities, may not need an MC number. We confirm whether you do before you pay for anything.

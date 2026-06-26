@@ -21,7 +21,7 @@ Primary "how to get a dot number" in: title (yes), first paragraph (yes), H2s ("
 **Hero lede:**
 A USDOT number is how the federal government identifies and tracks your trucking operation. If you run a commercial vehicle over a certain weight, carry enough passengers, or haul interstate, you need one before you operate. Figuring out how to get a DOT number on your own means navigating the MOTUS system, the right operation classifications, and FMCSA's requirements. Tech Rig does it for you and gets it right the first time.
 
-**Primary CTA (above fold):** button "Get my USDOT number" → USDOT intake form. Until confirmed, route to `/contact-us/`. [VERIFY route with Dev.]
+**Primary CTA (above fold):** button "Get my USDOT number" → `/apply/?service=usdot` (the in-app application flow). Mid-page and closing CTAs use the same route.
 
 ### H2: What a USDOT number is and who needs one
 A USDOT number is your unique federal ID as a motor carrier. FMCSA uses it for safety records, inspections, audits, and crash data. You generally need one if you operate a vehicle that meets the federal weight, passenger, or hazardous-materials thresholds in interstate commerce, and many states require it for intrastate operation too. A USDOT number is not the same as operating authority (your MC number). Some carriers need only a USDOT number; others need both. We tell you which applies to your operation.

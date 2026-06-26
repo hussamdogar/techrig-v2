@@ -21,7 +21,7 @@ Primary "drug and alcohol consortium" in: title (yes), first paragraph (yes), H2
 **Hero lede:**
 If you hold a CDL and operate under FMCSA, you are required to be in a DOT drug and alcohol testing program, and for owner-operators that means joining a consortium. A consortium pools drivers for random testing and manages the program for you. Skip it and you are not legal to drive a CDL vehicle, and it is one of the first things an audit checks. Tech Rig enrolls you in a drug and alcohol consortium and keeps your testing program compliant.
 
-**Primary CTA (above fold):** button "Enroll in a consortium" → consortium intake form. Until confirmed, route to `/contact-us/`. [VERIFY route.]
+**Primary CTA (above fold):** button "Enroll in a consortium" → `/apply/?service=consortium` (the in-app application flow). Mid-page and closing CTAs use the same route.
 
 ### H2: What a drug and alcohol consortium is
 A consortium/third-party administrator (C/TPA) is an organization that manages DOT drug and alcohol testing for carriers, including the random testing pool. FMCSA requires CDL drivers to be part of a testing program, and an owner-operator cannot run their own random pool of one, so they join a consortium. The program covers pre-employment, random, post-accident, and other required testing, and ties into the [FMCSA Clearinghouse](/fmcsa-clearinghouse-registration/).
