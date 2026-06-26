@@ -112,6 +112,20 @@ File anchors verified in `dev/lib/services-registry.ts` unless noted.
 - **Domain/DNS/Sentry/auth:** production `techrig.org`, DNS available, Supabase auth redirect for `techrig.org` + production callbacks, add Sentry. (Q5.4)
 - **Admin seed:** `admin_users` = `info@techrig.org` only initially; team ownership assigned later. (Q6.1)
 
+## CTA wiring delta — marketing money pages → /apply (D14 / S9, owner-approved 2026-06-25)
+Resolves the long-open L4 `[VERIFY]` CTA-routing item. **Decision:** compliance money pages route their primary "file/apply" CTA into the new `/apply` engine (the platform is the front door). Dispatch pages keep `/contact-us/` (dispatch is a retainer/lead service, not an `/apply` filing). The legacy `boc-3.techrig.org` form stays live only as a drain for old inbound links (the `next.config.ts` host 301 already redirects new ones into `/apply/?service=boc-3`).
+
+**Today (verified 2026-06-25):** only the 3 newest pages + the homepage feed `/apply`. ~12 compliance pages use `filingCtaHref` (`dev/lib/site.ts:46` = `/contact-us/` placeholder); `boc-3-filing/page.tsx:32` hardcodes `bocFormHref = "https://boc-3.techrig.org"`. So the platform is barely linked from the money pages.
+
+**D14 (Dev) — repoint compliance CTAs to `/apply/?service=<key>`.**
+- Give each compliance page a service-specific CTA (primary + any "file my X" secondary), matching the new pages. Mapping: `ucr-registration`→`ucr`; `dot-registration`→`usdot`; `mc-registration`→`mc-authority`; `mc-dot-registration`→`mc-authority`; `fmcsa-clearinghouse-registration`→`clearinghouse`; `drug-and-alcohol-consortium`→`consortium`; `driver-qualification-files`→`dq-files`; `irp-registration`→`irp`; `ifta-registration`→`ifta`; `mcs-150-biennial-update`→`mcs-150`; `boc-3-filing`→`boc-3`; `services` hub → `/apply` (generic, user picks).
+- **Do NOT blanket-change `filingCtaHref`** — the dispatch pages (box-truck, flatbed, reefers, power-only, hot-shot, dry-van, state pages, +cost, lead-gen) share it and correctly stay on `/contact-us/`. Keep compliance vs dispatch on separate routing.
+- BOC-3: replace the on-site `bocFormHref` CTAs with `/apply/?service=boc-3`; keep the `boc-3.techrig.org` host 301 in `next.config.ts` as the drain for old links.
+
+**S9 (SEO) — update the stale CTA briefs.** Compliance page-briefs that specify a `/contact-us/` or legacy-form CTA (esp. `boc-3-filing.md:23` → legacy) must specify `/apply/?service=<key>`, so spec == build. Dispatch briefs stay on `/contact-us/`.
+
+**Gate:** land D14/S9 in code before launch, but the CTAs go live only as part of the **validated launch deploy** — `/apply` must pass the staging QA ledger end-to-end (M3 stepper + M4 **live Stripe**, so D12 is a prerequisite) before real conversion traffic funnels in. Not a standalone flip on the current untested server.
+
 ## Sequencing + gates
 - **Before the joint launch:** D1-D9 (pricing/contents/pages/copy that the engine charges and the crawl-union indexes). The 3 new pages are **indexable money pages** — they fold into the L1 crawl-union (unlike the noindex platform).
 - **Fast-follow (not launch-blocking):** D10 renewal reminders (before the first renewals come due), D11 legacy import (parallel assessment).

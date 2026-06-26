@@ -1,7 +1,11 @@
 # Start here: Dev workspace
 
-> **ACTIVE WORK ORDER (orchestrator, 2026-06-25): Client-answer deltas — `../shared/work-order-client-answers.md` (Dev D1-D13). This is now the active pass.**
-> The client answered all open questions; the deltas are reconciled against verified code and routed in that work order. **SEO S1-S8 (PR #7, `35c002e`) and Design DZ1 (`7caf5f2`) are MERGED on main** — run `git pull` first so you build against the merged `seo/context/services.md` master + the 3 new page briefs (`../shared/page-briefs/`) + the 3 design specs (`../shared/design/`). This **supersedes parts of `work-order-qa-revision.md` §G**: the **$1,700 full package is now 9 items, not 6**.
+> **ACTIVE WORK ORDER (orchestrator, 2026-06-25): D14 — wire compliance CTAs into `/apply`. `git pull` first.**
+> **D1-D9 + D13/S2 are DONE** (committed `0ef41fa`, orchestrator-verified, build green + parity PASS — don't redo). The new active task is **D14** in `../shared/work-order-client-answers.md` ("CTA wiring delta"): the ~12 compliance money pages still point their primary CTA at the `/contact-us/` placeholder (`lib/site.ts:46`) and BOC-3 at the legacy form (`boc-3-filing/page.tsx:32`) — only the 3 newest pages + homepage feed `/apply`. Owner approved wiring all compliance pages into `/apply/?service=<key>` (mapping in the work order); dispatch pages keep `/contact-us/` (do NOT blanket-change `filingCtaHref`); keep the `boc-3.techrig.org` host 301 as the drain. Goes live only with the validated launch (needs D12 live Stripe + the M3/M4 staging click-through). Still open from before: **D12** live Stripe key, **D11** legacy import, **D10** renewal reminders (all owner-action / fast-follow).
+>
+> *(History: this pass began as client-answer deltas D1-D13 — all landed in `0ef41fa`. Superseded parts of `work-order-qa-revision.md` §G; the $1,700 package is now 9 items.)*
+>
+> **(Reference — the completed D1-D13 detail below, for context only; do not re-run.)**
 >
 > **Start now (code/registry only — fully specified, no new specs needed):**
 > - **D1** — `full-package` `includes += "ifta", "irp", "dq-files"(×1)`; keep price **$1,700**; update the blurb to list all 9; drop the stale "contents unchanged" comment (`lib/services-registry.ts` ~:227-244). `govFeesIncluded` unchanged.

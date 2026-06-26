@@ -40,7 +40,7 @@ Dev built the ~42 KEEP posts at their original root URLs `/{slug}/` (not under `
 ### L4 — Claims-vs-code verification (qa-report §C)  [OWNER: Dev]
 Dev must confirm at build, and report in L3's build-report:
 1. Per-page unique OG image (no placeholder). 2. `llms.txt` at root. 3. JSON-LD matches `schema-specs.md` (one Organization, two alias Persons, per-page Service w/ service-fee-only price, FAQPage parity, BreadcrumbList; no review stars; no real names). 4. Ad pages `/dot-registration/`, `/mc-registration/`, `/mc-dot-registration/` flipped to indexable + canonical-self + in sitemap, ad tracking preserved. 5. CTA routes live (`boc-3.techrig.org`, `form.techrig.org`) + cross-domain GA4. 6. Price chips from a single source. 7. Decorative glyphs via CSS. 8. FAQ/process Grade 8. 9. Core Web Vitals meet any on-page speed claim.
-- Plus: per-page CTA route selection (intake form vs `/get-started` vs `/contact-us/`), marked `[VERIFY]` in qa-report §A5.
+- Plus: per-page CTA route selection (intake form vs `/get-started` vs `/contact-us/`), marked `[VERIFY]` in qa-report §A5. **RESOLVED 2026-06-25 (owner): compliance money pages → `/apply/?service=<key>`; dispatch pages stay `/contact-us/`. Routed as D14/S9 in `work-order-client-answers.md` (see L11).** Discovered via the BOC-3 CTA: only the 3 newest pages + homepage fed `/apply`; ~12 compliance pages were still on the `/contact-us/` placeholder and BOC-3 on the legacy form.
 
 ### L5 — Redirect status code  [OWNER: SEO to decide, Dev to flip if needed]
 Dev implemented redirects as `permanent: true` = HTTP 308 (passes signals like a 301). If SEO wants a literal 301 status, Dev switches to `statusCode: 301`.
@@ -71,6 +71,11 @@ The client answered all open questions; reconciled against verified code into `w
 design-system §13 scopes the Authority Status Tracker to authority-activation pages; the older `/ifta-registration/` + `/mcs-150-biennial-update/` specs and built pages still showed it (a §13 violation). Folded into this pass (owner-approved) and now fully reconciled:
 - **Design DZ2 ✅** (`6abfdb9`): both stale specs omit the tracker + use a hero spot illustration.
 - **Dev D13 ✅** (`0ef41fa`): tracker removed from both built pages (grep-confirmed: zero `AuthorityStatusTracker`/`Authority Status` matches). **Spec == build.** Closed.
+
+### L11 — CTA wiring: money pages → /apply (2026-06-25)  [OWNERS: Dev, SEO] — LAUNCH-GATING
+Surfaced when the owner noticed the BOC-3 page CTA pointing at the legacy `boc-3.techrig.org` form. Orchestrator traced it: only the 3 newest pages + homepage feed `/apply`; **~12 compliance money pages route to the `/contact-us/` placeholder** (`dev/lib/site.ts:46`) and **BOC-3 to the legacy form** (`boc-3-filing/page.tsx:32`). So the application platform is barely linked from the marketing conversion paths. This is the deferred L4 `[VERIFY]` CTA-routing item, now decided.
+- **Owner decision (2026-06-25):** wire ALL compliance pages (incl. BOC-3) into `/apply/?service=<key>`; dispatch pages keep `/contact-us/`; legacy boc-3 form stays live only as a drain (host 301 handles new links). Routed as **D14 (Dev repoint + mapping)** and **S9 (SEO brief updates)** in `work-order-client-answers.md`.
+- **Gate:** land in code pre-launch, but goes live only with the **validated launch deploy** — `/apply` must pass the staging QA ledger end-to-end (M3 stepper + M4 live Stripe; **D12 live Stripe key is a prerequisite**) before real conversion traffic funnels in. Done when: the 12 compliance pages link to their `/apply` service, the stale briefs match, and a staging click-through from a money page completes a priced application.
 
 ## Workstream B — Application Platform (NEW, 2026-06-24)
 A full client-facing application platform on the new site: USDOT lookup card, unified service-driven application, payment, lead capture, Supabase-Auth accounts, dashboard, progress tracking. Unifies the two legacy form apps (`techrig-form`, `boc3-form-new`) and adds the dashboard layer they lacked. Full docs: `application-platform/` (overview, architecture, data-model, roadmap, work-orders).
