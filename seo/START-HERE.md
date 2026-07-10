@@ -1,17 +1,14 @@
 # Start here: SEO workspace
 
-> **ACTIVE WORK ORDER (orchestrator, 2026-06-25): S9 — update the stale CTA briefs (compliance pages → `/apply`). Small, brief-only edit. `git pull` first.**
-> Context: the owner approved wiring the compliance money pages into the new `/apply` engine (they were on a `/contact-us/` placeholder, BOC-3 on the legacy form). Dev is repointing the page CTAs (**D14**); your job is to update the **page-briefs** so spec == build. Full detail: the "CTA wiring delta (D14 / S9)" section in `../shared/work-order-client-answers.md`.
+> **ACTIVE WORK ORDER (orchestrator, 2026-07-10): S10 — Pricing v2 (four-bundle, two-price model). You LEAD this milestone. `git pull` first.**
+> The client sent a "final" pricing/bundle doc; the owner approved a **full pricing-v2 build before launch**. Full routed spec: `../shared/work-order-pricing-v2.md`. Verbatim client doc: `../shared/client-pricing-v2-2026-07-10.md`. This **supersedes** the single-$1,700-package model and the à-la-carte prices from the last pass (client's latest doc wins).
 >
-> **The task.** In `../shared/page-briefs/`, the **compliance** money-page briefs that specify a `/contact-us/` (or `/get-started`) CTA or a legacy-form link must instead specify **`/apply/?service=<key>`**. Update the "Primary CTA" / mid-page / closing-CTA lines (and any "give us your details through our [form]" mentions) to the in-app route. Per-page mapping (matches D14):
-> - `ucr-registration` → `ucr` · `dot-registration` → `usdot` · `mc-registration` → `mc-authority` · `mc-dot-registration` → `mc-authority` · `fmcsa-clearinghouse-registration` → `clearinghouse` · `drug-and-alcohol-consortium` → `consortium` · `driver-qualification-files` → `dq-files` · `irp-registration` → `irp` · `ifta-registration` → `ifta` · `mcs-150-biennial-update` → `mcs-150` · `boc-3-filing` → `boc-3` · `services` (hub) → `/apply` (generic, user picks).
-> - **`boc-3-filing.md` is the important one:** it currently specifies `button "File my BOC-3" → https://boc-3.techrig.org` (line ~23) and "give us your details through our [BOC-3 form](https://boc-3.techrig.org)". Change the active CTA to `/apply/?service=boc-3`. The legacy `boc-3.techrig.org` may be mentioned ONLY as a legacy/drain note, never as the active CTA.
+> **Your scope (S10):**
+> 1. **Rewrite `seo/context/services.md`** to: the two-price model (a `standalone` and a lower `in-bundle` price per service), the **four bundles** ($400 / $1,100 / $1,000 / $1,700), the **dual DQ tables** (standalone 250/450/600 · bundle 200/350/450), and the §10-24 wording refinements. This is the **parity master** the Dev registry + `/apply` + receipt + marketing must equal — get it right and landed early.
+> 2. **Write a packages/bundles page-brief:** the 4 cards, the §4 comparison table, the §5 heading + supporting text, the §6 CDL/non-CDL selector wording ("choose by vehicle, not driver"), and the §7 "BOC-3 Included" wording. Add a package-selector section to the **compliance hub brief**.
+> 3. **Refine the individual service-page briefs** for the new **standalone** prices + wording: UCR $80 standalone / $50 bundle (§10); DQ standalone 250/450/600 (§12); Consortium $175 + the TrueTest eligibility wording (§13); Clearinghouse $125 (§14); Drug test $125 (§15); IRP/IFTA $225 setup (§16); MC+USDOT $650 standalone + the USDOT-intrastate nuance (§17); Refund add the 30-day-inactive non-refundable case (§21).
 >
-> **Do NOT touch the dispatch briefs** (box-truck, flatbed, reefers, power-only, hot-shot, dry-van, state dispatch pages, +cost, lead-gen) — dispatch is a retainer/lead service, not an `/apply` filing, so those correctly keep `/contact-us/`.
->
-> **CTA-only edit.** Do not change copy, keywords, intent, headings, or page theses — only the CTA destination. If a brief's CTA already matches the mapping (e.g. the 3 newest pages), leave it.
->
-> **Commit scope:** ONLY the changed files under `../shared/page-briefs/`, explicit paths, never `git add .`. Verify nothing else is staged. Then tell the user — the orchestrator will verify + coordinate the push (as with S1-S8 and DZ2).
+> Note: the new **in-bundle** prices equal the current `services.md`/registry values — only the **standalone** prices are new. Dispatch pages, ELD/LLC partner referrals, and the D14 `/apply` CTA routing all stay as-is. Stay in lane (specify, don't implement). Commit only `seo/` + `shared/` SEO artifacts, explicit paths, never `git add .`; the orchestrator verifies + pushes (as with S1-S9).
 
 ---
 

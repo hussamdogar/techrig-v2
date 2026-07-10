@@ -4,6 +4,8 @@ Owner: orchestrator. Created 2026-06-25, at the convergence point (all platform 
 
 Status: **BUILD-COMPLETE, pre-launch.** Nothing is deployed yet. The "no preview until complete" policy now inverts — a staging deploy for QA is the next step.
 
+> **Update 2026-07-10 — PRICING V2 gates the launch.** The client sent a "final" pricing/bundle doc (`client-pricing-v2-2026-07-10.md`); owner chose a full pricing-v2 build (two-price model + four bundles $400/$1,100/$1,000/$1,700) BEFORE launch. Routed as L12 (`work-order-pricing-v2.md`). This is now the first pre-launch milestone: pricing v2 lands + parity re-passes, THEN Phase 0/1/2/3 below. The staging QA (M3/M4 with live Stripe) validates the NEW pricing + bundle checkout.
+>
 > **Update 2026-06-25:** the client answered all open questions (`client-answers-2026-06-25.md`). Provisioning is now mostly supplied (Resend domain, prod domain/DNS, Sentry yes, admin seed = info@techrig.org); only the **QCMobile webKey** (Hussam, at deploy) and a **standard live Stripe credential** remain open (the provided `mk_...` key is not a usable Stripe API key — see `work-order-client-answers.md` D12). **New precondition before the staging deploy:** the client-answer build deltas **D1-D9** (`work-order-client-answers.md`) land first — they change engine prices and add 3 indexable pages to the crawl-union. D10/D11 are fast-follow.
 
 ## Phase 0 — Owner-provisioned launch credentials (the gate to deploying)
