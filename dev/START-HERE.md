@@ -1,6 +1,7 @@
 # Start here: Dev workspace
 
-> **ACTIVE WORK ORDER (orchestrator, 2026-07-10): D15 — Pricing v2 re-architecture (the big one). `git pull` first.**
+> **ACTIVE WORK ORDER (orchestrator, 2026-07-10): D15 — Pricing v2 re-architecture (the big one).**
+> **Worktree (session isolation):** run in `C:\Users\nadir\Documents\github\techrig-v2-dev` on branch `dev/pricing-v2` — NOT the main repo. `node_modules` is gitignored, so **`pnpm install` in that worktree first**, and run the review server/tunnel from there (keeps build/detached-HEAD churn off `main`). Commit only `dev/` + `shared/build-report.md` to your branch (explicit paths, never `git add .`); the orchestrator merges to `main`. Run `git merge main` when the orchestrator says SEO's `services.md` has landed (your parity gate needs it). Full rules: the "Worktree protocol" in `../shared/work-order-pricing-v2.md`.
 > **D1-D14 are DONE and committed** (D14 = `454bf82`; don't redo any of it). New milestone: build pricing v2 per `../shared/work-order-pricing-v2.md`. Verbatim client doc: `../shared/client-pricing-v2-2026-07-10.md`. This **supersedes** D1's single $1,700 package and the D1-D14 à-la-carte prices (client's latest doc wins).
 >
 > **Start now — registry data (fully specified in the work order, no specs needed):**

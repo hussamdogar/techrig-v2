@@ -1,6 +1,7 @@
 # Start here: SEO workspace
 
-> **ACTIVE WORK ORDER (orchestrator, 2026-07-10): S10 — Pricing v2 (four-bundle, two-price model). You LEAD this milestone. `git pull` first.**
+> **ACTIVE WORK ORDER (orchestrator, 2026-07-10): S10 — Pricing v2 (four-bundle, two-price model). You LEAD this milestone.**
+> **Worktree (session isolation):** run in `C:\Users\nadir\Documents\github\techrig-v2-seo` on branch `seo/pricing-v2` — NOT the main repo. Commit only `seo/` + `shared/` SEO paths to your branch (explicit paths, never `git add .`); the orchestrator merges to `main`. Run `git merge main` when told an upstream lane landed. Full rules: the "Worktree protocol" section in `../shared/work-order-pricing-v2.md`.
 > The client sent a "final" pricing/bundle doc; the owner approved a **full pricing-v2 build before launch**. Full routed spec: `../shared/work-order-pricing-v2.md`. Verbatim client doc: `../shared/client-pricing-v2-2026-07-10.md`. This **supersedes** the single-$1,700-package model and the à-la-carte prices from the last pass (client's latest doc wins).
 >
 > **Your scope (S10):**

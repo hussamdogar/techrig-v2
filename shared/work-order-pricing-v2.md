@@ -5,6 +5,24 @@ Source of truth (verbatim client doc, 2026-07-10): `shared/client-pricing-v2-202
 
 **Owner decision (2026-07-10): FULL pricing v2 build BEFORE launch.** This **supersedes** the single-$1,700-package model built in D1 and the à-la-carte prices set across D1-D14 (client's latest doc wins, per the source-of-truth precedence rule). It is a re-architecture of the pricing engine, not a tweak — treat it as a milestone.
 
+## Worktree protocol (READ FIRST — session isolation, no clashes)
+This milestone runs SEO and Dev (and later Design) at the same time. To stop the sessions from stepping on each other in one shared working tree (which last pass caused overlapping uncommitted edits + a detached HEAD), **each lane runs in its own git worktree on its own branch.** The orchestrator created them off `main`:
+
+| Lane | Worktree directory | Branch |
+|---|---|---|
+| SEO | `C:\Users\nadir\Documents\github\techrig-v2-seo` | `seo/pricing-v2` |
+| Dev | `C:\Users\nadir\Documents\github\techrig-v2-dev` | `dev/pricing-v2` |
+| Design | `C:\Users\nadir\Documents\github\techrig-v2-design` | `design/pricing-v2` |
+| Orchestrator | `C:\Users\nadir\Documents\github\techrig-v2` (main repo) | `main` |
+
+**Rules for every lane session:**
+- Work **only inside your own worktree directory** and **only in your lane's paths** (SEO → `seo/`, `shared/page-briefs/`, `shared/sitemap-plan.md`, `shared/keyword-map.md`; Dev → `dev/`, `shared/build-report.md`; Design → `shared/design/`). One repo, one `.git` — all worktrees share history, so staying in your paths is what prevents conflicts.
+- **Commit to YOUR branch with explicit paths; never `git add .`.** Push your branch (`git push -u origin <your-branch>`) or leave it for the orchestrator — either way, **the orchestrator verifies and merges to `main`.** Never commit to `main`, never `git checkout` another branch in your worktree, never `git merge` another lane's branch.
+- **Dev only:** `node_modules` is gitignored, so your fresh worktree has none — run `pnpm install` in `techrig-v2-dev` before `pnpm build`/`pnpm start`. Run the review server/tunnel from **your worktree**, so any detached-HEAD/build churn stays off `main`.
+- **Syncing upstream:** when the orchestrator says another lane's work has merged to `main` (e.g. SEO's `services.md` lands, which Dev's parity gate needs), run **`git merge main`** in your worktree to pull it in. Because lanes touch different paths, these merges are conflict-free.
+
+**Orchestrator merge order:** SEO first (it owns `services.md` = the parity master), then Dev/Design rebase/merge `main` to pick it up. Cleanup when the milestone is done: `git worktree remove <dir>` per lane, then prune the merged branches.
+
 ## Locked decisions
 - Build the doc **as written**, including the standalone **price increases** on 8 services (customer-facing à-la-carte prices go up; bundle prices are unchanged).
 - **Two prices per service**: a `standalone` price and a lower `bundle` price. À-la-carte checkout uses `standalone`; the four bundles use `bundle` prices.

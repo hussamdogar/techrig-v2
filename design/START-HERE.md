@@ -1,6 +1,7 @@
 # Start here: Design workspace
 
-> **ACTIVE WORK ORDER (orchestrator, 2026-07-10): DZ3 — Pricing v2 package UI. `git pull` first. Gated on SEO's bundles brief.**
+> **ACTIVE WORK ORDER (orchestrator, 2026-07-10): DZ3 — Pricing v2 package UI. Gated on SEO's bundles brief.**
+> **Worktree (session isolation):** run in `C:\Users\nadir\Documents\github\techrig-v2-design` on branch `design/pricing-v2` — NOT the main repo. Commit only `shared/design/` to your branch (explicit paths, never `git add .`); the orchestrator merges to `main`. Run `git merge main` once the orchestrator says SEO's bundles brief has landed (that's your input). Full rules: the "Worktree protocol" in `../shared/work-order-pricing-v2.md`.
 > DZ1 + DZ2 are DONE. New milestone: pricing v2 — full spec in `../shared/work-order-pricing-v2.md` (client doc: `../shared/client-pricing-v2-2026-07-10.md`). The owner approved a four-bundle, two-price pricing model before launch.
 >
 > **Once SEO's packages/bundles brief exists in `../shared/page-briefs/`,** produce specs (reuse the locked design system — new **components within it**, no new foundations) for:
