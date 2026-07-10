@@ -5,7 +5,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { service } from "@/lib/server/supabase";
 import { nextReferenceId } from "@/lib/server/reference";
 import { decodeLeadAccessToken } from "@/lib/server/security";
-import { computePricing, isServiceKey, type ServiceKey } from "@/lib/services-registry";
+import { computePricing, isBundleKey, isServiceKey, type BundleKey, type ServiceKey } from "@/lib/services-registry";
 import { sendWelcomeIfNeeded } from "@/lib/email/lifecycle";
 import { activeSteps, adjacentStep, type OperationsFlags } from "@/lib/apply/steps";
 import { validateStep } from "@/lib/apply/schemas";
@@ -27,6 +27,9 @@ async function loadOwned(applicationId: string) {
 
 function selectedFrom(app: { selected_services: unknown }): ServiceKey[] {
   return Array.isArray(app.selected_services) ? (app.selected_services as ServiceKey[]).filter(isServiceKey) : [];
+}
+function bundleFrom(app: { selected_bundle?: unknown }): BundleKey | null {
+  return isBundleKey(app.selected_bundle) ? app.selected_bundle : null;
 }
 function flagsFrom(app: { application_data: any }): OperationsFlags {
   const ops = app.application_data?.operations ?? {};
@@ -59,6 +62,8 @@ export async function createApplication(formData: FormData) {
     if (tokenLead) leadId = tokenLead.leadId;
   }
   const preselect = (formData.getAll("service") as string[]).filter(isServiceKey) as ServiceKey[];
+  const rawBundle = formData.get("bundle");
+  const preselectBundle = isBundleKey(rawBundle) ? rawBundle : null;
 
   let referenceId: string | null = null;
   const identity: Record<string, unknown> = {};
@@ -94,6 +99,7 @@ export async function createApplication(formData: FormData) {
         status: "draft",
         current_step: "services",
         selected_services: preselect,
+        selected_bundle: preselectBundle,
         ...identity,
       })
       .select("id")
@@ -117,15 +123,23 @@ export async function createApplication(formData: FormData) {
   redirect(`/apply/${app.id}/`);
 }
 
-/** Update the selected services from the selection step, then advance. */
+/** Update the selected services (and, pricing v2, the selected bundle) from the
+ *  selection step, then advance. `bundle` is a single radio value; "" (the "no
+ *  package, build a la carte" option) clears it. */
 export async function setServices(applicationId: string, formData: FormData) {
   const { supabase, app } = await loadOwned(applicationId);
   const selected = (formData.getAll("service") as string[]).filter(isServiceKey) as ServiceKey[];
+  const rawBundle = formData.get("bundle");
+  const bundle = isBundleKey(rawBundle) ? rawBundle : null;
   await supabase
     .from("applications")
-    .update({ selected_services: selected, status: app.status === "draft" ? "in_progress" : app.status })
+    .update({
+      selected_services: selected,
+      selected_bundle: bundle,
+      status: app.status === "draft" ? "in_progress" : app.status,
+    })
     .eq("id", applicationId);
-  const steps = activeSteps(selected, flagsFrom(app));
+  const steps = activeSteps(selected, flagsFrom(app), bundle);
   redirect(`/apply/${applicationId}/?step=${adjacentStep(steps, "services", "next") ?? "review"}`);
 }
 
@@ -197,7 +211,11 @@ export async function saveStep(applicationId: string, step: StepKey, formData: F
   if (step === "business-details") patch.entity_type = data.entity_type ?? null;
   if (step === "ucr-details" && data.ucr_power_units != null) patch.power_units = data.ucr_power_units;
 
-  const steps = activeSteps(selected, step === "operations" ? { passenger: !!data.passenger, hazmat: !!data.hazmat } : flagsFrom(app));
+  const steps = activeSteps(
+    selected,
+    step === "operations" ? { passenger: !!data.passenger, hazmat: !!data.hazmat } : flagsFrom(app),
+    bundleFrom(app),
+  );
   const next = adjacentStep(steps, step, "next") ?? "review";
   patch.current_step = next;
 
@@ -216,7 +234,11 @@ export async function submitApplication(applicationId: string, formData: FormDat
   }
 
   const selected = selectedFrom(app);
-  const pricing = computePricing(selected, { powerUnits: app.power_units, driverCount: app.application_data?.drivers?.driver_count });
+  const pricing = computePricing(selected, {
+    powerUnits: app.power_units,
+    driverCount: app.application_data?.drivers?.driver_count,
+    bundle: bundleFrom(app),
+  });
 
   await supabase
     .from("applications")

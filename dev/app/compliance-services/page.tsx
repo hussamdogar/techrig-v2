@@ -3,14 +3,13 @@ import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
 import { AuthorityStatusTracker } from "@/components/authority-status-tracker";
-import { PriceChip } from "@/components/ui/price-chip";
 import { ServiceCard } from "@/components/service-card";
 import { FaqAccordion, type Faq } from "@/components/faq-accordion";
 import { ReviewedBy } from "@/components/reviewed-by";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ClosingCta } from "@/components/closing-cta";
 import { JsonLd } from "@/components/json-ld";
-import { CheckSealIcon, icons, type IconName } from "@/components/icons";
+import { CheckSealIcon, type IconName } from "@/components/icons";
 import {
   breadcrumbNode,
   faqNode,
@@ -19,6 +18,7 @@ import {
   personNode,
 } from "@/lib/schema";
 import { complianceNav, pricing, type Price } from "@/lib/services";
+import { BUNDLES, BUNDLE_KEYS, getBundleBreakdown } from "@/lib/services-registry";
 
 // The compliance silo HUB. Every card link, package-checklist link, and the
 // single primary CTA (hero, package panel, close) route into the silo. The
@@ -45,41 +45,6 @@ export const metadata: Metadata = {
   },
 };
 
-// The full-package price. Not a per-slug entry in lib/services pricing (it is a
-// hub-level bundle), so it is a local single-source Price object rendered by the
-// same PriceChip as every other price, so it cannot drift in formatting.
-const packagePrice: Price = { kind: "flat", amount: 1700 };
-
-// The package checklist. Each item is an inline 1 to 3 word contextual link with
-// a small line icon and a status-active check mark. Anchors and destinations are
-// transcribed verbatim from the brief's package contents list. LLC, insurance,
-// and ELD are NOT in the package (they are a la carte), so they are not here.
-// Pre-employment drug test has no dedicated page, so it carries no link.
-const packageItems: { label: string; href?: string; icon: IconName }[] = [
-  { label: "USDOT number", href: "/dot-registration/", icon: "stamp" },
-  { label: "MC authority", href: "/mc-registration/", icon: "shield" },
-  { label: "BOC-3", href: "/boc-3-filing/", icon: "filing" },
-  { label: "UCR registration", href: "/ucr-registration/", icon: "filing" },
-  {
-    label: "Driver qualification files",
-    href: "/driver-qualification-files/",
-    icon: "filing",
-  },
-  {
-    label: "Clearinghouse",
-    href: "/fmcsa-clearinghouse-registration/",
-    icon: "shield",
-  },
-  {
-    label: "drug and alcohol consortium",
-    href: "/drug-and-alcohol-consortium/",
-    icon: "shield",
-  },
-  { label: "Pre-employment drug test", icon: "shield" },
-  { label: "IRP apportioned plates", href: "/irp-registration/", icon: "routeNode" },
-  { label: "IFTA", href: "/ifta-registration/", icon: "routeNode" },
-];
-
 // The service-card grid, in brief order. Descriptions are transcribed
 // from the brief; prices come from the single-source map unless a card carries
 // its own `price` (the bundle-less services that have no per-slug pricing entry).
@@ -105,9 +70,9 @@ const serviceCards: {
     title: "MC authority",
     description: "Operating authority to haul freight for hire across state lines.",
     icon: "shield",
-    // The $600 MC fee includes the USDOT number, so the standalone $300 is not
-    // charged on top. Suppress the generic gov-fee line here in favour of that
-    // clearer note (the MC page carries the full fee separation).
+    // The $650 standalone MC fee includes the USDOT number, so the standalone
+    // $300 is not charged on top. Suppress the generic gov-fee line here in
+    // favour of that clearer note (the MC page carries the full fee separation).
     price: { ...pricing["/mc-registration/"], govFee: false },
     note: "includes USDOT number",
   },
@@ -302,12 +267,12 @@ export default function ComplianceServicesPage() {
                 >
                   Start your compliance setup
                 </Link>
-                {/* Secondary Steel anchor scrolling to the package section. */}
+                {/* Secondary Steel anchor to the packages page. */}
                 <Link
-                  href="#full-compliance-package"
+                  href="/compliance-packages/"
                   className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
                 >
-                  or see the full package
+                  or compare our packages
                 </Link>
               </div>
               <div className="mt-5">
@@ -321,73 +286,71 @@ export default function ComplianceServicesPage() {
         </Container>
       </Section>
 
-      {/* Featured offer: the full compliance package (highest weight after hero) */}
+      {/* Compliance packages (choose by authority status + vehicle): pricing v2,
+          replaces the old single full-package panel. Prices DERIVED from the
+          registry, never hardcoded (parity with services.md). */}
       <Section surface="paper">
         <Container className="max-w-3xl">
           <div
-            id="full-compliance-package"
+            id="compliance-packages"
             className="scroll-mt-24 rounded-card border-2 border-steel bg-cloud p-6 md:p-8"
           >
             <h2 className="font-display text-3xl font-bold text-ink">
-              The full compliance package
+              Compliance packages (choose by authority status + vehicle)
             </h2>
 
-            <div className="mt-5">
-              <PriceChip price={packagePrice} label="Full compliance package" />
-            </div>
-
             <p className="mt-5 text-slate">
-              Most new carriers do not want to assemble this piece by piece. Our
-              full compliance package covers what it takes to stand up a motor
-              carrier and onboard your first driver, for a fixed $1,700. You can
-              also buy any service on its own. The package price already includes
-              the government fees for your MC number and your UCR in the 0 to 2
-              vehicle bracket. IRP and IFTA are the exception: those government
-              fees depend on your mileage and states, so we calculate them once
-              you share those details.
+              Most carriers save by bundling: BOC-3 is included in every package, and bundle prices are lower than
+              a la carte. Full detail and the side-by-side comparison live on the{" "}
+              <Link
+                href="/compliance-packages/"
+                className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
+              >
+                packages page
+              </Link>
+              .
             </p>
 
-            {/* Two-column checklist: inline contextual links, line icon + active check. */}
             <ul className="mt-6 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-              {packageItems.map(({ label, href, icon }) => {
-                const Icon = icons[icon];
+              {BUNDLE_KEYS.map((key) => {
+                const bundle = BUNDLES[key];
+                const price = getBundleBreakdown(key).finalPrice;
                 return (
-                  <li key={(href ?? "") + label} className="flex items-start gap-3">
-                    <CheckSealIcon
-                      size={20}
-                      className="mt-0.5 shrink-0 text-status-active"
-                    />
-                    <span className="flex items-baseline gap-2 text-ink">
-                      <Icon size={16} className="shrink-0 translate-y-0.5 text-steel" />
-                      {href ? (
-                        <Link
-                          href={href}
-                          className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-                        >
-                          {label}
-                        </Link>
-                      ) : (
-                        <span>{label}</span>
-                      )}
+                  <li key={key} className="flex items-start gap-3">
+                    <CheckSealIcon size={20} className="mt-0.5 shrink-0 text-status-active" />
+                    <span className="text-ink">
+                      <Link
+                        href={`/compliance-packages/#package-${key}`}
+                        className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
+                      >
+                        {bundle.name}
+                      </Link>{" "}
+                      — ${price.toLocaleString("en-US")} ({bundle.whoItsFor})
                     </span>
                   </li>
                 );
               })}
             </ul>
 
-            {/* Fee-separation note (Slate), verbatim from the brief. */}
-            <p className="mt-6 text-sm text-slate">
-              Government and third-party fees (for example, state IRP and IFTA
-              fees) are billed separately from our service fee. We tell you which
-              is which before you pay.
+            <p className="mt-6 text-slate">
+              Choose by your authority status and the vehicle you operate, not only whether the driver holds a CDL.
+              You can also buy any service on its own at its standalone price.
             </p>
 
-            <div className="mt-7">
-              <Link
-                href={SETUP_CTA}
-                className={buttonVariants({ variant: "primary", size: "md" })}
-              >
+            {/* Fee-separation note (Slate), verbatim from the brief. */}
+            <p className="mt-4 text-sm text-slate">
+              IRP and IFTA government and jurisdiction fees are billed separately.
+            </p>
+
+            <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3">
+              <Link href={SETUP_CTA} className={buttonVariants({ variant: "primary", size: "md" })}>
                 Start your compliance setup
+              </Link>
+              <Link
+                href="/compliance-packages/"
+                className="inline-flex items-center font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
+              >
+                See all packages and compare
               </Link>
             </div>
           </div>

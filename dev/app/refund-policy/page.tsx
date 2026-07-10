@@ -91,6 +91,11 @@ export default function Page() {
               non-refundable once they have been paid or committed on your
               behalf.
             </li>
+            <li>
+              Service fees are non-refundable when the order cannot proceed
+              because the client has been inactive for 30 days due to missing
+              documents or a delayed response.
+            </li>
           </ul>
 
           <h2 className={h2}>Recurring and renewable services</h2>

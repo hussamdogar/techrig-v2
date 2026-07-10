@@ -109,7 +109,21 @@ const faqs: Faq[] = [
   },
   {
     q: "How much does a DQ file cost?",
-    a: "$200 per driver, including the yearly update.",
+    a: "Standalone: $250 for one driver, $450 total for two, $600 total for three, custom quote beyond that, renewed annually. It is lower inside a compliance package ($200 for the first driver).",
+    aNode: (
+      <>
+        Standalone:{" "}
+        <span className="font-mono tabular-nums text-ink">$250</span> for one
+        driver, <span className="font-mono tabular-nums text-ink">$450</span>{" "}
+        total for two,{" "}
+        <span className="font-mono tabular-nums text-ink">$600</span> total
+        for three, custom quote beyond that, renewed annually. It is lower
+        inside a{" "}
+        <CrossLink href="/compliance-packages/">compliance package</CrossLink>{" "}
+        (<span className="font-mono tabular-nums text-ink">$200</span> for
+        the first driver).
+      </>
+    ),
   },
   {
     q: "Are DQ files checked in an audit?",
@@ -127,7 +141,10 @@ export default function DriverQualificationFilesPage() {
             slug: "/driver-qualification-files/",
             description:
               "Tech Rig builds and maintains compliant driver qualification files for each driver, including owner-operators, and keeps the recurring items current so your safety audit goes smoothly.",
-            price: 200,
+            // Standalone, 1-driver price (services.md, DQ dual pricing). DQ file
+            // pricing is tiered by driver count and by standalone vs in-package,
+            // per services.md; this offer carries the standalone floor.
+            price: 250,
           }),
           breadcrumbNode([
             { name: "Home", slug: "/" },
@@ -305,27 +322,84 @@ export default function DriverQualificationFilesPage() {
             </li>
           </ul>
 
-          {/* Pricing from the single source: $200 per driver, includes the yearly
-              update. Related driver-compliance costs are shown separately, each
-              figure linking to its page, never bundled into the chip. */}
+          {/* Pricing from the single source (services.md, DQ dual pricing): the DQ
+              file is priced two ways. Standalone (a la carte) renews annually at
+              the same driver-count rate. Bought inside a compliance package the
+              per-driver rate is lower. Both tiers scale by driver count, and more
+              than 3 drivers is a custom quote at either tier. The chip carries the
+              standalone 1-driver price; the table shows both tiers side by side. */}
           <div className="mt-8">
             <PriceChip
               price={pricing["/driver-qualification-files/"]}
-              label="includes the yearly update"
+              label="standalone, 1 driver, renews annually"
             />
           </div>
 
+          <table className="mt-6 w-full border-collapse text-left">
+            <thead>
+              <tr className="border-b border-slate/25">
+                <th className="py-2 pr-4 font-display text-sm font-semibold text-ink">
+                  Drivers
+                </th>
+                <th className="py-2 pr-4 font-display text-sm font-semibold text-ink">
+                  Standalone
+                </th>
+                <th className="py-2 font-display text-sm font-semibold text-ink">
+                  In a compliance package
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-slate/15">
+                <td className="py-2 pr-4 text-slate">1</td>
+                <td className="py-2 pr-4 font-mono tabular-nums text-ink">$250</td>
+                <td className="py-2 font-mono tabular-nums text-ink">
+                  $200 (included)
+                </td>
+              </tr>
+              <tr className="border-b border-slate/15">
+                <td className="py-2 pr-4 text-slate">2</td>
+                <td className="py-2 pr-4 font-mono tabular-nums text-ink">
+                  $450 total
+                </td>
+                <td className="py-2 font-mono tabular-nums text-ink">
+                  $350 total
+                </td>
+              </tr>
+              <tr className="border-b border-slate/15">
+                <td className="py-2 pr-4 text-slate">3</td>
+                <td className="py-2 pr-4 font-mono tabular-nums text-ink">
+                  $600 total
+                </td>
+                <td className="py-2 font-mono tabular-nums text-ink">
+                  $450 total
+                </td>
+              </tr>
+              <tr>
+                <td className="py-2 pr-4 text-slate">More than 3</td>
+                <td className="py-2 text-slate" colSpan={2}>
+                  Custom quote
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
           <p className="mt-4 text-sm text-slate">
+            Standalone DQ files renew annually at the same driver-count rate.
+            Inside a{" "}
+            <CrossLink href="/compliance-packages/">compliance package</CrossLink>,
+            the DQ file is lower because it is bundled with other setup work.
             Related driver-compliance services (
             <CrossLink href="/fmcsa-clearinghouse-registration/">
-              Clearinghouse $100
+              Clearinghouse $125
             </CrossLink>
             ,{" "}
             <CrossLink href="/drug-and-alcohol-consortium/">
-              consortium $150
+              consortium $175
             </CrossLink>
-            , pre-employment drug test $100) are priced separately and listed on
-            their pages.
+            , pre-employment drug test $125 standalone) are priced separately and
+            listed on their pages. DQ files require annual review and renewal and
+            are billed again at the applicable driver-count rate.
           </p>
         </Container>
       </Section>

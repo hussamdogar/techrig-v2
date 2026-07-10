@@ -3,7 +3,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { service } from "@/lib/server/supabase";
 import { checkRateLimit } from "@/lib/server/security";
 import { stripe } from "@/lib/stripe";
-import { computePricing, isServiceKey, type ServiceKey } from "@/lib/services-registry";
+import { computePricing, isBundleKey, isServiceKey, type ServiceKey } from "@/lib/services-registry";
 
 /**
  * POST /api/checkout  (M4). Creates (or reuses) a Stripe PaymentIntent for a
@@ -46,6 +46,7 @@ export async function POST(request: Request) {
   const pricing = computePricing(selected, {
     powerUnits: app.power_units,
     driverCount: app.application_data?.drivers?.driver_count,
+    bundle: isBundleKey(app.selected_bundle) ? app.selected_bundle : null,
   });
   const amountCents = Math.round(pricing.total * 100);
   if (amountCents <= 0) {

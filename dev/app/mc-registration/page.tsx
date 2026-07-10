@@ -66,7 +66,7 @@ const mcSteps: Step[] = [
 const faqs: Faq[] = [
   {
     q: "Do I need an MC number or just a USDOT number?",
-    a: "Many interstate for-hire carriers need both. Private carriers and some exempt freight may need only a USDOT number. We confirm before you pay.",
+    a: "A USDOT number may be sufficient for intrastate for-hire operations where permitted by state law. MC operating authority is generally required when transporting property for compensation in interstate commerce. Not every carrier hauling for compensation automatically needs MC authority, so we confirm before you pay.",
   },
   {
     q: "How long does it take to get an MC number?",
@@ -96,7 +96,7 @@ export default function McRegistrationPage() {
             slug: "/mc-registration/",
             description:
               "Tech Rig files your MC operating authority application and BOC-3, and coordinates your insurance filing, so your authority actually activates after the federal protest period.",
-            price: 600,
+            price: 650,
           }),
           breadcrumbNode([
             { name: "Home", slug: "/" },
@@ -310,9 +310,15 @@ export default function McRegistrationPage() {
 
           <ul className="mt-6 space-y-4 text-slate">
             <li>
-              <span className="font-medium text-ink">Includes your USDOT number:</span>{" "}
-              when you file for MC authority, the USDOT is issued with it, so you
-              do not pay the standalone USDOT fee on top.
+              <span className="font-medium text-ink">Tech Rig service fee:</span>{" "}
+              $650 standalone ($600 inside a{" "}
+              <CrossLink href="/compliance-packages/">
+                compliance package
+              </CrossLink>
+              ), one-time, for your MC authority application. This includes
+              your USDOT number: when you file for MC authority, the USDOT is
+              issued with it, so you do not pay the standalone USDOT fee on
+              top. (USDOT-only, if that is all you need, is $300.)
             </li>
             <li>
               <span className="font-medium text-ink">Insurance:</span> your
@@ -325,9 +331,14 @@ export default function McRegistrationPage() {
               FMCSA application fee is shown separately.
             </li>
             <li>
-              Want it all handled at once? The{" "}
-              <CrossLink href="/compliance-services/">full setup</CrossLink>{" "}
-              bundles USDOT, MC, BOC-3, UCR, and driver compliance.
+              Want it all handled at once? Our{" "}
+              <CrossLink href="/compliance-packages/">
+                compliance packages
+              </CrossLink>{" "}
+              bundle MC + USDOT with BOC-3, UCR, and driver compliance at
+              lower in-bundle prices (Authority Launch — Non-CDL $1,000, or
+              CDL/Heavy $1,700). Insurance is coordinated with your own
+              insurer, not a Tech Rig service.
             </li>
           </ul>
         </Container>

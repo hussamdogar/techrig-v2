@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { Container, Section } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { SERVICES, isServiceKey } from "@/lib/services-registry";
+import { BUNDLES, SERVICES, isBundleKey, isServiceKey } from "@/lib/services-registry";
 import { createApplication } from "./actions";
 
 // Authed, noindex (ADR-5).
@@ -16,9 +16,9 @@ export const metadata: Metadata = {
 export default async function ApplyStartPage({
   searchParams,
 }: {
-  searchParams: Promise<{ service?: string }>;
+  searchParams: Promise<{ service?: string; bundle?: string }>;
 }) {
-  const { service } = await searchParams;
+  const { service, bundle } = await searchParams;
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
@@ -26,6 +26,7 @@ export default async function ApplyStartPage({
   if (!user) redirect("/login/?next=/apply/");
 
   const preselect = isServiceKey(service) ? service : null;
+  const preselectBundle = isBundleKey(bundle) ? bundle : null;
 
   return (
     <Section surface="paper" className="pt-12 md:pt-16">
@@ -35,13 +36,19 @@ export default async function ApplyStartPage({
           Pick your services on the next step, fill in only what they need, and we&apos;ll handle the filings.
           You can save and come back anytime.
         </p>
-        {preselect ? (
+        {preselectBundle ? (
+          <p className="mt-4 rounded-card border border-slate/15 bg-cloud p-3 text-sm text-ink">
+            Starting with the <span className="font-semibold">{BUNDLES[preselectBundle].name}</span> package
+            selected. You can change it on the next step.
+          </p>
+        ) : preselect ? (
           <p className="mt-4 rounded-card border border-slate/15 bg-cloud p-3 text-sm text-ink">
             Starting with <span className="font-semibold">{SERVICES[preselect].name}</span> selected. You can add
             more on the next step.
           </p>
         ) : null}
         <form action={createApplication} className="mt-7">
+          {preselectBundle ? <input type="hidden" name="bundle" value={preselectBundle} /> : null}
           {preselect ? <input type="hidden" name="service" value={preselect} /> : null}
           <button type="submit" className={buttonVariants({ variant: "primary", size: "md" })}>
             Start application

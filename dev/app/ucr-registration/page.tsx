@@ -25,7 +25,7 @@ import {
   personNode,
   serviceNode,
 } from "@/lib/schema";
-import { pricing, type Price } from "@/lib/services";
+import { pricing } from "@/lib/services";
 
 // Primary file CTA routes into the /apply engine, pre-selecting the UCR service.
 const applyHref = "/apply/?service=ucr";
@@ -59,8 +59,9 @@ const ucrSteps: Step[] = [
   { label: "Renews annually", status: "Every year", state: "progress", icon: "clock" },
 ];
 
-// Government fee per fleet-size bracket (the UCR program fee), shown separately
-// from the flat $50 Tech Rig filing fee, never blended (client Q1.3 / D6).
+// Government fee per fleet-size bracket (the UCR program fee). Display rule:
+// show the government brackets and the Tech Rig filing fee as SEPARATE lines,
+// not combined totals.
 // Bracket = number of qualifying commercial vehicles; an operation running only
 // non-CMVs stays in 0-2 even with more than two of them. Re-verify the
 // government portion against the official UCR Plan schedule each registration year.
@@ -97,11 +98,6 @@ const faqs: Faq[] = [
   },
 ];
 
-// The BOC-3 + UCR bundle price (a separate, quiet option, not in the per-slug
-// map): BOC-3 $100 + UCR filing $50 = $150 in Tech Rig service fees. The UCR
-// government fee is bracket-based and shown separately, never blended in.
-const bundlePrice: Price = { kind: "flat", amount: 150 };
-
 export default function UcrRegistrationPage() {
   return (
     <>
@@ -112,7 +108,7 @@ export default function UcrRegistrationPage() {
             slug: "/ucr-registration/",
             description:
               "Tech Rig files your annual Unified Carrier Registration, confirms the correct fleet bracket, and reminds you before each renewal.",
-            price: 50,
+            price: 80,
           }),
           breadcrumbNode([
             { name: "Home", slug: "/" },
@@ -215,8 +211,11 @@ export default function UcrRegistrationPage() {
             The government fee is tiered by the number of qualifying commercial
             vehicles you operate, and the brackets jump fast, so a miscount can
             cost you. Brokers and forwarders without vehicles pay the lowest
-            bracket. Our filing fee is a flat $50 per registration, added on top
-            of the government fee for your bracket shown below:
+            bracket. Plus a separate Tech Rig filing fee of $80 standalone (one
+            line, shown apart from the government fee). Inside a{" "}
+            <CrossLink href="/compliance-packages/">compliance package</CrossLink>,
+            the UCR filing service is discounted to $50. The brackets for your
+            fleet size are shown below:
           </p>
 
           <table className="mt-6 w-full border-collapse text-left">
@@ -265,12 +264,13 @@ export default function UcrRegistrationPage() {
               label="UCR filing"
               govFeeNote="+ gov fee, set by fleet bracket"
             />
-            <PriceChip
-              price={bundlePrice}
-              label="BOC-3 + UCR filing"
-              govFeeNote="+ UCR gov fee by bracket"
-            />
           </div>
+
+          <p className="mt-6 text-slate">
+            Tech Rig filing fee: $80 standalone (or $50 inside a{" "}
+            <CrossLink href="/compliance-packages/">compliance package</CrossLink>
+            ).
+          </p>
 
           <p className="mt-6 text-slate">
             We do not advertise one flat UCR price for every carrier, because the

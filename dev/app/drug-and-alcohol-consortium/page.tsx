@@ -65,8 +65,9 @@ const consortiumSteps: Step[] = [
 
 // The pre-employment drug test is a flat service fee, mentioned alongside the
 // consortium enrollment but not in the per-slug pricing map (it is a section
-// item, not its own page). Single source, never an invented number.
-const preEmploymentPrice: Price = { kind: "flat", amount: 100 };
+// item, not its own page). Single source, never an invented number. This is
+// the standalone (a la carte) price; the in-bundle price is $100.
+const preEmploymentPrice: Price = { kind: "flat", amount: 125 };
 
 // One source feeds both the visible FAQ and the FAQPage schema (verbatim parity).
 // `a` carries the plain-text answer for schema; `aNode` adds the inline links
@@ -86,13 +87,18 @@ const faqs: Faq[] = [
   },
   {
     q: "How much does it cost?",
-    a: "Consortium enrollment is $150; a pre-employment drug test is $100.",
+    a: "Consortium enrollment is $175 standalone (renewed annually), or $150 inside a package; a pre-employment drug test is $125 standalone ($100 in a package).",
     aNode: (
       <>
         Consortium enrollment is{" "}
-        <span className="font-mono tabular-nums text-ink">$150</span>; a
-        pre-employment drug test is{" "}
-        <span className="font-mono tabular-nums text-ink">$100</span>.
+        <span className="font-mono tabular-nums text-ink">$175</span>{" "}
+        standalone (renewed annually), or{" "}
+        <span className="font-mono tabular-nums text-ink">$150</span> inside a
+        package; a pre-employment drug test is{" "}
+        <span className="font-mono tabular-nums text-ink">$125</span>{" "}
+        standalone (
+        <span className="font-mono tabular-nums text-ink">$100</span> in a
+        package).
       </>
     ),
   },
@@ -121,7 +127,7 @@ export default function DrugAndAlcoholConsortiumPage() {
             slug: "/drug-and-alcohol-consortium/",
             description:
               "Tech Rig enrolls CDL drivers in a compliant DOT drug and alcohol consortium and random testing pool, sets up the required testing, and keeps the program compliant.",
-            price: 150,
+            price: 175,
           }),
           breadcrumbNode([
             { name: "Home", slug: "/" },
@@ -279,9 +285,10 @@ export default function DrugAndAlcoholConsortiumPage() {
             </li>
           </ul>
 
-          {/* Pricing from the single source. The $150 enrollment and $100
-              pre-employment as flat chips; the Clearinghouse $100 is shown
-              separately as a Slate line, never blended into a third chip. */}
+          {/* Pricing from the single source. Standalone chips reflect the
+              a-la-carte price; the in-package price and the Clearinghouse
+              price are called out as a Slate line, never blended into a
+              third chip. */}
           <div className="mt-8 flex flex-wrap gap-4">
             <PriceChip
               price={pricing["/drug-and-alcohol-consortium/"]}
@@ -290,10 +297,25 @@ export default function DrugAndAlcoholConsortiumPage() {
             <PriceChip price={preEmploymentPrice} label="Pre-employment drug test" />
           </div>
           <p className="mt-4 text-sm text-slate">
+            Consortium enrollment is{" "}
+            <span className="font-mono tabular-nums text-ink">$175</span>{" "}
+            standalone (
+            <span className="font-mono tabular-nums text-ink">$150</span>{" "}
+            inside a{" "}
+            <CrossLink href="/compliance-packages/">
+              compliance package
+            </CrossLink>
+            ), with annual renewal. A pre-employment drug test is{" "}
+            <span className="font-mono tabular-nums text-ink">$125</span>{" "}
+            standalone (
+            <span className="font-mono tabular-nums text-ink">$100</span> in a
+            package).{" "}
             <CrossLink href="/fmcsa-clearinghouse-registration/">
               Clearinghouse
             </CrossLink>{" "}
-            registration is $100, listed separately.
+            setup is{" "}
+            <span className="font-mono tabular-nums text-ink">$125</span>{" "}
+            standalone, listed separately.
           </p>
         </Container>
       </Section>
@@ -306,12 +328,18 @@ export default function DrugAndAlcoholConsortiumPage() {
           </h2>
           <p className="mt-4 text-slate">
             A pre-employment drug test is required when a driver begins
-            safety-sensitive work for a new employer. A prior test counts only if
-            it was within the previous{" "}
-            <span className="font-mono tabular-nums text-ink">30 days</span> and for
-            the same company; otherwise a new test is needed. We coordinate
-            pre-employment testing so the timing is right and the result is
-            documented in the{" "}
+            safety-sensitive work for a new employer. A previous pre-employment
+            drug test may be used in place of a new one only if the driver has
+            actively participated in a qualifying DOT drug testing program
+            within the preceding{" "}
+            <span className="font-mono tabular-nums text-ink">30 days</span>{" "}
+            and meets FMCSA&apos;s other conditions for waiving a new test.
+            Tech Rig will verify eligibility through TrueTest before waiving
+            any test. We coordinate pre-employment testing (standalone{" "}
+            <span className="font-mono tabular-nums text-ink">$125</span>, or{" "}
+            <span className="font-mono tabular-nums text-ink">$100</span> in a
+            package) so the timing is right and the result is documented in
+            the{" "}
             <CrossLink href="/driver-qualification-files/">
               driver&apos;s qualification file
             </CrossLink>
@@ -322,13 +350,9 @@ export default function DrugAndAlcoholConsortiumPage() {
               (left Steel rule), mono only on the concrete data point. Worded as
               the consortium telling, distinct from the DQ-files page. */}
           <p className="mt-6 border-l-4 border-steel pl-4 text-slate">
-            Worked example: for a New Jersey power-only carrier, an earlier drug
-            test was{" "}
-            <span className="font-mono tabular-nums text-ink">
-              more than 30 days
-            </span>{" "}
-            old, so a new pre-employment test had to be arranged before the driver
-            could meet the requirement.
+            Worked example: for a New Jersey power-only carrier, an earlier
+            test did not meet the waiver conditions, so a new pre-employment
+            test had to be arranged before the driver could start.
           </p>
         </Container>
       </Section>

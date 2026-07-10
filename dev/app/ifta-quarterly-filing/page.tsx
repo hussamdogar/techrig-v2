@@ -42,12 +42,12 @@ export const metadata: Metadata = {
 const faqs: Faq[] = [
   {
     q: "How is this different from IFTA registration?",
-    a: "IFTA registration is the one-time $175 setup. This is the recurring quarterly return you owe after you are set up.",
+    a: "IFTA registration is the one-time $225 standalone setup ($175 in-bundle). This is the recurring quarterly return you owe after you are set up.",
     aNode: (
       <>
         <CrossLink href="/ifta-registration/">IFTA registration</CrossLink> is
-        the one-time $175 setup. This is the recurring quarterly return you owe
-        after you are set up.
+        the one-time $225 standalone setup ($175 in-bundle). This is the
+        recurring quarterly return you owe after you are set up.
       </>
     ),
   },

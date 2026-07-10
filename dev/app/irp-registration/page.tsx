@@ -109,12 +109,13 @@ export default function IrpRegistrationPage() {
     <>
       <JsonLd
         data={graph(
-          // IRP setup fee is $175 (confirmed). State registration fees depend on
-          // mileage and jurisdictions and are never encoded as the price.
+          // IRP setup fee: $225 standalone / $175 in-bundle (confirmed). State
+          // registration fees depend on mileage and jurisdictions and are never
+          // encoded as the price.
           serviceNode({
             serviceType: "IRP registration",
             slug: "/irp-registration/",
-            price: 175,
+            price: 225,
             description:
               "Tech Rig files your IRP registration, confirms your base jurisdiction, prepares and submits your apportioned-plate application, and coordinates IFTA if you need both.",
           }),
@@ -351,8 +352,8 @@ export default function IrpRegistrationPage() {
             </li>
           </ul>
 
-          {/* Price: IRP setup fee is $175 (single source). The state registration
-              fees are a separate Slate line, never encoded as the price. */}
+          {/* Price: IRP setup fee is $225 standalone / $175 in-bundle. The state
+              registration fees are a separate Slate line, never encoded as the price. */}
           <div className="mt-8">
             <PriceChip
               price={pricing["/irp-registration/"]}
@@ -361,10 +362,14 @@ export default function IrpRegistrationPage() {
             />
           </div>
           <p className="mt-4 text-slate">
-            Our IRP setup fee is $175. The state registration fees themselves are
-            set by the jurisdictions and your mileage, and are paid separately. We
-            show you which is our fee and which is the government fee before you
-            pay.
+            Our IRP setup fee is $225 standalone ($175 inside a{" "}
+            <CrossLink href="/compliance-packages/">
+              compliance package
+            </CrossLink>
+            ). This payment covers Tech Rig's setup and filing-assistance fee.
+            Government, state, plate, credential, and jurisdiction fees are
+            calculated separately and must be paid before the filing can be
+            completed. IRP renews annually.
           </p>
 
           <p className="mt-6">

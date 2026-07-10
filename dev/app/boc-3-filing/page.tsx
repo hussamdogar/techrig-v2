@@ -25,7 +25,7 @@ import {
   personNode,
   serviceNode,
 } from "@/lib/schema";
-import { pricing, type Price } from "@/lib/services";
+import { pricing } from "@/lib/services";
 
 // Primary CTA routes into the /apply engine, pre-selecting the BOC-3 service.
 const applyHref = "/apply/?service=boc-3";
@@ -80,7 +80,14 @@ const faqs: Faq[] = [
   },
   {
     q: "How much does a BOC-3 cost?",
-    a: "$100, one time, with us. $200 if filed together with UCR for the 0 to 2 vehicle bracket.",
+    a: "$100, one time. It is also included in every compliance package.",
+    // Visible text matches `a`; the inline link points to the bundle catalog.
+    aNode: (
+      <>
+        $100, one time. It is also included in every{" "}
+        <CrossLink href="/compliance-packages/">compliance package</CrossLink>.
+      </>
+    ),
   },
   {
     q: "Do I have to renew my BOC-3 every year?",
@@ -96,12 +103,22 @@ const faqs: Faq[] = [
   },
   {
     q: "Do I need anything else for my authority to activate?",
-    a: "Usually your MC application and UCR, plus proof of insurance filed by your own insurer. We handle the filings on our side so nothing is missed.",
+    a: "MC authority activation requires the BOC-3 filing and the required insurance filing from your insurer. UCR is a separate annual registration and is not required for authority activation. We can handle the full setup so nothing is missed. (BOC-3 is generally not required for a private motor carrier not operating for hire.)",
+    // Visible text matches `a`; the inline link now points to the bundle catalog
+    // (was /compliance-services/) since the fixed bundles replaced the old package.
+    aNode: (
+      <>
+        MC authority activation requires the BOC-3 filing and the required
+        insurance filing from your insurer. UCR is a separate annual
+        registration and is not required for authority activation. We can
+        handle the{" "}
+        <CrossLink href="/compliance-packages/">full setup</CrossLink> so
+        nothing is missed. (BOC-3 is generally not required for a private
+        motor carrier not operating for hire.)
+      </>
+    ),
   },
 ];
-
-// The BOC-3 + UCR bundle price (a quiet secondary option, not in the per-slug map).
-const bundlePrice: Price = { kind: "flat", amount: 200 };
 
 export default function Boc3FilingPage() {
   return (
@@ -296,17 +313,22 @@ export default function Boc3FilingPage() {
           </ol>
 
           {/* Price line directly under the stepper, from the single source. No gov
-              fee applies to the BOC-3 service itself. */}
+              fee applies to the BOC-3 service itself. The old BOC-3 + UCR combo
+              chip is gone: BOC-3 is now included in every compliance package. */}
           <div className="mt-8 flex flex-wrap gap-4">
             <PriceChip
               price={pricing["/boc-3-filing/"]}
               label="BOC-3 filing, one time"
             />
-            <PriceChip
-              price={bundlePrice}
-              label="BOC-3 + UCR, 0 to 2 vehicle bracket"
-            />
           </div>
+          <p className="mt-4 text-slate">
+            $100, one time. BOC-3 is also included in every{" "}
+            <CrossLink href="/compliance-packages/">
+              compliance package
+            </CrossLink>{" "}
+            (as a filing when required, or verification your existing BOC-3
+            is on file).
+          </p>
 
           {/* Mid-page CTA: subordinate Steel text link, same route. */}
           <p className="mt-6">

@@ -8,14 +8,21 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { service } from "@/lib/server/supabase";
 import {
   BILLABLE_SERVICE_KEYS,
+  BUNDLE_KEYS,
+  BUNDLES,
   SERVICES,
   computePricing,
+  getBundleBreakdown,
+  isBundleKey,
   isServiceKey,
+  type BundleBreakdown,
+  type BundleKey,
   type ServiceKey,
 } from "@/lib/services-registry";
 import { STEP_META, activeSteps, adjacentStep, resolveStep, type OperationsFlags } from "@/lib/apply/steps";
 import { carrierFacts } from "@/lib/apply/diff";
 import { ClientProgress } from "@/components/client-progress";
+import { BundleReceipt } from "@/components/bundle-receipt";
 import type { CarrierData } from "@/lib/lookup/types";
 import { addService, saveStep, setServices, submitApplication } from "../actions";
 import { StepFields } from "./step-fields";
@@ -32,6 +39,9 @@ const input =
 
 function selectedFrom(app: { selected_services: unknown }): ServiceKey[] {
   return Array.isArray(app.selected_services) ? (app.selected_services as ServiceKey[]).filter(isServiceKey) : [];
+}
+function bundleFrom(app: { selected_bundle?: unknown }): BundleKey | null {
+  return isBundleKey(app.selected_bundle) ? app.selected_bundle : null;
 }
 function flagsFrom(app: { application_data: any }): OperationsFlags {
   const ops = app.application_data?.operations ?? {};
@@ -78,8 +88,9 @@ export default async function ApplyPage({
   }
 
   const selected = selectedFrom(app);
+  const bundleKey = bundleFrom(app);
   const flags = flagsFrom(app);
-  const steps = activeSteps(selected, flags);
+  const steps = activeSteps(selected, flags, bundleKey);
   const current = resolveStep(steps, stepParam ?? app.current_step ?? undefined);
 
   // Snapshot (if started from a lookup) → OA-aware hints + diff context.
@@ -96,7 +107,9 @@ export default async function ApplyPage({
   const pricing = computePricing(selected, {
     powerUnits: app.power_units,
     driverCount: app.application_data?.drivers?.driver_count,
+    bundle: bundleKey,
   });
+  const bundleBreakdown = bundleKey ? getBundleBreakdown(bundleKey) : null;
 
   return (
     <Section surface="paper" className="pt-8 md:pt-10">
@@ -158,11 +171,12 @@ export default async function ApplyPage({
           {submitted ? (
             <Confirmation referenceId={app.reference_id} />
           ) : current === "services" ? (
-            <ServicesForm applicationId={applicationId} selected={selected} facts={facts} />
+            <ServicesForm applicationId={applicationId} selected={selected} bundleKey={bundleKey} facts={facts} />
           ) : current === "review" ? (
             <ReviewForm
               applicationId={applicationId}
               pricing={pricing}
+              bundleBreakdown={bundleBreakdown}
               app={app}
               steps={steps}
             />
@@ -194,43 +208,104 @@ export default async function ApplyPage({
 function ServicesForm({
   applicationId,
   selected,
+  bundleKey,
   facts,
 }: {
   applicationId: string;
   selected: ServiceKey[];
+  bundleKey: BundleKey | null;
   facts: ReturnType<typeof carrierFacts>;
 }) {
   return (
-    <form action={setServices.bind(null, applicationId)} className="space-y-3">
-      <p className="text-slate">Select the services you need. Only the steps those services require will appear.</p>
-      {BILLABLE_SERVICE_KEYS.map((key) => {
-        const def = SERVICES[key];
-        const hint =
-          key === "boc-3" && facts.hasActiveBoc3
-            ? "A blanket BOC-3 filing is already active on the FMCSA record."
-            : key === "mc-authority" && facts.hasActiveMc
-              ? `Active authority ${facts.mcDocket ?? ""} already on file.`
-              : null;
-        return (
-          <label
-            key={key}
-            className="flex cursor-pointer items-start gap-3 rounded-card border border-slate/15 bg-cloud p-4"
-          >
+    <form action={setServices.bind(null, applicationId)} className="space-y-8">
+      {/* Pricing v2: pick one of the four fixed bundles, or build a la carte. */}
+      <div>
+        <h2 className="font-display text-lg font-bold text-ink">Choose a package</h2>
+        <p className="mt-1 text-sm text-slate">
+          A package bundles several filings at a lower price than a la carte, with BOC-3 included. Compare on{" "}
+          <Link href="/compliance-packages/" className="font-medium text-steel underline-offset-4 hover:underline">
+            the packages page
+          </Link>
+          , or skip this and build a la carte below.
+        </p>
+        <div className="mt-4 space-y-3">
+          <label className="flex cursor-pointer items-start gap-3 rounded-card border border-slate/15 bg-cloud p-4">
             <input
-              type="checkbox"
-              name="service"
-              value={key}
-              defaultChecked={selected.includes(key)}
+              type="radio"
+              name="bundle"
+              value=""
+              defaultChecked={!bundleKey}
               className="mt-1 h-4 w-4 accent-steel"
             />
-            <span>
-              <span className="font-display font-semibold text-ink">{def.name}</span>
-              <span className="block text-sm text-slate">{def.blurb}</span>
-              {hint ? <span className="mt-1 block text-xs font-medium text-steel">{hint}</span> : null}
-            </span>
+            <span className="font-display font-semibold text-ink">No package, build a la carte</span>
           </label>
-        );
-      })}
+          {BUNDLE_KEYS.map((key) => {
+            const bundle = BUNDLES[key];
+            const breakdown = getBundleBreakdown(key);
+            return (
+              <label
+                key={key}
+                className="flex cursor-pointer items-start gap-3 rounded-card border border-slate/15 bg-cloud p-4"
+              >
+                <input
+                  type="radio"
+                  name="bundle"
+                  value={key}
+                  defaultChecked={bundleKey === key}
+                  className="mt-1 h-4 w-4 accent-steel"
+                />
+                <span>
+                  <span className="font-display font-semibold text-ink">
+                    {bundle.name} — ${breakdown.finalPrice.toLocaleString("en-US")}
+                  </span>
+                  <span className="block text-sm text-slate">{bundle.whoItsFor}</span>
+                </span>
+              </label>
+            );
+          })}
+        </div>
+      </div>
+
+      <div>
+        <h2 className="font-display text-lg font-bold text-ink">A la carte services</h2>
+        <p className="mt-1 text-sm text-slate">
+          Add anything else you need, billed at its standalone price. Services already in your selected package
+          above are not charged twice.
+        </p>
+        <div className="mt-3 space-y-3">
+          {BILLABLE_SERVICE_KEYS.map((key) => {
+            const def = SERVICES[key];
+            const inBundle = bundleKey ? BUNDLES[bundleKey].includes.includes(key) : false;
+            const hint =
+              key === "boc-3" && facts.hasActiveBoc3
+                ? "A blanket BOC-3 filing is already active on the FMCSA record."
+                : key === "mc-authority" && facts.hasActiveMc
+                  ? `Active authority ${facts.mcDocket ?? ""} already on file.`
+                  : inBundle
+                    ? "Included in your selected package."
+                    : null;
+            return (
+              <label
+                key={key}
+                className="flex cursor-pointer items-start gap-3 rounded-card border border-slate/15 bg-cloud p-4"
+              >
+                <input
+                  type="checkbox"
+                  name="service"
+                  value={key}
+                  defaultChecked={selected.includes(key)}
+                  className="mt-1 h-4 w-4 accent-steel"
+                />
+                <span>
+                  <span className="font-display font-semibold text-ink">{def.name}</span>
+                  <span className="block text-sm text-slate">{def.blurb}</span>
+                  {hint ? <span className="mt-1 block text-xs font-medium text-steel">{hint}</span> : null}
+                </span>
+              </label>
+            );
+          })}
+        </div>
+      </div>
       <p className="pt-2 text-xs text-slate">
         ELD is a partner referral and insurance is coordinated with your own insurer; neither is a Tech Rig
         filing, so neither is billed here.
@@ -251,32 +326,51 @@ function money(n: number | null): string {
 function ReviewForm({
   applicationId,
   pricing,
+  bundleBreakdown,
   app,
   steps,
 }: {
   applicationId: string;
   pricing: ReturnType<typeof computePricing>;
+  bundleBreakdown: BundleBreakdown | null;
   app: any;
   steps: string[];
 }) {
   const input2 =
     "mt-1.5 w-full rounded-btn border border-slate/25 bg-paper px-3 py-2.5 text-ink outline-none focus-visible:border-steel focus-visible:ring-2 focus-visible:ring-steel/40";
+  // When a bundle is active, its single summary line is replaced by the
+  // itemized BundleReceipt below; the remaining lines are overage/extras
+  // (UCR bracket difference, additional drivers, a la carte add-ons).
+  const otherLines = bundleBreakdown ? pricing.lines.filter((l) => l.key !== bundleBreakdown.key) : pricing.lines;
   return (
     <div className="space-y-6">
       <div className="rounded-card border border-slate/15 bg-cloud p-5">
         <h2 className="font-display text-lg font-bold text-ink">Your services</h2>
-        <ul className="mt-3 divide-y divide-slate/10">
-          {pricing.lines.map((l) => (
-            <li key={l.key} className="flex items-center justify-between gap-4 py-2 text-sm">
-              <span className="text-ink">
-                {l.name}
-                {l.note ? <span className="block text-xs text-slate">{l.note}</span> : null}
-                {l.govFeeNote ? <span className="block text-xs text-slate">{l.govFeeNote}</span> : null}
-              </span>
-              <span className="font-mono font-medium text-ink">{l.manualReview ? "Quote" : money(l.amount)}</span>
-            </li>
-          ))}
-        </ul>
+
+        {bundleBreakdown ? (
+          <div className="mt-3">
+            <p className="text-sm font-medium text-ink">{bundleBreakdown.name}</p>
+            <div className="mt-2">
+              <BundleReceipt breakdown={bundleBreakdown} />
+            </div>
+          </div>
+        ) : null}
+
+        {otherLines.length ? (
+          <ul className={cn("divide-y divide-slate/10", bundleBreakdown ? "mt-4 border-t border-slate/15 pt-1" : "mt-3")}>
+            {otherLines.map((l) => (
+              <li key={l.key} className="flex items-center justify-between gap-4 py-2 text-sm">
+                <span className="text-ink">
+                  {l.name}
+                  {l.note ? <span className="block text-xs text-slate">{l.note}</span> : null}
+                  {l.govFeeNote ? <span className="block text-xs text-slate">{l.govFeeNote}</span> : null}
+                </span>
+                <span className="font-mono font-medium text-ink">{l.manualReview ? "Quote" : money(l.amount)}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+
         <div className="mt-3 flex items-center justify-between border-t border-slate/15 pt-3">
           <span className="font-display font-bold text-ink">Tech Rig service total</span>
           <span className="font-mono text-lg font-bold text-ink">${pricing.total.toLocaleString("en-US")}</span>

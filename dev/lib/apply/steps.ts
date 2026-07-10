@@ -2,9 +2,10 @@
  * Dynamic stepper / state machine (M3 §4). The active steps are the union of the
  * selected services' requiredSteps, in the canonical STEP_ORDER, plus the always
  * present `services` (selection) and `review`, plus the conditional `passenger`
- * and `hazmat` steps which appear only when the operations step flags them.
+ * and `hazmat` steps which appear only when the operations step flags them, plus
+ * (pricing v2) a selected bundle's constituent services' requiredSteps.
  */
-import { SERVICES, STEP_ORDER, type ServiceKey, type StepKey } from "@/lib/services-registry";
+import { BUNDLES, SERVICES, STEP_ORDER, type BundleKey, type ServiceKey, type StepKey } from "@/lib/services-registry";
 
 export const STEP_META: Record<StepKey, { title: string }> = {
   services: { title: "Choose your services" },
@@ -22,10 +23,13 @@ export const STEP_META: Record<StepKey, { title: string }> = {
 
 export type OperationsFlags = { passenger?: boolean; hazmat?: boolean };
 
-/** The ordered set of steps to render for the given services + operations flags. */
-export function activeSteps(selected: ServiceKey[], flags: OperationsFlags): StepKey[] {
+/** The ordered set of steps to render for the given services + operations flags,
+ *  plus a selected bundle's constituents (e.g. a CDL/Heavy bundle pulls in
+ *  `vehicles` for IRP/IFTA even though those keys are not in `selected`). */
+export function activeSteps(selected: ServiceKey[], flags: OperationsFlags, bundleKey?: BundleKey | null): StepKey[] {
   const required = new Set<StepKey>(["services", "carrier-identity", "review"]);
-  for (const key of selected) {
+  const bundleServices = bundleKey ? BUNDLES[bundleKey].includes : [];
+  for (const key of [...selected, ...bundleServices]) {
     const def = SERVICES[key];
     if (def && !def.informationalOnly) def.requiredSteps.forEach((s) => required.add(s));
   }

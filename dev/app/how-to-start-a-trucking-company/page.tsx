@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
 import { AuthorityStatusTracker } from "@/components/authority-status-tracker";
-import { PriceChip } from "@/components/ui/price-chip";
 import { FaqAccordion, type Faq } from "@/components/faq-accordion";
 import { ClosingCta } from "@/components/closing-cta";
 import { JsonLd } from "@/components/json-ld";
@@ -21,7 +20,6 @@ import {
   PERSON_IDS,
   personNode,
 } from "@/lib/schema";
-import { type Price } from "@/lib/services";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -193,13 +191,6 @@ const mistakes: { Icon: typeof ShieldIcon; lead: string; rest: string }[] = [
     rest: "Records often must be claimed or linked before a filing will go through.",
   },
 ];
-
-// The full setup package fee ($1,700, from the brief and services.md).
-// services.ts has no "/compliance-services/" pricing key, so the package figure
-// is declared inline here rather than read from the single pricing source. If a
-// package slug is added to lib/services pricing, switch this to read from it so
-// the number cannot drift.
-const packagePrice: Price = { kind: "flat", amount: 1700 };
 
 // One source feeds both the visible FAQ and the FAQPage schema (verbatim parity).
 const faqs: Faq[] = [
@@ -430,28 +421,28 @@ export default function HowToStartATruckingCompanyPage() {
         </Container>
       </Section>
 
-      {/* How much it costs: honest framing. The $1,700 package renders from the
-          single PriceChip source; government and insurance costs stay on
-          separate Slate lines, never blended into the service fee. */}
+      {/* How much it costs: honest framing. There is no single package price
+          any more (four fixed bundles replace the old flat fee), so the range
+          and a link to the bundle page stand in for a PriceChip; government
+          and insurance costs stay on separate Slate lines, never blended into
+          the service fee. */}
       <Section surface="cloud" id="costs" className="scroll-mt-24">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             How much it costs to start a trucking company
           </h2>
 
-          <div className="mt-6">
-            <PriceChip
-              price={packagePrice}
-              label="Full setup package (service fee)"
-            />
-          </div>
-
           <div className="mt-6 space-y-4 text-slate">
             <p>
               Company and authority filings (USDOT, MC, BOC-3) plus driver
-              compliance are the main service costs. Our full package that covers
-              the setup is $1,700, and individual services are listed on each
-              page.
+              compliance are the main service costs. Complete setups run from
+              $400 for continuing carriers to $1,700 for a full new
+              heavy-vehicle authority launch, and individual services are
+              listed on each page. See{" "}
+              <CrossLink href="/compliance-packages/">
+                compliance packages
+              </CrossLink>{" "}
+              for the bundle that fits your situation.
             </p>
             <p>
               On top of service fees you have government fees (for example IRP and

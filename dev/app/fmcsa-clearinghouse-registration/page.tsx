@@ -93,11 +93,15 @@ const faqs: Faq[] = [
   },
   {
     q: "How much does it cost?",
-    a: "$100 for Clearinghouse registration assistance.",
+    a: "$125 standalone for Clearinghouse setup, or $100 inside a compliance package.",
     aNode: (
       <>
-        <span className="font-mono tabular-nums text-ink">$100</span> for
-        Clearinghouse registration assistance.
+        <span className="font-mono tabular-nums text-ink">$125</span>{" "}
+        standalone for Clearinghouse setup, or{" "}
+        <span className="font-mono tabular-nums text-ink">$100</span>{" "}
+        inside a{" "}
+        <CrossLink href="/compliance-packages/">compliance package</CrossLink>
+        .
       </>
     ),
   },
@@ -113,7 +117,7 @@ export default function FmcsaClearinghouseRegistrationPage() {
             slug: "/fmcsa-clearinghouse-registration/",
             description:
               "Tech Rig registers your company in the FMCSA Clearinghouse, helps set up the required driver queries, and connects it to your consortium and driver qualification files.",
-            price: 100,
+            price: 125,
           }),
           breadcrumbNode([
             { name: "Home", slug: "/" },
@@ -342,14 +346,19 @@ export default function FmcsaClearinghouseRegistrationPage() {
             />
           </div>
           <p className="mt-4 text-slate">
+            Clearinghouse setup is $125 standalone ($100 inside a{" "}
+            <CrossLink href="/compliance-packages/">
+              compliance package
+            </CrossLink>
+            ).{" "}
             <CrossLink href="/drug-and-alcohol-consortium/">
               Consortium enrollment
             </CrossLink>{" "}
-            ($150) and{" "}
+            ($175 standalone) and{" "}
             <CrossLink href="/driver-qualification-files/">
               DQ files
             </CrossLink>{" "}
-            ($200 per driver) are separate, on their own pages.
+            ($250 first driver standalone) are separate, on their own pages.
           </p>
         </Container>
       </Section>

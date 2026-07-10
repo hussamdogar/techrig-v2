@@ -230,6 +230,36 @@ export function offerCatalogNode(
   };
 }
 
+/**
+ * A priced OfferCatalog (pricing v2, /compliance-packages/): each item carries
+ * its own `price`, unlike `offerCatalogNode` (used by the hub, which lists
+ * services with no per-item price). Prices are passed in by the caller, read
+ * from the Dev registry's derived fields, never hardcoded twice here.
+ */
+export function pricedOfferCatalogNode(
+  catalogName: string,
+  items: { name: string; slug: string; price: number }[],
+) {
+  return {
+    "@type": "ProfessionalService",
+    "@id": ORG_ID,
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: catalogName,
+      itemListElement: items.map((it) => ({
+        "@type": "Offer",
+        priceCurrency: "USD",
+        price: String(it.price),
+        itemOffered: {
+          "@type": "Service",
+          name: it.name,
+          url: `${site.url}${it.slug}`,
+        },
+      })),
+    },
+  };
+}
+
 /** AboutPage node whose mainEntity is the Organization. */
 export function aboutPageNode(slug: string) {
   return {

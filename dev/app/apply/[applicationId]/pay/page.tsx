@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Container, Section } from "@/components/ui/container";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { computePricing, isServiceKey, type ServiceKey } from "@/lib/services-registry";
+import { computePricing, isBundleKey, isServiceKey, type ServiceKey } from "@/lib/services-registry";
 import { PaymentForm } from "@/components/payment-form";
 
 // Authed, noindex (ADR-5).
@@ -27,6 +27,7 @@ export default async function PayPage({ params }: { params: Promise<{ applicatio
   const pricing = computePricing(selected, {
     powerUnits: app.power_units,
     driverCount: app.application_data?.drivers?.driver_count,
+    bundle: isBundleKey(app.selected_bundle) ? app.selected_bundle : null,
   });
 
   const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY ?? "";

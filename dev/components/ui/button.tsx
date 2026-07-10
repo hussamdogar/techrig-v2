@@ -20,6 +20,10 @@ export const buttonVariants = cva(
         // Subordinate on light surfaces: Ink outline, fills on hover.
         secondary:
           "border-[1.5px] border-ink text-ink hover:bg-ink hover:text-cloud",
+        // Subordinate on light surfaces, pre-filled (design-system §8: "solid Ink
+        // on light sections"). Used where a view already carries a rationed
+        // Signal action elsewhere (e.g. package card CTAs on /compliance-packages/).
+        solidInk: "bg-ink text-cloud hover:brightness-110",
         // Subordinate on Ink surfaces: Cloud outline (e.g. the header Call button).
         outlineOnInk:
           "border-[1.5px] border-cloud/70 text-cloud hover:bg-cloud hover:text-ink",

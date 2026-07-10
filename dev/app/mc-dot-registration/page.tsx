@@ -208,11 +208,10 @@ export default function McDotRegistrationPage() {
               bigger-need carrier up without competing with the package CTA. */}
           <p className="mt-8 text-slate">
             Need driver compliance and interstate filings too (DQ files,
-            Clearinghouse, consortium, IRP, IFTA, ELD)? Step up to the{" "}
-            <CrossLink href="/compliance-services/">
-              full compliance package
-            </CrossLink>{" "}
-            at $1,700.
+            Clearinghouse, consortium, IRP, IFTA)? Our{" "}
+            <CrossLink href="/compliance-packages/">compliance packages</CrossLink>{" "}
+            bundle it: Authority Launch — Non-CDL ($1,000) or Authority Launch —
+            CDL/Heavy ($1,700).
           </p>
         </Container>
       </Section>
@@ -230,8 +229,8 @@ export default function McDotRegistrationPage() {
           </p>
 
           {/* Core service-fee chips, single-sourced from services.md. The MC
-              fee ($600) includes the USDOT number, so there is no separate USDOT
-              chip; BOC-3 and UCR complete the core. UCR keeps its "from $50". */}
+              fee ($650 standalone) includes the USDOT number, so there is no
+              separate USDOT chip; BOC-3 and UCR complete the core. */}
           <div className="mt-6 flex flex-wrap gap-4">
             <PriceChip
               price={{ ...pricing["/mc-registration/"], govFee: false }}
@@ -256,11 +255,12 @@ export default function McDotRegistrationPage() {
           </p>
 
           <p className="mt-6 text-slate">
-            The complete setup with driver and interstate compliance is the{" "}
-            <CrossLink href="/compliance-services/">
-              $1,700 full package
-            </CrossLink>
-            , which already includes the MC and UCR (0 to 2 bracket) government
+            Getting it all as one lower-priced bundle: the{" "}
+            <CrossLink href="/compliance-packages/">
+              Authority Launch packages
+            </CrossLink>{" "}
+            ($1,000 non-CDL / $1,700 CDL/heavy), which use the discounted
+            in-bundle prices and include the MC and UCR (0-2 bracket) government
             fees.
           </p>
         </Container>

@@ -27,9 +27,10 @@ import { pricing, type Price } from "@/lib/services";
 // Primary file/apply CTAs route into the /apply engine, prefilled for IFTA.
 const applyHref = "/apply/?service=ifta";
 
-// IFTA quarterly filing is a separate recurring service from the one-time $175
-// setup: $150 service fee plus a government fee. Not in the per-slug map because
-// it is a recurring filing, not a page-level setup price.
+// IFTA quarterly filing is a separate recurring service from the one-time
+// setup ($225 standalone, $175 in-bundle): $150 service fee plus a government
+// fee. Not in the per-slug map because it is a recurring filing, not a
+// page-level setup price.
 const quarterlyPrice: Price = { kind: "flat", amount: 150, govFee: true };
 
 export const metadata: Metadata = {
@@ -84,12 +85,12 @@ export default function IftaRegistrationPage() {
     <>
       <JsonLd
         data={graph(
-          // IFTA setup fee is $175 (confirmed). State fees are separate and are
-          // never encoded as the price.
+          // Setup fee $225 standalone / $175 in-bundle; state fees never
+          // encoded as price.
           serviceNode({
             serviceType: "IFTA registration",
             slug: "/ifta-registration/",
-            price: 175,
+            price: 225,
             description:
               "Tech Rig sets up your IFTA account and decals and supports your quarterly fuel-tax filing.",
           }),
@@ -242,8 +243,9 @@ export default function IftaRegistrationPage() {
             ))}
           </ul>
 
-          {/* Price chip from the single source ($175 setup fee). The govFee flag
-              renders state fees on a separate Slate line, never as the price. */}
+          {/* Price chip from the single source ($225 standalone setup fee,
+              $175 inside a compliance package). The govFee flag renders state
+              fees on a separate Slate line, never as the price. */}
           <div className="mt-8">
             <PriceChip
               price={pricing["/ifta-registration/"]}
@@ -252,7 +254,18 @@ export default function IftaRegistrationPage() {
             />
           </div>
           <p className="mt-4 text-slate">
-            Our IFTA setup fee is $175. State fees are separate and shown up front.
+            Our IFTA setup fee is $225 standalone ($175 inside a{" "}
+            <CrossLink href="/compliance-packages/">
+              compliance package
+            </CrossLink>
+            ). This covers Tech Rig&apos;s setup and filing-assistance fee;
+            government, state, credential, and jurisdiction fees are
+            calculated separately and paid before filing. IFTA returns are
+            then filed quarterly (see{" "}
+            <CrossLink href="/ifta-quarterly-filing/">
+              IFTA quarterly filing
+            </CrossLink>
+            , $150).
           </p>
         </Container>
       </Section>
@@ -280,7 +293,8 @@ export default function IftaRegistrationPage() {
           </div>
           <p className="mt-4 text-slate">
             Our quarterly filing fee is $150, plus the government fee. This is
-            separate from the one-time $175 setup.
+            separate from the one-time setup ($225 standalone, $175
+            in-bundle).
           </p>
 
           <p className="mt-6">
