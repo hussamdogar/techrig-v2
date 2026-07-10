@@ -26,7 +26,9 @@ import {
   serviceNode,
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
-import { filingCtaHref } from "@/lib/site";
+
+// Primary file CTA routes into the /apply engine, pre-selecting the USDOT service.
+const applyHref = "/apply/?service=usdot";
 
 export const metadata: Metadata = {
   title: "How to Get a DOT Number for Trucking",
@@ -143,7 +145,7 @@ export default function DotRegistrationPage() {
               </p>
               <div className="mt-7">
                 <Link
-                  href={filingCtaHref}
+                  href={applyHref}
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
                   Get my USDOT number
@@ -354,7 +356,7 @@ export default function DotRegistrationPage() {
           {/* Mid-page CTA: subordinate Steel text link, same route as hero. */}
           <p className="mt-6">
             <Link
-              href={filingCtaHref}
+              href={applyHref}
               className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
             >
               Get my USDOT number
@@ -377,7 +379,7 @@ export default function DotRegistrationPage() {
 
       <ClosingCta
         text="Starting a trucking operation? Get your USDOT number set up right, the first time."
-        cta={{ label: "Get my USDOT number", href: filingCtaHref }}
+        cta={{ label: "Get my USDOT number", href: applyHref }}
       />
     </>
   );

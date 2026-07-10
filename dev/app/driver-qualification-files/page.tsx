@@ -27,7 +27,9 @@ import {
   serviceNode,
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
-import { filingCtaHref } from "@/lib/site";
+
+// Primary CTA routes into the /apply engine, pre-selecting the DQ files service.
+const applyHref = "/apply/?service=dq-files";
 
 export const metadata: Metadata = {
   title: "Driver Qualification Files (DQ)",
@@ -165,7 +167,7 @@ export default function DriverQualificationFilesPage() {
               </p>
               <div className="mt-7">
                 <Link
-                  href={filingCtaHref}
+                  href={applyHref}
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
                   Set up my DQ files
@@ -395,7 +397,7 @@ export default function DriverQualificationFilesPage() {
 
       <ClosingCta
         text="Hiring a driver, or running your own truck? Get audit-ready driver files in place."
-        cta={{ label: "Set up my DQ files", href: filingCtaHref }}
+        cta={{ label: "Set up my DQ files", href: applyHref }}
       />
     </>
   );

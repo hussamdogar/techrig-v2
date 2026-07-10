@@ -26,7 +26,9 @@ import {
   serviceNode,
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
-import { filingCtaHref } from "@/lib/site";
+
+// Primary file/apply CTAs route into the /apply engine, prefilled to this service.
+const applyHref = "/apply/?service=irp";
 
 export const metadata: Metadata = {
   title: {
@@ -152,7 +154,7 @@ export default function IrpRegistrationPage() {
               </p>
               <div className="mt-7">
                 <Link
-                  href={filingCtaHref}
+                  href={applyHref}
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
                   Start my IRP registration
@@ -367,7 +369,7 @@ export default function IrpRegistrationPage() {
 
           <p className="mt-6">
             <Link
-              href={filingCtaHref}
+              href={applyHref}
               className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
             >
               Start my IRP registration
@@ -405,7 +407,7 @@ export default function IrpRegistrationPage() {
 
       <ClosingCta
         text="Running interstate? Get your apportioned plates handled the right way."
-        cta={{ label: "Start my IRP registration", href: filingCtaHref }}
+        cta={{ label: "Start my IRP registration", href: applyHref }}
       />
     </>
   );

@@ -27,9 +27,8 @@ import {
 } from "@/lib/schema";
 import { pricing, type Price } from "@/lib/services";
 
-// BOC-3 routes to the existing external form/subdomain (the brief's transactional
-// endpoint), which overrides the shared filingCtaHref for this page only.
-const bocFormHref = "https://boc-3.techrig.org";
+// Primary CTA routes into the /apply engine, pre-selecting the BOC-3 service.
+const applyHref = "/apply/?service=boc-3";
 
 export const metadata: Metadata = {
   title: {
@@ -152,7 +151,7 @@ export default function Boc3FilingPage() {
               </p>
               <div className="mt-7">
                 <Link
-                  href={bocFormHref}
+                  href={applyHref}
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
                   File my BOC-3
@@ -254,7 +253,7 @@ export default function Boc3FilingPage() {
                 text: (
                   <>
                     You give us your company details through our{" "}
-                    <CrossLink href={bocFormHref}>BOC-3 form</CrossLink>.
+                    <CrossLink href={applyHref}>BOC-3 form</CrossLink>.
                   </>
                 ),
               },
@@ -312,7 +311,7 @@ export default function Boc3FilingPage() {
           {/* Mid-page CTA: subordinate Steel text link, same route. */}
           <p className="mt-6">
             <Link
-              href={bocFormHref}
+              href={applyHref}
               className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
             >
               File my BOC-3
@@ -358,7 +357,7 @@ export default function Boc3FilingPage() {
 
       <ClosingCta
         text="Need a BOC-3 to activate your authority? File it directly with an FMCSA-listed process agent."
-        cta={{ label: "File my BOC-3", href: bocFormHref }}
+        cta={{ label: "File my BOC-3", href: applyHref }}
       />
     </>
   );

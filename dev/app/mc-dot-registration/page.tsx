@@ -21,7 +21,9 @@ import {
   serviceNode,
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
-import { filingCtaHref } from "@/lib/site";
+
+// Primary file/apply CTAs route into the /apply engine, prefilled to this service.
+const applyHref = "/apply/?service=mc-authority";
 
 export const metadata: Metadata = {
   // Brief title tag does not end in " | Tech Rig" in the strippable template
@@ -152,7 +154,7 @@ export default function McDotRegistrationPage() {
               </p>
               <div className="mt-7">
                 <Link
-                  href={filingCtaHref}
+                  href={applyHref}
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
                   Get my authority package
@@ -314,7 +316,7 @@ export default function McDotRegistrationPage() {
 
       <ClosingCta
         text="Get the whole authority handled, in the right order. Start your package."
-        cta={{ label: "Get my authority package", href: filingCtaHref }}
+        cta={{ label: "Get my authority package", href: applyHref }}
       />
     </>
   );

@@ -26,7 +26,9 @@ import {
   serviceNode,
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
-import { filingCtaHref } from "@/lib/site";
+
+// Primary file/apply CTAs route into the /apply engine, prefilled for the Clearinghouse.
+const applyHref = "/apply/?service=clearinghouse";
 
 export const metadata: Metadata = {
   title: "FMCSA Clearinghouse Registration",
@@ -152,7 +154,7 @@ export default function FmcsaClearinghouseRegistrationPage() {
               </p>
               <div className="mt-7">
                 <Link
-                  href={filingCtaHref}
+                  href={applyHref}
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
                   Register with the Clearinghouse
@@ -399,7 +401,7 @@ export default function FmcsaClearinghouseRegistrationPage() {
 
       <ClosingCta
         text="Setting up driver compliance? Get your Clearinghouse registration handled with your testing program."
-        cta={{ label: "Register with the Clearinghouse", href: filingCtaHref }}
+        cta={{ label: "Register with the Clearinghouse", href: applyHref }}
       />
     </>
   );

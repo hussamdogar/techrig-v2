@@ -26,7 +26,9 @@ import {
   serviceNode,
 } from "@/lib/schema";
 import { pricing, type Price } from "@/lib/services";
-import { filingCtaHref } from "@/lib/site";
+
+// Primary file/apply CTAs route into the /apply engine, prefilled for the consortium.
+const applyHref = "/apply/?service=consortium";
 
 export const metadata: Metadata = {
   title: "Drug and Alcohol Consortium for Trucking",
@@ -162,7 +164,7 @@ export default function DrugAndAlcoholConsortiumPage() {
               </p>
               <div className="mt-7">
                 <Link
-                  href={filingCtaHref}
+                  href={applyHref}
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
                   Enroll in a consortium
@@ -420,7 +422,7 @@ export default function DrugAndAlcoholConsortiumPage() {
 
       <ClosingCta
         text="Driving a CDL vehicle? Get into a compliant testing program before you haul."
-        cta={{ label: "Enroll in a consortium", href: filingCtaHref }}
+        cta={{ label: "Enroll in a consortium", href: applyHref }}
       />
     </>
   );

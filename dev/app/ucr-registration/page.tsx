@@ -26,7 +26,9 @@ import {
   serviceNode,
 } from "@/lib/schema";
 import { pricing, type Price } from "@/lib/services";
-import { filingCtaHref } from "@/lib/site";
+
+// Primary file CTA routes into the /apply engine, pre-selecting the UCR service.
+const applyHref = "/apply/?service=ucr";
 
 export const metadata: Metadata = {
   title: "UCR Registration and Renewal",
@@ -148,7 +150,7 @@ export default function UcrRegistrationPage() {
               </p>
               <div className="mt-7">
                 <Link
-                  href={filingCtaHref}
+                  href={applyHref}
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
                   File my UCR
@@ -278,7 +280,7 @@ export default function UcrRegistrationPage() {
 
           <p className="mt-6">
             <Link
-              href={filingCtaHref}
+              href={applyHref}
               className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
             >
               File my UCR
@@ -367,7 +369,7 @@ export default function UcrRegistrationPage() {
 
       <ClosingCta
         text="Due for UCR or starting fresh? We will file it right and remind you next year."
-        cta={{ label: "File my UCR", href: filingCtaHref }}
+        cta={{ label: "File my UCR", href: applyHref }}
       />
     </>
   );

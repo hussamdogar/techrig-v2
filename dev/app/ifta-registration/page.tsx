@@ -23,7 +23,9 @@ import {
   serviceNode,
 } from "@/lib/schema";
 import { pricing, type Price } from "@/lib/services";
-import { filingCtaHref } from "@/lib/site";
+
+// Primary file/apply CTAs route into the /apply engine, prefilled for IFTA.
+const applyHref = "/apply/?service=ifta";
 
 // IFTA quarterly filing is a separate recurring service from the one-time $175
 // setup: $150 service fee plus a government fee. Not in the per-slug map because
@@ -127,7 +129,7 @@ export default function IftaRegistrationPage() {
               </p>
               <div className="mt-7">
                 <Link
-                  href={filingCtaHref}
+                  href={applyHref}
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
                   Set up my IFTA
@@ -283,7 +285,7 @@ export default function IftaRegistrationPage() {
 
           <p className="mt-6">
             <Link
-              href={filingCtaHref}
+              href={applyHref}
               className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
             >
               Set up quarterly filing
@@ -312,7 +314,7 @@ export default function IftaRegistrationPage() {
 
       <ClosingCta
         text="Running across state lines? Get your IFTA set up so quarterly filing is simple."
-        cta={{ label: "Set up my IFTA", href: filingCtaHref }}
+        cta={{ label: "Set up my IFTA", href: applyHref }}
       />
     </>
   );

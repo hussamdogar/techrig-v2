@@ -24,7 +24,9 @@ import { complianceNav, pricing, type Price } from "@/lib/services";
 // single primary CTA (hero, package panel, close) route into the silo. The
 // primary action is always /mc-dot-registration/ (the Authority Package), per
 // the brief and design spec, kept consistent across all three primary slots.
-const SETUP_CTA = "/mc-dot-registration/";
+// Compliance hub funnels into the /apply engine generically (D14); the visitor
+// picks services on the first step. Service-specific pages deep-link with ?service=.
+const SETUP_CTA = "/apply/";
 
 export const metadata: Metadata = {
   // Brief title tag is "DOT Compliance Services for Trucking | Tech Rig"; the

@@ -27,7 +27,9 @@ import {
   serviceNode,
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
-import { filingCtaHref } from "@/lib/site";
+
+// Primary file/apply CTAs route into the /apply engine, prefilled to this service.
+const applyHref = "/apply/?service=mc-authority";
 
 export const metadata: Metadata = {
   title: { absolute: "How to Get Your MC Number | Tech Rig Filing" },
@@ -132,7 +134,7 @@ export default function McRegistrationPage() {
               </p>
               <div className="mt-7">
                 <Link
-                  href={filingCtaHref}
+                  href={applyHref}
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
                   Get my MC authority
@@ -278,7 +280,7 @@ export default function McRegistrationPage() {
           {/* Mid-page CTA: subordinate Steel text link, same route as hero. */}
           <p className="mt-8">
             <Link
-              href={filingCtaHref}
+              href={applyHref}
               className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
             >
               Get my MC authority
@@ -345,7 +347,7 @@ export default function McRegistrationPage() {
 
       <ClosingCta
         text="Ready to run for hire? Get your MC authority filed so it actually activates."
-        cta={{ label: "Get my MC authority", href: filingCtaHref }}
+        cta={{ label: "Get my MC authority", href: applyHref }}
       />
     </>
   );
