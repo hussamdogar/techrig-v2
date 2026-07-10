@@ -44,7 +44,7 @@ We assemble these into a compliant file and keep the recurring items current.
 - We connect it to your [drug and alcohol consortium](/drug-and-alcohol-consortium/), [Clearinghouse](/fmcsa-clearinghouse-registration/), and pre-employment drug test so the testing records are in place.
 - We keep the recurring items (like the annual MVR review) on schedule so the file stays audit-ready.
 
-**Price line:** $200 per driver, including the yearly update. Related driver-compliance services (Clearinghouse $100, consortium $150, pre-employment drug test $100) are priced separately and listed on their pages.
+**Price line (standalone, annual renewal at the same rate):** 1 driver $250 · 2 drivers $450 total · 3 drivers $600 total · more than 3 = custom quote. Inside a [compliance package](/compliance-packages/) the DQ file is lower: 1 driver $200 (included) · 2 drivers $350 total · 3 drivers $450 total. Related driver-compliance services (Clearinghouse $125, consortium $175, pre-employment drug test $125 standalone) are priced separately and listed on their pages. DQ files require annual review and renewal and are billed again at the applicable driver-count rate.
 
 ### H2: DQ files and your first safety audit
 New carriers face a safety audit early in their operation, and driver qualification files are a core part of what is reviewed alongside [Clearinghouse](/fmcsa-clearinghouse-registration/) registration and consortium enrollment. Worked example (publishable): a New Jersey power-only carrier needed his DQ file, consortium enrollment, Clearinghouse setup, and a fresh pre-employment drug test before he could put his truck to work, because an earlier test was more than 30 days old. We handled the set so he was audit-ready, not just licensed.
@@ -54,7 +54,7 @@ FAQPage schema, Grade 8:
 - "Do owner-operators need a DQ file?" Yes. If you drive the truck, you need a driver qualification file, even if you own the company and are the only driver.
 - "What does a DQ file include?" The driver's application, license, driving record and annual review, medical certificate, testing records, and other items that must be kept current.
 - "How often do DQ files need updating?" Some items are one-time; others, like the annual review of the driving record, recur. We keep the recurring items on schedule.
-- "How much does a DQ file cost?" $200 per driver, including the yearly update.
+- "How much does a DQ file cost?" Standalone: $250 for one driver, $450 total for two, $600 total for three, custom quote beyond that, renewed annually. It is lower inside a [compliance package](/compliance-packages/) ($200 for the first driver).
 - "Are DQ files checked in an audit?" Yes. They are one of the first things a new-carrier safety audit reviews.
 
 ### Closing CTA band
@@ -67,7 +67,7 @@ FAQPage schema, Grade 8:
 Hub card + package; pillar (step 7); consortium + Clearinghouse pages (driver-compliance cluster); MC page (after authority).
 
 ## Schema (JSON-LD)
-- `Service` (serviceType "Driver qualification file management", provider {@id #org}, areaServed US, offers price 200 USD).
+- `Service` (serviceType "Driver qualification file management", provider {@id #org}, areaServed US, offers price 250 USD standalone for the first driver; tiered by driver count per `services.md`).
 - `BreadcrumbList`: Home > Compliance Services > Driver Qualification Files.
 - `FAQPage`.
 

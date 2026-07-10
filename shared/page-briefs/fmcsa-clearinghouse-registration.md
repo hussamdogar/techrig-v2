@@ -34,14 +34,14 @@ Whether CDL drug-and-alcohol rules apply depends on your operation. We confirm b
 - We help set up the required queries on your drivers.
 - We connect your Clearinghouse registration to your [consortium](/drug-and-alcohol-consortium/) and [driver qualification files](/driver-qualification-files/), so your driver compliance is one coordinated set.
 
-**Price line:** Clearinghouse registration assistance is $100. Consortium enrollment ($150) and DQ files ($200 per driver) are separate, on their own pages.
+**Price line:** Clearinghouse setup is **$125 standalone** ($100 inside a [compliance package](/compliance-packages/)). Consortium enrollment ($175 standalone) and DQ files ($250 first driver standalone) are separate, on their own pages.
 
 ### H2: FMCSA Clearinghouse FAQ
 FAQPage schema, Grade 8:
 - "What is the FMCSA Clearinghouse?" A federal database of CDL drug and alcohol violations that carriers must register with and query.
 - "Do I need it if I am an owner-operator?" If you drive a CDL vehicle under FMCSA, the drug-and-alcohol rules generally apply, which includes Clearinghouse obligations. We confirm for your situation.
 - "Is the Clearinghouse the same as a consortium?" No. The [consortium](/drug-and-alcohol-consortium/) administers your testing; the Clearinghouse records violations. You typically need both.
-- "How much does it cost?" $100 for Clearinghouse registration assistance.
+- "How much does it cost?" $125 standalone for Clearinghouse setup, or $100 inside a [compliance package](/compliance-packages/).
 
 ### Closing CTA band
 "Setting up driver compliance? Get your Clearinghouse registration handled with your testing program." Button "Register with the Clearinghouse".
@@ -53,7 +53,7 @@ FAQPage schema, Grade 8:
 Hub card + package; pillar (step 7); consortium + DQ pages (driver-compliance cluster).
 
 ## Schema (JSON-LD)
-- `Service` (serviceType "FMCSA Clearinghouse registration", provider {@id #org}, areaServed US, offers price 100 USD).
+- `Service` (serviceType "FMCSA Clearinghouse registration", provider {@id #org}, areaServed US, offers price 125 USD standalone; $100 in-bundle).
 - `BreadcrumbList`: Home > Compliance Services > FMCSA Clearinghouse Registration.
 - `FAQPage`.
 

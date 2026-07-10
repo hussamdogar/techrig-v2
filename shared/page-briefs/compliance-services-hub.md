@@ -24,25 +24,21 @@ Primary "dot compliance services" in: title (yes), first paragraph (yes), H2s ("
 **Hero paragraph (styled lede, not a heading):**
 Getting a truck on the road is not one filing. It is a sequence, and any missed step can stall your authority at the worst time. Tech Rig handles the whole sequence. Our DOT compliance services take a new or returning carrier from company formation through active operating authority, then keep you compliant once you are hauling. DGR Tech Rig LLC is officially listed by FMCSA as a BOC-3 blanket process-agent company, and we have run filings for owner-operators, fleets, and brokers in more than 10 states.
 
-**Primary CTA (above the fold):** button "Start your compliance setup" → `/mc-dot-registration/`. Secondary text link: "or see the full package" → anchor to the package section below.
+**Primary CTA (above the fold):** button "Start your compliance setup" → `/apply` (choose à la carte or a package). Secondary text link: "or compare our packages" → `/compliance-packages/`.
 
-### H2: The full compliance package
-One paragraph + a list. Lead:
-Most new carriers do not want to assemble this piece by piece. Our full compliance package covers what it takes to stand up a motor carrier and onboard your first driver, for a fixed $1,700. You can also buy any service on its own. The package price already includes the government fees for your MC number and your UCR in the 0 to 2 vehicle bracket. IRP and IFTA are the exception: those government fees depend on your mileage and states, so we calculate them once you share those details.
+### H2: Compliance packages (choose by authority status + vehicle)
+Package-selector block. Most carriers save by bundling: **BOC-3 is included in every package**, and bundle prices are lower than à la carte. Full detail + the side-by-side comparison live on the [packages page](/compliance-packages/).
+- **Compliance Continuation — Non-CDL — $400** (already have authority, non-CDL vehicle)
+- **Compliance Continuation — CDL/Heavy — $1,100** (already have authority, CDL/heavy vehicle)
+- **Authority Launch — Non-CDL — $1,000** (new authority, non-CDL vehicle)
+- **Authority Launch — CDL/Heavy — $1,700** (new authority, CDL/heavy vehicle)
 
-Package contents (each item links to its page on a 1 to 3 word anchor):
-- [USDOT number](/dot-registration/)
-- [MC authority](/mc-registration/) and [BOC-3](/boc-3-filing/) process-agent designation
-- [UCR registration](/ucr-registration/)
-- [Driver qualification files](/driver-qualification-files/), [Clearinghouse](/fmcsa-clearinghouse-registration/), and [drug and alcohol consortium](/drug-and-alcohol-consortium/) enrollment
-- Pre-employment drug test coordination
-- [IRP apportioned plates](/irp-registration/) and [IFTA](/ifta-registration/)
-
-Note under the list: Government and third-party fees (for example, state IRP and IFTA fees) are billed separately from our service fee. We tell you which is which before you pay.
+Choose by your authority status and the vehicle you operate, not only whether the driver holds a CDL. You can also buy any service on its own at its standalone price. Link: "See all packages and compare" → [`/compliance-packages/`](/compliance-packages/).
+Note: IRP and IFTA government/jurisdiction fees are billed separately. Every package figure is DERIVED from `services.md` (Dev); do not hardcode prices here.
 
 ### H2: What our DOT compliance services cover
-Short intro, then a card grid (Dev: 3-column responsive). Each card = service name (link), one plain-language line, and the fixed price where public. Use the pricing quick-reference. For UCR show "from $100, government fee by fleet size". For trucking LLC show "Contact for quote". Cards:
-- USDOT number, MC authority, BOC-3 filing, UCR, IRP plates, IFTA, Clearinghouse Registration, drug & alcohol consortium, DQ files, ELD (partner referral, not a Tech Rig service), MCS-150 updates, trucking LLC, MC authority reinstatement/deactivation, USDOT reactivation/deactivation. (Insurance is coordinated with the carrier's own insurer, not a Tech Rig service; do not present it as a fixed-price card.)
+Short intro, then a card grid (Dev: 3-column responsive). Each card = service name (link), one plain-language line, and the **standalone** price where public (à-la-carte prices; the lower in-bundle prices are shown on the packages page). Prices from `services.md`. For UCR show "$80 filing fee + government fee by bracket". For trucking LLC show "Contact for quote" (partner referral). Cards:
+- USDOT only ($300), MC Authority + USDOT ($650), BOC-3 filing ($100), UCR ($80 + gov), IRP setup ($225), IFTA setup ($225), IFTA quarterly ($150 + gov), Clearinghouse ($125), drug & alcohol consortium ($175), DQ files ($250 first driver), pre-employment drug test ($125), Biennial Update ($125), USDOT Correction ($125), MOTUS Migration ($125), trucking LLC (partner referral), ELD (partner referral, not a Tech Rig service). (Insurance is coordinated with the carrier's own insurer, not a Tech Rig service; do not present it as a fixed-price card.)
 
 ### H2: Why carriers choose our trucking compliance services
 Three short value blocks (no hype, proof-led):

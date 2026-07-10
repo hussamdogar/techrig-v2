@@ -44,7 +44,7 @@ Numbered, Grade 8, each step linking to its money page:
 
 ### H2: How much it costs to start a trucking company
 Honest cost framing, service fees from `services.md`, government and insurance separated:
-- Company and authority filings (USDOT, MC, BOC-3) plus driver compliance are the main service costs. Our full package that covers the setup is $1,350, and individual services are listed on each page.
+- Company and authority filings (USDOT, MC, BOC-3) plus driver compliance are the main service costs. Our [compliance packages](/compliance-packages/) bundle the setup at a lower price than à la carte: Authority Launch — Non-CDL $1,000 or CDL/Heavy $1,700 for new carriers (individual services are also listed on each page).
 - On top of service fees you have government fees (for example IRP and state fees) and your insurance premium, which vary by your operation. We always show government and third-party costs separately from our fee.
 - The largest real-world cost is usually insurance, which depends on your equipment, experience, and driving record.
 We do not publish a single "it costs $X to start" number, because an honest answer depends on your equipment, state, and whether you hire drivers. [VERIFY any government fee figures before publishing.]

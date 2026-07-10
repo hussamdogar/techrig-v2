@@ -35,7 +35,7 @@ Short. [IRP](/irp-registration/) is about registration and apportioned plates. I
 - We explain the quarterly filing schedule and what records you need to keep (mileage and fuel receipts), so your returns are accurate.
 - We coordinate IFTA with your [IRP](/irp-registration/) setup.
 
-**Price line:** Our IFTA setup fee is $175. State fees are separate and shown up front.
+**Price line:** Our IFTA setup fee is **$225 standalone** ($175 inside a [compliance package](/compliance-packages/)). This covers Tech Rig's setup and filing-assistance fee; government, state, credential, and jurisdiction fees are calculated separately and paid before filing. IFTA returns are then filed quarterly (see [IFTA quarterly filing](/ifta-quarterly-filing/), $150).
 
 ### H2: IFTA registration FAQ
 FAQPage schema, Grade 8:
@@ -54,12 +54,12 @@ FAQPage schema, Grade 8:
 Hub card + package; pillar (step 8); IRP page (cross-link).
 
 ## Schema (JSON-LD)
-- `Service` (serviceType "IFTA registration", provider {@id #org}, areaServed US, offers price 175 USD; state fees not encoded as price).
+- `Service` (serviceType "IFTA registration", provider {@id #org}, areaServed US, offers price 225 USD standalone; $175 in-bundle; state fees not encoded as price).
 - `BreadcrumbList`: Home > Compliance Services > IFTA Registration.
 - `FAQPage`.
 
 ## Proof / claims discipline
-- Setup fee confirmed $175; state fees never encoded as price. No invented figures.
+- Setup fee $225 standalone / $175 in-bundle; state fees never encoded as price. No invented figures.
 
 ## Reviewed-by
 "Reviewed by Robert Hooke, Co-Founder."

@@ -28,6 +28,7 @@ If we have started reviewing or preparing your order but have not yet submitted 
 ### H2: When service fees are non-refundable
 - Filing fees become non-refundable once work has substantially started or a filing has been submitted to FMCSA or another agency.
 - Government, laboratory, partner, and third-party fees are non-refundable once they have been paid or committed on your behalf.
+- Service fees are non-refundable when the order cannot proceed because the client has been inactive for 30 days due to missing documents or a delayed response.
 
 ### H2: Recurring and renewable services
 Renewable services (such as UCR, consortium enrollment, Driver Qualification files, and IFTA quarterly filing) are invoiced before each renewal. We only auto-charge a renewal when you have expressly agreed to recurring billing.

@@ -10,6 +10,7 @@ Locale US/USD. Canonical host + HTTPS enforced (confirm www vs non-www in pre-la
 │
 ├── COMPLIANCE & SETUP (acquisition) ─────────────────────────────────────────────
 │   /compliance-services/                  Compliance silo HUB             Bucket 1  [NEW]
+│   /compliance-packages/                  Four-bundle selector (v2) NEW   Bucket 1  [NEW]
 │   /how-to-start-a-trucking-company/      Pillar guide (TOFU)            Bucket 2  [NEW]
 │   /mc-dot-registration/                  DOT+MC authority bundle         Bucket 1  [REPURPOSE]
 │   /dot-registration/                     USDOT money page                Bucket 1  [REPURPOSE]

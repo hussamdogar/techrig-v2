@@ -35,7 +35,7 @@ Short, because people confuse them. IRP is about registration and plates. [IFTA]
 - We help you estimate the fees, which depend on your states, mileage, and vehicle weight, so there are no surprises.
 - We coordinate IRP with your [IFTA](/ifta-registration/) setup if you need both.
 
-**Price line:** Our IRP setup fee is $175. The state registration fees themselves are set by the jurisdictions and your mileage, and are paid separately. We show you which is our fee and which is the government fee before you pay.
+**Price line:** Our IRP setup fee is **$225 standalone** ($175 inside a [compliance package](/compliance-packages/)). This payment covers Tech Rig's setup and filing-assistance fee. Government, state, plate, credential, and jurisdiction fees are calculated separately and must be paid before the filing can be completed. IRP renews annually.
 
 **Mid-page CTA:** text link "Start my IRP registration".
 
@@ -63,12 +63,12 @@ FAQPage schema, Grade 8:
 Hub card + package; pillar (step 8); IFTA page (cross-link); ELD page (interstate cluster).
 
 ## Schema (JSON-LD)
-- `Service` (serviceType "IRP registration", provider {@id #org}, areaServed US, offers price 175 USD; state fees not encoded as price).
+- `Service` (serviceType "IRP registration", provider {@id #org}, areaServed US, offers price 225 USD standalone; $175 in-bundle; state fees not encoded as price).
 - `BreadcrumbList`: Home > Compliance Services > IRP Registration.
 - `FAQPage`.
 
 ## Proof / claims discipline
-- IRP setup fee confirmed $175; never encode state fees as the price (they depend on mileage and states).
+- IRP setup fee $225 standalone / $175 in-bundle; never encode state fees as the price (they depend on mileage and states).
 - No fee figures invented.
 
 ## Reviewed-by

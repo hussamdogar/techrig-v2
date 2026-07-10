@@ -39,7 +39,7 @@ Because we are an FMCSA-listed blanket process agent, your BOC-3 is direct, not 
 3. Your filing posts to your FMCSA record, where it can be verified.
 4. If your BOC-3 is part of getting your authority, we line it up with your MC application and insurance so activation is not held up.
 
-**Price line:** $100, one time. Filing a BOC-3 with UCR at the same time is $200 for carriers in the 0 to 2 vehicle bracket, a common new-carrier combination.
+**Price line:** $100, one time. BOC-3 is also included in every [compliance package](/compliance-packages/) (as a filing when required, or verification your existing BOC-3 is on file).
 
 **Mid-page CTA:** text link "File my BOC-3".
 
@@ -49,11 +49,11 @@ Real worked example (publishable, distinct to this page): a North Carolina power
 ### H2: BOC-3 filing FAQ
 FAQPage schema, Grade 8:
 - "What is a BOC-3?" A federal filing that names a process agent in every state to receive legal documents for you. It is required before operating authority can activate.
-- "How much does a BOC-3 cost?" $100, one time, with us. $200 if filed together with UCR for the 0 to 2 vehicle bracket.
+- "How much does a BOC-3 cost?" $100, one time. It is also included in every [compliance package](/compliance-packages/).
 - "Do I have to renew my BOC-3 every year?" No. It is generally a one-time filing. You refile only if you change process agents or a specific circumstance requires it.
 - "Is the BOC-3 a certificate I print?" No. It is filed electronically and shows on your public FMCSA record, where it can be verified.
 - "Can you file my BOC-3 today?" Yes. As an FMCSA-listed blanket process agent we file it directly. Government processing posts it to your record after.
-- "Do I need anything else for my authority to activate?" Usually your MC application, insurance filing, and UCR. We can handle the [full setup](/compliance-services/) so nothing is missed.
+- "Do I need anything else for my authority to activate?" MC authority activation requires the BOC-3 filing and the required insurance filing from your insurer. UCR is a separate annual registration and is not required for authority activation. We can handle the [full setup](/compliance-packages/) so nothing is missed. (BOC-3 is generally not required for a private motor carrier not operating for hire.)
 
 ### Closing CTA band
 "Need a BOC-3 to activate your authority? File it directly with an FMCSA-listed process agent." Button "File my BOC-3".

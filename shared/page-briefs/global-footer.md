@@ -12,6 +12,7 @@ One footer, identical on every page. Its job: make every money page reachable in
 ### Column 1: Compliance Services
 Header links to the hub `/compliance-services/`. Then list ALL items:
 - [Compliance Services hub](/compliance-services/)
+- [Compliance Packages](/compliance-packages/)
 - [Authority Package (DOT + MC)](/mc-dot-registration/)
 - [USDOT Registration](/dot-registration/)
 - [MC Authority](/mc-registration/)

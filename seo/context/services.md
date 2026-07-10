@@ -1,6 +1,6 @@
 # services
 
-Pricing and service scope per the client answers of 2026-06-25 (`../../shared/client-answers-2026-06-25.md` + `../../shared/work-order-client-answers.md`), which supersede the 2026-06-21 QA brief where they differ. This file is the pricing MASTER that the Dev typed registry (`dev/lib/services-registry.ts`) and the `/apply` flow must equal (parity gate). Display rules and claims governed by `brand-guidelines.md`.
+Pricing and service scope per the client's Pricing v2 doc, 2026-07-10 (`../../shared/client-pricing-v2-2026-07-10.md` + `../../shared/work-order-pricing-v2.md`). This **supersedes** the single-$1,700-package + à-la-carte model of 2026-06-25 (client's latest doc wins). This file is the pricing MASTER that the Dev typed registry (`dev/lib/services-registry.ts`), `/apply`, receipts, emails, and the marketing pages must equal (parity gate). Display rules and claims governed by `brand-guidelines.md`.
 
 ## Service lines (two, funnel-ordered)
 
@@ -9,46 +9,75 @@ The lead service for new and growing carriers, launched August 2025. Tech Rig is
 
 **The compliance/setup packet:** Registered LLC (partner referral, Inc Authority) · USDOT number · MC authority · BOC-3 · UCR · DQ files · Clearinghouse · consortium · pre-employment drug test · IRP · IFTA. Plus, as referrals/coordination only (NOT Tech Rig services): ELD (partner referral, Motive) and insurance (coordinate with the carrier's own insurer; the dedicated insurance page is being removed). Coverage mapping in `../../shared/keyword-map.md`.
 
-Master pricing (USD). IRP/IFTA are setup fees only; all other prices include the applicable government fee unless stated.
-- **USDOT registration (standalone)** — **$300** total. Includes the government fee; there is NO separate federal USDOT application fee. Never display "+ government fee" on USDOT.
-- **MC Authority + USDOT** — **$600**, one-time total. Includes the USDOT number and the applicable government fee. (Card title: "MC Authority + USDOT".)
-- **BOC-3 filing** — **$100**, one-time. Add a dedicated titled $100 "BOC-3 Filing" card wherever MC costs are shown. NOT an annual renewal. Generally NOT required for a private motor carrier that is not operating for hire.
-- **UCR registration** — **Tech Rig filing fee $50** (a separate line) **plus the applicable UCR government fee.** Annual renewal. On the UCR page, show the government brackets and the $50 filing fee as SEPARATE lines, NOT combined totals (client Q1.3/D6). Do NOT show the bracket table inside the `/apply` form.
+## Pricing v2 — two-price model + four bundles (the parity master)
+Every bundle-eligible service has TWO prices: a **standalone** price (à-la-carte checkout uses this) and a lower **in-bundle** price (used inside the four bundles). The four bundle prices are **DERIVED**, never hardcoded: sum the in-bundle prices, round UP to the nearest $100; the rounding delta is shown as a separate `+$N` line. Savings = standalone value − final price; discount % = savings ÷ standalone value. Keep everything derived so the numbers stay correct if a price moves. **No convenience fee; no extra package-level discount** beyond the listed in-bundle discounts + rounding.
 
-  | Bracket (qualifying CMVs) | Government fee |
-  |---|---|
-  | 0-2 | $46 |
-  | 3-5 | $138 |
-  | 6-20 | $276 |
-  | 21-100 | $963 |
-  | 101-1,000 | $4,592 |
-  | 1,001+ | $44,836 |
+### Two-price table (§2)
+| Service | Standalone | In-bundle | In-bundle discount |
+|---|---|---|---|
+| MC Authority + USDOT | **$650** | $600 | $50 |
+| USDOT only | $300 | $300 | $0 |
+| BOC-3 filing | $100 | $100 | $0 |
+| UCR filing service | **$80** | $50 | $30 |
+| UCR government fee (0-2 bracket) | $46 | $46 | $0 |
+| DQ file — 1 driver | **$250** | $200 | $50 |
+| Clearinghouse setup | **$125** | $100 | $25 |
+| Consortium enrollment | **$175** | $150 | $25 |
+| Pre-employment drug test | **$125** | $100 | $25 |
+| IRP initial setup | **$225** | $175 | $50 |
+| IFTA initial setup | **$225** | $175 | $50 |
+| IFTA quarterly filing | $150 | $150 | $0 |
 
-  Bracket = number of qualifying trucks. A business operating only non-CMVs stays in 0-2 even with >2 non-CMVs (e.g. 20 non-CMVs = $46 bracket). UCR is NOT a prerequisite for MC authority activation.
-- **Clearinghouse setup** — **$100**.
-- **Drug & Alcohol Consortium enrollment** — **$150**, annual renewal.
-- **Driver Qualification (DQ) file** — **tiered: 1 driver $200; 2 drivers $350 total; 3 drivers $450 total; more than 3 drivers = custom quote** (manual path, like UCR >100 units). Annual renewal.
-- **Pre-employment drug test** — **$100**, when applicable.
-- **IRP setup fee only** — **$175**. Government/jurisdiction fees separate. Annual renewal.
-- **IFTA setup fee only** — **$175**. Government fees separate.
-- **IFTA quarterly filing** — **$150 + government fee**. Separate recurring filing service.
-- **USDOT Correction** — **$125** (NEW; dedicated page). Scope: address, legal/business name, email, phone, operating-authority status, number of trucks, number of drivers. Keep separate from the Biennial Update.
-- **IFTA Quarterly Filing** — **$150 + government fee** (NEW; dedicated page). Recurring per-quarter filing service, distinct from IFTA setup.
-- **FMCSA Portal to MOTUS Migration** — **$125** (NEW; dedicated page). Covers claiming an existing USDOT, Company Official assignment, manual verification, missing MC authority in MOTUS, legacy FMCSA Portal account problems, and FMCSA support-ticket assistance. The relocated California legacy case study lives here.
-- **Full Initial Package** — **$1,700**, all-in bundle (replaces every earlier $1,350/$1,650 figure). **Contents (9 items):** MC authority + USDOT · BOC-3 · UCR (0-2 bracket) · Clearinghouse · consortium · pre-employment drug test · IFTA setup · IRP setup · one DQ file. The package folds in the FMCSA application (OP-1) fee and the UCR government fee a carrier would otherwise pay separately. **Framing rule: all-in bundle, NO "discount" claim.** (Sum of listed service fees is ~$1,650 — 600+100+50+100+150+100+175+175+200 — so $1,700 is not a discount on service fees; the only saving is the included government fees, which are not published.) IRP/IFTA government, state, plate, permit, mileage, and jurisdiction charges remain separate and are collected later once calculated.
+Bold = a standalone **price increase** (8 services). The **in-bundle prices equal the prior registry values** exactly, so bundle economics are unchanged; only the standalone à-la-carte prices are new.
 
-On-demand / authority management:
-- **Biennial Update** — **$125** (the MCS-150 biennial filing). Card/menu label is "Biennial Update"; the term MCS-150 may appear in body text. Keep separate from USDOT Correction.
-- **MC reinstatement** — $200 service fee; any FMCSA government fee shown separately. (Distinct from the MOTUS Migration service above.)
+Not bundled (single price, standalone only): **USDOT Correction $125 · Biennial Update $125 · FMCSA Portal to MOTUS Migration $125.**
+
+### Driver Qualification (DQ) dual pricing (§8, §12)
+Every bundle includes one driver. Additional drivers priced by total driver count; bundle price is always lower than standalone at every count. Annual renewal at the applicable driver-count rate.
+- **Standalone:** 1 = $250 · 2 = $450 total · 3 = $600 total · >3 = custom quote.
+- **In-bundle:** 1 = $200 (included) · 2 = $350 total (+$150) · 3 = $450 total (+$100) · >3 = custom quote.
+
+### UCR government-fee brackets (§10)
+On the UCR page show the government brackets and the Tech Rig filing fee as SEPARATE lines, NOT combined totals. Standalone filing fee **$80**; in-bundle $50; plus the government fee below. Do NOT show the full table inside the `/apply` form unless necessary.
+
+| Bracket (qualifying CMVs) | Government fee |
+|---|---|
+| 0-2 | $46 |
+| 3-5 | $138 |
+| 6-20 | $276 |
+| 21-100 | $963 |
+| 101-1,000 | $4,592 |
+| 1,001+ | $44,836 |
+
+Non-CMV clarification: a carrier operating only non-CMVs stays in the 0-2 bracket even with more than two non-CMVs (e.g. 20 non-CMVs = $46). UCR is NOT a prerequisite for MC authority activation.
+
+### The four bundles (§3) — prices DERIVED, not hardcoded
+Replace the single package with four bundles. Each card shows the itemized in-bundle total, the `+$N` rounding line, the final price, and the public display (standalone value / package price / savings / discount %). **BOC-3 is shown "Included" on every card** (existing-carrier wording: "Includes BOC-3 filing when required or verification that the carrier's existing BOC-3 is correctly on file"). Do NOT create a separate BOC-3+UCR bundle.
+
+**Bundle 1 — Compliance Continuation — Non-CDL — $400.** Already have USDOT + MC, operate a non-CDL vehicle. Includes: BOC-3 (or verification), UCR filing, UCR gov (0-2), one DQ file. Itemized in-bundle **$396** → **+$4** → **$400**. Public: standalone value **$476**, savings **$76**, discount **16.0%**.
+
+**Bundle 2 — Compliance Continuation — CDL/Heavy — $1,100.** Already have authority; need CDL-driver compliance + IRP + IFTA. Includes Bundle 1's set + Clearinghouse, Consortium, pre-employment drug test, IRP setup, IFTA setup. Itemized **$1,096** → **+$4** → **$1,100**. Public: value **$1,351**, savings **$251**, **18.6%**. IRP/IFTA government, state, plate, credential, and jurisdiction fees billed separately.
+
+**Bundle 3 — Authority Launch — Non-CDL — $1,000.** New carrier, non-CDL vehicle. Includes: MC+USDOT, BOC-3, UCR filing, UCR gov (0-2), one DQ file. Itemized **$996** → **+$4** → **$1,000**. Public: value **$1,126**, savings **$126**, **11.2%**.
+
+**Bundle 4 — Authority Launch — CDL/Heavy — $1,700.** New heavy interstate carrier. Includes MC+USDOT + the full CDL/heavy set (= the old 9-item package). Itemized **$1,696** → **+$4** → **$1,700**. Public: value **$2,001**, savings **$301**, **15.0%**. IRP/IFTA government/jurisdiction fees separate. **This bundle REPLACES the old single $1,700 "Full Initial Package"** (remove that entry from the registry).
+
+Derivation check (must re-pass in the parity gate): round-up(396)=400 (+4); round-up(1096)=1100 (+4); round-up(996)=1000 (+4); round-up(1696)=1700 (+4).
+
+### Renewal disclosures (§9)
+Package pricing covers the initial setup and first service period for one driver. Renewal cycles: UCR annual · Consortium annual · DQ files annual · IRP annual · IFTA quarterly · Clearinghouse (not an annual subscription) · pre-employment drug test (charged when required). Public wording: "Package pricing covers the initial filing and first service period. UCR, consortium enrollment, Driver Qualification files, and IRP require renewal. IFTA returns are filed quarterly. We send reminders and invoices before services become due. Automatic billing is only used when the customer expressly authorizes it."
+
+### On-demand / authority management (single price)
+- **Biennial Update** — **$125** (the MCS-150 two-year USDOT update; keep the page focused on that). **USDOT Correction** — **$125** (address, legal/business name, email, phone, operating status, truck count, driver count). **FMCSA Portal to MOTUS Migration** — **$125** (~1-2 weeks; holds the relocated CA legacy case study).
+- **MC reinstatement** — $200 service fee; any FMCSA government fee separate.
 - **USDOT reactivation / deactivation** — $125.
-- (Standalone "address change" is now folded into the **USDOT Correction** card above.)
 
-Referrals / coordination only (NOT Tech Rig services):
-- **ELD** — Tech Rig does NOT provide, sell, install, or configure ELDs. Partner referral to Motive: `https://partners.gomotive.com/DGR-TECH-RIG` (external; client buys the device/subscription directly from Motive). No Tech Rig fee/price. Never say "we set up your ELD."
-- **Insurance** — Tech Rig does NOT provide or handle insurance, does not file BMC-91/MCS-90 (only the insurer can), and has no insurer partnerships. Coordinates with the client's own insurer only. **The dedicated insurance-filing page is REMOVED**; internal links to it removed. A neutral note may say the customer's insurer must file proof of insurance with FMCSA.
+### Referrals / coordination only (NOT Tech Rig services, no price)
+- **ELD** — Tech Rig does NOT provide, sell, install, or configure ELDs. Partner referral to Motive: `https://partners.gomotive.com/DGR-TECH-RIG` (external; client buys the device/subscription directly from Motive). Never say "we set up your ELD."
+- **Insurance** — Tech Rig does NOT provide or handle insurance, does not file BMC-91/MCS-90 (only the insurer can), and has no insurer partnerships. Coordinates with the client's own insurer only. The dedicated insurance-filing page is REMOVED; internal links removed. Neutral note only: the customer's insurer must file proof of insurance with FMCSA.
 - **LLC formation** — partner referral to Inc Authority: `https://goto.incauthority.com/QY2keP` (external; disclose as a partner/referral link). Public pricing: "Contact for quote".
 
-Removed per client (do not publish):
+### Removed per client (do not publish)
 - **FMCSA authority letter ($40)** — removed from the site entirely.
 
 ## Compliance language rules (client QA brief)
@@ -58,8 +87,13 @@ Removed per client (do not publish):
 - **MOTUS:** for new registrations use "MOTUS"/"MOTUS Portal," not "FMCSA Portal." The legacy "FMCSA Portal" is mentioned only when explaining migration of an older account into MOTUS.
 - **USDOT PINs:** FMCSA IS still mailing USDOT PINs. Do NOT say FMCSA stopped mailing/emailing PINs anywhere.
 - **DQ threshold:** federal DQ-file requirements generally apply to drivers operating a CMV with a GVWR/GCWR/GVW/GCW of 10,001 lbs or more in applicable commerce; not required below 10,001 lbs (avoid state-specific claims).
-- **Clearinghouse:** Tech Rig is registered as a C/TPA with the FMCSA Drug & Alcohol Clearinghouse (written confirmation usable; publish-cleared 2026-06-25).
+- **Clearinghouse (§14):** "DGR Tech Rig LLC is registered as a C/TPA with the FMCSA Drug & Alcohol Clearinghouse." (Uses the legal-entity name for regulatory accuracy; "Tech Rig" DBA elsewhere.) Link Clearinghouse setup to pre-employment drug testing where relevant.
 - **MC government fee:** never publish a separate MC authority government-fee figure. Keep the amount-free "shown separately" wording.
+- **USDOT vs MC (§17):** "A USDOT number may be sufficient for intrastate for-hire operations where permitted by state law. MC operating authority is generally required when transporting property for compensation in interstate commerce." Do NOT say every carrier hauling for compensation automatically needs MC authority. USDOT-only stays $300 (standalone or bundle).
+- **BOC-3 activation (§11):** "MC authority activation requires the BOC-3 filing and the required insurance filing from the carrier's insurer. UCR is a separate annual registration and is not required for authority activation." Retain: BOC-3 is generally not required for a private motor carrier not operating for hire.
+- **Consortium / prior test (§13, revised — TrueTest):** "A previous pre-employment drug test may be used in place of a new one only if the driver has actively participated in a qualifying DOT drug testing program within the preceding 30 days and meets FMCSA's other conditions for waiving a new test. Tech Rig will verify eligibility through TrueTest before waiving any test."
+- **IRP/IFTA fee disclosure (§16):** "This payment covers Tech Rig's setup and filing-assistance fee. Government, state, plate, credential, and jurisdiction fees are calculated separately and must be paid before the filing can be completed." IRP renews annually; IFTA returns are filed quarterly.
+- **Refund (§21):** remove the old flat $50 processing fee; on eligible refunds deduct only the actual non-refundable payment-processing fee (e.g. paid $100, $3 processing fee → refund $97). **Non-refundable now also includes: the client being inactive for 30 days due to missing documents or delayed response.** Full copy lives in the `refund-policy` page brief; policy last updated June 25, 2026.
 
 ## Turnaround times (client Q6.2 — `expectedTimeline` parity with the registry)
 Each service's turnaround. Use this wording; never state a guaranteed activation date (FMCSA timing is outside Tech Rig's control).

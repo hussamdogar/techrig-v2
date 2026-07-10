@@ -37,11 +37,11 @@ Note: not every operation is subject to CDL drug-and-alcohol rules. Whether this
 - We connect your program to your [Clearinghouse](/fmcsa-clearinghouse-registration/) registration and [driver qualification files](/driver-qualification-files/).
 - We keep your enrollment active so your program stays compliant.
 
-**Price line:** Consortium enrollment is $150. A pre-employment drug test is $100. [Clearinghouse](/fmcsa-clearinghouse-registration/) registration is $100, listed separately.
+**Price line:** Consortium enrollment is **$175 standalone** ($150 inside a [compliance package](/compliance-packages/)), with annual renewal. A pre-employment drug test is **$125 standalone** ($100 in a package). [Clearinghouse](/fmcsa-clearinghouse-registration/) setup is $125 standalone, listed separately.
 
 ### H2: Pre-employment drug test
 (Section, covering the packet item; not a separate page.)
-Before a driver can perform safety-sensitive work, they generally need a negative pre-employment drug test on file. Timing matters: a test that is too old does not count. Worked example (publishable): for a New Jersey power-only carrier, an earlier drug test was more than 30 days old, so a new pre-employment test had to be arranged before the driver could meet the requirement. We coordinate pre-employment testing so the timing is right and the result is documented in the [driver's qualification file](/driver-qualification-files/).
+Before a driver can perform safety-sensitive work, they generally need a negative pre-employment drug test on file. A previous pre-employment drug test may be used in place of a new one only if the driver has actively participated in a qualifying DOT drug testing program within the preceding 30 days and meets FMCSA's other conditions for waiving a new test. Tech Rig will verify eligibility through TrueTest before waiving any test. Worked example (publishable): for a New Jersey power-only carrier, an earlier test did not meet the waiver conditions, so a new pre-employment test had to be arranged before the driver could start. We coordinate pre-employment testing (standalone $125, or $100 in a package) so the timing is right and the result is documented in the [driver's qualification file](/driver-qualification-files/).
 
 ### H2: Consortium and the Clearinghouse
 The [FMCSA Clearinghouse](/fmcsa-clearinghouse-registration/) is the federal database of drug and alcohol violations. Your consortium program and Clearinghouse registration work together: queries and reporting flow between them. New carriers usually need both set up before hauling, which is why we handle them as a driver-compliance set with your [DQ files](/driver-qualification-files/).
@@ -51,7 +51,7 @@ FAQPage schema, Grade 8:
 - "Do owner-operators need a consortium?" If you hold a CDL and operate under FMCSA, yes. You cannot run a random pool of one, so you join a consortium.
 - "What testing does the program cover?" Pre-employment, random, post-accident, and other DOT-required testing.
 - "Does every carrier need this?" It depends on your vehicles, drivers, and operation. We confirm whether CDL drug-and-alcohol rules apply to you before you enroll.
-- "How much does it cost?" Consortium enrollment is $150; a pre-employment drug test is $100.
+- "How much does it cost?" Consortium enrollment is $175 standalone (renewed annually), or $150 inside a package; a pre-employment drug test is $125 standalone ($100 in a package).
 - "Is this connected to the Clearinghouse?" Yes. Your consortium program and [Clearinghouse](/fmcsa-clearinghouse-registration/) registration work together. We can set up both.
 
 ### Closing CTA band
@@ -64,7 +64,7 @@ FAQPage schema, Grade 8:
 Hub card + package; pillar (step 7); DQ + Clearinghouse pages (driver-compliance cluster).
 
 ## Schema (JSON-LD)
-- `Service` (serviceType "Drug and alcohol consortium enrollment", provider {@id #org}, areaServed US, offers price 150 USD).
+- `Service` (serviceType "Drug and alcohol consortium enrollment", provider {@id #org}, areaServed US, offers price 175 USD standalone; $150 in-bundle).
 - `BreadcrumbList`: Home > Compliance Services > Drug and Alcohol Consortium.
 - `FAQPage`.
 

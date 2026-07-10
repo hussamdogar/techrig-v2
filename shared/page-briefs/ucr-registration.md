@@ -34,7 +34,7 @@ Who has to register (plain list):
 Note: Not every operation owes UCR the same way. Purely intrastate carriers and some operations are treated differently. If you are not sure UCR applies to you, we will tell you before you pay.
 
 ### H2: How UCR fees work (and why brackets matter)
-The government fee is tiered by the number of commercial vehicles you operate, and the brackets jump fast, so a miscount can cost you. Brokers and forwarders without vehicles pay the lowest bracket. **Display rule (client Q1.3): show the government brackets and the $50 Tech Rig filing fee as SEPARATE lines, not combined totals.** The government UCR fee by bracket:
+The government fee is tiered by the number of commercial vehicles you operate, and the brackets jump fast, so a miscount can cost you. Brokers and forwarders without vehicles pay the lowest bracket. **Display rule: show the government brackets and the Tech Rig filing fee as SEPARATE lines, not combined totals.** The government UCR fee by bracket:
 
 | Bracket (qualifying CMVs) | Government fee |
 |---|---|
@@ -45,12 +45,12 @@ The government fee is tiered by the number of commercial vehicles you operate, a
 | 101-1,000 | $4,592 |
 | 1,001+ | $44,836 |
 
-**Plus a separate Tech Rig filing fee of $50** (one line, shown apart from the government fee). The bracket is the number of qualifying trucks (CMVs). A business operating only non-CMVs stays in the 0-2 bracket even with more than two of them (for example, 20 non-CMVs still use the $46 bracket). Annual renewal. (Re-verify the government schedule each registration year. Do NOT show this table inside the `/apply` form, only the carrier's own bracket.)
+**Plus a separate Tech Rig filing fee of $80** standalone (one line, shown apart from the government fee). Inside a [compliance package](/compliance-packages/), the UCR filing service is discounted to $50. The bracket is the number of qualifying trucks (CMVs). A business operating only non-CMVs stays in the 0-2 bracket even with more than two of them (for example, 20 non-CMVs still use the $46 bracket). Annual renewal. (Re-verify the government schedule each registration year. Do NOT show this table inside the `/apply` form, only the carrier's own bracket.)
 
 What this means for you: the most common mistake we fix is a carrier who paid the wrong bracket. We confirm your correct bracket first, then file. **UCR is a separate annual obligation; it is not required to activate your MC authority.**
 
 ### H2: What our UCR registration service costs
-- **Tech Rig filing fee:** $50.
+- **Tech Rig filing fee:** $80 standalone (or $50 inside a [compliance package](/compliance-packages/)).
 - **Government UCR fee:** by bracket (table above), paid to the program and shown separately before you pay.
 
 We do not advertise one flat UCR price for every carrier, because the government fee genuinely depends on your fleet size. You see both numbers up front.

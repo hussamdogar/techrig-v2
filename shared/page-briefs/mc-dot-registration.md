@@ -30,12 +30,12 @@ Most new for-hire carriers do not need one filing, they need the set, in the rig
 - [BOC-3](/boc-3-filing/) blanket process-agent filing (we are FMCSA-listed).
 - [UCR registration](/ucr-registration/) for the current year.
 - Insurance filing coordination so it lands before activation.
-Need driver compliance and interstate filings too (DQ files, Clearinghouse, consortium, IRP, IFTA, ELD)? Step up to the [full compliance package](/compliance-services/) at $1,350.
+Need driver compliance and interstate filings too (DQ files, Clearinghouse, consortium, IRP, IFTA)? Our [compliance packages](/compliance-packages/) bundle it: Authority Launch — Non-CDL ($1,000) or Authority Launch — CDL/Heavy ($1,700).
 
 ### H2: What it costs
-- The MC authority filing is $600 and **includes your USDOT number** (you do not pay the standalone $300 USDOT on top). Add the [BOC-3](/boc-3-filing/) at $100 and [UCR](/ucr-registration/) from $100 to complete the core authority.
+- MC Authority + USDOT is **$650 standalone** (or $600 inside a [package](/compliance-packages/)), and **includes your USDOT number** (you do not pay the standalone $300 USDOT on top). Add the [BOC-3](/boc-3-filing/) at $100 and [UCR](/ucr-registration/) ($80 + government fee) to complete the core authority.
 - Government fees and your insurance premium are separate and shown up front.
-- The complete setup with driver and interstate compliance is the [$1,350 full package](/compliance-services/), which already includes the MC and UCR (0-2 bracket) government fees.
+- Getting it all as one lower-priced bundle: the [Authority Launch packages](/compliance-packages/) ($1,000 non-CDL / $1,700 CDL/heavy), which use the discounted in-bundle prices and include the MC and UCR (0-2 bracket) government fees.
 
 ### H2: Why a trucking authority package beats filing piecemeal
 Filing the pieces separately, in the wrong order, is exactly how carriers reach day 21 with an authority that still will not activate, because the BOC-3 or insurance filing was missing. The package exists so nothing is missed and nothing waits on a step you did not know you needed. (The dismissed-authority and legacy-account scenarios are handled separately by our [MOTUS migration](/motus-migration/) service.)

@@ -50,15 +50,15 @@ What you get with us:
 **Mid-page CTA:** text link "Get my MC authority".
 
 ### H2: What an MC number costs
-- **Tech Rig service fee:** $600, one-time, for your MC authority application. This includes your USDOT number: when you file for MC authority, the USDOT is issued with it, so you do not pay the standalone USDOT fee on top.
+- **Tech Rig service fee:** **$650 standalone** ($600 inside a [compliance package](/compliance-packages/)), one-time, for your MC authority application. This includes your USDOT number: when you file for MC authority, the USDOT is issued with it, so you do not pay the standalone USDOT fee on top. (USDOT-only, if that is all you need, is $300.)
 - **BOC-3:** $100, required to activate authority (often filed with the MC application).
 - **Insurance filing:** filed by your insurer; the premium is separate. We coordinate the filing so it lands. See [insurance filing](/trucking-insurance-filing/).
 - **Government fee:** any FMCSA application fee is shown separately. [VERIFY current FMCSA fee.]
-- Want it all handled at once? The [full $1,700 package](/compliance-services/) bundles MC + USDOT, BOC-3, UCR, Clearinghouse, consortium, pre-employment drug test, IFTA setup, IRP setup, and one DQ file (insurance is coordinated with your own insurer, not a Tech Rig service).
+- Want it all handled at once? Our [compliance packages](/compliance-packages/) bundle MC + USDOT with BOC-3, UCR, and driver compliance at lower in-bundle prices (Authority Launch — Non-CDL $1,000, or CDL/Heavy $1,700). Insurance is coordinated with your own insurer, not a Tech Rig service.
 
 ### H2: MC authority FAQ
 FAQPage schema, Grade 8:
-- "Do I need an MC number or just a USDOT number?" Many interstate for-hire carriers need both. Private carriers and some exempt freight may need only a USDOT number. We confirm before you pay.
+- "Do I need an MC number or just a USDOT number?" A USDOT number may be sufficient for intrastate for-hire operations where permitted by state law. MC operating authority is generally required when transporting property for compensation in interstate commerce. Not every carrier hauling for compensation automatically needs MC authority, so we confirm before you pay.
 - "How long does it take to get an MC number?" After filing, FMCSA requires a mandatory 21-day protest period, and activation also depends on your BOC-3 and insurance being in place. We do not promise a date, but we make sure nothing on your side delays it.
 - "My MC was dismissed. Can you reinstate it?" A dismissed MC generally cannot be reinstated. We file a new operating authority application (you usually keep the old MC number, but the authority age resets), often as part of our [MOTUS migration](/motus-migration/) service.
 - "Why did my authority not activate after 21 days?" Almost always a missing or incorrect BOC-3 or insurance filing. We make sure both are correct so activation is not held up. (UCR is separate and is not an activation requirement.)
@@ -74,7 +74,7 @@ FAQPage schema, Grade 8:
 Hub card + package; pillar; DOT page (cross "DOT vs MC"); bundle page; "how to get DOT and MC number" blog feeder.
 
 ## Schema (JSON-LD)
-- `Service` (serviceType "MC operating authority registration", provider DGR Tech Rig LLC, areaServed US, offers price 600 USD).
+- `Service` (serviceType "MC operating authority registration", provider DGR Tech Rig LLC, areaServed US, offers price 650 USD standalone; $600 in-bundle).
 - `BreadcrumbList`: Home > Compliance Services > MC Authority.
 - `FAQPage`.
 
