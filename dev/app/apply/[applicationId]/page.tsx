@@ -210,9 +210,7 @@ function ServicesForm({
             ? "A blanket BOC-3 filing is already active on the FMCSA record."
             : key === "mc-authority" && facts.hasActiveMc
               ? `Active authority ${facts.mcDocket ?? ""} already on file.`
-              : key === "full-package" && (facts.hasActiveMc || facts.hasActiveBoc3)
-                ? "You already hold some of these (active authority or BOC-3), so à la carte may cost less."
-                : null;
+              : null;
         return (
           <label
             key={key}
