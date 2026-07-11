@@ -5,6 +5,22 @@ Source of truth (verbatim client doc, 2026-07-10): `shared/client-pricing-v2-202
 
 **Owner decision (2026-07-10): FULL pricing v2 build BEFORE launch.** This **supersedes** the single-$1,700-package model built in D1 and the à-la-carte prices set across D1-D14 (client's latest doc wins, per the source-of-truth precedence rule). It is a re-architecture of the pricing engine, not a tweak — treat it as a milestone.
 
+## UPDATE 2026-07-11 — ROUNDING REMOVED (owner directive; overrides §1 of the client doc)
+The $100 round-up is **removed**. **The bundle's final price = its itemized in-bundle total** (no rounding, no "+$N" line). What customers are charged:
+
+| Bundle | Final price (= itemized total) | Standalone value | Savings | Discount % |
+|---|---|---|---|---|
+| Compliance Continuation — Non-CDL | **$396** | $476 | $80 | 16.8% |
+| Compliance Continuation — CDL/Heavy | **$1,096** | $1,351 | $255 | 18.9% |
+| Authority Launch — Non-CDL | **$996** | $1,126 | $130 | 11.5% |
+| Authority Launch — CDL/Heavy | **$1,696** | $2,001 | $305 | 15.2% |
+
+- **Savings = standalone value − final price = the sum of the per-line in-bundle discounts** ($80/$255/$130/$305). With no rounding the two reconcile exactly, so the old "+$4 rounding reconciles the two discounts" logic is dropped.
+- Still **derived, never hardcoded**: final price = sum of in-bundle prices; savings = value − final; discount % = savings / value. Just remove the round-up step and the rounding row.
+- **Dev (D16):** `getBundleBreakdown` → final = itemized total (drop the round-to-nearest-100); remove the rounding row from the receipt component (`bundle-receipt.tsx`). Re-run the parity gate to the new finals ($396/$1,096/$996/$1,696).
+- **SEO:** `services.md` → remove the rounding rule + the "+$4" lines; finals + savings + discount % as above.
+- **Design:** `compliance-packages.md` → drop the "+$N rounding" row from the receipt spec; simplify the two-discounts note (they're now equal). Keep everything else derived.
+
 ## Worktree protocol (READ FIRST — session isolation, no clashes)
 This milestone runs SEO and Dev (and later Design) at the same time. To stop the sessions from stepping on each other in one shared working tree (which last pass caused overlapping uncommitted edits + a detached HEAD), **each lane runs in its own git worktree on its own branch.** The orchestrator created them off `main`:
 
