@@ -11,7 +11,7 @@
 `Trucking Compliance Packages and Bundles | Tech Rig`
 
 ## Meta description (156 chars)
-`Four trucking compliance packages, from $400. Pick by authority status and vehicle type, get BOC-3, UCR, and driver compliance bundled at a lower price.`
+`Four trucking compliance packages, from $396. Pick by authority status and vehicle type, get BOC-3, UCR, and driver compliance bundled at a lower price.`
 
 ## Three Kings check
 Primary "trucking compliance packages" in: title (yes), first paragraph (yes), H2s ("Choose the package that matches your authority status and vehicle type", "What every package includes").
@@ -37,31 +37,31 @@ Verbatim: "Choose based on the vehicle you will operate, not only whether the dr
 For the heavy/CDL packages: "These packages are designed for interstate property carriers operating qualifying heavy vehicles or combinations that require CDL compliance, IRP, and IFTA. Passenger and hazardous-material operations may require custom review."
 
 ### H2: The four packages
-Four cards (Design: DZ3 card component). Each card shows: name, final price, who-it-is-for, a **"BOC-3 Included"** badge, the included-services list, the itemized in-bundle total + the `+$N` rounding line + final price, and the public display (standalone value, package price, customer savings, discount %). All figures DERIVED from `services.md`.
+Four cards (Design: DZ3 card component). Each card shows: name, final price, who-it-is-for, a **"BOC-3 Included"** badge, the included-services list, the itemized in-bundle total (= the final price, no rounding), and the public display (standalone value, package price, customer savings, discount %). All figures DERIVED from `services.md`.
 
-**Card 1 — Compliance Continuation — Non-CDL — $400**
+**Card 1 — Compliance Continuation — Non-CDL — $396**
 Who: carriers that already have USDOT + MC and operate a non-CDL vehicle.
 Includes: BOC-3 (or verification), UCR filing, UCR government fee (0-2), one Driver Qualification file.
-Itemized in-bundle $396 · rounding +$4 · **$400**. Standalone value $476 · savings $76 · 16.0%.
+Itemized in-bundle total = **$396**. Standalone value $476 · savings $80 · 16.8%.
 Wording: "Already have your authority and operate a non-CDL vehicle? Complete your BOC-3, UCR, and first Driver Qualification file in one package."
 
-**Card 2 — Compliance Continuation — CDL/Heavy — $1,100**
+**Card 2 — Compliance Continuation — CDL/Heavy — $1,096**
 Who: carriers that already have USDOT + MC and operate a qualifying heavy interstate vehicle that requires CDL compliance, IRP, and IFTA.
 Includes: BOC-3, UCR filing, UCR gov (0-2), Clearinghouse, Consortium, pre-employment drug test, one DQ file, IRP setup, IFTA setup.
-Itemized $1,096 · +$4 · **$1,100**. Value $1,351 · savings $251 · 18.6%.
+Itemized total = **$1,096**. Value $1,351 · savings $255 · 18.9%.
 Wording: "Already have your authority but still need CDL-driver compliance, IRP, and IFTA? Complete the remaining setup for one driver in one package."
 Fee note: "IRP and IFTA government, state, plate, credential, and jurisdiction fees are billed separately."
 
-**Card 3 — Authority Launch — Non-CDL — $1,000**
+**Card 3 — Authority Launch — Non-CDL — $996**
 Who: new carriers that need USDOT + MC and will operate a non-CDL vehicle.
 Includes: MC Authority + USDOT, BOC-3, UCR filing, UCR gov (0-2), one DQ file.
-Itemized $996 · +$4 · **$1,000**. Value $1,126 · savings $126 · 11.2%.
+Itemized total = **$996**. Value $1,126 · savings $130 · 11.5%.
 Wording: "Starting a new authority with a non-CDL vehicle? Get your authority filings, BOC-3, UCR, and first Driver Qualification file without paying for CDL-only services."
 
-**Card 4 — Authority Launch — CDL/Heavy — $1,700**
+**Card 4 — Authority Launch — CDL/Heavy — $1,696**
 Who: new interstate property carriers operating a qualifying heavy vehicle or combination that requires CDL compliance, IRP, and IFTA.
 Includes: MC Authority + USDOT, BOC-3, UCR filing, UCR gov (0-2), Clearinghouse, Consortium, pre-employment drug test, one DQ file, IRP setup, IFTA setup.
-Itemized $1,696 · +$4 · **$1,700**. Value $2,001 · savings $301 · 15.0%.
+Itemized total = **$1,696**. Value $2,001 · savings $305 · 15.2%.
 Wording: "Starting a new heavy interstate operation? Get authority registration, BOC-3, UCR, CDL-driver compliance, IRP setup, and IFTA setup in one package."
 Fee note: same IRP/IFTA-fees-separate note.
 
@@ -84,8 +84,8 @@ Fee note: same IRP/IFTA-fees-separate note.
 | IRP setup | — | ✓ | — | ✓ |
 | IFTA setup | — | ✓ | — | ✓ |
 | Standalone value | $476 | $1,351 | $1,126 | $2,001 |
-| Final package price | $400 | $1,100 | $1,000 | $1,700 |
-| Customer savings | $76 | $251 | $126 | $301 |
+| Final package price | $396 | $1,096 | $996 | $1,696 |
+| Customer savings | $80 | $255 | $130 | $305 |
 
 ### H2: Additional drivers
 Every package includes one driver. Additional drivers are priced by total count, and bundle pricing is always lower than standalone. In-bundle DQ: 2 drivers $350 total (+$150), 3 drivers $450 total (+$100), more than 3 = custom quote. Additional CDL drivers may also need extra pre-employment drug tests, Clearinghouse work, and consortium/compliance work. See [driver qualification files](/driver-qualification-files/).
@@ -110,13 +110,13 @@ FAQPage schema, Grade 8:
 Compliance hub (package-selector section), home, pillar, every service page ("or get it in a package").
 
 ## Schema (JSON-LD)
-- `OfferCatalog` on the page listing the four bundles as `Offer`s, each `price` = the final bundle price (400/1100/1000/1700), `priceCurrency` USD, `itemOffered` a `Service`. Prices read from the single source (registry), never hardcoded twice.
+- `OfferCatalog` on the page listing the four bundles as `Offer`s, each `price` = the final bundle price (396/1096/996/1696), `priceCurrency` USD, `itemOffered` a `Service`. Prices read from the single source (registry), never hardcoded twice.
 - `BreadcrumbList`: Home > Compliance Services > Packages.
 - `FAQPage`.
 
 ## Proof / claims discipline
-- Every displayed number (itemized, rounding, savings, discount %) is DERIVED from the in-bundle prices in `services.md`; if a price moves, the displays recompute. Never hardcode.
-- No "convenience fee"; no package-level discount beyond the in-bundle discounts + rounding. Savings framing is fine here (real: standalone value − package price), unlike the old single package.
+- Every displayed number (itemized, savings, discount %) is DERIVED from the in-bundle prices in `services.md`; if a price moves, the displays recompute. Never hardcode.
+- No "convenience fee"; no package-level discount beyond the in-bundle discounts. Savings framing is fine here (real: standalone value − package price), unlike the old single package.
 - IRP/IFTA government fees always shown as separate/excluded. BOC-3 "Included" exactly as worded.
 - **Naming exception:** the four package names contain an em dash ("Compliance Continuation — Non-CDL", etc.). These are the client's exact official product names (work order: "use these exact package names"), so they are the one sanctioned exception to the no-em-dash house rule. Keep them verbatim; do not convert the dash.
 
@@ -124,7 +124,7 @@ Compliance hub (package-selector section), home, pillar, every service page ("or
 "Reviewed by Adam Smith, Co-Founder."
 
 ## Dev / Design notes
-- Design DZ3: four package cards, the side-by-side comparison table, the CDL/non-CDL selector + "choose by vehicle not driver" block, the "BOC-3 Included" badge, and the per-bundle itemized + rounding + savings display. Reuse the locked design system.
+- Design DZ3: four package cards, the side-by-side comparison table, the CDL/non-CDL selector + "choose by vehicle not driver" block, the "BOC-3 Included" badge, and the per-bundle itemized + savings display. Reuse the locked design system.
 - Unique branded OG image ("Compliance Packages").
 - Every figure from the registry's derived fields; the `/apply` bundle flow pre-selects a bundle from a card CTA.
 

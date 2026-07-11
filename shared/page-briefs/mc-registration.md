@@ -54,7 +54,7 @@ What you get with us:
 - **BOC-3:** $100, required to activate authority (often filed with the MC application).
 - **Insurance filing:** filed by your insurer; the premium is separate. We coordinate the filing so it lands. See [insurance filing](/trucking-insurance-filing/).
 - **Government fee:** any FMCSA application fee is shown separately. [VERIFY current FMCSA fee.]
-- Want it all handled at once? Our [compliance packages](/compliance-packages/) bundle MC + USDOT with BOC-3, UCR, and driver compliance at lower in-bundle prices (Authority Launch — Non-CDL $1,000, or CDL/Heavy $1,700). Insurance is coordinated with your own insurer, not a Tech Rig service.
+- Want it all handled at once? Our [compliance packages](/compliance-packages/) bundle MC + USDOT with BOC-3, UCR, and driver compliance at lower in-bundle prices (Authority Launch — Non-CDL $996, or CDL/Heavy $1,696). Insurance is coordinated with your own insurer, not a Tech Rig service.
 
 ### H2: MC authority FAQ
 FAQPage schema, Grade 8:

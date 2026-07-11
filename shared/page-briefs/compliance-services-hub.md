@@ -28,10 +28,10 @@ Getting a truck on the road is not one filing. It is a sequence, and any missed 
 
 ### H2: Compliance packages (choose by authority status + vehicle)
 Package-selector block. Most carriers save by bundling: **BOC-3 is included in every package**, and bundle prices are lower than à la carte. Full detail + the side-by-side comparison live on the [packages page](/compliance-packages/).
-- **Compliance Continuation — Non-CDL — $400** (already have authority, non-CDL vehicle)
-- **Compliance Continuation — CDL/Heavy — $1,100** (already have authority, CDL/heavy vehicle)
-- **Authority Launch — Non-CDL — $1,000** (new authority, non-CDL vehicle)
-- **Authority Launch — CDL/Heavy — $1,700** (new authority, CDL/heavy vehicle)
+- **Compliance Continuation — Non-CDL — $396** (already have authority, non-CDL vehicle)
+- **Compliance Continuation — CDL/Heavy — $1,096** (already have authority, CDL/heavy vehicle)
+- **Authority Launch — Non-CDL — $996** (new authority, non-CDL vehicle)
+- **Authority Launch — CDL/Heavy — $1,696** (new authority, CDL/heavy vehicle)
 
 Choose by your authority status and the vehicle you operate, not only whether the driver holds a CDL. You can also buy any service on its own at its standalone price. Link: "See all packages and compare" → [`/compliance-packages/`](/compliance-packages/).
 Note: IRP and IFTA government/jurisdiction fees are billed separately. Every package figure is DERIVED from `services.md` (Dev); do not hardcode prices here.
