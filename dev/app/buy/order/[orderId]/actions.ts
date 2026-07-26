@@ -35,9 +35,10 @@ export async function reviewAndSignQuickBuyOrder(orderId: string, formData: Form
     .filter((k) => k !== primaryKey) as ServiceKey[];
   const allSelected = Array.from(new Set<ServiceKey>([primaryKey, ...additional]));
 
-  // Power units is never a form field — it's auto-detected at confirm time
-  // (or defaults to the 0-2 bracket in computeQuickBuyPricing when unknown),
-  // so it just carries forward from the order unchanged.
+  // Never a form field — it's the qualifying-CMV count auto-detected at
+  // confirm time (truck tractors + straight trucks only; see the hidden
+  // field's comment in the confirm page), or defaults to the 0-2 bracket in
+  // computeQuickBuyPricing when unknown. Carries forward from the order unchanged.
   const powerUnits = order.power_units;
   const driverCount = allSelected.includes("dq-files") ? Number(formData.get("driver_count")) || null : null;
 

@@ -37,6 +37,8 @@ export default async function QuickBuyPayPage({ params }: { params: Promise<{ or
     isQuickBuyServiceKey,
   ) as ServiceKey[];
   const selected = Array.from(new Set<ServiceKey>([order.service_key as ServiceKey, ...additional]));
+  // order.power_units is the qualifying-CMV count (truck tractors + straight
+  // trucks), not the carrier's general reported power units.
   const pricing = computeQuickBuyPricing(selected, {
     powerUnits: order.power_units,
     driverCount: order.driver_count,

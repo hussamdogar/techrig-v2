@@ -16,7 +16,10 @@ import { SERVICES, QUICK_BUY_SERVICE_KEYS, computeQuickBuyPricing, type ServiceK
  * UCR's power-unit count is NOT collected here: it's auto-detected from the
  * FMCSA/MOTUS lookup at the confirm step (or defaults to the 0-2 bracket when
  * a carrier has none on file), so UCR pricing needs no visitor input at all,
- * whether it's the primary service or an upsell added here.
+ * whether it's the primary service or an upsell added here. `powerUnits` here
+ * is specifically the qualifying-CMV count (truck tractors + straight trucks)
+ * — trailers and non-commercial vehicles never affect the bracket, even if
+ * they're most of the fleet.
  */
 export function ReviewForm({
   action,
@@ -27,6 +30,8 @@ export function ReviewForm({
 }: {
   action: (formData: FormData) => void;
   primaryKey: ServiceKey;
+  /** Qualifying-CMV count for UCR bracket pricing, not the carrier's general
+   *  reported power units. */
   powerUnits: number | null;
   initialAdditional: ServiceKey[];
   initialDriverCount: number | null;
@@ -37,6 +42,10 @@ export function ReviewForm({
 
   const allSelected = useMemo(() => [primaryKey, ...Array.from(selected)], [primaryKey, selected]);
   const needsDriverCount = allSelected.includes("dq-files");
+
+  // Actual UCR upsell price, not a vague label — power units is already known
+  // (auto-detected at confirm), so the combined total can be shown outright.
+  const ucrUpsellPrice = useMemo(() => computeQuickBuyPricing(["ucr"], { powerUnits, driverCount: null }).total, [powerUnits]);
 
   const pricing = useMemo(
     () =>
@@ -59,7 +68,7 @@ export function ReviewForm({
   return (
     <form action={action} className="mt-6 space-y-6">
       <div>
-        <h2 className="font-display text-lg font-bold text-ink">Add another filing?</h2>
+        <h2 className="font-display text-lg font-bold text-ink">You may also need</h2>
         <p className="mt-1 text-sm text-slate">
           Bundle more of your compliance filings into this order: one payment, one confirmation.
         </p>
@@ -67,7 +76,11 @@ export function ReviewForm({
           {upsellKeys.map((key) => {
             const def = SERVICES[key];
             const priceLabel =
-              key === "ucr" ? "priced by fleet size" : key === "dq-files" ? `from $${def.standalonePrice}` : `$${def.standalonePrice}`;
+              key === "ucr"
+                ? `$${ucrUpsellPrice.toLocaleString("en-US")}`
+                : key === "dq-files"
+                  ? `$${def.standalonePrice} per driver`
+                  : `$${def.standalonePrice}`;
             return (
               <li key={key} className="flex items-center justify-between gap-4 px-4 py-3">
                 <label className="flex items-center gap-3 text-sm text-ink">

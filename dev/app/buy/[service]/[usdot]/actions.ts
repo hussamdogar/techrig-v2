@@ -33,9 +33,11 @@ export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: strin
   const lastName = String(formData.get("last_name") || "").trim() || null;
   const email = String(formData.get("email") || "").trim() || null;
   const phone = String(formData.get("phone") || "").trim() || null;
-  // Raw auto-detected value, kept honest (null if the FMCSA/MOTUS record has
-  // none on file) — the 0-2-bracket default is applied only at pricing time
-  // (computeQuickBuyPricing), not baked into the stored data here.
+  // Despite the generic name, this is the QUALIFYING CMV count for UCR
+  // bracket pricing (truck tractors + straight trucks only — see the hidden
+  // field's comment in page.tsx), not the carrier's general reported power
+  // units. Kept honest (null if unknown) — the 0-2-bracket default is applied
+  // only at pricing time (computeQuickBuyPricing), not baked in here.
   const rawPowerUnits = formData.get("power_units");
   const powerUnits = rawPowerUnits != null && rawPowerUnits !== "" ? Number(rawPowerUnits) : null;
 

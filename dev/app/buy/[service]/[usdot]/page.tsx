@@ -129,10 +129,21 @@ function Confirm({
 
       <form action={confirmAction} className="mt-6 space-y-5">
         <input type="hidden" name="token" value={token} />
-        {/* Auto-detected from the FMCSA/MOTUS record, carried through so UCR
-            pricing (if selected here or upsold on review) never needs the
-            visitor to type a fleet size in. */}
-        <input type="hidden" name="power_units" value={carrier.powerUnits ?? ""} />
+        {/* UCR's government fee bracket is by QUALIFYING CMVs only (truck
+            tractors + straight trucks) — trailers and non-commercial vehicles
+            never count, even if that's most of the fleet. This is NOT the
+            same as carrier.powerUnits (a general FMCSA-reported figure that
+            can include non-commercial vehicles and would inflate the
+            bracket). Auto-detected here so UCR pricing (if selected now or
+            upsold on review) never needs the visitor to type a fleet size in.
+            Only MOTUS reports the equipment breakdown; QCMobile-sourced
+            lookups always sum to 0 here, which correctly defaults to the 0-2
+            bracket rather than trusting an undifferentiated total. */}
+        <input
+          type="hidden"
+          name="power_units"
+          value={carrier.equipmentSummary.truckTractors + carrier.equipmentSummary.straightTrucks}
+        />
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>

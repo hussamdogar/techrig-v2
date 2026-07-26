@@ -65,7 +65,10 @@ export async function POST(request: Request) {
   const selected = Array.from(new Set<ServiceKey>([order.service_key as ServiceKey, ...additional]));
   // computeQuickBuyPricing, not computePricing: this is what actually charges
   // the combined UCR total (service fee + government fee in one amount) when
-  // UCR is in the selected set, per the quick-buy pricing decision.
+  // UCR is in the selected set. order.power_units is the qualifying-CMV count
+  // (truck tractors + straight trucks), not the carrier's general reported
+  // power units — trailers and non-commercial vehicles never affect the
+  // government fee bracket.
   const pricing = computeQuickBuyPricing(selected, {
     powerUnits: order.power_units,
     driverCount: order.driver_count,
