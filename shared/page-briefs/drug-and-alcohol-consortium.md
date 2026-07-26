@@ -5,6 +5,7 @@
 - **Primary:** drug and alcohol consortium (320/KD19). **Secondaries:** consortium enrollment, dot drug and alcohol program, owner operator drug consortium.
 - **Covers as a section:** pre-employment drug test (standalone term 5,400 but broad/KD38; not its own page).
 - **Word target:** 1,300 to 1,500.
+- **Flow (updated):** Consortium enrollment is a flat-fee, no-extra-input filing. The CTA leads to a USDOT-lookup confirm-and-pay flow, not the multi-step application engine: enter USDOT → we pull and display the carrier record for confirmation, with contact email/phone pre-filled from the same record (editable if wrong) → Stripe payment → thank-you page. No account creation, no login, no multi-step form.
 
 ## Title tag (52 chars)
 `Drug and Alcohol Consortium for Trucking | Tech Rig`
@@ -21,7 +22,7 @@ Primary "drug and alcohol consortium" in: title (yes), first paragraph (yes), H2
 **Hero lede:**
 If you hold a CDL and operate under FMCSA, you are required to be in a DOT drug and alcohol testing program, and for owner-operators that means joining a consortium. A consortium pools drivers for random testing and manages the program for you. Skip it and you are not legal to drive a CDL vehicle, and it is one of the first things an audit checks. Tech Rig enrolls you in a drug and alcohol consortium and keeps your testing program compliant.
 
-**Primary CTA (above fold):** button "Enroll in a consortium" → `/apply/?service=consortium` (the in-app application flow). Mid-page and closing CTAs use the same route.
+**Primary CTA (above fold):** button "Enroll in a consortium" → `/buy/consortium/` (the USDOT confirm-and-pay quick-buy flow). Mid-page and closing CTAs use the same route.
 
 ### H2: What a drug and alcohol consortium is
 A consortium/third-party administrator (C/TPA) is an organization that manages DOT drug and alcohol testing for carriers, including the random testing pool. FMCSA requires CDL drivers to be part of a testing program, and an owner-operator cannot run their own random pool of one, so they join a consortium. The program covers pre-employment, random, post-accident, and other required testing, and ties into the [FMCSA Clearinghouse](/fmcsa-clearinghouse-registration/).

@@ -148,6 +148,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/lookup/:path*", headers: noindex },
       { source: "/apply/:path*", headers: noindex },
+      { source: "/buy/:path*", headers: noindex },
       { source: "/dashboard/:path*", headers: noindex },
       { source: "/account/:path*", headers: noindex },
       { source: "/admin/:path*", headers: noindex },

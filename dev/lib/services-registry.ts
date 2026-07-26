@@ -304,6 +304,16 @@ export function isServiceKey(value: unknown): value is ServiceKey {
   return typeof value === "string" && value in SERVICES;
 }
 
+/** The five services with a USDOT-confirm-and-pay quick-buy fast path
+ *  (`/buy/<service>/`): each needs nothing beyond a confirmed carrier record,
+ *  plus one extra field for ucr (power units) / dq-files (driver count).
+ *  Every other service stays on the full `/apply` multi-step engine. */
+export const QUICK_BUY_SERVICE_KEYS: ServiceKey[] = ["boc-3", "ucr", "clearinghouse", "consortium", "dq-files"];
+
+export function isQuickBuyServiceKey(value: unknown): value is (typeof QUICK_BUY_SERVICE_KEYS)[number] {
+  return typeof value === "string" && (QUICK_BUY_SERVICE_KEYS as string[]).includes(value);
+}
+
 // ---- UCR government-fee brackets (client-pricing-v2-2026-07-10.md §10) ------
 // The Tech Rig SERVICE fee is flat ($80 standalone / $50 in-bundle, above); the
 // GOVERNMENT fee depends on the power-unit bracket and is disclosed separately,
@@ -704,6 +714,47 @@ export function computePricing(selected: ServiceKey[], ctx: PricingContext): Pri
     });
   }
 
+  const subtotal = lines.reduce((sum, l) => sum + (l.amount ?? 0), 0);
+  return { lines, filings, subtotal, total: subtotal, hasManualReview: lines.some((l) => l.manualReview) };
+}
+
+/**
+ * Quick-buy-specific pricing (the /buy/... fast path only — NOT used by
+ * /apply or bundles, which keep computePricing's existing behavior of
+ * disclosing the UCR government fee as a separate, uncollected line per the
+ * 2026-06-25 owner decision noted above computePricing).
+ *
+ * For quick-buy, the owner decided the UCR government fee is folded into the
+ * single amount Tech Rig collects and displays, rather than shown as a second
+ * number the visitor has to reconcile — Tech Rig collects the combined total
+ * up front and is responsible for the government portion afterward. Power
+ * units come from the FMCSA/MOTUS lookup automatically; when a carrier has
+ * none on file, this defaults to the 0-2 bracket (owner decision) instead of
+ * blocking the purchase or asking the visitor to type a number in, so UCR
+ * pricing here never falls into manual review.
+ */
+export function computeQuickBuyPricing(selected: ServiceKey[], ctx: PricingContext): Pricing {
+  if (!selected.includes("ucr")) return computePricing(selected, ctx);
+
+  const effectivePowerUnits = ctx.powerUnits ?? 0;
+  const base = computePricing(selected, { ...ctx, powerUnits: effectivePowerUnits });
+  const ucr = calculateUcr(effectivePowerUnits, "standalone");
+  const combined = (ucr.serviceFee ?? 0) + (ucr.govFee ?? 0);
+
+  const lines = base.lines.map((l) =>
+    l.key === "ucr"
+      ? {
+          ...l,
+          amount: combined,
+          ucrTier: ucr.tier,
+          manualReview: false,
+          note: "Includes your government registration fee, based on your fleet size on file.",
+        }
+      : l,
+  );
+  const filings = base.filings.map((f) =>
+    f.service_key === "ucr" ? { ...f, price_amount: combined, ucr_tier: ucr.tier, status: "not_started" as const } : f,
+  );
   const subtotal = lines.reduce((sum, l) => sum + (l.amount ?? 0), 0);
   return { lines, filings, subtotal, total: subtotal, hasManualReview: lines.some((l) => l.manualReview) };
 }

@@ -27,8 +27,9 @@ import {
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
 
-// Primary file CTA routes into the /apply engine, pre-selecting the UCR service.
-const applyHref = "/apply/?service=ucr";
+// Primary file CTA routes into the quick-buy USDOT confirm-and-pay flow (no
+// account, no multi-step form).
+const applyHref = "/buy/ucr/";
 
 export const metadata: Metadata = {
   title: "UCR Registration and Renewal",

@@ -4,6 +4,7 @@
 - **Action:** NEW. **Bucket:** 1. **Intent:** informational to BOFU.
 - **Primary:** driver qualification files (880/KD4). **Secondaries:** dq files (140/KD7), dq file requirements, driver qualification file checklist.
 - **Word target:** 1,400 to 1,600.
+- **Flow (updated):** The CTA leads to a USDOT-lookup confirm-and-pay flow, not the multi-step application engine: enter USDOT → we pull and display the carrier record for confirmation, with contact email/phone pre-filled from the same record (editable if wrong) and one inline field for driver count (drives per-driver pricing) → Stripe payment → thank-you page. No account creation, no login, no multi-step form. Detailed per-driver documentation (application, CDL, MVR, road test, medical cert, testing records) is collected after purchase, not on the confirm screen.
 
 ## Title tag (46 chars)
 `Driver Qualification Files (DQ) | Tech Rig`
@@ -20,7 +21,7 @@ Primary "driver qualification files" in: title (yes), first paragraph (yes), H2s
 **Hero lede:**
 Driver qualification files are the records FMCSA expects you to keep proving each of your drivers is legally qualified to operate. They are one of the first things a new-carrier safety audit checks, and incomplete files are a common reason carriers get marked down. Tech Rig builds and maintains compliant driver qualification files so your drivers are covered and your audit goes smoothly. This applies even if you are the only driver in the company.
 
-**Primary CTA (above fold):** button "Set up my DQ files" → `/apply/?service=dq-files` (the in-app application flow). Mid-page and closing CTAs use the same route.
+**Primary CTA (above fold):** button "Set up my DQ files" → `/buy/dq-files/` (the USDOT confirm-and-pay quick-buy flow). Mid-page and closing CTAs use the same route.
 
 ### H2: What driver qualification files are
 A driver qualification file (DQ file) is a per-driver record that documents the driver meets federal qualification requirements. FMCSA requires carriers to maintain one for each driver and to keep it current. The file is not a one-time form; parts of it have to be refreshed on a schedule, for example the annual review of the driving record. Missing or outdated DQ files show up fast in an audit.

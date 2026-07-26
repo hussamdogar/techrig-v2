@@ -9,6 +9,7 @@ import { performLookup } from "@/lib/server/lookup-capture";
 import { startClaim } from "./actions";
 import { createApplication } from "@/app/apply/actions";
 import type { CarrierData } from "@/lib/lookup/types";
+import { text, bool, date, money, DocketSection } from "@/lib/lookup/format";
 
 /**
  * USDOT lookup results page (M1 R1/R2). A noindex (ADR-5) server component that
@@ -26,52 +27,6 @@ export const metadata: Metadata = {
   title: "USDOT lookup",
   robots: { index: false, follow: false },
 };
-
-// ---- formatting helpers -------------------------------------------------
-function text(v: string | number | null | undefined): string | null {
-  if (v === null || v === undefined || v === "") return null;
-  return String(v);
-}
-function bool(v: boolean | null | undefined): string | null {
-  if (v === null || v === undefined) return null;
-  return v ? "Yes" : "No";
-}
-function date(v: string | null | undefined): string | null {
-  if (!v) return null;
-  const d = new Date(v);
-  return Number.isNaN(d.getTime())
-    ? text(v)
-    : d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
-}
-function money(v: string | null | undefined): string | null {
-  if (!v) return null;
-  const n = Number(v);
-  return Number.isNaN(n) ? text(v) : `$${n.toLocaleString("en-US")}`;
-}
-
-function Row({ label, value }: { label: string; value: string | null }) {
-  return (
-    <div className="flex items-start justify-between gap-4 py-2">
-      <dt className="text-sm text-slate">{label}</dt>
-      <dd className="text-right text-sm font-medium text-ink">
-        {value === null ? <span className="text-slate">Not on file</span> : value}
-      </dd>
-    </div>
-  );
-}
-
-function DocketSection({ title, rows }: { title: string; rows: { label: string; value: string | null }[] }) {
-  return (
-    <div className="rounded-card border border-slate/15 bg-cloud p-5">
-      <h2 className="font-display text-lg font-bold text-ink">{title}</h2>
-      <dl className="mt-2 divide-y divide-slate/10">
-        {rows.map((r) => (
-          <Row key={r.label} label={r.label} value={r.value} />
-        ))}
-      </dl>
-    </div>
-  );
-}
 
 function statusTone(status: string | null): "positive" | "warning" | "neutral" {
   if (!status) return "neutral";

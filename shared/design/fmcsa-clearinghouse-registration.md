@@ -12,7 +12,7 @@ A single-filing money page in the driver-compliance cluster, navigational and BO
 2. Breadcrumb row (Paper): Home > Compliance Services > FMCSA Clearinghouse Registration, in the mono label treatment, Steel links, current item Slate. Renders the BreadcrumbList without a decorative bar.
 
 3. Hero (Paper, asymmetric two-column; copy-first stack on mobile)
-   - Left: H1 "FMCSA Clearinghouse Registration" (Archivo). The brief's hero lede as a styled paragraph in Plex Sans Body L, with the inline `/drug-and-alcohol-consortium/` link as a Steel contextual anchor. Primary button "Register with the Clearinghouse" (Signal amber, Ink text) routing to the intake form, `/contact-us/` until `[VERIFY]` confirmed. Under the lede, the "Reviewed by Adam Smith, Co-Founder" credibility line: mono label "REVIEWED BY" + name in Plex Sans, no avatar.
+   - Left: H1 "FMCSA Clearinghouse Registration" (Archivo). The brief's hero lede as a styled paragraph in Plex Sans Body L, with the inline `/drug-and-alcohol-consortium/` link as a Steel contextual anchor. Primary button "Register with the Clearinghouse" (Signal amber, Ink text) routing to `/buy/clearinghouse/` (the USDOT confirm-and-pay quick-buy flow, resolving the earlier `[VERIFY]` placeholder). Under the lede, the "Reviewed by Adam Smith, Co-Founder" credibility line: mono label "REVIEWED BY" + name in Plex Sans, no avatar.
    - Right (signature visual): the Authority Status Tracker, scoped to where this filing sits. Clearinghouse is a driver-compliance step that runs once a CDL driver is being put to work, so the tracker shows the federal sequence (Application filed -> 21-day protest period -> Authority active) with this filing marked as a driver-readiness step that sits after authority and alongside the consortium, not as a node that gates activation. Honesty rules apply: no guaranteed dates, no countdown, no implied government endorsement. On mobile the tracker drops below the CTA and renders vertically.
 
 4. H2 "What FMCSA Clearinghouse registration is": the page's signature explanatory moment. Lead text block in Body, then a quiet two-node line diagram that carries the core distinction: one node "Consortium administers testing" (Steel), one node "Clearinghouse records and surfaces violations" (Steel), a labeled connector showing queries and reporting flowing between them. This is a content-bearing process diagram in the system's single-line SVG language, not decoration. The inline `/drug-and-alcohol-consortium/` link sits in the body copy as a Steel anchor.
@@ -31,6 +31,14 @@ A single-filing money page in the driver-compliance cluster, navigational and BO
 
 11. Mega-footer (global): the complete filing list lives here.
 
+## New flow: /buy/clearinghouse/ (USDOT confirm-and-pay)
+Three screens, `noindex`, minimal wordmark-only chrome.
+- **Entry** (`/buy/clearinghouse/`): single centered card, mono label "Start your Clearinghouse registration," one USDOT input, primary amber "Look up my USDOT" button.
+- **Confirm** (`/buy/clearinghouse/[usdot]/`): curated carrier-identity card (legal name, DBA, USDOT, MC number, address, power units), same Row/DocketSection line style as `/lookup/[usdot]/`. Editable email and phone fields, pre-filled from the pulled record, each with a "pulled from your FMCSA record, edit if needed" Slate caption. No extra numeric field. Price chip: flat "$100" from the single source. Primary amber button "Confirm and pay." Quiet "This isn't my carrier" reset link.
+- **Pay** (`/buy/[orderId]/pay/`): Stripe Payment Element, price chip repeated.
+- **Thank-you** (`/buy/[orderId]/thank-you/`): confirmation checkmark line icon, reference id in mono, one paragraph on what happens next (we register your company and set up the required queries), no dashboard/login prompt. Optional quiet link back to `/` or the compliance hub.
+Stripped of marketing chrome: single column, one action per screen.
+
 ## Hierarchy and the visual path
 Eye path: H1 -> primary amber CTA -> the tracker (sets honest expectations) -> the consortium/Clearinghouse distinction diagram (the page's reason to exist) -> includes + the $100 chip -> cluster cross-links -> FAQ -> single closing CTA. Signal amber is rationed to the primary action only (hero and close); every other link, the secondary anchors, and the cluster strip are Steel and subordinate. One primary action per view.
 
@@ -41,7 +49,7 @@ No photography. Two assets carry the load: the Authority Status Tracker in the h
 Minimal. Hero tracker reveals its steps with a calm staggered fade (<=200ms each) on load. The "what it is" diagram may draw its connector once on first view (<=200ms); no looping. Accordion chevron. No per-section scroll-fade. `prefers-reduced-motion` gives final static states.
 
 ## CRO treatment
-- One dominant action (register with the Clearinghouse), Signal amber, repeated at hero and close, same destination both times.
+- One dominant action (register with the Clearinghouse), Signal amber, repeated at hero and close, routing to `/buy/clearinghouse/` both times.
 - The distinction diagram removes the buyer's core confusion ("is this the same as a consortium?") visually, which is the page's conversion lever; the cluster strip captures the carrier who realizes they need all three.
 - Fee transparency: the $100 service fee shows from the single source, and related costs are listed as separate figures on their own pages, never bundled.
 - Honest applicability (the "we confirm before registering you" line and the tracker) reduces the anxiety that drives bounce.

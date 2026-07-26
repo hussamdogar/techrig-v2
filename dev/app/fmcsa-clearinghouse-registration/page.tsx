@@ -27,8 +27,9 @@ import {
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
 
-// Primary file/apply CTAs route into the /apply engine, prefilled for the Clearinghouse.
-const applyHref = "/apply/?service=clearinghouse";
+// Primary CTA routes into the quick-buy USDOT confirm-and-pay flow (no account,
+// no multi-step form).
+const applyHref = "/buy/clearinghouse/";
 
 export const metadata: Metadata = {
   title: "FMCSA Clearinghouse Registration",

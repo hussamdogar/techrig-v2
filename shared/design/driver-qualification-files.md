@@ -12,7 +12,7 @@ A single-filing money page in the driver-compliance cluster, informational slidi
 2. Breadcrumb row (Paper): Home > Compliance Services > Driver Qualification Files, mono label treatment, Steel links, current item Slate. Renders BreadcrumbList.
 
 3. Hero (Paper, asymmetric two-column; copy-first stack on mobile)
-   - Left: H1 "Driver Qualification Files (DQ Files)" (Archivo). The brief's hero lede as a styled Body L paragraph; the closing line ("This applies even if you are the only driver in the company.") set in Ink at full weight inside the paragraph to seed the page's angle, without becoming a heading. Primary button "Set up my DQ files" (Signal amber, Ink text) -> DQ intake form, `/contact-us/` until `[VERIFY]` confirmed. Under the lede, the "Reviewed by Adam Smith, Co-Founder" line: mono "REVIEWED BY" label + name.
+   - Left: H1 "Driver Qualification Files (DQ Files)" (Archivo). The brief's hero lede as a styled Body L paragraph; the closing line ("This applies even if you are the only driver in the company.") set in Ink at full weight inside the paragraph to seed the page's angle, without becoming a heading. Primary button "Set up my DQ files" (Signal amber, Ink text) -> `/buy/dq-files/` (the USDOT confirm-and-pay quick-buy flow, resolving the earlier `[VERIFY]` placeholder). Under the lede, the "Reviewed by Adam Smith, Co-Founder" line: mono "REVIEWED BY" label + name.
    - Right (signature visual): the Authority Status Tracker, scoped to this filing as a driver-readiness step that sits after authority and alongside consortium and Clearinghouse. Honesty rules apply. Vertical on mobile, below the CTA.
 
 4. H2 "What driver qualification files are": lead text in Body. Pull the recurring-maintenance point ("the file is not a one-time form; parts of it have to be refreshed on a schedule") into a quiet emphasis callout (left Steel rule, Slate text), because the recurring nature is what carriers underestimate and it justifies the yearly-update pricing later.
@@ -35,6 +35,14 @@ A single-filing money page in the driver-compliance cluster, informational slidi
 
 13. Mega-footer (global).
 
+## New flow: /buy/dq-files/ (USDOT confirm-and-pay)
+Three screens, `noindex`, minimal wordmark-only chrome.
+- **Entry** (`/buy/dq-files/`): single centered card, mono label "Start your driver qualification files," one USDOT input, primary amber "Look up my USDOT" button.
+- **Confirm** (`/buy/dq-files/[usdot]/`): curated carrier-identity card (legal name, DBA, USDOT, MC number, address, power units), same Row/DocketSection line style as `/lookup/[usdot]/`. Editable email and phone fields, pre-filled from the pulled record, each with a "pulled from your FMCSA record, edit if needed" Slate caption. One additional inline numeric field, labelled "Number of drivers," with a one-line Slate caption explaining it sets the per-driver price (1 driver $250, 2 drivers $450 total, 3 drivers $600 total, more than 3: contact us for a quote — shown live as the field changes if feasible). A second Slate caption clarifies that the detailed per-driver documentation (license, MVR, medical certificate, testing records) is collected after purchase, not on this screen, so the visitor isn't surprised by a "confirm and pay" step that asks for so little. Primary amber button "Confirm and pay." Quiet "This isn't my carrier" reset link.
+- **Pay** (`/buy/[orderId]/pay/`): Stripe Payment Element, price chip repeated for the confirmed driver count.
+- **Thank-you** (`/buy/[orderId]/thank-you/`): confirmation checkmark line icon, reference id in mono, one paragraph on what happens next (we will follow up to collect each driver's documentation and assemble the compliant file), no dashboard/login prompt. Optional quiet link back to `/` or the compliance hub.
+Stripped of marketing chrome: single column, one action per screen.
+
 ## Hierarchy and the visual path
 Eye path: H1 -> primary amber CTA -> tracker -> the owner-operator angle block (the page's hook) -> the contents checklist (the scannable substance) -> includes + the $200 chip -> audit section with the worked example -> cluster strip -> FAQ -> single closing CTA. Signal amber is rationed to the primary action only (hero and close). The owner-operator block, the recurring callout, and the worked example use the Steel-rule quiet treatment, never amber. One primary action per view. The deliberate two-tier checklist styling (neutral bullets for "what is in the file", green checks for "what we include") keeps the green check meaningful.
 
@@ -45,7 +53,7 @@ No photography. Assets: the Authority Status Tracker in the hero; one small line
 Minimal. Hero tracker staggered reveal (<=200ms steps). Accordion chevron. The contents checklist renders static (no staggered list animation). No per-section scroll-fade; the worked example and callouts are static. `prefers-reduced-motion` gives final states.
 
 ## CRO treatment
-- One dominant action (set up my DQ files), Signal amber, repeated at hero and close, same destination.
+- One dominant action (set up my DQ files), Signal amber, repeated at hero and close, routing to `/buy/dq-files/`.
 - The owner-operator angle is the page's conversion lever: it converts a searcher who assumed DQ files do not apply to a one-driver operation into a buyer, so it gets the strongest non-CTA emphasis.
 - The contents checklist builds confidence ("they know exactly what goes in here") and the includes list shows the service is complete and maintained; the $200-includes-yearly-update framing answers the recurring-cost worry the section-4 callout raised.
 - The worked example is honest proof of competence, in the credibility treatment, not a metric or testimonial.

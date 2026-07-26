@@ -10,7 +10,7 @@ A compliance money page for an annual filing, BOFU navigational. One job: a carr
 1. Header (global): per `global-footer.md`. The page primary action is "File my UCR"; the global header keeps its standard "Start your compliance setup" CTA.
 
 2. Hero (Paper, asymmetric two-column; copy-first stack on mobile)
-   - Left: H1 "UCR Registration and Renewal" (Archivo). The brief's hero lede as a styled paragraph in Plex Sans Body L (never an H-tag). Primary button "File my UCR" (Signal amber, Ink text) routing to the `[VERIFY]` route (`/get-started` or the UCR intake form; `/contact-us/` until Dev confirms). Small "Reviewed by Adam Smith, Co-Founder" credibility line under the lede (mono label + name).
+   - Left: H1 "UCR Registration and Renewal" (Archivo). The brief's hero lede as a styled paragraph in Plex Sans Body L (never an H-tag). Primary button "File my UCR" (Signal amber, Ink text) routing to `/buy/ucr/` (the USDOT confirm-and-pay quick-buy flow, resolving the earlier `[VERIFY]` placeholder). Small "Reviewed by Adam Smith, Co-Founder" credibility line under the lede (mono label + name).
    - Right (signature visual): the Authority Status Tracker, scoped to where UCR sits. UCR is annual upkeep that keeps an active authority legal, not a step in first activation, so this instance is framed as a recurring-compliance variant: show the sequence resolving to "Authority active", then a distinct annual-renewal marker (a Plex Mono "renews annually" tag on the active node, using the status-progress treatment for the recurring step). Honesty rules apply: no guaranteed dates, no countdown that implies Tech Rig controls timing. This visually separates UCR from one-time filings like BOC-3.
 
 3. H2 "What UCR registration is" (Cloud surface): the what-it-is block. Plain copy at the standard measure. The "who has to register" list rendered as a clean line-led list (small document or shield line icon per item, not decorative triplets). The applicability "Note" (purely intrastate and some operations differ; we tell you before you pay) set as a quiet callout with a left Steel rule and Slate text, so honest applicability reads as a reassurance, not fine print.
@@ -36,6 +36,14 @@ A compliance money page for an annual filing, BOFU navigational. One job: a carr
 
 10. Mega-footer (global): the complete filing list lives here.
 
+## New flow: /buy/ucr/ (USDOT confirm-and-pay)
+Three screens, `noindex`, minimal wordmark-only chrome (no navigation that invites bail-out mid-checkout).
+- **Entry** (`/buy/ucr/`): single centered card, mono label "Start your UCR registration," one USDOT input, primary amber "Look up my USDOT" button.
+- **Confirm** (`/buy/ucr/[usdot]/`): curated carrier-identity card (legal name, DBA, USDOT, MC number, address, power units) in the same Row/DocketSection line style as `/lookup/[usdot]/` (reuse, do not redesign). Editable email and phone fields, pre-filled from the pulled record, each with a "pulled from your FMCSA record, edit if needed" Slate caption. One additional inline numeric field, distinct from the identity card, labelled "Power units (qualifying CMVs)" and pre-filled from the lookup's power-unit count if present, editable; a one-line Slate caption explains it sets the government fee bracket. Price shows two separate lines even here (service fee + "gov fee, set by bracket"), consistent with the parent page's fee-transparency treatment, updating live as the power-unit field changes if feasible, otherwise resolved on the next screen. Primary amber button "Confirm and pay." Quiet "This isn't my carrier" reset link.
+- **Pay** (`/buy/[orderId]/pay/`): Stripe Payment Element, both fee lines repeated (service fee, government fee), summed total clearly separated from the itemization.
+- **Thank-you** (`/buy/[orderId]/thank-you/`): confirmation checkmark line icon, reference id in mono, one paragraph on what happens next (we file your UCR for the confirmed bracket, then remind you next year), no dashboard/login prompt. Optional quiet link back to `/` or the compliance hub.
+This flow shares the design system's tokens and line-icon language but is stripped of marketing chrome: single column, one action per screen.
+
 ## Hierarchy and the visual path
 Eye path: H1 -> primary amber CTA -> the tracker (sets the annual expectation) -> what it is -> the bracket explainer (the trust-builder) -> pricing with fees separated -> what you get -> funnel cross-link + worked example -> FAQ -> single closing CTA. Signal amber is rationed to the primary "File my UCR" action (hero and close only); every other link, including the mid-page CTA and all cross-links, is Steel and subordinate. One primary action per view.
 
@@ -46,7 +54,7 @@ No photography. The Authority Status Tracker (annual-renewal variant) in the her
 Minimal. Hero tracker staggered reveal (<=200ms per step), the annual-renewal marker draws last. Accordion chevron. No count-up on the bracket figures, no per-section scroll-fade. `prefers-reduced-motion` gives final static states (tracker shows resolved state with the annual marker, no animation).
 
 ## CRO treatment
-- One dominant action, "File my UCR", Signal amber, repeated at hero and close; the mid-page CTA is a subordinate Steel text link to the same route.
+- One dominant action, "File my UCR", Signal amber, repeated at hero and close, routing to `/buy/ucr/`; the mid-page CTA is a subordinate Steel text link to the same route.
 - Bracket transparency is the conversion lever unique to this page: showing that the government fee genuinely depends on fleet size, and that Tech Rig confirms the bracket first, removes the "am I overpaying" hesitation. Service fee is always visually separated from the government fee.
 - The annual-renewal framing (tracker marker + the reminder promise + the FAQ) turns the recurring nature from a downside into a reason to use Tech Rig (we remind you so you do not lapse).
 - Honest applicability callout reduces wrong-fit bounce.

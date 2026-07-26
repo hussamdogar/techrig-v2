@@ -65,7 +65,12 @@ export default async function PayPage({ params }: { params: Promise<{ applicatio
 
         <div className="mt-6">
           {pricing.total > 0 && publishableKey ? (
-            <PaymentForm applicationId={applicationId} publishableKey={publishableKey} />
+            <PaymentForm
+              endpoint="/api/checkout/"
+              body={{ applicationId }}
+              returnPath={`/apply/${applicationId}/success/`}
+              publishableKey={publishableKey}
+            />
           ) : (
             <p className="rounded-card border border-slate/15 bg-cloud p-4 text-sm text-ink">
               There&apos;s nothing to pay online for the services you selected. We&apos;ll follow up with a quote.{" "}

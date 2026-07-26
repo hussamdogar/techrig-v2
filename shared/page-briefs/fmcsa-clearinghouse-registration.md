@@ -4,6 +4,7 @@
 - **Action:** NEW. **Bucket:** 1. **Intent:** navigational / BOFU.
 - **Primary:** fmcsa clearinghouse registration (480/KD25). **Secondaries:** clearinghouse registration, dot clearinghouse, fmcsa clearinghouse enrollment.
 - **Word target:** 900 to 1,200 (tight).
+- **Flow (updated):** Clearinghouse is a flat-fee, no-extra-input filing. The CTA leads to a USDOT-lookup confirm-and-pay flow, not the multi-step application engine: enter USDOT → we pull and display the carrier record for confirmation, with contact email/phone pre-filled from the same record (editable if wrong) → Stripe payment → thank-you page. No account creation, no login, no multi-step form.
 
 ## Title tag (49 chars)
 `FMCSA Clearinghouse Registration | Tech Rig`
@@ -20,7 +21,7 @@ Primary "fmcsa clearinghouse registration" in: title (yes), first paragraph (yes
 **Hero lede:**
 The FMCSA Clearinghouse is the federal database of CDL drug and alcohol violations, and carriers are required to register and run the right queries on their drivers. New carriers often have it on their setup list without knowing exactly what it does or how it connects to their testing program. DGR Tech Rig LLC is registered as a C/TPA (consortium/third-party administrator) with the FMCSA Drug and Alcohol Clearinghouse, so we handle your Clearinghouse registration and tie it to your [consortium](/drug-and-alcohol-consortium/) and [pre-employment drug testing](/drug-and-alcohol-consortium/). New CDL drivers, including owner-operators, must complete the pre-employment drug-testing process before performing safety-sensitive work.
 
-**Primary CTA (above fold):** button "Register with the Clearinghouse" → `/apply/?service=clearinghouse` (the in-app application flow). Mid-page and closing CTAs use the same route.
+**Primary CTA (above fold):** button "Register with the Clearinghouse" → `/buy/clearinghouse/` (the USDOT confirm-and-pay quick-buy flow). Mid-page and closing CTAs use the same route.
 
 ### H2: What FMCSA Clearinghouse registration is
 The Clearinghouse is an FMCSA-run online database that records CDL drivers' drug and alcohol program violations and the return-to-duty process. Carriers must register, run pre-employment and annual queries on their drivers, and report certain information. It works alongside your [drug and alcohol consortium](/drug-and-alcohol-consortium/): the consortium administers testing, the Clearinghouse records and surfaces violations.

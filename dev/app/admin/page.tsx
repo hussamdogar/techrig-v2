@@ -29,6 +29,18 @@ type AppRow = {
   filings: Filing[];
   payments: { status: string }[];
 };
+type QuickBuyOrderRow = {
+  id: string;
+  reference_id: string | null;
+  status: string;
+  usdot_number: string | null;
+  service_key: string;
+  email: string | null;
+  phone: string | null;
+  updated_at: string;
+  filings: Filing[];
+  payments: { status: string }[];
+};
 
 export default async function AdminPage({ searchParams }: { searchParams: Promise<{ status?: string }> }) {
   // Server-side privilege gate (admin_users; never a client claim).
@@ -47,6 +59,19 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
   let apps = (data ?? []) as AppRow[];
   if (statusFilter && isFilingStatus(statusFilter)) {
     apps = apps.filter((a) => a.filings?.some((f) => f.status === statusFilter));
+  }
+
+  // Quick-buy fast-path orders (additive; separate table, see migration 0008).
+  const { data: qbData } = await service()
+    .from("quick_buy_orders")
+    .select(
+      "id, reference_id, status, usdot_number, service_key, email, phone, updated_at, filings(id, service_name, status, price_amount, expected_timeline), payments(status)",
+    )
+    .order("updated_at", { ascending: false })
+    .limit(100);
+  let quickBuyOrders = (qbData ?? []) as QuickBuyOrderRow[];
+  if (statusFilter && isFilingStatus(statusFilter)) {
+    quickBuyOrders = quickBuyOrders.filter((o) => o.filings?.some((f) => f.status === statusFilter));
   }
 
   return (
@@ -100,6 +125,73 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
 
                 <ul className="mt-4 divide-y divide-slate/10">
                   {(a.filings ?? []).map((f) => {
+                    const from = f.status as FilingStatus;
+                    const nexts = ALLOWED_TRANSITIONS[from] ?? [];
+                    return (
+                      <li key={f.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
+                        <div>
+                          <p className="text-sm font-medium text-ink">{f.service_name}</p>
+                          <p className="text-xs text-slate">
+                            {STATUS_COPY[from]?.label ?? from}
+                            {f.expected_timeline ? ` · ${f.expected_timeline}` : ""}
+                          </p>
+                        </div>
+                        {nexts.length > 0 ? (
+                          <form action={adminTransition.bind(null, f.id)} className="flex items-center gap-2">
+                            <select name="to_status" className="rounded-btn border border-slate/25 bg-paper px-2 py-1.5 text-sm text-ink">
+                              {nexts.map((n) => (
+                                <option key={n} value={n}>
+                                  → {STATUS_COPY[n].label}
+                                </option>
+                              ))}
+                            </select>
+                            <input
+                              name="note"
+                              placeholder="Note (optional)"
+                              className="w-40 rounded-btn border border-slate/25 bg-paper px-2 py-1.5 text-sm text-ink"
+                            />
+                            <button type="submit" className={cn(buttonVariants({ variant: "secondary", size: "sm" }))}>
+                              Advance
+                            </button>
+                          </form>
+                        ) : (
+                          <span className="text-xs text-slate">No further action</span>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))
+          )}
+        </div>
+
+        <h2 className="mt-10 font-display text-2xl font-extrabold tracking-[-0.02em] text-ink">
+          Quick-buy orders
+        </h2>
+        <div className="mt-4 space-y-4">
+          {quickBuyOrders.length === 0 ? (
+            <p className="text-slate">No quick-buy orders{statusFilter ? " with that filing status" : ""} yet.</p>
+          ) : (
+            quickBuyOrders.map((o) => (
+              <div key={o.id} className="rounded-card border border-slate/15 bg-cloud p-5">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <p className="font-mono text-sm font-semibold text-ink">{o.reference_id ?? o.id.slice(0, 8)}</p>
+                    <p className="mt-0.5 text-sm text-ink">
+                      {o.service_key} · USDOT {o.usdot_number ?? "—"}
+                    </p>
+                    <p className="mt-0.5 text-xs text-slate">
+                      Order: {o.status.replace(/_/g, " ")}
+                      {o.payments?.some((p) => p.status === "paid") ? " · paid" : " · unpaid"}
+                      {o.email ? ` · ${o.email}` : ""}
+                      {o.phone ? ` · ${o.phone}` : ""}
+                    </p>
+                  </div>
+                </div>
+
+                <ul className="mt-4 divide-y divide-slate/10">
+                  {(o.filings ?? []).map((f) => {
                     const from = f.status as FilingStatus;
                     const nexts = ALLOWED_TRANSITIONS[from] ?? [];
                     return (

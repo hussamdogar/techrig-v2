@@ -71,6 +71,69 @@ export async function sendReceiptIfNeeded(paymentIntentId: string): Promise<{ se
   return { sent: true };
 }
 
+/** Payment receipt on a paid quick-buy order that has not had its receipt sent.
+ *  Mirrors sendReceiptIfNeeded, but the recipient comes from the order's own
+ *  `email` field (confirmed on the quick-buy screen) since there is no auth user. */
+export async function sendQuickBuyReceiptIfNeeded(paymentIntentId: string): Promise<{ sent: boolean }> {
+  const db = service();
+  const { data: payment } = await db
+    .from("payments")
+    .select("id, quick_buy_order_id, amount, receipt_sent_at")
+    .eq("stripe_payment_intent_id", paymentIntentId)
+    .maybeSingle();
+  if (!payment || payment.receipt_sent_at || !payment.quick_buy_order_id) return { sent: false };
+
+  const { data: order } = await db
+    .from("quick_buy_orders")
+    .select("email, reference_id")
+    .eq("id", payment.quick_buy_order_id)
+    .maybeSingle();
+  const to = order?.email ?? null;
+  if (!to) return { sent: false };
+
+  const { data: filings } = await db
+    .from("filings")
+    .select("service_name")
+    .eq("quick_buy_order_id", payment.quick_buy_order_id);
+  await db.from("payments").update({ receipt_sent_at: new Date().toISOString() }).eq("id", payment.id);
+  await sendEmail({
+    to,
+    email: receiptEmail({
+      referenceId: order?.reference_id ?? "",
+      amount: Number(payment.amount),
+      services: (filings ?? []).map((f) => f.service_name),
+    }),
+  });
+  return { sent: true };
+}
+
+/** Status-change email for a quick-buy order's filing (no auth user; recipient
+ *  comes from quick_buy_orders.email). Mirrors sendStatusChangeEmail. */
+export async function sendQuickBuyStatusChangeEmail(
+  quickBuyOrderId: string,
+  serviceName: string,
+  toStatus: string,
+): Promise<void> {
+  if (!CLIENT_RELEVANT.has(toStatus) || !isFilingStatus(toStatus)) return;
+  const db = service();
+  const { data: order } = await db
+    .from("quick_buy_orders")
+    .select("email, reference_id")
+    .eq("id", quickBuyOrderId)
+    .maybeSingle();
+  const to = order?.email ?? null;
+  if (!to) return;
+  await sendEmail({
+    to,
+    email: statusChangeEmail({
+      referenceId: order?.reference_id ?? "",
+      serviceName,
+      statusLabel: STATUS_COPY[toStatus].label,
+      statusMeaning: STATUS_COPY[toStatus].meaning,
+    }),
+  });
+}
+
 /** Status-change email for client-relevant filing transitions only. */
 const CLIENT_RELEVANT = new Set(["filed", "active", "completed", "awaiting_info"]);
 export async function sendStatusChangeEmail(applicationId: string, serviceName: string, toStatus: string): Promise<void> {

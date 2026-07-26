@@ -27,8 +27,9 @@ import {
 } from "@/lib/schema";
 import { pricing, type Price } from "@/lib/services";
 
-// Primary file/apply CTAs route into the /apply engine, prefilled for the consortium.
-const applyHref = "/apply/?service=consortium";
+// Primary CTA routes into the quick-buy USDOT confirm-and-pay flow (no account,
+// no multi-step form).
+const applyHref = "/buy/consortium/";
 
 export const metadata: Metadata = {
   title: "Drug and Alcohol Consortium for Trucking",

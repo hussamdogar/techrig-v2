@@ -1,0 +1,72 @@
+"use server";
+
+import { cookies } from "next/headers";
+import { redirect, notFound } from "next/navigation";
+import { service as serviceClient } from "@/lib/server/supabase";
+import { decodeLeadAccessToken } from "@/lib/server/security";
+import { isQuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
+import { QUICK_BUY_TOKEN_COOKIE } from "@/lib/server/quick-buy";
+
+/**
+ * Confirm-screen submit for the quick-buy fast path. Trusts the signed lead
+ * token minted by performLookup() (the same primitive `/apply`'s lead_token
+ * uses) to identify the lead, writes a quick_buy_orders row, then hands off to
+ * the review & sign screen. No Supabase session is created or required.
+ *
+ * Filings are NOT created here — the review step is where the final service
+ * list (primary + any upsells) is locked in, so filings are created there
+ * instead (dev/app/buy/order/[orderId]/actions.ts).
+ *
+ * The token is carried forward in an httpOnly cookie, not the URL (same
+ * pattern as `lead_claim_token` in dev/lib/server/lead-claim.ts) — kept out of
+ * the URL, browser history, referrers, and server logs. It needs to survive
+ * through review AND payment, so it's set once here and read again by both.
+ */
+export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: string, formData: FormData) {
+  if (!isQuickBuyServiceKey(serviceKeyParam)) notFound();
+  const serviceKey = serviceKeyParam as ServiceKey;
+
+  const decoded = decodeLeadAccessToken(formData.get("token"));
+  if (!decoded) redirect(`/buy/${serviceKeyParam}/${usdot}/`); // expired/tampered: re-run the lookup
+
+  const firstName = String(formData.get("first_name") || "").trim() || null;
+  const lastName = String(formData.get("last_name") || "").trim() || null;
+  const email = String(formData.get("email") || "").trim() || null;
+  const phone = String(formData.get("phone") || "").trim() || null;
+  // Raw auto-detected value, kept honest (null if the FMCSA/MOTUS record has
+  // none on file) — the 0-2-bracket default is applied only at pricing time
+  // (computeQuickBuyPricing), not baked into the stored data here.
+  const rawPowerUnits = formData.get("power_units");
+  const powerUnits = rawPowerUnits != null && rawPowerUnits !== "" ? Number(rawPowerUnits) : null;
+
+  const db = serviceClient();
+  const { data: order, error } = await db
+    .from("quick_buy_orders")
+    .insert({
+      lead_id: decoded.leadId,
+      usdot_number: usdot,
+      service_key: serviceKey,
+      power_units: powerUnits,
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      phone,
+      reference_id: decoded.referenceId ?? null,
+      confirmed_at: new Date().toISOString(),
+      status: "awaiting_payment",
+    })
+    .select("id")
+    .single();
+  if (error || !order) redirect(`/buy/${serviceKeyParam}/${usdot}/?error=1`);
+
+  const store = await cookies();
+  store.set(QUICK_BUY_TOKEN_COOKIE, formData.get("token") as string, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60, // 1 hour to complete review + payment
+  });
+
+  redirect(`/buy/order/${order.id}/review/`);
+}

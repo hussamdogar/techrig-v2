@@ -5,6 +5,7 @@
 - **Primary:** ucr registration (12,100/KD5). **Secondaries:** unified carrier registration (12,100), ucr filing, ucr renewal.
 - **Word target:** 1,500+.
 - **Note:** UCR is an annual filing. Do NOT confuse with BOC-3 (one-time). Government fee is set by federal fleet-size bracket; Tech Rig's service fee is separate.
+- **Flow (updated):** The CTA leads to a USDOT-lookup confirm-and-pay flow, not the multi-step application engine: enter USDOT → we pull and display the carrier record for confirmation, with contact email/phone pre-filled from the same record (editable if wrong) and one inline field for power units (drives the government fee bracket) → Stripe payment (service fee + bracket fee, shown as separate lines) → thank-you page. No account creation, no login, no multi-step form.
 
 ## Title tag (43 chars)
 `UCR Registration and Renewal | Tech Rig`
@@ -21,7 +22,7 @@ Primary "ucr registration" in: title (yes), first paragraph (yes), H2s ("What UC
 **Hero lede:**
 If you run a commercial vehicle across state lines, UCR registration is not optional, and it comes due every year. Miss it and you risk roadside fines and held loads in states that enforce it. Tech Rig files your Unified Carrier Registration for you, confirms the right fleet bracket so you do not overpay, and reminds you before the next renewal. You stay focused on freight, not federal forms.
 
-**Primary CTA (above fold):** button "File my UCR" → `/apply/?service=ucr` (the in-app application flow). Mid-page and closing CTAs use the same route.
+**Primary CTA (above fold):** button "File my UCR" → `/buy/ucr/` (the USDOT confirm-and-pay quick-buy flow). Mid-page and closing CTAs use the same route.
 
 ### H2: What UCR registration is
 UCR (Unified Carrier Registration) is a federal program that requires motor carriers, brokers, freight forwarders, and leasing companies operating in interstate commerce to register and pay an annual fee based on fleet size. The money funds state enforcement of motor carrier safety programs. It is separate from your USDOT number and your operating authority: you can have an active USDOT and MC and still be out of compliance if your UCR is not paid for the current year.

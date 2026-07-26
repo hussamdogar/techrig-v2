@@ -12,7 +12,7 @@ A single-filing money page in the driver-compliance cluster, high-commercial-val
 2. Breadcrumb row (Paper): Home > Compliance Services > Drug and Alcohol Consortium, mono label treatment, Steel links, current item Slate. Renders BreadcrumbList.
 
 3. Hero (Paper, asymmetric two-column; copy-first stack on mobile)
-   - Left: H1 "Drug and Alcohol Consortium Enrollment" (Archivo). The brief's hero lede as a styled Body L paragraph. The lede carries a real consequence ("skip it and you are not legal to drive a CDL vehicle, and it is one of the first things an audit checks"); set that consequence clause in Ink at full weight within the paragraph so it lands, without becoming a heading. Primary button "Enroll in a consortium" (Signal amber, Ink text) -> consortium intake form, `/contact-us/` until `[VERIFY]` confirmed. Under the lede, the "Reviewed by Adam Smith, Co-Founder" line: mono "REVIEWED BY" label + name.
+   - Left: H1 "Drug and Alcohol Consortium Enrollment" (Archivo). The brief's hero lede as a styled Body L paragraph. The lede carries a real consequence ("skip it and you are not legal to drive a CDL vehicle, and it is one of the first things an audit checks"); set that consequence clause in Ink at full weight within the paragraph so it lands, without becoming a heading. Primary button "Enroll in a consortium" (Signal amber, Ink text) -> `/buy/consortium/` (the USDOT confirm-and-pay quick-buy flow, resolving the earlier `[VERIFY]` placeholder). Under the lede, the "Reviewed by Adam Smith, Co-Founder" line: mono "REVIEWED BY" label + name.
    - Right (signature visual): the Authority Status Tracker, scoped to this filing as a driver-readiness step that sits after authority and alongside Clearinghouse and DQ files, not a node gating activation. Honesty rules apply (no guaranteed dates, no government endorsement). Vertical on mobile, below the CTA.
 
 4. H2 "What a drug and alcohol consortium is": lead text in Body explaining the C/TPA and the random pool. The page's distinct angle ("an owner-operator cannot run their own random pool of one") gets a quiet emphasis callout: left Steel rule, Slate text, one sentence stating the pool-of-one problem plainly. This is the memorable framing, so give it visual separation without making it loud. The inline `/fmcsa-clearinghouse-registration/` link renders as a Steel anchor in the body.
@@ -35,6 +35,14 @@ A single-filing money page in the driver-compliance cluster, high-commercial-val
 
 13. Mega-footer (global).
 
+## New flow: /buy/consortium/ (USDOT confirm-and-pay)
+Three screens, `noindex`, minimal wordmark-only chrome.
+- **Entry** (`/buy/consortium/`): single centered card, mono label "Start your consortium enrollment," one USDOT input, primary amber "Look up my USDOT" button.
+- **Confirm** (`/buy/consortium/[usdot]/`): curated carrier-identity card (legal name, DBA, USDOT, MC number, address, power units), same Row/DocketSection line style as `/lookup/[usdot]/`. Editable email and phone fields, pre-filled from the pulled record, each with a "pulled from your FMCSA record, edit if needed" Slate caption. No extra numeric field. Price chip: flat "$175" from the single source. Primary amber button "Confirm and pay." Quiet "This isn't my carrier" reset link.
+- **Pay** (`/buy/[orderId]/pay/`): Stripe Payment Element, price chip repeated.
+- **Thank-you** (`/buy/[orderId]/thank-you/`): confirmation checkmark line icon, reference id in mono, one paragraph on what happens next (we enroll you in a compliant consortium and random testing pool), no dashboard/login prompt. Optional quiet link back to `/` or the compliance hub.
+Stripped of marketing chrome: single column, one action per screen.
+
 ## Hierarchy and the visual path
 Eye path: H1 -> primary amber CTA -> tracker -> the pool-of-one framing callout (the page's distinct hook) -> includes + the $150/$100 chips -> pre-employment section with the worked example -> the consortium/Clearinghouse pairing -> cluster strip -> FAQ -> single closing CTA. Signal amber is rationed to the primary action only (hero and close). The two emphasis callouts (pool-of-one, worked example) use the Steel-rule quiet treatment, never amber, so they read as credibility, not CTAs. One primary action per view.
 
@@ -45,7 +53,7 @@ No photography. Assets: the Authority Status Tracker in the hero; the consortium
 Minimal. Hero tracker staggered reveal (<=200ms steps). The section-8 diagram may draw its connector once on first view (<=200ms). Accordion chevron. No per-section scroll-fade; the two callouts render static (no count-up on the 30-day figure). `prefers-reduced-motion` gives final states.
 
 ## CRO treatment
-- One dominant action (enroll in a consortium), Signal amber, repeated at hero and close, same destination.
+- One dominant action (enroll in a consortium), Signal amber, repeated at hero and close, routing to `/buy/consortium/`.
 - The pool-of-one framing is the page's persuasion lever: it converts vague "do I need this" into a concrete reason, so it gets quiet visual prominence.
 - The worked example is honest proof of competence (we caught a timing problem), not a metric or testimonial; it sits in the credibility treatment, not a glossy card.
 - Pricing as a trust asset: $150 enrollment and $100 pre-employment shown in mono from the single source, Clearinghouse cost shown separately so nothing reads as a hidden bundle.

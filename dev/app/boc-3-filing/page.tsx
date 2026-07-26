@@ -27,8 +27,9 @@ import {
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
 
-// Primary CTA routes into the /apply engine, pre-selecting the BOC-3 service.
-const applyHref = "/apply/?service=boc-3";
+// Primary CTA routes into the quick-buy USDOT confirm-and-pay flow (no account,
+// no multi-step form).
+const applyHref = "/buy/boc-3/";
 
 export const metadata: Metadata = {
   title: {
@@ -269,8 +270,8 @@ export default function Boc3FilingPage() {
                 n: "01",
                 text: (
                   <>
-                    You give us your company details through our{" "}
-                    <CrossLink href={applyHref}>BOC-3 form</CrossLink>.
+                    You confirm your carrier record from a quick{" "}
+                    <CrossLink href={applyHref}>USDOT lookup</CrossLink>; no forms to fill out.
                   </>
                 ),
               },

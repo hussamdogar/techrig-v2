@@ -28,8 +28,9 @@ import {
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
 
-// Primary CTA routes into the /apply engine, pre-selecting the DQ files service.
-const applyHref = "/apply/?service=dq-files";
+// Primary CTA routes into the quick-buy USDOT confirm-and-pay flow (no account,
+// no multi-step form).
+const applyHref = "/buy/dq-files/";
 
 export const metadata: Metadata = {
   title: "Driver Qualification Files (DQ)",

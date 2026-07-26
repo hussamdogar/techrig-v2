@@ -1,0 +1,217 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { headers } from "next/headers";
+import { notFound } from "next/navigation";
+import { Container, Section } from "@/components/ui/container";
+import { buttonVariants } from "@/components/ui/button";
+import { performLookup } from "@/lib/server/lookup-capture";
+import { SERVICES, isQuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
+import { text, DocketSection } from "@/lib/lookup/format";
+import type { CarrierData } from "@/lib/lookup/types";
+import { confirmQuickBuyOrder } from "./actions";
+
+/**
+ * Quick-buy confirm screen. Runs the same performLookup() path as
+ * `/lookup/[usdot]/` (rate-limited, captures a lead + snapshot, mints a signed
+ * lead token), then shows a CURATED identity subset (not the full docket) for
+ * the visitor to confirm, with contact info pre-filled and editable. Confirming
+ * writes a quick_buy_orders row and hands off straight to payment; no account.
+ */
+export const dynamic = "force-dynamic";
+export const metadata: Metadata = {
+  title: "Confirm your carrier record",
+  robots: { index: false, follow: false },
+};
+
+function Message({ heading, body }: { heading: string; body: string }) {
+  return (
+    <>
+      <h1 className="mt-1 font-display text-3xl font-extrabold tracking-[-0.02em] text-ink">{heading}</h1>
+      <p className="mt-4 max-w-[60ch] text-slate">{body}</p>
+    </>
+  );
+}
+
+export default async function QuickBuyConfirmPage({
+  params,
+}: {
+  params: Promise<{ service: string; usdot: string }>;
+}) {
+  const { service, usdot } = await params;
+  if (!isQuickBuyServiceKey(service)) notFound();
+  const def = SERVICES[service as ServiceKey];
+
+  const outcome = await performLookup(usdot, await headers());
+
+  return (
+    <Section surface="paper" className="pt-8 md:pt-12">
+      <Container className="max-w-2xl">
+        {outcome.kind === "done" && outcome.result.status === "success" && outcome.result.carrier ? (
+          <Confirm carrier={outcome.result.carrier} service={service as ServiceKey} usdot={usdot} token={outcome.token} />
+        ) : outcome.kind === "done" && outcome.result.status === "not_found" ? (
+          <>
+            <Message
+              heading="No carrier found"
+              body="We couldn't find a carrier with that USDOT number. Check the number and try again."
+            />
+            <BackLink service={service} />
+          </>
+        ) : outcome.kind === "invalid" ? (
+          <>
+            <Message heading="That doesn't look like a USDOT number" body="A USDOT number is digits only. Check the number and try again." />
+            <BackLink service={service} />
+          </>
+        ) : outcome.kind === "rate_limited" ? (
+          <>
+            <Message heading="Too many lookups" body="You've run several lookups in a short window. Please wait a few minutes and try again." />
+            <BackLink service={service} />
+          </>
+        ) : (
+          <>
+            <Message
+              heading="Lookup is temporarily unavailable"
+              body="We couldn't reach the FMCSA records just now. Try again in a moment, or contact us and we'll pull it for you."
+            />
+            <BackLink service={service} />
+          </>
+        )}
+        <p className="mt-2 text-sm text-ink">{def.name}</p>
+      </Container>
+    </Section>
+  );
+}
+
+function BackLink({ service }: { service: string }) {
+  return (
+    <div className="mt-7">
+      <Link href={`/buy/${service}/`} className="font-medium text-steel underline-offset-4 hover:underline">
+        Try another USDOT
+      </Link>
+    </div>
+  );
+}
+
+function Confirm({
+  carrier,
+  service,
+  usdot,
+  token,
+}: {
+  carrier: CarrierData;
+  service: ServiceKey;
+  usdot: string;
+  token: string;
+}) {
+  const def = SERVICES[service];
+  const confirmAction = confirmQuickBuyOrder.bind(null, service, usdot);
+
+  return (
+    <>
+      <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-slate">
+        {def.name} · USDOT {usdot}
+      </p>
+      <h1 className="mt-1 font-display text-3xl font-extrabold tracking-[-0.02em] text-ink">Confirm your carrier record</h1>
+      <p className="mt-3 text-slate">Check the details below, then continue to review your order.</p>
+
+      <div className="mt-6">
+        <DocketSection
+          title="Carrier identity"
+          rows={[
+            { label: "Legal name", value: text(carrier.legalName) },
+            { label: "DBA name", value: text(carrier.dbaName) },
+            { label: "USDOT #", value: text(carrier.usdotNumber) },
+            { label: "MC / docket #", value: text(carrier.mcNumber) },
+            { label: "Power units", value: text(carrier.powerUnits) },
+            { label: "Address", value: text(carrier.physicalAddress) },
+          ]}
+        />
+      </div>
+
+      <form action={confirmAction} className="mt-6 space-y-5">
+        <input type="hidden" name="token" value={token} />
+        {/* Auto-detected from the FMCSA/MOTUS record, carried through so UCR
+            pricing (if selected here or upsold on review) never needs the
+            visitor to type a fleet size in. */}
+        <input type="hidden" name="power_units" value={carrier.powerUnits ?? ""} />
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="first_name" className="text-sm font-medium text-ink">
+              First name
+            </label>
+            <input
+              id="first_name"
+              name="first_name"
+              type="text"
+              defaultValue={carrier.contactFirstName ?? ""}
+              placeholder="First name"
+              required
+              className="mt-1 w-full rounded-card border border-slate/25 bg-paper px-4 py-3 text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
+            />
+            <p className="mt-1 text-xs text-slate">Pulled from your FMCSA record, edit if needed.</p>
+          </div>
+          <div>
+            <label htmlFor="last_name" className="text-sm font-medium text-ink">
+              Last name
+            </label>
+            <input
+              id="last_name"
+              name="last_name"
+              type="text"
+              defaultValue={carrier.contactLastName ?? ""}
+              placeholder="Last name"
+              required
+              className="mt-1 w-full rounded-card border border-slate/25 bg-paper px-4 py-3 text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
+            />
+            <p className="mt-1 text-xs text-slate">Pulled from your FMCSA record, edit if needed.</p>
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="email" className="text-sm font-medium text-ink">
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              defaultValue={carrier.contactEmail ?? ""}
+              placeholder="you@company.com"
+              required
+              className="mt-1 w-full rounded-card border border-slate/25 bg-paper px-4 py-3 text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
+            />
+            <p className="mt-1 text-xs text-slate">Pulled from your FMCSA record, edit if needed.</p>
+          </div>
+          <div>
+            <label htmlFor="phone" className="text-sm font-medium text-ink">
+              Phone
+            </label>
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              defaultValue={carrier.contactPhone ?? ""}
+              placeholder="(555) 555-5555"
+              className="mt-1 w-full rounded-card border border-slate/25 bg-paper px-4 py-3 text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
+            />
+            <p className="mt-1 text-xs text-slate">Pulled from your FMCSA record, edit if needed.</p>
+          </div>
+        </div>
+
+        {/* Power units (UCR) / driver count (DQ files) are collected on the next
+            screen, not here — the review step is where the final service list
+            (primary + any upsells) is locked in, so that's the one place those
+            fields need to live regardless of how the visitor got there. */}
+
+        <button type="submit" className={`${buttonVariants({ variant: "primary", size: "md" })} w-full sm:w-auto`}>
+          Continue to review
+        </button>
+      </form>
+
+      <div className="mt-4">
+        <BackLink service={service} />
+      </div>
+    </>
+  );
+}
