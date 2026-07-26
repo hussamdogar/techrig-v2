@@ -20,11 +20,21 @@ import { SERVICES, QUICK_BUY_SERVICE_KEYS, computeQuickBuyPricing, type ServiceK
  * is specifically the qualifying-CMV count (truck tractors + straight trucks)
  * — trailers and non-commercial vehicles never affect the bracket, even if
  * they're most of the fleet.
+ *
+ * The upsell menu itself is gated by truckTractors: a carrier running truck
+ * tractors is shown all four other quick-buy services (marketed as
+ * completing their compliance requirements). A carrier with none only sees
+ * BOC-3, UCR, and DQ files — Clearinghouse and Consortium are CDL
+ * drug/alcohol testing compliance, which doesn't apply without truck
+ * tractors in the fleet.
  */
+const LIMITED_UPSELL_KEYS: ServiceKey[] = ["boc-3", "ucr", "dq-files"];
+
 export function ReviewForm({
   action,
   primaryKey,
   powerUnits,
+  truckTractors,
   initialAdditional,
   initialDriverCount,
 }: {
@@ -33,10 +43,12 @@ export function ReviewForm({
   /** Qualifying-CMV count for UCR bracket pricing, not the carrier's general
    *  reported power units. */
   powerUnits: number | null;
+  truckTractors: number | null;
   initialAdditional: ServiceKey[];
   initialDriverCount: number | null;
 }) {
-  const upsellKeys = QUICK_BUY_SERVICE_KEYS.filter((k) => k !== primaryKey);
+  const showFullMenu = (truckTractors ?? 0) > 0;
+  const upsellKeys = (showFullMenu ? QUICK_BUY_SERVICE_KEYS : LIMITED_UPSELL_KEYS).filter((k) => k !== primaryKey);
   const [selected, setSelected] = useState<Set<ServiceKey>>(new Set(initialAdditional));
   const [driverCount, setDriverCount] = useState(initialDriverCount != null ? String(initialDriverCount) : "1");
 
@@ -70,7 +82,9 @@ export function ReviewForm({
       <div>
         <h2 className="font-display text-lg font-bold text-ink">You may also need</h2>
         <p className="mt-1 text-sm text-slate">
-          Bundle more of your compliance filings into this order: one payment, one confirmation.
+          {showFullMenu
+            ? "Add all of these and your compliance requirements are fully covered — one payment, one confirmation."
+            : "Bundle more of your compliance filings into this order: one payment, one confirmation."}
         </p>
         <ul className="mt-3 divide-y divide-slate/10 rounded-card border border-slate/15 bg-cloud">
           {upsellKeys.map((key) => {

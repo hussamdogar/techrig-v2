@@ -70,6 +70,7 @@ export default async function QuickBuyReviewPage({
           action={submitAction}
           primaryKey={primaryKey}
           powerUnits={order.power_units}
+          truckTractors={order.truck_tractors}
           initialAdditional={initialAdditional}
           initialDriverCount={order.driver_count}
         />

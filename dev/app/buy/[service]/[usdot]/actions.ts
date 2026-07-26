@@ -40,6 +40,10 @@ export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: strin
   // only at pricing time (computeQuickBuyPricing), not baked in here.
   const rawPowerUnits = formData.get("power_units");
   const powerUnits = rawPowerUnits != null && rawPowerUnits !== "" ? Number(rawPowerUnits) : null;
+  // Raw signal for the review screen's dynamic "You may also need" upsell
+  // menu — see review-form.tsx for the eligibility rule.
+  const rawTruckTractors = formData.get("truck_tractors");
+  const truckTractors = rawTruckTractors != null && rawTruckTractors !== "" ? Number(rawTruckTractors) : null;
 
   const db = serviceClient();
   const { data: order, error } = await db
@@ -49,6 +53,7 @@ export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: strin
       usdot_number: usdot,
       service_key: serviceKey,
       power_units: powerUnits,
+      truck_tractors: truckTractors,
       first_name: firstName,
       last_name: lastName,
       email,

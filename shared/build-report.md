@@ -208,3 +208,86 @@ Implements `shared/work-order-pricing-v2.md` (client doc `shared/client-pricing-
 **Not yet exercised end-to-end (needs the live Supabase env + migration 0007 applied):** the `/apply` bundle checkout → review → payment → receipt path; the generated-receipt and M6-email legs of the parity gate (`lib/email/templates.ts` and `lib/pdf/*` are already generic/derived off `filings`/`applications.total_amount`, so no code change was needed there, but this is inferred from reading the code, not a live click-through). `/admin` order calc is likewise generic (no hardcoded price found) and unexercised live.
 
 **Deferred (explicitly out of scope for D15, unchanged from §8/§9):** D10 renewal reminders, D11 legacy import, D12 live Stripe.
+
+---
+
+## 11. Quick-buy fast path (BOC-3, UCR, Clearinghouse, Consortium, DQ files), 2026-07-16 — build-complete
+
+Owner-directed addition, built interactively across one session (no prior work order). **Not part of the M0-M7/D1-D15 milestone track above** — it's a parallel, additive fast-purchase lane that sits alongside `/apply` without changing it. Read this section top to bottom if you're new to this codebase; it explains both *why* this exists and exactly how it works.
+
+### 11.1 Why this exists
+
+`/apply` requires a magic-link account before anything else, then walks the buyer through a multi-step form (carrier identity, business details, operations, vehicles, drivers, review), and only then takes payment. The owner considers that too much friction for the five simplest, flattest-priced services — nothing about them actually needs more than a confirmed USDOT record. The fast path is: **enter USDOT → confirm the pulled record → review, upsell, and sign → pay → thank-you**, no account, ever, for these five services. Every other service (MC authority, trucking LLC setup, legal compliance, the four fixed bundles) is untouched and still exclusively an `/apply` concept.
+
+### 11.2 Route map
+
+All routes are `noindex` (added to the header list in `dev/next.config.ts` alongside `/apply` and `/lookup`), no header/footer chrome changes (same layout as the rest of the site).
+
+| Route | Purpose | Auth |
+| --- | --- | --- |
+| `/buy/[service]/` | USDOT entry for one of the 5 quick-buy services (`notFound()` for anything else) | none |
+| `/buy/[service]/[usdot]/` | Confirm screen: runs the same `performLookup()` as `/lookup/[usdot]/`, shows a curated carrier-identity subset, editable name/email/phone pre-filled from the record | none |
+| `/buy/order/[orderId]/review/` | Order summary, upsell checklist, typed-name signature + terms | capability token (cookie) |
+| `/buy/order/[orderId]/pay/` | Stripe Elements payment | capability token (cookie) |
+| `/buy/order/[orderId]/thank-you/` | Verify-on-return confirmation | none (verifies the Stripe intent itself) |
+| `/api/quick-buy-checkout` | Server-priced PaymentIntent creation | capability token (cookie) |
+
+Note the URL shape: order-scoped routes live under `/buy/order/[orderId]/...`, **not** `/buy/[orderId]/...` — Next.js doesn't allow two different dynamic segment names (`[service]` and `[orderId]`) as siblings under the same parent, so the `order/` static segment exists specifically to avoid that collision. Don't "simplify" it back to `/buy/[orderId]/...`; the build will fail.
+
+### 11.3 Why no account: the trust model
+
+Ownership of a quick-buy order is a capability token, not a Supabase session — the same HMAC-signed lead-access token (`createLeadAccessToken`/`verifyLeadAccessToken`, `dev/lib/server/security.ts`) that `/apply`'s pre-account lead-resume flow already used, reused rather than reinvented. `performLookup()` mints the token at confirm time; it's carried forward in an httpOnly cookie (`QUICK_BUY_TOKEN_COOKIE`, `dev/lib/server/quick-buy.ts`) — never the URL — read back by the review action and by `/api/quick-buy-checkout`, each of which calls `verifyLeadAccessToken(token, order.lead_id)` before allowing a write or a charge. `/api/checkout` (the `/apply` payment endpoint) was **not modified** — `/api/quick-buy-checkout` is a sibling file, deliberately, to keep the already-shipped `/apply` payment path's blast radius at zero.
+
+### 11.4 Data model
+
+New table `quick_buy_orders` (migration `0008`), plus three small follow-on migrations as the feature grew (`0009` names, `0010` review/signature, `0011` the upsell-menu signal). Current columns:
+
+| Column | Purpose |
+| --- | --- |
+| `id`, `lead_id`, `usdot_number`, `reference_id` | identity / linkage to `leads` |
+| `service_key` | the PRIMARY service (checked against the 5-key allowlist), immutable once set |
+| `additional_service_keys` (jsonb array) | upsells added on the review screen |
+| `first_name`, `last_name`, `email`, `phone` | pre-filled from the lookup at confirm, editable |
+| `power_units` | **not** the carrier's general reported power units — see §11.6, this is UCR's qualifying-CMV count |
+| `truck_tractors` | raw signal for the review screen's dynamic upsell menu (§11.7) |
+| `driver_count` | DQ files pricing input, collected on review |
+| `signature_name`, `terms_accepted_at` | review-and-sign step |
+| `confirmed_at`, `status` (`created`/`awaiting_payment`/`paid`/`fulfilled`/`cancelled`) | lifecycle |
+
+`payments.application_id` and `filings.application_id` were widened from `not null` to nullable, each gaining a new nullable `quick_buy_order_id` column plus a `..._parent_xor` check constraint (a row belongs to exactly one lane, never both, never neither). Existing `/apply` rows are unaffected — they always set `application_id`. RLS on `quick_buy_orders` is enabled with **zero policies** (same posture as `admin_users`): there's no client-facing read path for it at all, since there's no account to own it — only the service role touches it, from the confirm/review/checkout/webhook/admin server code.
+
+Filings for a quick-buy order are **not** created at confirm time — they're created (and idempotently replaced, delete-then-insert, same pattern as `/apply`'s `submitApplication`) at the review step's submit, once the final service selection (primary + upsells) is locked in. This matters if you're tracing "why isn't there a filing yet" for an order that's only reached the confirm screen.
+
+### 11.5 The review & sign step, and upsell
+
+Sits between confirm and payment (`/buy/order/[orderId]/review/`, page + client `review-form.tsx` + `actions.ts`). Three things happen here:
+1. **Order summary** — a "Company details" card (name/email/phone/USDOT), reusing the same `DocketSection`/`Row` components as the confirm screen and `/lookup/[usdot]/` (extracted into `dev/lib/lookup/format.tsx` specifically so all three surfaces render identically — reuse this, don't recreate the pattern).
+2. **Upsell** — a "You may also need" checklist offering the other quick-buy services (never anything from the `/apply`-only catalog). Selections and the live total preview run client-side through `computeQuickBuyPricing()` (a pure function, safe in a client component), but the server recomputes authoritatively both on submit and again at charge time — the client is never trusted for the amount, same rule as everywhere else in this app.
+3. **Signature** — typed full legal name + a terms-acceptance checkbox, stored as `signature_name`/`terms_accepted_at`. `/api/quick-buy-checkout` refuses to charge an order that isn't both confirmed and signed.
+
+### 11.6 UCR pricing: combined total, qualifying CMVs only
+
+Two owner decisions changed how UCR is priced and charged, **for the quick-buy lane only** — `/apply` and the four fixed bundles were deliberately left on the original behavior:
+
+- **Combined charge, not disclosed separately.** `/apply` shows the $80 Tech Rig service fee and the government bracket fee as two separate lines, and only ever collects the $80 — the government portion is documented as "paid by the customer directly" (§4 above). For quick-buy, the owner wants ONE number shown and ONE Stripe charge covering both; Tech Rig now collects the government fee upfront and is responsible for remitting it. This lives entirely in a new function, **`computeQuickBuyPricing()`** (`dev/lib/services-registry.ts`, right after `computePricing()`) — it delegates to `computePricing()` for every non-UCR line, and only overrides the UCR line's `amount`/`note` to the combined figure. `computePricing()`/`calculateUcr()` themselves are untouched. If a future change needs `/apply`'s UCR behavior to change too, that's `computePricing()`; if it's quick-buy-only, that's `computeQuickBuyPricing()` — don't conflate the two.
+- **Bracket is qualifying CMVs only.** The government fee bracket must be based on `truckTractors + straightTrucks` from the FMCSA/MOTUS equipment breakdown (`carrier.equipmentSummary`) — trailers and non-commercial vehicles never count, even if they're most of the fleet. The general `carrier.powerUnits` field is **not** safe to use for this: tracing `getMotusPowerUnits()` in `dev/lib/lookup/motus.ts`, it's the *max* of several candidates including raw FMCSA self-reported totals that can include non-commercial vehicles, so it can inflate the bracket. The confirm screen's hidden `power_units` field (and hence `quick_buy_orders.power_units`, despite the generic-sounding column name) is deliberately populated with `carrier.equipmentSummary.truckTractors + carrier.equipmentSummary.straightTrucks`, not `carrier.powerUnits`. When a carrier has no MOTUS equipment data (QCMobile fallback, which always reports zero equipment), this correctly resolves to 0, which `computeQuickBuyPricing()` treats as the 0-2 bracket rather than blocking the purchase or asking the visitor to type a number in.
+
+### 11.7 Dynamic upsell menu
+
+The "You may also need" checklist on review shows different options depending on the carrier's fleet, per owner instruction: carriers with `truckTractors > 0` see all four other quick-buy services, framed as completing their compliance requirements ("Add all of these and your compliance requirements are fully covered"); carriers with zero truck tractors see only BOC-3, UCR, and DQ files — Clearinghouse and Consortium are CDL drug/alcohol testing compliance, which the owner judged doesn't apply without truck tractors in the fleet. (An earlier version of this also factored in CDL driver count; the owner simplified it to truck-tractor-count-only, so `cdl_driver_total` was never persisted.) The signal (`truck_tractors`) is captured raw at confirm time and the eligibility rule lives in `review-form.tsx` (`showFullMenu`, `LIMITED_UPSELL_KEYS`) specifically so the business can change the rule later without another migration. This only changes what's *suggested* — a visitor who lands directly on `/buy/consortium/` keeps that as their primary purchase regardless of their fleet signal; only the surrounding upsell suggestions narrow.
+
+### 11.8 Fulfillment side: webhook, admin, email
+
+Additive branches only, on the exact same three files that already handle `/apply`'s equivalents — read the `if (application_id) {...} else if (quick_buy_order_id) {...}` shape in each before changing any of them, since the two branches must stay symmetric:
+- **`dev/app/api/stripe-webhook/route.ts`** — `markPayment()` branches on `row.quick_buy_order_id`: flips `quick_buy_orders.status → paid`, queues its filings, sends `sendQuickBuyReceiptIfNeeded()`. This is the highest-care file to touch in this whole feature; re-verify the existing `/apply` branch end to end (Stripe CLI replay) if you ever change it.
+- **`dev/lib/server/filing-transition.ts`** — branches the status-change email and the "mark the order fulfilled" logic on whichever parent id the filing has. **Important if you're adding more upsell services later:** a quick-buy order can now have *more than one* filing (thanks to upsell), so `to === "completed"` only flips the order to `fulfilled` once **all** of the order's filings are terminal — it does not assume one filing per order. Don't reintroduce that assumption.
+- **`dev/lib/email/lifecycle.ts`** — `sendQuickBuyReceiptIfNeeded()` / `sendQuickBuyStatusChangeEmail()`, sourcing the recipient from `quick_buy_orders.email` (there's no auth user to look up). No PDF completion documents for quick-buy in this build — deferred, plain status emails only.
+- **`dev/app/admin/page.tsx`** — an additive "Quick-buy orders" section below the existing applications list, same filing-transition UI, reusing the existing `adminTransition` server action unmodified.
+
+### 11.9 Not yet verified live / known gaps
+
+- **Migrations `0008`-`0011` were applied by the owner via `supabase db push` against the `pqbynaaihauifomfhcxo` project during this session** (not by the agent — direct database-credential handling was explicitly declined; the owner ran the CLI themselves each time). `0008`-`0010` were confirmed working by a live click-through (the owner reported a UCR pricing display bug that was fixed and reconfirmed correct). **`0011` (the `truck_tractors` column) has not yet been confirmed applied or exercised live** — if `confirmQuickBuyOrder` starts failing into its `?error=1` redirect again, check this first.
+- **Email deliverability is unresolved** (same caveat as §6 M6): `RESEND_API_KEY` is set but `EMAIL_FROM` is not, so sends fall back to Resend's sandbox address, which typically only delivers to the account owner's own inbox. Real client receipts likely won't land until `EMAIL_FROM` points at a verified sending domain. Separately, the Stripe webhook must actually reach the app (`stripe listen` locally, or a registered endpoint once deployed) or `payment_intent.succeeded` never fires and no order ever settles.
+- **SEO/Design specs updated, marketing copy partially updated.** `shared/page-briefs/` and `shared/design/` for all 5 services now describe the quick-buy flow and route their CTAs at `/buy/<service>/`; the live pages (`dev/app/{boc-3-filing,ucr-registration,fmcsa-clearinghouse-registration,drug-and-alcohol-consortium,driver-qualification-files}/page.tsx`) had their CTA hrefs flipped accordingly, and one stale "give us your company details" line was fixed on the BOC-3 page. A full copy pass of the remaining marketing body text to match the new flow was **not** done — that's an SEO-lane content task, out of scope for what was asked.
+- **No PDF/document generation, no post-purchase account-claim path, no renewal reminders** for quick-buy orders — all explicitly deferred, same spirit as D10/D11/D12 above.
+- **`npx tsc --noEmit`, `eslint`, and `next build` all pass clean** as of the final commit in this section; no live-Stripe or live-email click-through was performed by the agent (no Stripe/Resend test credentials in this session — the owner ran their own manual click-throughs and reported results back).

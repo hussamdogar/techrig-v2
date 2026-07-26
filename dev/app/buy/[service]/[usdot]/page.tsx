@@ -144,6 +144,10 @@ function Confirm({
           name="power_units"
           value={carrier.equipmentSummary.truckTractors + carrier.equipmentSummary.straightTrucks}
         />
+        {/* Raw signal for the review screen's "You may also need" upsell
+            eligibility (truck tractors present), kept separate from
+            power_units above since that's a combined figure. */}
+        <input type="hidden" name="truck_tractors" value={carrier.equipmentSummary.truckTractors} />
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
