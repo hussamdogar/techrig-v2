@@ -115,5 +115,23 @@ export async function POST(request: Request) {
       idempotency_key: idempotencyKey,
     });
   }
+
+  // Re-sync filings.price_amount / ucr_tier to what's actually being charged
+  // right now. review's submit wrote these once, at review time; if a
+  // registry price (or the UCR government bracket, which is fleet-size
+  // dependent) changed between then and now, that snapshot is stale relative
+  // to the real charge computed just above. This is the one place price is
+  // authoritative (it's what Stripe is about to bill), so this is where the
+  // stored rows get corrected — keeps the receipt email (and anything else
+  // reading filings later, e.g. admin) showing the actual invoiced amount,
+  // not a possibly-outdated one.
+  for (const f of pricing.filings) {
+    await db
+      .from("filings")
+      .update({ price_amount: f.price_amount, ucr_tier: f.ucr_tier })
+      .eq("quick_buy_order_id", orderId)
+      .eq("service_key", f.service_key);
+  }
+
   return json({ clientSecret: intent.client_secret, amount: pricing.total });
 }

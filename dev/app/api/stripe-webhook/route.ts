@@ -1,7 +1,8 @@
 import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { service } from "@/lib/server/supabase";
-import { sendReceiptIfNeeded, sendQuickBuyReceiptIfNeeded } from "@/lib/email/lifecycle";
+import { sendReceiptIfNeeded, sendQuickBuyReceiptIfNeeded, sendQuickBuyPaidAdminAlert } from "@/lib/email/lifecycle";
+import { findPaymentByIntent } from "@/lib/server/payments";
 
 /**
  * POST /api/stripe-webhook  (M4). The SOURCE OF TRUTH for paid state. Verifies
@@ -38,11 +39,16 @@ export async function POST(request: Request) {
   const db = service();
 
   async function markPayment(intentId: string, status: "paid" | "processing" | "failed") {
-    const { data: row } = await db
-      .from("payments")
-      .select("id, status, application_id, quick_buy_order_id")
-      .eq("stripe_payment_intent_id", intentId)
-      .maybeSingle();
+    // findPaymentByIntent, not .maybeSingle(): stripe_payment_intent_id has no
+    // DB-level uniqueness yet (migration 0012 adds it), and a duplicate row
+    // makes .maybeSingle() silently return nothing, no-opping this whole
+    // function while still returning 200 to Stripe. See lib/server/payments.ts.
+    const row = (await findPaymentByIntent(intentId, "id, status, application_id, quick_buy_order_id")) as {
+      id: string;
+      status: string;
+      application_id: string | null;
+      quick_buy_order_id: string | null;
+    } | null;
     if (!row) return;
     if (row.status === "paid") return; // idempotent: already settled, skip replays
 
@@ -68,6 +74,7 @@ export async function POST(request: Request) {
         .eq("quick_buy_order_id", row.quick_buy_order_id)
         .in("status", ["not_started", "awaiting_info"]);
       await sendQuickBuyReceiptIfNeeded(intentId);
+      await sendQuickBuyPaidAdminAlert(intentId);
     }
   }
 

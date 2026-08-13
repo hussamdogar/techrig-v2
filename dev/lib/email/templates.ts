@@ -80,6 +80,74 @@ export function receiptEmail(d: { referenceId: string; amount: number; services:
   };
 }
 
+// ------------------------------------------------------ quick-buy receipt
+/**
+ * "What happens next" per quick-buy service (owner-provided copy, 2026-07-31).
+ * Deliberately separate from SERVICES[...].expectedTimeline in
+ * services-registry.ts: that field is marketing-site copy (service pages, the
+ * default filings.expected_timeline row); this is customer-facing
+ * transactional-email copy the owner dictated specifically for the
+ * post-payment receipt, and the two are allowed to read differently.
+ */
+const QUICK_BUY_NEXT_STEPS: Record<"boc-3" | "ucr" | "clearinghouse" | "consortium" | "dq-files", string> = {
+  "boc-3":
+    "We file your BOC-3 process agent designation within 24 hours of your order. If your order falls on a weekend or a federal holiday, we file it the next business day instead. You'll receive a status update from us as soon as it's filed.",
+  ucr: "Most UCR registrations are completed within 24 hours. If your USDOT number was registered recently, the UCR system can take 5 to 7 business days to reflect your carrier record before we're able to file, a timing factor on the UCR and MOTUS side rather than our processing. We complete your filing the moment your record becomes available and will keep you updated along the way.",
+  clearinghouse: "Your FMCSA Clearinghouse registration is typically completed within 2 to 3 business days.",
+  consortium: "Your drug and alcohol consortium enrollment is typically completed within 2 to 3 business days.",
+  "dq-files":
+    "Building a complete Driver Qualification file typically takes about one week. Our team will reach out to you directly to collect any additional driver information we need to finish your file.",
+};
+
+/** Post-payment receipt for the quick-buy fast path (BOC-3, UCR, Clearinghouse,
+ *  Consortium, DQ files). Intentionally minimal on carrier identity, per the
+ *  owner: company name and USDOT only, never the full docket. Each purchased
+ *  service gets its own price line and "what to expect next" copy above; the
+ *  order total closes it out. */
+export function quickBuyReceiptEmail(d: {
+  referenceId: string;
+  companyName: string | null;
+  usdot: string;
+  amount: number;
+  filings: { serviceKey: string; serviceName: string; priceAmount: number | null }[];
+}): RenderedEmail {
+  const who = d.companyName ? esc(d.companyName) : "your carrier";
+  const priceLabel = (amount: number | null) => (amount == null ? "Custom quote" : `$${amount.toLocaleString("en-US")}`);
+  const nextSteps = (serviceKey: string) => QUICK_BUY_NEXT_STEPS[serviceKey as keyof typeof QUICK_BUY_NEXT_STEPS] ?? null;
+
+  const itemsHtml = d.filings
+    .map((f) => {
+      const steps = nextSteps(f.serviceKey);
+      return (
+        `<div style="margin:0 0 14px;padding:14px 16px;background:#f4f4f1;border-radius:8px">` +
+        `<div style="display:flex;justify-content:space-between;gap:12px;font-size:15px;font-weight:700">` +
+        `<span>${esc(f.serviceName)}</span><span>${priceLabel(f.priceAmount)}</span></div>` +
+        (steps ? `<div style="margin-top:6px;font-size:14px;line-height:1.55;color:#4b5563">${esc(steps)}</div>` : "") +
+        `</div>`
+      );
+    })
+    .join("");
+
+  return {
+    subject: `Payment received, reference ${d.referenceId}`,
+    html: layout({
+      heading: "Payment received",
+      body:
+        p(`Thanks for your order. We've received payment for ${who}, USDOT <strong>${esc(d.usdot)}</strong>.`) +
+        itemsHtml +
+        p(`<strong>Total paid: $${d.amount.toLocaleString("en-US")}</strong>`),
+    }),
+    text: text(
+      "Payment received",
+      `Thanks for your order. We've received payment for ${d.companyName ?? "your carrier"}, USDOT ${d.usdot}.`,
+      d.filings
+        .map((f) => `${f.serviceName}: ${priceLabel(f.priceAmount)}${nextSteps(f.serviceKey) ? `\n${nextSteps(f.serviceKey)}` : ""}`)
+        .join("\n\n"),
+      `Total paid: $${d.amount.toLocaleString("en-US")}`,
+    ),
+  };
+}
+
 // ---------------------------------------------------------------- 24h reminder
 export function reminder24hEmail(d: { referenceId: string; resumeUrl: string }): RenderedEmail {
   return {
@@ -144,6 +212,76 @@ export function finalEmail(d: { referenceId: string; companyName?: string | null
       `${site.url}/dashboard/`,
     ),
   };
+}
+
+// ------------------------------------------------------ admin: quick-buy alerts
+/** Internal-only (never sent to a client) contact fields shared by all three
+ *  quick-buy admin alerts below. Deliberately short: only what the owner asked
+ *  to see, no full carrier docket. */
+type QuickBuyContact = { companyName: string | null; email: string | null; phone: string | null };
+
+/** Shared short row-table layout for the three alerts below. */
+function adminAlertEmail(d: { subject: string; heading: string; intro: string; rows: [string, string][] }): RenderedEmail {
+  const rowsHtml = d.rows
+    .map(
+      ([label, value]) =>
+        `<tr><td style="padding:4px 12px 4px 0;color:#6b7280;font-size:14px">${esc(label)}</td><td style="padding:4px 0;font-size:14px;font-weight:600">${esc(value)}</td></tr>`,
+    )
+    .join("");
+  return {
+    subject: d.subject,
+    html: layout({
+      heading: d.heading,
+      body: p(esc(d.intro)) + `<table role="presentation" cellpadding="0" cellspacing="0">${rowsHtml}</table>`,
+    }),
+    text: text(d.heading, d.intro, d.rows.map(([label, value]) => `${label}: ${value}`).join("\n")),
+  };
+}
+
+function contactRows(contact: QuickBuyContact): [string, string][] {
+  return [
+    ["Company name", contact.companyName ?? "Not on file"],
+    ["Email", contact.email ?? "Not on file"],
+    ["Phone", contact.phone ?? "Not on file"],
+  ];
+}
+
+/** 1 of 3: fires when a visitor reaches the quick-buy confirm screen for one
+ *  of the 5 fast-path services (found or not-found alike). */
+export function adminQuickBuyLookupEmail(d: { serviceName: string; usdot: string; contact: QuickBuyContact }): RenderedEmail {
+  return adminAlertEmail({
+    subject: `Quick-buy lookup: ${d.serviceName} · USDOT ${d.usdot}`,
+    heading: "A visitor looked up a USDOT number",
+    intro: `A visitor started the ${d.serviceName} quick-buy flow.`,
+    rows: [["Service", d.serviceName], ["USDOT", d.usdot], ...contactRows(d.contact)],
+  });
+}
+
+/** 2 of 3: fires when a client reaches the quick-buy payment screen (review
+ *  and signature already complete). */
+export function adminQuickBuyPaymentStepEmail(d: { serviceName: string; usdot: string; contact: QuickBuyContact }): RenderedEmail {
+  return adminAlertEmail({
+    subject: "Client is on payment step",
+    heading: "A client reached the payment step",
+    intro: `A client reached checkout for the ${d.serviceName} quick-buy order.`,
+    rows: [["Service", d.serviceName], ["USDOT", d.usdot], ...contactRows(d.contact)],
+  });
+}
+
+/** 3 of 3: fires when a quick-buy order's payment succeeds. */
+export function adminQuickBuyPaidEmail(d: {
+  usdot: string;
+  amount: number;
+  serviceNames: string[];
+  contact: QuickBuyContact;
+}): RenderedEmail {
+  const amount = `$${d.amount.toLocaleString("en-US")}`;
+  return adminAlertEmail({
+    subject: `USDOT ${d.usdot} — invoice paid — ${amount}`,
+    heading: "A quick-buy order was paid",
+    intro: `Payment of ${amount} received for USDOT ${d.usdot}.`,
+    rows: [["Services", d.serviceNames.join(", ")], ["USDOT", d.usdot], ...contactRows(d.contact), ["Amount paid", amount]],
+  });
 }
 
 // ---------------------------------------------------------------- status change

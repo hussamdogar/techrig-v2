@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SERVICES, QUICK_BUY_SERVICE_KEYS, computeQuickBuyPricing, type ServiceKey } from "@/lib/services-registry";
@@ -174,9 +175,9 @@ export function ReviewForm({
           <input type="checkbox" name="terms_accepted" required className="mt-0.5 h-4 w-4 rounded border-slate/40" />
           <span>
             I agree to the{" "}
-            <a href="/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-steel underline-offset-4 hover:underline">
+            <Link href="/terms-of-service/" target="_blank" rel="noopener noreferrer" className="text-steel underline-offset-4 hover:underline">
               terms of service
-            </a>{" "}
+            </Link>{" "}
             and authorize this filing.
           </span>
         </label>

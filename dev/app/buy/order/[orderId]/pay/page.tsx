@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Container, Section } from "@/components/ui/container";
 import { service } from "@/lib/server/supabase";
-import { computeQuickBuyPricing, isQuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
+import { computeQuickBuyPricing, isQuickBuyServiceKey, SERVICES, type ServiceKey } from "@/lib/services-registry";
+import { sendQuickBuyPaymentStepAdminAlert } from "@/lib/email/lifecycle";
 import { PaymentForm } from "@/components/payment-form";
 
 /**
@@ -32,6 +33,17 @@ export default async function QuickBuyPayPage({ params }: { params: Promise<{ or
   if (!order || !isQuickBuyServiceKey(order.service_key)) notFound();
   // Review & sign hasn't happened yet: send them there first, not to payment.
   if (!order.signature_name || !order.terms_accepted_at) redirect(`/buy/order/${orderId}/review/`);
+
+  // Owner wants to know when a client reaches checkout. Best-effort, never
+  // blocks the render; fires once per page render (no idempotency guard),
+  // same as the lookup alert in app/buy/[service]/[usdot]/page.tsx.
+  await sendQuickBuyPaymentStepAdminAlert({
+    leadId: order.lead_id,
+    serviceName: SERVICES[order.service_key as ServiceKey].name,
+    usdot: order.usdot_number,
+    email: order.email,
+    phone: order.phone,
+  });
 
   const additional = (Array.isArray(order.additional_service_keys) ? order.additional_service_keys : []).filter(
     isQuickBuyServiceKey,

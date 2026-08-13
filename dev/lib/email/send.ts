@@ -40,10 +40,20 @@ export async function sendEmail(args: {
   to: string;
   email: RenderedEmail;
   attachments?: SendAttachment[];
+  /** Bypasses the per-recipient rate limit. The limit exists to throttle
+   *  repeat sends to one CLIENT; it's the wrong fit for the admin alerts
+   *  (lib/email/lifecycle.ts's three sendQuickBuy*AdminAlert functions), which
+   *  legitimately send several distinct alerts to the same single internal
+   *  inbox in quick succession — without this they were silently dropping
+   *  each other. */
+  skipRateLimit?: boolean;
 }): Promise<SendResult> {
   const r = resend();
   if (!r) return { success: false, skipped: true, error: "RESEND_API_KEY not set" };
-  if (!withinRate(args.to)) return { success: false, error: "rate_limited" };
+  if (!args.skipRateLimit && !withinRate(args.to)) {
+    console.error("email send skipped: rate_limited"); // no recipient / body
+    return { success: false, error: "rate_limited" };
+  }
 
   try {
     const { error } = await r.emails.send({

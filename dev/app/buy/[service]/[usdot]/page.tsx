@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
 import { performLookup } from "@/lib/server/lookup-capture";
+import { sendQuickBuyLookupAdminAlert } from "@/lib/email/lifecycle";
 import { SERVICES, isQuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
 import { text, DocketSection } from "@/lib/lookup/format";
 import type { CarrierData } from "@/lib/lookup/types";
@@ -42,6 +43,24 @@ export default async function QuickBuyConfirmPage({
   const def = SERVICES[service as ServiceKey];
 
   const outcome = await performLookup(usdot, await headers());
+
+  // Owner wants to know as soon as a real prospect enters a USDOT number for
+  // one of the 5 quick-buy services, success or not-found alike (not_found
+  // still means someone typed a real number and is mid-flow). Skipped for
+  // invalid/rate-limited/lookup-error outcomes since those aren't a genuine
+  // lookup attempt reaching this screen. Best-effort, never blocks the render.
+  if (outcome.kind === "done" && (outcome.result.status === "success" || outcome.result.status === "not_found")) {
+    const carrier = outcome.result.carrier;
+    await sendQuickBuyLookupAdminAlert({
+      serviceName: def.name,
+      usdot,
+      contact: {
+        companyName: carrier ? (carrier.legalName ?? carrier.dbaName) : null,
+        email: carrier?.contactEmail ?? null,
+        phone: carrier?.contactPhone ?? null,
+      },
+    });
+  }
 
   return (
     <Section surface="paper" className="pt-8 md:pt-12">
