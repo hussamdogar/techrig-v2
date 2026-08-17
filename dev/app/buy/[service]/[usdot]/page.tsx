@@ -137,9 +137,7 @@ function Confirm({
           title="Carrier identity"
           rows={[
             { label: "Legal name", value: text(carrier.legalName) },
-            { label: "DBA name", value: text(carrier.dbaName) },
             { label: "USDOT #", value: text(carrier.usdotNumber) },
-            { label: "MC / docket #", value: text(carrier.mcNumber) },
             { label: "Power units", value: text(carrier.powerUnits) },
             { label: "Address", value: text(carrier.physicalAddress) },
           ]}

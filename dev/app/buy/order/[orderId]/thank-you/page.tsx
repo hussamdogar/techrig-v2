@@ -5,6 +5,7 @@ import { Container, Section } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
 import { service } from "@/lib/server/supabase";
 import { stripe } from "@/lib/stripe";
+import { SERVICES, eligibleQuickBuyUpsells, QUICK_BUY_UPSELL_REASON } from "@/lib/services-registry";
 
 // Noindex (checkout flow, matches /apply/[applicationId]/success).
 export const dynamic = "force-dynamic";
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-type FilingRow = { service_name: string; price_amount: number | null; expected_timeline: string | null };
+type FilingRow = { service_key: string; service_name: string; price_amount: number | null; expected_timeline: string | null };
 
 export default async function QuickBuyThankYouPage({
   params,
@@ -48,9 +49,22 @@ export default async function QuickBuyThankYouPage({
 
   const { data: filingsData } = await db
     .from("filings")
-    .select("service_name, price_amount, expected_timeline")
+    .select("service_key, service_name, price_amount, expected_timeline")
     .eq("quick_buy_order_id", orderId);
   const filings = (filingsData ?? []) as FilingRow[];
+
+  // Post-purchase upsell (owner-directed, 2026-08): suggest the OTHER
+  // quick-buy services this order didn't already buy, using the same
+  // fleet-based eligibility as the review step's "You may also need"
+  // checklist (eligibleQuickBuyUpsells, lib/services-registry.ts) so the two
+  // never recommend different things for the same carrier. Each option is a
+  // full new purchase (its own confirm -> review -> pay), not a one-click
+  // add-on: this checkout has no saved account or card to charge again
+  // off-session, so a second purchase is the only thing that doesn't require
+  // new payment infrastructure. The USDOT is pre-filled via the URL so the
+  // visitor never has to retype it.
+  const purchasedKeys = new Set(filings.map((f) => f.service_key));
+  const upsellKeys = eligibleQuickBuyUpsells(order.truck_tractors).filter((k) => !purchasedKeys.has(k));
 
   return (
     <Section surface="paper" className="pt-10 md:pt-14">
@@ -95,6 +109,31 @@ export default async function QuickBuyThankYouPage({
             <Link href="/" className={`${buttonVariants({ variant: "primary", size: "md" })} mt-5`}>
               Back home
             </Link>
+          </div>
+        ) : null}
+
+        {paid && upsellKeys.length > 0 ? (
+          <div className="mt-6 rounded-card border border-slate/15 bg-paper p-5">
+            <h2 className="font-display text-lg font-bold text-ink">You may also need</h2>
+            <p className="mt-1 text-sm text-slate">
+              Add another compliance filing for USDOT {order.usdot_number}.
+            </p>
+            <ul className="mt-3 divide-y divide-slate/10">
+              {upsellKeys.map((key) => (
+                <li key={key} className="flex items-center justify-between gap-4 py-3">
+                  <div>
+                    <p className="text-sm text-ink">{SERVICES[key].name}</p>
+                    <p className="mt-0.5 text-xs text-slate">{QUICK_BUY_UPSELL_REASON[key]}</p>
+                  </div>
+                  <Link
+                    href={`/buy/${key}/${order.usdot_number}/`}
+                    className={`${buttonVariants({ variant: "secondary", size: "sm" })} shrink-0`}
+                  >
+                    Start
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         ) : null}
       </Container>

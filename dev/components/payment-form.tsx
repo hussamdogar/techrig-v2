@@ -34,6 +34,10 @@ export function PaymentForm({
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const bodyKey = JSON.stringify(body);
+  // Stripe's own key prefix, not an env flag: this way the test-card hint
+  // below disappears automatically the moment live keys (pk_live_...) are
+  // configured, with nothing to remember to delete before launch.
+  const isTestMode = publishableKey.startsWith("pk_test_");
 
   useEffect(() => {
     let active = true;
@@ -59,12 +63,12 @@ export function PaymentForm({
 
   return (
     <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: "stripe" } }}>
-      <CheckoutForm returnPath={returnPath} />
+      <CheckoutForm returnPath={returnPath} isTestMode={isTestMode} />
     </Elements>
   );
 }
 
-function CheckoutForm({ returnPath }: { returnPath: string }) {
+function CheckoutForm({ returnPath, isTestMode }: { returnPath: string; isTestMode: boolean }) {
   const stripe = useStripe();
   const elements = useElements();
   const [submitting, setSubmitting] = useState(false);
@@ -95,7 +99,9 @@ function CheckoutForm({ returnPath }: { returnPath: string }) {
       >
         {submitting ? "Processing…" : "Pay now"}
       </button>
-      <p className="text-center text-xs text-slate">Test mode. Use card 4242 4242 4242 4242, any future date and CVC.</p>
+      {isTestMode ? (
+        <p className="text-center text-xs text-slate">Test mode. Use card 4242 4242 4242 4242, any future date and CVC.</p>
+      ) : null}
     </form>
   );
 }

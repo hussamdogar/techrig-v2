@@ -328,3 +328,27 @@ Every place that looked up a payment by intent id (`markPayment()` in the webhoo
 `npx tsc --noEmit`, `eslint`, and `next build` all pass clean.
 
 `npx tsc --noEmit`, `eslint`, and `next build` all pass clean. No live-email click-through of the new receipt content performed by the agent this pass.
+
+### 11.11 Small quick-buy fixes and a post-purchase upsell, 2026-08
+
+- **Confirm screen (`dev/app/buy/[service]/[usdot]/page.tsx`): removed DBA name and MC/docket # from the "Carrier identity" summary** (owner request). Only legal name, USDOT #, power units, and address remain.
+- **Test-card hint (`dev/components/payment-form.tsx`) is now conditional, not a manual pre-launch TODO.** It only renders when the Stripe publishable key starts with `pk_test_`; once D12 (live Stripe keys, `pk_live_...`) lands, it disappears on its own with no code change or launch-checklist item needed.
+- **New: post-purchase upsell block on the thank-you page** (`dev/app/buy/order/[orderId]/thank-you/page.tsx`), owner-directed. For a paid order, shows a "You may also need" list of the other quick-buy services the order didn't already include, each linking to `/buy/<service>/<usdot>/` with the USDOT pre-filled so the visitor doesn't retype it. This is a **full new purchase** (its own confirm → review → pay), not a one-click add-on to the existing charge: this checkout has no saved account or stored card, so a genuine one-click "charge this again" would need Stripe off-session payment-method storage and SCA re-authorization handling, a materially bigger scope the owner explicitly deferred in favor of shipping the simple version now.
+- **Refactor: the upsell-eligibility rule (fleet has truck tractors → all 4 other services; no truck tractors → BOC-3/UCR/DQ files only, since Clearinghouse/Consortium are CDL-only) moved to a shared `eligibleQuickBuyUpsells()`** in `dev/lib/services-registry.ts`, replacing a copy that lived only in the review step's `review-form.tsx`. Both the review-step checklist and the new thank-you-page block now call the same function, so the two surfaces can't recommend different things to the same carrier. The thank-you page additionally excludes whatever the order actually purchased (by `filings.service_key`, not just the primary), which the review step doesn't need since it's still mid-selection.
+
+`npx tsc --noEmit`, `eslint`, and `next build` all pass clean. No live click-through of the new upsell block performed by the agent this pass.
+
+### 11.12 Upsell "why you need this" one-liners, 2026-08
+
+Owner request: everywhere a quick-buy service is upsold, add a one-line reason, not just the name and price. New `QUICK_BUY_UPSELL_REASON` map (`dev/lib/services-registry.ts`, next to `eligibleQuickBuyUpsells`), one line per quick-buy service, framed as the consequence of skipping it rather than a plain description:
+- BOC-3: "Process agent designation, required to activate your operating authority."
+- UCR: "Annual federal registration; unregistered carriers risk roadside fines and held loads."
+- Clearinghouse: "Required FMCSA registration for any carrier with CDL drivers."
+- Consortium: "Required random drug and alcohol testing pool enrollment for your CDL drivers."
+- DQ files: "Required driver paperwork, kept current and ready for an FMCSA audit."
+
+Each line is grounded in a claim already published on that service's own marketing page (`/boc-3-filing/`, `/ucr-registration/`, `/fmcsa-clearinghouse-registration/`, `/drug-and-alcohol-consortium/`, `/driver-qualification-files/`), not invented, so it can't contradict what's already live (standards.md: "no metric contradicts another anywhere on the site"). Deliberately a separate map from `SERVICES[...].blurb` (marketing copy describing what a service IS, used on the service pages) rather than repurposing it, since the two serve different jobs and shouldn't be forced to read identically.
+
+Wired into both places a quick-buy service gets upsold: the review-step checklist (`review-form.tsx`) and the thank-you-page block (§11.11 above). Also introduced a proper `QuickBuyServiceKey` union type (replacing a looser `ServiceKey[]` typing on `QUICK_BUY_SERVICE_KEYS` / `eligibleQuickBuyUpsells`), so `QUICK_BUY_UPSELL_REASON` can be indexed by every upsell key without a cast — a real type-safety improvement, not just plumbing for this feature.
+
+`npx tsc --noEmit`, `eslint`, and `next build` all pass clean.

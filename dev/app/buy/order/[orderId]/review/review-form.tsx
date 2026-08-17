@@ -4,7 +4,13 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { SERVICES, QUICK_BUY_SERVICE_KEYS, computeQuickBuyPricing, type ServiceKey } from "@/lib/services-registry";
+import {
+  SERVICES,
+  computeQuickBuyPricing,
+  eligibleQuickBuyUpsells,
+  QUICK_BUY_UPSELL_REASON,
+  type ServiceKey,
+} from "@/lib/services-registry";
 
 /**
  * Upsell checklist + live price preview + signature, for the quick-buy review
@@ -22,15 +28,14 @@ import { SERVICES, QUICK_BUY_SERVICE_KEYS, computeQuickBuyPricing, type ServiceK
  * — trailers and non-commercial vehicles never affect the bracket, even if
  * they're most of the fleet.
  *
- * The upsell menu itself is gated by truckTractors: a carrier running truck
- * tractors is shown all four other quick-buy services (marketed as
- * completing their compliance requirements). A carrier with none only sees
- * BOC-3, UCR, and DQ files — Clearinghouse and Consortium are CDL
- * drug/alcohol testing compliance, which doesn't apply without truck
- * tractors in the fleet.
+ * The upsell menu itself is gated by truckTractors via eligibleQuickBuyUpsells()
+ * (lib/services-registry.ts, shared with the thank-you page's post-purchase
+ * upsell block): a carrier running truck tractors is shown all four other
+ * quick-buy services (marketed as completing their compliance requirements).
+ * A carrier with none only sees BOC-3, UCR, and DQ files — Clearinghouse and
+ * Consortium are CDL drug/alcohol testing compliance, which doesn't apply
+ * without truck tractors in the fleet.
  */
-const LIMITED_UPSELL_KEYS: ServiceKey[] = ["boc-3", "ucr", "dq-files"];
-
 export function ReviewForm({
   action,
   primaryKey,
@@ -49,7 +54,7 @@ export function ReviewForm({
   initialDriverCount: number | null;
 }) {
   const showFullMenu = (truckTractors ?? 0) > 0;
-  const upsellKeys = (showFullMenu ? QUICK_BUY_SERVICE_KEYS : LIMITED_UPSELL_KEYS).filter((k) => k !== primaryKey);
+  const upsellKeys = eligibleQuickBuyUpsells(truckTractors).filter((k) => k !== primaryKey);
   const [selected, setSelected] = useState<Set<ServiceKey>>(new Set(initialAdditional));
   const [driverCount, setDriverCount] = useState(initialDriverCount != null ? String(initialDriverCount) : "1");
 
@@ -97,19 +102,22 @@ export function ReviewForm({
                   ? `$${def.standalonePrice} per driver`
                   : `$${def.standalonePrice}`;
             return (
-              <li key={key} className="flex items-center justify-between gap-4 px-4 py-3">
-                <label className="flex items-center gap-3 text-sm text-ink">
-                  <input
-                    type="checkbox"
-                    name="service"
-                    value={key}
-                    checked={selected.has(key)}
-                    onChange={() => toggle(key)}
-                    className="h-4 w-4 rounded border-slate/40"
-                  />
-                  {def.name}
-                </label>
-                <span className="font-mono text-sm text-ink">{priceLabel}</span>
+              <li key={key} className="flex flex-col gap-1 px-4 py-3">
+                <div className="flex items-center justify-between gap-4">
+                  <label className="flex items-center gap-3 text-sm text-ink">
+                    <input
+                      type="checkbox"
+                      name="service"
+                      value={key}
+                      checked={selected.has(key)}
+                      onChange={() => toggle(key)}
+                      className="h-4 w-4 rounded border-slate/40"
+                    />
+                    {def.name}
+                  </label>
+                  <span className="font-mono text-sm text-ink">{priceLabel}</span>
+                </div>
+                <p className="pl-7 text-xs text-slate">{QUICK_BUY_UPSELL_REASON[key]}</p>
               </li>
             );
           })}

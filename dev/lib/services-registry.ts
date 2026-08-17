@@ -308,11 +308,46 @@ export function isServiceKey(value: unknown): value is ServiceKey {
  *  (`/buy/<service>/`): each needs nothing beyond a confirmed carrier record,
  *  plus one extra field for ucr (power units) / dq-files (driver count).
  *  Every other service stays on the full `/apply` multi-step engine. */
-export const QUICK_BUY_SERVICE_KEYS: ServiceKey[] = ["boc-3", "ucr", "clearinghouse", "consortium", "dq-files"];
+export type QuickBuyServiceKey = "boc-3" | "ucr" | "clearinghouse" | "consortium" | "dq-files";
+export const QUICK_BUY_SERVICE_KEYS: QuickBuyServiceKey[] = ["boc-3", "ucr", "clearinghouse", "consortium", "dq-files"];
 
-export function isQuickBuyServiceKey(value: unknown): value is (typeof QUICK_BUY_SERVICE_KEYS)[number] {
+export function isQuickBuyServiceKey(value: unknown): value is QuickBuyServiceKey {
   return typeof value === "string" && (QUICK_BUY_SERVICE_KEYS as string[]).includes(value);
 }
+
+/** Quick-buy services worth suggesting to a carrier with no truck tractors on
+ *  file: Clearinghouse and Consortium are CDL drug/alcohol testing
+ *  compliance, which doesn't apply without truck tractors in the fleet (same
+ *  owner rule as the review-step upsell menu, §11.7 of the build report). */
+const LIMITED_QUICK_BUY_UPSELL_KEYS: QuickBuyServiceKey[] = ["boc-3", "ucr", "dq-files"];
+
+/** The quick-buy services eligible to be suggested to a carrier, gated on
+ *  fleet signal. Shared by the review-step "You may also need" checklist and
+ *  the post-purchase thank-you page's upsell block, so the two never diverge. */
+export function eligibleQuickBuyUpsells(truckTractors: number | null | undefined): QuickBuyServiceKey[] {
+  return (truckTractors ?? 0) > 0 ? QUICK_BUY_SERVICE_KEYS : LIMITED_QUICK_BUY_UPSELL_KEYS;
+}
+
+/**
+ * One-line "why you need this" for each quick-buy service, shown wherever we
+ * upsell one (owner request, 2026-08): the consequence of skipping it, not
+ * just what it is. Deliberately separate from SERVICES[...].blurb (marketing
+ * copy for the service pages, describing what the service IS) — this is
+ * upsell-specific and grounded in claims already published on the live
+ * marketing pages, so it never contradicts them:
+ * - BOC-3: /boc-3-filing/ - "required before operating authority can activate."
+ * - UCR: /ucr-registration/ - unregistered carriers risk roadside fines and held loads.
+ * - Clearinghouse: /fmcsa-clearinghouse-registration/ - carriers with CDL drivers must register.
+ * - Consortium: /drug-and-alcohol-consortium/ - required for CDL drivers under FMCSA.
+ * - DQ files: /driver-qualification-files/ - records that must be kept current.
+ */
+export const QUICK_BUY_UPSELL_REASON: Record<QuickBuyServiceKey, string> = {
+  "boc-3": "Process agent designation, required to activate your operating authority.",
+  ucr: "Annual federal registration; unregistered carriers risk roadside fines and held loads.",
+  clearinghouse: "Federal drug and alcohol violation database. CDL carriers must be registered and querying it.",
+  consortium: "Required random drug and alcohol testing pool enrollment for your CDL drivers.",
+  "dq-files": "Every driver needs a complete file on record. We build and maintain it for you.",
+};
 
 // ---- UCR government-fee brackets (client-pricing-v2-2026-07-10.md §10) ------
 // The Tech Rig SERVICE fee is flat ($80 standalone / $50 in-bundle, above); the
