@@ -10,6 +10,7 @@ import {
   eligibleQuickBuyUpsells,
   QUICK_BUY_UPSELL_REASON,
   type ServiceKey,
+  type QuickBuyServiceKey,
 } from "@/lib/services-registry";
 
 /**
@@ -60,19 +61,70 @@ export function ReviewForm({
 
   const allSelected = useMemo(() => [primaryKey, ...Array.from(selected)], [primaryKey, selected]);
   const needsDriverCount = allSelected.includes("dq-files");
-
-  // Actual UCR upsell price, not a vague label — power units is already known
-  // (auto-detected at confirm), so the combined total can be shown outright.
-  const ucrUpsellPrice = useMemo(() => computeQuickBuyPricing(["ucr"], { powerUnits, driverCount: null }).total, [powerUnits]);
+  const driverCountValue = needsDriverCount ? Number(driverCount) || null : null;
 
   const pricing = useMemo(
-    () =>
-      computeQuickBuyPricing(allSelected, {
-        powerUnits,
-        driverCount: needsDriverCount ? Number(driverCount) || null : null,
-      }),
-    [allSelected, powerUnits, needsDriverCount, driverCount],
+    () => computeQuickBuyPricing(allSelected, { powerUnits, driverCount: driverCountValue }),
+    [allSelected, powerUnits, driverCountValue],
   );
+
+  // Real, discount-aware price for each upsell option (and how much adding
+  // it saves), not a static per-service figure: BOC-3 + UCR (0-2 bracket)
+  // and DQ files combined with BOC-3/UCR both get a lower price in
+  // computeQuickBuyPricing (owner decision, 2026-08, matching the email
+  // outreach campaign's advertised combo), and the point of showing both
+  // here is to make the saving visible on the checkbox row itself, before
+  // the visitor checks it, not just in the total afterward.
+  //
+  // priceLabel is the candidate's OWN resulting line price, never a net
+  // total delta: when BOC-3+UCR's combo moves the whole discount onto the
+  // UCR line, the net delta of adding BOC-3 to an existing UCR order is $74
+  // (UCR's own line retroactively drops $26 at the same time BOC-3's $100
+  // line appears) — a number that doesn't match either line the visitor
+  // sees once they actually check the box. Showing the candidate's own
+  // final-line price instead means the checklist number always equals what
+  // the breakdown below will show for it.
+  //
+  // savings is a general "what does adding this actually save you" figure
+  // that works identically for every case (the BOC-3+UCR combo, the DQ
+  // bundle-rate discount, or nothing at all for Clearinghouse/Consortium)
+  // without special-casing any one of them: it's the gap between adding
+  // this candidate at its own solo (undiscounted) price and what
+  // computeQuickBuyPricing actually charges for the resulting order.
+  // Driver count isn't chosen until DQ is checked, so DQ's preview always
+  // previews at the 1-driver anchor.
+  function upsellInfo(key: ServiceKey): { priceLabel: string; originalPriceLabel: string | null; savings: number } {
+    const previewDriverCount = key === "dq-files" ? 1 : driverCountValue;
+    const withCandidate = computeQuickBuyPricing([...allSelected, key], { powerUnits, driverCount: previewDriverCount });
+    const solo = computeQuickBuyPricing([key], { powerUnits, driverCount: key === "dq-files" ? 1 : null }).total;
+    const savings = pricing.total + solo - withCandidate.total;
+
+    const ownLine = withCandidate.lines.find((l) => l.key === key);
+    const suffix = key === "dq-files" ? " per driver" : "";
+    const priceLabel =
+      !ownLine || ownLine.amount == null
+        ? ownLine?.manualReview
+          ? "Quote"
+          : "—"
+        : `$${ownLine.amount.toLocaleString("en-US")}${suffix}`;
+    // Struck-through "was" price: only when THIS candidate's own line price
+    // is actually reduced, not just whenever adding it produces savings
+    // overall. Adding BOC-3 to a UCR order saves $26 total, but BOC-3's own
+    // price never changes (the reduction lands on UCR's already-existing
+    // line) — BOC-3's row would show the same number struck through and
+    // repeated, which reads as a bug, not a discount. No "per driver" suffix
+    // here even for DQ files (owner preference) — just the bare old price.
+    const originalPriceLabel =
+      ownLine?.amount != null && solo !== ownLine.amount ? `$${solo.toLocaleString("en-US")}` : null;
+    return { priceLabel, originalPriceLabel, savings };
+  }
+
+  // Same "was" price for a line already in the breakdown below (as opposed
+  // to a not-yet-selected candidate above): what this service would cost on
+  // its own, compared against what it's actually priced at in this order.
+  function normalLinePrice(key: ServiceKey): number | null {
+    return computeQuickBuyPricing([key], { powerUnits, driverCount: key === "dq-files" ? driverCountValue : null }).total;
+  }
 
   function toggle(key: ServiceKey) {
     setSelected((prev) => {
@@ -95,12 +147,7 @@ export function ReviewForm({
         <ul className="mt-3 divide-y divide-slate/10 rounded-card border border-slate/15 bg-cloud">
           {upsellKeys.map((key) => {
             const def = SERVICES[key];
-            const priceLabel =
-              key === "ucr"
-                ? `$${ucrUpsellPrice.toLocaleString("en-US")}`
-                : key === "dq-files"
-                  ? `$${def.standalonePrice} per driver`
-                  : `$${def.standalonePrice}`;
+            const { priceLabel, originalPriceLabel, savings } = upsellInfo(key);
             return (
               <li key={key} className="flex flex-col gap-1 px-4 py-3">
                 <div className="flex items-center justify-between gap-4">
@@ -115,9 +162,19 @@ export function ReviewForm({
                     />
                     {def.name}
                   </label>
-                  <span className="font-mono text-sm text-ink">{priceLabel}</span>
+                  <span className="text-right">
+                    {originalPriceLabel ? (
+                      <span className="block font-mono text-[11px] leading-tight text-slate/60 line-through">{originalPriceLabel}</span>
+                    ) : null}
+                    <span className="font-mono text-sm text-ink">{priceLabel}</span>
+                  </span>
                 </div>
                 <p className="pl-7 text-xs text-slate">{QUICK_BUY_UPSELL_REASON[key]}</p>
+                {savings > 0 ? (
+                  <p className="pl-7 text-xs font-semibold text-status-active">
+                    Save ${savings.toLocaleString("en-US")} by adding this to your order.
+                  </p>
+                ) : null}
               </li>
             );
           })}
@@ -148,17 +205,30 @@ export function ReviewForm({
 
       <div className="rounded-card border border-slate/15 bg-cloud p-5">
         <ul className="divide-y divide-slate/10">
-          {pricing.lines.map((l) => (
-            <li key={l.key + l.name} className="flex items-center justify-between gap-4 py-2 text-sm">
-              <span className="text-ink">
-                {l.name}
-                {l.note ? <span className="block text-xs text-slate">{l.note}</span> : null}
-              </span>
-              <span className="font-mono font-medium text-ink">
-                {l.amount == null ? (l.manualReview ? "Quote" : "—") : `$${l.amount.toLocaleString("en-US")}`}
-              </span>
-            </li>
-          ))}
+          {pricing.lines.map((l) => {
+            const normal = normalLinePrice(l.key as ServiceKey);
+            const wasDiscounted = l.amount != null && normal != null && normal !== l.amount;
+            return (
+              <li key={l.key + l.name} className="flex items-center justify-between gap-4 py-2 text-sm">
+                <span className="text-ink">
+                  {l.name}
+                  {/* Same "why you need this" line as the upsell checklist, not
+                      a discount explanation — keeps the description constant
+                      whether or not this line happens to be discounted right
+                      now (the struck-through price already communicates that). */}
+                  <span className="block text-xs text-slate">{QUICK_BUY_UPSELL_REASON[l.key as QuickBuyServiceKey]}</span>
+                </span>
+                <span className="text-right">
+                  {wasDiscounted ? (
+                    <span className="block font-mono text-[11px] leading-tight text-slate/60 line-through">${normal.toLocaleString("en-US")}</span>
+                  ) : null}
+                  <span className="font-mono font-medium text-ink">
+                    {l.amount == null ? (l.manualReview ? "Quote" : "—") : `$${l.amount.toLocaleString("en-US")}`}
+                  </span>
+                </span>
+              </li>
+            );
+          })}
         </ul>
         <div className="mt-3 flex items-center justify-between border-t border-slate/15 pt-3">
           <span className="font-display font-bold text-ink">Total due now</span>

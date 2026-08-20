@@ -753,43 +753,123 @@ export function computePricing(selected: ServiceKey[], ctx: PricingContext): Pri
   return { lines, filings, subtotal, total: subtotal, hasManualReview: lines.some((l) => l.manualReview) };
 }
 
+/** Owner-directed outreach-campaign combo (2026-08): BOC-3 + UCR together for
+ *  a carrier in the 0-2 power-unit bracket total $200 in the quick-buy lane,
+ *  matching what the email campaign already advertises externally (today the
+ *  site charges $100 + $80 + $46 = $226 for the same pair, a real gap between
+ *  the campaign and the site). BOC-3 keeps its normal $100 standalone price;
+ *  the discount lands on the UCR line, derived from BOC-3's own price (never
+ *  hardcoded) so it stays correct if that price ever changes. Quick-buy only
+ *  — /apply and the four fixed bundles are untouched. */
+export const BOC3_UCR_COMBO_TOTAL = 200;
+export const BOC3_UCR_COMBO_UCR_PORTION = BOC3_UCR_COMBO_TOTAL - (SERVICES["boc-3"].standalonePrice ?? 0);
+
+/** Owner-directed multi-service discount (2026-08): Consortium and
+ *  Clearinghouse each drop to a flat quick-buy price when bought alongside
+ *  ANY other quick-buy service, not gated to a specific pair like the
+ *  BOC-3+UCR combo above — $120 for Consortium (standard $175), $100 for
+ *  Clearinghouse (standard $125). Buying either alone keeps the normal
+ *  standalone price. Deliberately separate constants from
+ *  SERVICES[...].bundlePrice (the /apply four-fixed-bundle price: $150 for
+ *  Consortium, $100 for Clearinghouse) — Clearinghouse's numbers happen to
+ *  coincide today, Consortium's doesn't, and coupling this to the bundle
+ *  price would make a future bundle-price change silently move this too. */
+export const CONSORTIUM_MULTI_SERVICE_PRICE = 120;
+export const CLEARINGHOUSE_MULTI_SERVICE_PRICE = 100;
+
 /**
  * Quick-buy-specific pricing (the /buy/... fast path only — NOT used by
  * /apply or bundles, which keep computePricing's existing behavior of
  * disclosing the UCR government fee as a separate, uncollected line per the
  * 2026-06-25 owner decision noted above computePricing).
  *
- * For quick-buy, the owner decided the UCR government fee is folded into the
- * single amount Tech Rig collects and displays, rather than shown as a second
- * number the visitor has to reconcile — Tech Rig collects the combined total
- * up front and is responsible for the government portion afterward. Power
- * units come from the FMCSA/MOTUS lookup automatically; when a carrier has
- * none on file, this defaults to the 0-2 bracket (owner decision) instead of
- * blocking the purchase or asking the visitor to type a number in, so UCR
- * pricing here never falls into manual review.
+ * Quick-buy-only adjustments layer on top of computePricing's normal
+ * à-la-carte lines:
+ * 1. UCR's government fee is folded into one collected number (owner
+ *    decision, M3-R1) rather than disclosed as a second, uncollected line —
+ *    Tech Rig collects the combined total up front and is responsible for
+ *    the government portion afterward. Power units default to the 0-2
+ *    bracket when a carrier has none on file, so UCR pricing here never
+ *    falls into manual review.
+ * 2. BOC-3 + UCR combo (owner decision, 2026-08): see BOC3_UCR_COMBO_TOTAL
+ *    above. Only when BOTH are selected and the resolved bracket is 0-2.
+ * 3. DQ files bundle-rate discount (owner decision, 2026-08): when DQ files
+ *    is selected alongside BOC-3 and/or UCR, it prices at the existing
+ *    DQ_BUNDLE_TABLE rate instead of DQ_STANDALONE_TABLE, regardless of
+ *    UCR's bracket (independent of adjustment #2 above — DQ discounts even
+ *    if the BOC-3+UCR pair itself isn't in the 0-2 combo, or if UCR isn't
+ *    selected at all).
+ * 4. Consortium / Clearinghouse multi-service discount (owner decision,
+ *    2026-08): see CONSORTIUM_MULTI_SERVICE_PRICE above. Triggers on ANY
+ *    other quick-buy service being present, including each other.
+ *
+ * All of 2-4 are independent: an order can trigger any combination of them.
  */
 export function computeQuickBuyPricing(selected: ServiceKey[], ctx: PricingContext): Pricing {
-  if (!selected.includes("ucr")) return computePricing(selected, ctx);
+  const hasBoc3 = selected.includes("boc-3");
+  const hasUcr = selected.includes("ucr");
+  const hasDq = selected.includes("dq-files");
+  const hasConsortium = selected.includes("consortium");
+  const hasClearinghouse = selected.includes("clearinghouse");
+  const multiService = new Set(selected).size > 1;
+  const needsAdjustment =
+    hasUcr || (hasDq && hasBoc3) || (hasConsortium && multiService) || (hasClearinghouse && multiService);
+  if (!needsAdjustment) return computePricing(selected, ctx);
 
   const effectivePowerUnits = ctx.powerUnits ?? 0;
   const base = computePricing(selected, { ...ctx, powerUnits: effectivePowerUnits });
-  const ucr = calculateUcr(effectivePowerUnits, "standalone");
-  const combined = (ucr.serviceFee ?? 0) + (ucr.govFee ?? 0);
+  let lines = base.lines;
+  let filings = base.filings;
 
-  const lines = base.lines.map((l) =>
-    l.key === "ucr"
-      ? {
-          ...l,
-          amount: combined,
-          ucrTier: ucr.tier,
-          manualReview: false,
-          note: "Includes your government registration fee, based on your fleet size on file.",
-        }
-      : l,
-  );
-  const filings = base.filings.map((f) =>
-    f.service_key === "ucr" ? { ...f, price_amount: combined, ucr_tier: ucr.tier, status: "not_started" as const } : f,
-  );
+  if (hasUcr) {
+    const ucr = calculateUcr(effectivePowerUnits, "standalone");
+    const normalCombined = (ucr.serviceFee ?? 0) + (ucr.govFee ?? 0);
+    const comboEligible = hasBoc3 && ucr.tier === "0-2";
+    const amount = comboEligible ? BOC3_UCR_COMBO_UCR_PORTION : normalCombined;
+    const savings = normalCombined - BOC3_UCR_COMBO_UCR_PORTION;
+    const note = comboEligible
+      ? `BOC-3 + UCR combo price for the 0-2 bracket, $${savings.toLocaleString("en-US")} off the standard combined price.`
+      : "Includes your government registration fee, based on your fleet size on file.";
+    lines = lines.map((l) => (l.key === "ucr" ? { ...l, amount, ucrTier: ucr.tier, manualReview: false, note } : l));
+    filings = filings.map((f) => (f.service_key === "ucr" ? { ...f, price_amount: amount, ucr_tier: ucr.tier, status: "not_started" as const } : f));
+  }
+
+  if (hasDq && (hasBoc3 || hasUcr)) {
+    const dq = calculateDqFiles(ctx.driverCount, "bundle");
+    lines = lines.map((l) =>
+      l.key === "dq-files"
+        ? { ...l, amount: dq.amount, manualReview: dq.manualReview, note: dq.manualReview ? dq.note : "Discounted for bundling with BOC-3/UCR." }
+        : l,
+    );
+    filings = filings.map((f) =>
+      f.service_key === "dq-files"
+        ? { ...f, price_amount: dq.amount, status: dq.manualReview ? ("manual_review" as const) : f.status }
+        : f,
+    );
+  }
+
+  if (hasConsortium && multiService) {
+    lines = lines.map((l) =>
+      l.key === "consortium"
+        ? { ...l, amount: CONSORTIUM_MULTI_SERVICE_PRICE, note: "Discounted for bundling with another service." }
+        : l,
+    );
+    filings = filings.map((f) =>
+      f.service_key === "consortium" ? { ...f, price_amount: CONSORTIUM_MULTI_SERVICE_PRICE } : f,
+    );
+  }
+
+  if (hasClearinghouse && multiService) {
+    lines = lines.map((l) =>
+      l.key === "clearinghouse"
+        ? { ...l, amount: CLEARINGHOUSE_MULTI_SERVICE_PRICE, note: "Discounted for bundling with another service." }
+        : l,
+    );
+    filings = filings.map((f) =>
+      f.service_key === "clearinghouse" ? { ...f, price_amount: CLEARINGHOUSE_MULTI_SERVICE_PRICE } : f,
+    );
+  }
+
   const subtotal = lines.reduce((sum, l) => sum + (l.amount ?? 0), 0);
   return { lines, filings, subtotal, total: subtotal, hasManualReview: lines.some((l) => l.manualReview) };
 }
