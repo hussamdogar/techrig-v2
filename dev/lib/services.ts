@@ -66,9 +66,7 @@ export const companyNav: NavLink[] = [
 export const legalNav: NavLink[] = [
   { slug: "/terms-of-service/", label: "Terms of Service" },
   { slug: "/privacy-policy/", label: "Privacy Policy" },
-  { slug: "/power-of-attorney/", label: "Power of Attorney" },
   { slug: "/refund-policy/", label: "Refund Policy" },
-  { slug: "/referral-program/", label: "Referral Program" },
 ];
 
 /**

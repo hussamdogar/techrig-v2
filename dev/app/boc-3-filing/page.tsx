@@ -47,27 +47,28 @@ export const metadata: Metadata = {
   },
 };
 
-// Tracker scoped to show BOC-3 as the prerequisite that UNBLOCKS the sequence:
-// the BOC-3 designation is the gate that lets the application proceed to the
-// protest period and activation. Because BOC-3 is a one-time filing, this
-// instance carries NO annual-renewal marker (the deliberate visual contrast with
-// the UCR page). No guaranteed dates: the protest period is a fixed federal step.
+// Canonical journey (same order as the default tracker, authority-status-tracker.tsx):
+// authority is filed, then the 21-day federal protest period runs, and BOC-3 +
+// insurance must both be on file with FMCSA/MOTUS before it ends or authority
+// will not activate. BOC-3 is a sub-step INSIDE the protest period, never a
+// prerequisite that comes before filing. No guaranteed dates: the protest
+// period is a fixed federal step.
 const bocSteps: Step[] = [
   {
-    label: "BOC-3 process agent designated",
-    status: "Required first",
+    label: "MC authority filed",
+    status: "Filed",
     state: "filed",
-    icon: "routeNode",
+    icon: "stamp",
   },
   {
     label: "21-day federal protest period",
-    status: "Federal step",
+    status: "File BOC-3 + insurance now",
     state: "progress",
     icon: "clock",
   },
   {
     label: "Authority active",
-    status: "Active",
+    status: "Requires BOC-3 + insurance on file",
     state: "active",
     icon: "checkSeal",
   },

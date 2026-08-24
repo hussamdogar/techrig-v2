@@ -88,8 +88,7 @@ export default function MotusMigrationPage() {
 
       {/* Hero. No Authority Status Tracker on this page (design spec §13): the
           records here are stranded and not yet usable, so any "active" node
-          would assert a status the page cannot support. A simple migration
-          motif stands in for it. */}
+          would assert a status the page cannot support. */}
       <Section surface="paper" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
@@ -99,38 +98,30 @@ export default function MotusMigrationPage() {
               { name: "MOTUS Migration" },
             ]}
           />
-          <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
-            <div>
-              <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                FMCSA Portal to MOTUS Migration
-              </h1>
-              <p className="mt-5 max-w-[60ch] text-lg text-slate">
-                FMCSA&apos;s move from the legacy FMCSA Portal to the new MOTUS
-                system has stranded a lot of established carriers. Records will
-                not link, a USDOT cannot be claimed, MC authority does not show
-                up, or the account simply will not come over. Tech Rig handles
-                the FMCSA Portal to MOTUS migration: we get your existing record
-                claimed and accessible in MOTUS so you can operate and file
-                again, for a flat $125.
-              </p>
-              <div className="mt-7">
-                <Link
-                  href={applyHref}
-                  className={buttonVariants({ variant: "primary", size: "md" })}
-                >
-                  Start my MOTUS migration
-                </Link>
-              </div>
-              <div className="mt-5">
-                <ReviewedBy name="Robert Hooke" role="Co-Founder" />
-              </div>
+          <div className="mt-6">
+            <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
+              FMCSA Portal to MOTUS Migration
+            </h1>
+            <p className="mt-5 max-w-[60ch] text-lg text-slate">
+              FMCSA&apos;s move from the legacy FMCSA Portal to the new MOTUS
+              system has stranded a lot of established carriers. Records will
+              not link, a USDOT cannot be claimed, MC authority does not show
+              up, or the account simply will not come over. Tech Rig handles
+              the FMCSA Portal to MOTUS migration: we get your existing record
+              claimed and accessible in MOTUS so you can operate and file
+              again, for a flat $125.
+            </p>
+            <div className="mt-7">
+              <Link
+                href={applyHref}
+                className={buttonVariants({ variant: "primary", size: "md" })}
+              >
+                Start my MOTUS migration
+              </Link>
             </div>
-
-            {/* Signature visual: a record moving from the legacy FMCSA Portal
-                node to the MOTUS node, with a claim cue. Two-tone Ink/Steel with
-                one Signal accent on the claimed record. Inline SVG, no tracker,
-                no "active" status. */}
-            <MigrationMotif />
+            <div className="mt-5">
+              <ReviewedBy name="Robert Hooke" role="Co-Founder" />
+            </div>
           </div>
         </Container>
       </Section>
@@ -316,89 +307,5 @@ function CrossLink({ href, children }: { href: string; children: React.ReactNode
     >
       {children}
     </Link>
-  );
-}
-
-/**
- * The hero's signature visual: a record moving from the "legacy FMCSA Portal"
- * node to the "MOTUS" node, with a claim/unlock cue on the destination. Two-tone
- * Ink/Steel with one Signal accent on the claimed (MOTUS) node, matching the
- * site's line system. Single-line SVG, 2px stroke, decorative, so it is hidden
- * from assistive tech (the scope list carries the meaning in text).
- */
-function MigrationMotif() {
-  return (
-    <div className="rounded-card border border-slate/15 bg-cloud p-6 sm:p-8">
-      <p className="font-mono text-xs uppercase tracking-wider text-slate">
-        Migration
-      </p>
-      <svg
-        viewBox="0 0 320 180"
-        fill="none"
-        role="presentation"
-        aria-hidden="true"
-        className="mt-4 w-full"
-      >
-        {/* Legacy FMCSA Portal node (Steel, the record being left behind) */}
-        <rect
-          x="8"
-          y="58"
-          width="116"
-          height="64"
-          rx="10"
-          stroke="var(--color-steel)"
-          strokeWidth="2"
-        />
-        {/* MOTUS node (Ink frame, Signal accent: the claimed destination) */}
-        <rect
-          x="196"
-          y="58"
-          width="116"
-          height="64"
-          rx="10"
-          stroke="var(--color-ink)"
-          strokeWidth="2"
-        />
-        <rect
-          x="196"
-          y="58"
-          width="116"
-          height="64"
-          rx="10"
-          stroke="var(--color-signal)"
-          strokeWidth="2"
-          strokeDasharray="6 220"
-          strokeDashoffset="-8"
-        />
-        {/* Connecting path with an arrowhead: record moving across */}
-        <path
-          d="M124 90 H188"
-          stroke="var(--color-steel)"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M180 83 L190 90 L180 97"
-          stroke="var(--color-steel)"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill="none"
-        />
-        {/* Claim/unlock cue on the MOTUS node: a small check */}
-        <path
-          d="M236 92 L250 106 L274 78"
-          stroke="var(--color-signal)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill="none"
-        />
-      </svg>
-      <div className="mt-3 flex items-center justify-between font-mono text-xs text-slate">
-        <span>Legacy FMCSA Portal</span>
-        <span className="text-ink">MOTUS</span>
-      </div>
-    </div>
   );
 }
