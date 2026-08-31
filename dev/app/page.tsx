@@ -3,181 +3,128 @@ import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
 import { UsdotLookupCard } from "@/components/usdot-lookup-card";
-import { dispatchNav } from "@/lib/services";
+import { ServiceCard } from "@/components/service-card";
+import { CompliancePathPicker } from "@/components/compliance-path-picker";
 import { site } from "@/lib/site";
-import {
-  ArrowRightIcon,
-  FilingIcon,
-  RouteNodeIcon,
-  ShieldIcon,
-  StampIcon,
-  icons,
-} from "@/components/icons";
+import { complianceCatalog, pricing } from "@/lib/services";
+import { ArrowRightIcon } from "@/components/icons";
 
-// Home inherits the root default title (the brief's exact title tag). It adds
-// its own canonical and Open Graph data; the OG image is app/opengraph-image.tsx.
+// Compliance-only positioning (dispatch dropped from the home funnel, per
+// owner direction): own title + description override the root layout's
+// dispatch-and-compliance default, which otherwise only the homepage falls
+// back to. The OG image is app/opengraph-image.tsx.
 export const metadata: Metadata = {
+  title: "Trucking Compliance & Authority Setup",
+  description:
+    "Get your USDOT number, MC authority, BOC-3, and UCR filed right. Tech Rig walks new and growing carriers through trucking compliance, so nothing stalls.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Trucking compliance and dispatch",
+    title: "Trucking compliance, done right",
     description:
-      "Tech Rig gets new carriers road-legal and keeps trucks loaded: compliance and authority setup, plus truck dispatch for owner-operators and fleets.",
+      "Tech Rig gets new and growing carriers road-legal: USDOT, MC authority, BOC-3, UCR, driver files, Clearinghouse, and consortium enrollment, explained plainly and filed correctly.",
     url: "/",
     type: "website",
   },
 };
 
-// The four curated top filings shown in the compliance silo block (brief: these
-// four only; the full list lives in the mega-footer).
-const topFilings = [
-  { label: "USDOT", href: "/dot-registration/", Icon: FilingIcon },
-  { label: "MC authority", href: "/mc-registration/", Icon: StampIcon },
-  { label: "BOC-3", href: "/boc-3-filing/", Icon: ShieldIcon },
-  { label: "UCR", href: "/ucr-registration/", Icon: RouteNodeIcon },
-];
-
-// The six trailer types, as a quiet capability strip (icons from the trailer set).
-const trailers = dispatchNav.filter((t) => t.icon);
-
 export default function Home() {
   return (
     <>
-      {/* 1. Hero: compliance-led, dual offering legible, tracker as the signature. */}
+      {/* 1. Hero: compliance-only, plain language for a first-time carrier,
+          single primary CTA. */}
       <Section surface="paper" className="pt-12 md:pt-16">
         <Container className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
             <h1 className="font-display text-[clamp(2.5rem,5vw,4rem)] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">
-              Trucking Compliance and Truck Dispatch, Under One Roof
+              Get Your Trucking Authority Set Up Right
             </h1>
             {/* Styled subhead, not a heading. */}
             <p className="mt-6 max-w-[60ch] text-lg text-slate">
-              Tech Rig does the two things a trucking business needs most: we get
-              you legally set up to operate, and we keep your truck earning once
-              you are. New carriers come to us to get their authority and
-              compliance done right. Owner-operators stay with us to find and
-              book loads. One team for the whole journey.
+              Starting a trucking company means a stack of federal paperwork:
+              your USDOT number, your operating authority, and a few required
+              filings most new owners have never heard of before they need
+              them. Tech Rig handles all of it, so your authority actually
+              goes active instead of sitting stuck.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8">
               <Link
                 href="/compliance-services/"
                 className={buttonVariants({ variant: "primary", size: "md" })}
               >
                 Start your compliance setup
               </Link>
-              <Link
-                href="/services/"
-                className={buttonVariants({ variant: "secondary", size: "md" })}
-              >
-                Get your truck dispatched
-              </Link>
             </div>
           </div>
 
           {/* The hero's lead-generating front door (Application Platform M1).
-              Replaces the decorative AuthorityStatusTracker, which is reserved
-              for reuse as the real dashboard progress tracker in M5. Client
-              island: the homepage stays prerendered and ships no DB/payment. */}
+              Client island: the homepage stays prerendered and ships no
+              DB/payment. */}
           <UsdotLookupCard />
         </Container>
       </Section>
 
-      {/* 2. Compliance silo block (Cloud, Ink/Signal accents). */}
+      {/* 2. The full compliance catalog, same single source (lib/services.ts)
+          as /compliance-services/, so descriptions and prices never drift
+          between the two. Reuses the canonical ServiceCard (design-system §8). */}
       <Section surface="cloud">
-        <Container className="max-w-3xl">
+        <Container>
           <h2 className="font-display text-3xl font-bold text-ink">
-            Trucking compliance and company setup
+            What we handle
           </h2>
-          <p className="mt-4 text-slate">
-            Starting out, or fixing a setup that stalled? We handle USDOT and MC
-            authority, BOC-3, UCR, driver compliance, IRP and IFTA, plus ELD
-            through our partner, individually or as one package. We are
-            officially listed by FMCSA as a BOC-3 blanket process-agent company,
-            and we know the new MOTUS system inside out.
+          <p className="mt-4 max-w-[65ch] text-slate">
+            Every federal filing and driver-compliance requirement a carrier
+            runs into, individually or as one package. We are officially
+            listed by FMCSA as a BOC-3 blanket process-agent company, and we
+            know the MOTUS system inside out.
           </p>
 
-          {/* Curated cluster of the top filings, labeled links with line icons. */}
-          <ul className="mt-6 flex flex-wrap gap-3">
-            {topFilings.map(({ label, href, Icon }) => (
-              <li key={href}>
-                <Link
-                  href={href}
-                  className="inline-flex items-center gap-2 rounded-btn border border-slate/20 bg-paper px-3 py-2 text-sm font-medium text-ink transition-colors hover:border-steel hover:text-steel outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-                >
-                  <Icon size={18} className="text-steel" />
-                  {label}
-                </Link>
-              </li>
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {complianceCatalog.map((card) => (
+              <ServiceCard
+                key={card.title}
+                icon={card.icon}
+                title={card.title}
+                href={card.href}
+                description={card.description}
+                price={card.price ?? (card.href ? pricing[card.href] : undefined)}
+                govFeeNote={card.govFeeNote}
+                note={card.note}
+              />
             ))}
-          </ul>
+          </div>
 
-          <p className="mt-6">
+          <p className="mt-8">
             <Link
               href="/compliance-services/"
               className="inline-flex items-center gap-1 font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
             >
-              See compliance services
+              See the full compliance hub
               <ArrowRightIcon size={16} />
             </Link>
           </p>
         </Container>
       </Section>
 
-      {/* 3. Dispatch silo block (Paper, Steel accent, deliberately not symmetric). */}
+      {/* 3. Fork by visitor type (owner-directed 2026-08): not everyone here
+          is starting from zero, so this replaces a single generic sequence
+          with three tailored paths. See CompliancePathPicker for the split. */}
       <Section surface="paper" className="border-l-4 border-steel">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
-            Truck dispatch that keeps you loaded
+            Which describes you?
           </h2>
           <p className="mt-4 text-slate">
-            Once your authority is active, we keep the freight coming. We dispatch
-            owner-operators and small fleets across box truck, reefer, flatbed,
-            dry van, power only, and hot shot, with no long-term contracts and no
-            forced dispatch. You keep your authority; we keep it busy.
+            What you actually need depends on where you are already. Pick the
+            one that fits.
           </p>
 
-          {/* Pricing model in the mono "official record" treatment. */}
-          <p className="mt-5 font-mono text-sm text-ink">
-            We charge a percentage of your gross by equipment, so we only win when
-            you do.
-          </p>
-
-          {/* Quiet capability strip: the six trailer line icons. */}
-          <ul className="mt-6 grid grid-cols-3 gap-4 sm:grid-cols-6">
-            {trailers.map((t) => {
-              const Icon = icons[t.icon!];
-              return (
-                <li
-                  key={t.slug}
-                  className="flex flex-col items-center gap-2 text-center"
-                >
-                  <Icon size={28} className="text-steel" />
-                  <span className="text-xs text-slate">
-                    {t.label.replace(" Dispatch", "")}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-
-          <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
-            <Link
-              href="/services/"
-              className="inline-flex items-center gap-1 font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-            >
-              See dispatch services
-              <ArrowRightIcon size={16} />
-            </Link>
-            <Link
-              href="/box-truck-dispatch/"
-              className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-            >
-              Box truck dispatch
-            </Link>
-          </p>
+          <div className="mt-6">
+            <CompliancePathPicker />
+          </div>
         </Container>
       </Section>
 
-      {/* 4. Trust band: documented proof only. */}
+      {/* 4. Trust band: documented proof only, compliance-led. */}
       <Section surface="cloud">
         <Container>
           <h2 className="font-display text-3xl font-bold text-ink">
@@ -185,15 +132,7 @@ export default function Home() {
           </h2>
 
           {/* Track-record figures in the mono "official record" treatment. */}
-          <dl className="mt-8 grid gap-6 sm:grid-cols-3">
-            <div className="border-t-2 border-steel pt-3">
-              <dt className="font-mono text-sm uppercase tracking-[0.08em] text-slate">
-                Since 2021
-              </dt>
-              <dd className="mt-1 text-ink">
-                Around 100 carriers dispatched.
-              </dd>
-            </div>
+          <dl className="mt-8 grid gap-6 sm:grid-cols-2">
             <div className="border-t-2 border-steel pt-3">
               <dt className="font-mono text-sm uppercase tracking-[0.08em] text-slate">
                 Since 2025
@@ -213,8 +152,8 @@ export default function Home() {
           </dl>
 
           <p className="mt-8 max-w-2xl text-slate">
-            We work with Motive for ELD and with OTR Solutions and RTS Financial
-            for factoring. {site.fmcsaLine}
+            We work with Motive for ELD and with OTR Solutions and RTS
+            Financial for factoring. {site.fmcsaLine}
           </p>
 
           {/* Graceful, empty-friendly review slot (no ratings, no invented proof). */}
@@ -224,44 +163,12 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* 5. Funnel bridge: full-bleed Ink (reserved high-emphasis moment). */}
-      <Section surface="ink">
-        <Container className="max-w-3xl">
-          <h2 className="font-display text-3xl font-bold text-cloud">
-            The whole journey, one team
-          </h2>
-          <p className="mt-4 text-cloud/80">
-            Most providers do compliance or dispatch. We do both, which means the
-            company that gets your authority active is the same one that keeps
-            your truck loaded after. New here? Start with our{" "}
-            <Link
-              href="/how-to-start-a-trucking-company/"
-              className="font-medium text-signal underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cloud"
-            >
-              guide to starting a trucking company
-            </Link>
-            .
-          </p>
-
-          {/* Two-step funnel diagram in the line system. */}
-          <div className="mt-8 flex items-center gap-4">
-            <span className="rounded-btn border border-cloud/30 px-4 py-2 font-display text-sm font-semibold text-cloud">
-              Get road-legal
-            </span>
-            <ArrowRightIcon size={24} className="text-signal" />
-            <span className="rounded-btn border border-cloud/30 px-4 py-2 font-display text-sm font-semibold text-cloud">
-              Keep loaded
-            </span>
-          </div>
-        </Container>
-      </Section>
-
-      {/* 6. Closing CTA: one dominant next step. */}
+      {/* 5. Closing CTA: one dominant next step. */}
       <Section surface="paper">
         <Container className="max-w-2xl text-center">
           <p className="font-display text-2xl font-bold text-ink">
-            Whether you are starting out or already rolling, we have the next
-            step. Talk to us.
+            Whether you are just starting out or fixing a setup that stalled,
+            we have the next step. Talk to us.
           </p>
           <div className="mt-6 flex justify-center">
             <Link

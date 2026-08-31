@@ -9,7 +9,7 @@ import { ReviewedBy } from "@/components/reviewed-by";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ClosingCta } from "@/components/closing-cta";
 import { JsonLd } from "@/components/json-ld";
-import { CheckSealIcon, type IconName } from "@/components/icons";
+import { CheckSealIcon } from "@/components/icons";
 import {
   breadcrumbNode,
   faqNode,
@@ -17,7 +17,7 @@ import {
   offerCatalogNode,
   personNode,
 } from "@/lib/schema";
-import { complianceNav, pricing, type Price } from "@/lib/services";
+import { complianceCatalog, complianceNav, pricing } from "@/lib/services";
 import { BUNDLES, BUNDLE_KEYS, getBundleBreakdown } from "@/lib/services-registry";
 
 // The compliance silo HUB. Every card link, package-checklist link, and the
@@ -44,135 +44,6 @@ export const metadata: Metadata = {
     type: "website",
   },
 };
-
-// The service-card grid, in brief order. Descriptions are transcribed
-// from the brief; prices come from the single-source map unless a card carries
-// its own `price` (the bundle-less services that have no per-slug pricing entry).
-// `href` is omitted for services with no dedicated page (rendered link-free, so
-// we never ship a dead link).
-const serviceCards: {
-  title: string;
-  description: string;
-  icon: IconName;
-  href?: string;
-  price?: Price;
-  govFeeNote?: string;
-  note?: string;
-}[] = [
-  {
-    href: "/dot-registration/",
-    title: "USDOT number",
-    description: "Your federal carrier ID, filed correctly the first time.",
-    icon: "stamp",
-  },
-  {
-    href: "/mc-registration/",
-    title: "MC authority",
-    description: "Operating authority to haul freight for hire across state lines.",
-    icon: "shield",
-    // The $650 standalone MC fee includes the USDOT number, so the standalone
-    // $300 is not charged on top. Suppress the generic gov-fee line here in
-    // favour of that clearer note (the MC page carries the full fee separation).
-    price: { ...pricing["/mc-registration/"], govFee: false },
-    note: "includes USDOT number",
-  },
-  {
-    href: "/boc-3-filing/",
-    title: "BOC-3 filing",
-    description: "Blanket process-agent designation, required to activate authority.",
-    icon: "filing",
-  },
-  {
-    href: "/ucr-registration/",
-    title: "UCR",
-    description: "Annual Unified Carrier Registration, with the right fleet bracket.",
-    icon: "filing",
-    govFeeNote: "+ gov fee by fleet size",
-  },
-  {
-    href: "/irp-registration/",
-    title: "IRP plates",
-    description: "Apportioned plates so you can run legally in multiple states.",
-    icon: "routeNode",
-    govFeeNote: "+ state fees",
-  },
-  {
-    href: "/ifta-registration/",
-    title: "IFTA",
-    description: "One-time fuel-tax registration setup for interstate miles.",
-    icon: "routeNode",
-    govFeeNote: "+ state fees",
-  },
-  {
-    href: "/ifta-quarterly-filing/",
-    title: "IFTA quarterly filing",
-    description: "The recurring quarterly fuel-tax return, prepared and filed from your mileage and fuel records.",
-    icon: "routeNode",
-    govFeeNote: "+ fuel tax due",
-  },
-  {
-    href: "/fmcsa-clearinghouse-registration/",
-    title: "Clearinghouse Registration",
-    description: "FMCSA Clearinghouse registration for drug and alcohol records.",
-    icon: "shield",
-  },
-  {
-    href: "/drug-and-alcohol-consortium/",
-    title: "Drug & alcohol consortium",
-    description: "Consortium enrollment and random testing program management.",
-    icon: "shield",
-  },
-  {
-    href: "/driver-qualification-files/",
-    title: "DQ files",
-    description: "Compliant driver qualification files, built and kept audit-ready.",
-    icon: "filing",
-  },
-  {
-    href: "/eld-services/",
-    title: "ELD",
-    description: "A referral to our ELD partner for a compliant hours-of-service device. No Tech Rig fee.",
-    icon: "stamp",
-  },
-  {
-    href: "/mcs-150-biennial-update/",
-    title: "Biennial Update",
-    description: "The biennial MCS-150 filing that keeps your USDOT record current.",
-    icon: "filing",
-  },
-  {
-    // Dedicated page now exists (client D3); price reads from the single source.
-    // Scope and the separation from the Biennial Update come from the QA brief.
-    href: "/usdot-correction/",
-    title: "USDOT Correction",
-    description: "Correct your USDOT record: address, legal or business name, email, phone, operating status, and truck and driver counts. Separate from the Biennial Update.",
-    icon: "stamp",
-  },
-  {
-    href: "/motus-migration/",
-    title: "FMCSA Portal to MOTUS Migration",
-    description: "Move a legacy FMCSA Portal account into MOTUS: claim your USDOT, assign a Company Official, and clear verification or missing-authority issues.",
-    icon: "stamp",
-  },
-  {
-    href: "/trucking-llc/",
-    title: "Trucking LLC",
-    description: "Company formation so your authority sits under the right entity.",
-    icon: "filing",
-  },
-  {
-    title: "MC reinstatement / deactivation",
-    description: "Reinstate a dismissed MC authority, or deactivate one you no longer run.",
-    icon: "shield",
-    price: { kind: "from", amount: 200 },
-  },
-  {
-    title: "USDOT reactivation / deactivation",
-    description: "Reactivate an inactive USDOT number, or deactivate a record you are closing.",
-    icon: "stamp",
-    price: { kind: "flat", amount: 125 },
-  },
-];
 
 // One source feeds both the visible FAQ accordion and the FAQPage schema
 // (verbatim parity). Q&A transcribed from the brief; real questions only.
@@ -370,7 +241,7 @@ export default function ComplianceServicesPage() {
           </p>
 
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {serviceCards.map((card) => (
+            {complianceCatalog.map((card) => (
               <ServiceCard
                 key={card.title}
                 icon={card.icon}
