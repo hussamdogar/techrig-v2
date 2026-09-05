@@ -10,6 +10,31 @@ import type { CarrierData } from "./types";
 
 const QC_BASE = "https://mobile.fmcsa.dot.gov/qc/services";
 
+// Minimal shape of the QCMobile `content.carrier` object, typed only for the
+// fields this file actually reads. Leaf values are `unknown`, not a specific
+// type, because the external API isn't contractually guaranteed and every
+// field is already defensively coerced below via num()/str() — this just
+// replaces `any` with something that can't silently absorb a typo.
+type QcMobileCarrierRaw = {
+  legalName?: unknown;
+  dbaName?: unknown;
+  dotNumber?: unknown;
+  phyStreet?: unknown;
+  phyCity?: unknown;
+  phyState?: unknown;
+  phyZipcode?: unknown;
+  carrierOperation?: { carrierOperationDesc?: unknown; carrierOperationCode?: unknown };
+  safetyRating?: unknown;
+  bipdInsuranceOnFile?: unknown;
+  bipdInsuranceRequired?: unknown;
+  statusCode?: unknown;
+  allowedToOperate?: unknown;
+  totalPowerUnits?: unknown;
+  telephone?: unknown;
+  totalDrivers?: unknown;
+};
+type QcMobileResponse = { content?: { carrier?: QcMobileCarrierRaw } };
+
 // QCMobile safety-rating codes → readable labels.
 const SAFETY_RATING: Record<string, string> = {
   S: "Satisfactory",
@@ -29,14 +54,14 @@ function str(value: unknown): string | null {
   return null;
 }
 
-function qcAddress(c: any): string | null {
+function qcAddress(c: QcMobileCarrierRaw | undefined): string | null {
   const street = str(c?.phyStreet);
   const tail = [c?.phyCity, c?.phyState, c?.phyZipcode].filter(Boolean).join(", ");
   return [street, tail].filter(Boolean).join(", ") || null;
 }
 
 /** Normalize a QCMobile `content.carrier` object into CarrierData. */
-export function normalizeQcMobileResponse(response: any): CarrierData {
+export function normalizeQcMobileResponse(response: QcMobileResponse): CarrierData {
   const c = response?.content?.carrier;
   if (!c || typeof c !== "object") {
     throw new Error("Carrier data was not found in the QCMobile response.");

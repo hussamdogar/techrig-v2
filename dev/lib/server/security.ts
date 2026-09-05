@@ -132,8 +132,20 @@ function checkInMemory(rlKey: string, limit: number, windowMs: number): boolean 
 }
 
 /**
- * Sliding-window rate limit keyed by route + IP. KV primary (shared across
+ * Fixed-window rate limit keyed by route + IP. KV primary (shared across
  * instances), in-memory fallback. Returns true if the request is allowed.
+ *
+ * The expire call uses NX ("set expiry only if the key has none") and runs on
+ * EVERY request, not just when count === 1. Confirmed live (2026-09) that the
+ * naive "only expire on the first increment" version has a real failure mode:
+ * if THAT ONE expire call doesn't stick (a transient KV error, swallowed by
+ * the catch below since kv.incr had already succeeded), the key is permanently
+ * stuck with no TTL and that IP is rate-limited forever with no automatic
+ * recovery — found a real key sitting at count 28 with ttl -1 (no expiry) from
+ * exactly this. NX makes every subsequent request a chance to self-heal: it's
+ * a no-op once a TTL already exists (preserving true fixed-window semantics,
+ * never extending an active window), but sets one immediately if it's ever
+ * missing.
  */
 export async function checkRateLimit({
   headers,
@@ -150,7 +162,7 @@ export async function checkRateLimit({
   try {
     const { kv } = await import("@vercel/kv");
     const count = await kv.incr(rlKey);
-    if (count === 1) await kv.expire(rlKey, Math.ceil(windowMs / 1000));
+    await kv.expire(rlKey, Math.ceil(windowMs / 1000), "NX");
     return count <= limit;
   } catch (error) {
     console.error("KV rate limit failed; using in-memory fallback:", error);

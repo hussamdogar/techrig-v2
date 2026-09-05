@@ -38,6 +38,13 @@ export async function performLookup(usdot: string, headers: HeaderGetter): Promi
   });
   if (!allowed) return { kind: "rate_limited" };
 
+  // nextReferenceId() is a KV counter independent of the lookup result, so it
+  // runs CONCURRENTLY with the FMCSA/MOTUS call instead of after it — one
+  // fewer network round trip stacked onto the critical path. It never throws
+  // (falls back internally on a KV failure), so it's safe to fire without
+  // awaiting yet even if the lookup below fails and returns early.
+  const referenceIdPromise = nextReferenceId();
+
   let result: LookupResult;
   try {
     result = await lookupCarrier(cleaned);
@@ -47,7 +54,7 @@ export async function performLookup(usdot: string, headers: HeaderGetter): Promi
   }
 
   const leadId = randomUUID();
-  const referenceId = await nextReferenceId();
+  const referenceId = await referenceIdPromise;
   const token = createLeadAccessToken({ leadId, referenceId });
 
   // Best-effort persistence (lead always; snapshot only when a carrier resolved).

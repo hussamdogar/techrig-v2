@@ -2,8 +2,8 @@
  * Dual-provider USDOT lookup with failover (ADR-7, M1).
  *
  * One interface, `lookupCarrier(usdot)`, runs providers in order:
- *   1. MOTUS (primary) with a tight ~2.5s timeout
- *   2. FMCSA QCMobile (backup)
+ *   1. MOTUS (primary), budgeted at PRIMARY_TIMEOUT_MS
+ *   2. FMCSA QCMobile (backup), budgeted at BACKUP_TIMEOUT_MS
  *   3. neither answers usefully -> manual_required (hand entry)
  *
  * Each provider call is isolated: one being down (error/timeout) never takes the
@@ -11,6 +11,15 @@
  * from a provider being unavailable, so the status is `not_found` only when a
  * provider actually answered that the carrier does not exist. Provider + latency
  * are logged so the failover rate is observable.
+ *
+ * `callProvider` enforces its budget two ways: it aborts the fetch via
+ * AbortController, AND races the call against an independent timer. The second
+ * is not redundant — observed live, a hung MOTUS chain took 26s to actually
+ * reject after an 8s abort fired (the abort request doesn't guarantee the
+ * underlying fetch rejects promptly), so relying on AbortSignal alone can hang
+ * the whole lookup page well past its intended budget. The race guarantees
+ * `callProvider` itself always returns within `timeoutMs`, independent of how
+ * quickly the aborted fetch actually unwinds in the background.
  */
 import type { CarrierData, LookupResult } from "./types";
 import { fetchMotusCarrier } from "./motus";
@@ -40,10 +49,19 @@ async function callProvider(
   fn: (signal: AbortSignal) => Promise<CarrierData | null>,
 ): Promise<Attempt> {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  const abortTimer = setTimeout(() => controller.abort(), timeoutMs);
   const startedAt = Date.now();
+  // Independent hard cap: races the call against its own timer rather than
+  // trusting the abort alone to unwind `fn` promptly (see module docstring).
+  // A small grace window (timeoutMs + 500) lets a fetch that DOES respect the
+  // abort promptly still surface its real AbortError message/timing below;
+  // only a fetch that ignores the abort hits this race instead.
+  let hardTimer: ReturnType<typeof setTimeout>;
+  const hardCap = new Promise<never>((_, reject) => {
+    hardTimer = setTimeout(() => reject(new Error("hard timeout, abort did not unwind in time")), timeoutMs + 500);
+  });
   try {
-    const carrier = await fn(controller.signal);
+    const carrier = await Promise.race([fn(controller.signal), hardCap]);
     console.log(`[lookup] ${name} ${carrier ? "hit" : "miss"} in ${Date.now() - startedAt}ms`);
     return { carrier, available: true };
   } catch (error) {
@@ -51,7 +69,8 @@ async function callProvider(
     console.warn(`[lookup] ${name} unavailable after ${Date.now() - startedAt}ms: ${reason}`);
     return { carrier: null, available: false };
   } finally {
-    clearTimeout(timer);
+    clearTimeout(abortTimer);
+    clearTimeout(hardTimer!);
   }
 }
 
