@@ -19,12 +19,12 @@ export const metadata: Metadata = {
   // the root layout template, so the page-level title carries no " | Tech Rig".
   title: "Hot Shot Dispatch Service",
   description:
-    "Hot shot dispatch service for dually and gooseneck operators. We keep your truck on quick-turn expedite lanes that fit its size and your hours, with no forced dispatch.",
+    "Hot shot dispatch for dually and gooseneck operators. We keep your truck on quick-turn expedite lanes that fit its size and hours, no forced dispatch.",
   alternates: { canonical: "/hot-shot-trucking/" },
   openGraph: {
     title: "Hot Shot Dispatch Service",
     description:
-      "Hot shot dispatch service for dually and gooseneck operators. We keep your truck on quick-turn expedite lanes that fit its size and your hours, with no forced dispatch.",
+      "Hot shot dispatch for dually and gooseneck operators. We keep your truck on quick-turn expedite lanes that fit its size and hours, no forced dispatch.",
     url: "/hot-shot-trucking/",
     type: "website",
   },

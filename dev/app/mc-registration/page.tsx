@@ -34,12 +34,12 @@ const applyHref = "/apply/?service=mc-authority";
 export const metadata: Metadata = {
   title: { absolute: "How to Get Your MC Number | Tech Rig Filing" },
   description:
-    "How to get an MC number and operating authority the right way. Tech Rig files your MC application and BOC-3, and coordinates your insurance, so your authority actually activates.",
+    "Get your MC number and operating authority right. Tech Rig files your MC application and BOC-3, and coordinates insurance so your authority activates.",
   alternates: { canonical: "/mc-registration/" },
   openGraph: {
     title: "How to Get Your MC Number | Tech Rig Filing",
     description:
-      "How to get an MC number and operating authority the right way. Tech Rig files your MC application and BOC-3, and coordinates your insurance, so your authority actually activates.",
+      "Get your MC number and operating authority right. Tech Rig files your MC application and BOC-3, and coordinates insurance so your authority activates.",
     url: "/mc-registration/",
     type: "website",
   },

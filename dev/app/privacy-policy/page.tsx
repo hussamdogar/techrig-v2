@@ -48,7 +48,7 @@ export default function Page() {
           <h1 className="mt-6 font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
             Privacy Policy
           </h1>
-          <p className="mt-4 text-sm italic text-slate">Updated: June 29, 2025</p>
+          <p className="mt-4 text-sm italic text-slate">Updated: September 7, 2026</p>
 
           <h2 className={h2}>Introduction</h2>
           <p className={p}>
@@ -434,29 +434,14 @@ export default function Page() {
             downloading images, set your email client to block external images, or disable HTML rendering in emails.
           </p>
 
-          <h3 className={h3}>F. Use of Google Analytics and Similar Tools</h3>
+          <h3 className={h3}>F. Error Monitoring</h3>
           <p className={p}>
-            We may use analytics services like Google Analytics to better understand how users interact with our
-            Site. These services use cookies and similar technologies to collect data such as pages visited, session
-            duration, and device and browser details. You can learn how Google collects and processes this data at{" "}
-            <a
-              href="https://www.google.com/policies/privacy/partners/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={link}
-            >
-              google.com/policies/privacy/partners
-            </a>
-            , and opt out of Google Analytics tracking across all sites using the official{" "}
-            <a
-              href="https://tools.google.com/dlpage/gaoptout"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={link}
-            >
-              browser opt-out add-on
-            </a>
-            .
+            We use Sentry, an error-monitoring service, to detect and diagnose technical problems on our Site. Sentry
+            helps us see when something breaks (a page error, a failed request) so we can fix it; it is not used to
+            track your browsing behavior, build an advertising profile, or serve ads. Personal identifiers and
+            request details (cookies, headers, form data) are stripped from error reports before they reach Sentry.
+            We do not currently use Google Analytics or a similar behavioral analytics service on this Site; if that
+            changes, we will update this section.
           </p>
 
           <h2 className={h2}>5. Do Not Track (DNT) Signals</h2>

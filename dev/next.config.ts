@@ -145,7 +145,21 @@ const nextConfig: NextConfig = {
   // <meta robots> tag; this header is belt-and-suspenders at the edge.
   async headers() {
     const noindex = [{ key: "X-Robots-Tag", value: "noindex" }];
+    // Site-wide hardening headers (pre-launch audit, 2026-09). Deliberately
+    // NOT including a Content-Security-Policy here: a strict script-src would
+    // need per-request nonces threaded through every inline/hydration script
+    // Next.js and Sentry's client init emit, which is real, separate work to
+    // get right (a wrong CSP fails closed and can break Stripe Elements or
+    // the app itself, a worse outcome than no CSP) — these four have no such
+    // risk and are safe to ship now.
+    const security = [
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "X-Frame-Options", value: "DENY" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+    ];
     return [
+      { source: "/:path*", headers: security },
       { source: "/lookup/:path*", headers: noindex },
       { source: "/apply/:path*", headers: noindex },
       { source: "/buy/:path*", headers: noindex },

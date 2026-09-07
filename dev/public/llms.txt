@@ -18,7 +18,6 @@ DGR Tech Rig LLC is officially listed by FMCSA as a BOC-3 blanket process-agent 
 - [Drug and alcohol consortium](https://techrig.org/drug-and-alcohol-consortium/): consortium enrollment and testing program.
 - [FMCSA Clearinghouse](https://techrig.org/fmcsa-clearinghouse-registration/): Clearinghouse registration.
 - [ELD services](https://techrig.org/eld-services/): electronic logging device setup.
-- [Insurance filing](https://techrig.org/trucking-insurance-filing/): coordinating your FMCSA insurance filing.
 - [Trucking LLC](https://techrig.org/trucking-llc/): company formation.
 
 ## Dispatch

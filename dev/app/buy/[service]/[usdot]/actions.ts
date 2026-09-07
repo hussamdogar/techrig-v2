@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { redirect, notFound } from "next/navigation";
 import { service as serviceClient } from "@/lib/server/supabase";
-import { decodeLeadAccessToken } from "@/lib/server/security";
+import { decodeLeadAccessToken, isValidEmail, isValidPhone } from "@/lib/server/security";
 import { isQuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
 import { QUICK_BUY_TOKEN_COOKIE } from "@/lib/server/quick-buy";
 
@@ -33,6 +33,16 @@ export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: strin
   const lastName = String(formData.get("last_name") || "").trim() || null;
   const email = String(formData.get("email") || "").trim() || null;
   const phone = String(formData.get("phone") || "").trim() || null;
+
+  // Format-check before this ever reaches the DB or a Resend `to:` address —
+  // email is required on the form, phone is optional (only checked if given).
+  // Not full RFC validation, just enough to reject an obvious typo/garbage
+  // value instead of silently storing it and wasting the receipt/admin-alert
+  // send. Redirects back to re-enter details rather than failing silently.
+  if (!email || !isValidEmail(email) || (phone && !isValidPhone(phone))) {
+    redirect(`/buy/${serviceKeyParam}/${usdot}/?error=invalid_contact`);
+  }
+
   // Despite the generic name, this is the QUALIFYING CMV count for UCR
   // bracket pricing (truck tractors + straight trucks only — see the hidden
   // field's comment in page.tsx), not the carrier's general reported power

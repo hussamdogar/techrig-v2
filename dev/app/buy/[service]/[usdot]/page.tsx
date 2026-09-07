@@ -35,10 +35,13 @@ function Message({ heading, body }: { heading: string; body: string }) {
 
 export default async function QuickBuyConfirmPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ service: string; usdot: string }>;
+  searchParams: Promise<{ error?: string }>;
 }) {
   const { service, usdot } = await params;
+  const { error: errorParam } = await searchParams;
   if (!isQuickBuyServiceKey(service)) notFound();
   const def = SERVICES[service as ServiceKey];
 
@@ -66,7 +69,13 @@ export default async function QuickBuyConfirmPage({
     <Section surface="paper" className="pt-8 md:pt-12">
       <Container className="max-w-2xl">
         {outcome.kind === "done" && outcome.result.status === "success" && outcome.result.carrier ? (
-          <Confirm carrier={outcome.result.carrier} service={service as ServiceKey} usdot={usdot} token={outcome.token} />
+          <Confirm
+            carrier={outcome.result.carrier}
+            service={service as ServiceKey}
+            usdot={usdot}
+            token={outcome.token}
+            error={errorParam}
+          />
         ) : outcome.kind === "done" && outcome.result.status === "not_found" ? (
           <>
             <Message
@@ -110,19 +119,27 @@ function BackLink({ service }: { service: string }) {
   );
 }
 
+const CONFIRM_ERROR_MESSAGES: Record<string, string> = {
+  invalid_contact: "That email or phone number doesn't look right. Please check and try again.",
+  "1": "Something went wrong saving your details. Please try again.",
+};
+
 function Confirm({
   carrier,
   service,
   usdot,
   token,
+  error,
 }: {
   carrier: CarrierData;
   service: ServiceKey;
   usdot: string;
   token: string;
+  error?: string;
 }) {
   const def = SERVICES[service];
   const confirmAction = confirmQuickBuyOrder.bind(null, service, usdot);
+  const errorMessage = error ? CONFIRM_ERROR_MESSAGES[error] : undefined;
 
   return (
     <>
@@ -131,6 +148,12 @@ function Confirm({
       </p>
       <h1 className="mt-1 font-display text-3xl font-extrabold tracking-[-0.02em] text-ink">Confirm your carrier record</h1>
       <p className="mt-3 text-slate">Check the details below, then continue to review your order.</p>
+
+      {errorMessage ? (
+        <p className="mt-4 rounded-card border border-signal/40 bg-signal/10 px-4 py-3 text-sm text-ink">
+          {errorMessage}
+        </p>
+      ) : null}
 
       <div className="mt-6">
         <DocketSection

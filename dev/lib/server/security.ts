@@ -174,3 +174,17 @@ export async function checkRateLimit({
 export function isValidUsdot(value: unknown): boolean {
   return /^\d{1,12}$/.test(String(value || "").trim());
 }
+
+/** Practical email format check (not RFC-exhaustive — catches typos/garbage
+ *  before it's stored and used as a Resend recipient, not a full validator). */
+export function isValidEmail(value: unknown): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
+}
+
+/** Phone format guard: tolerant of common formatting (spaces, dashes,
+ *  parens, a leading +), just checks the digit count is plausible (7-15,
+ *  covering US numbers and most international formats). */
+export function isValidPhone(value: unknown): boolean {
+  const digits = String(value || "").replace(/[^\d]/g, "");
+  return digits.length >= 7 && digits.length <= 15;
+}

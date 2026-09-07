@@ -10,7 +10,7 @@ import { filingCtaHref } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Dry Van Dispatch Cost",
   description:
-    "What dry van dispatch costs with Tech Rig: a percentage of your gross, set by equipment, with no long-term contract and no forced dispatch.",
+    "What dry van dispatch costs with Tech Rig: a percentage of your gross revenue, set by your equipment type, with no long-term contract and no forced dispatch.",
   alternates: { canonical: "/dry-van-trucking/cost/" },
   openGraph: {
     title: "Dry Van Dispatch Cost",

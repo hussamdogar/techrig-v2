@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { CookieNotice } from "@/components/cookie-notice";
 import { JsonLd } from "@/components/json-ld";
 import { graph, organizationNode, websiteNode } from "@/lib/schema";
 import "./globals.css";
@@ -61,6 +62,7 @@ export default function RootLayout({
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <CookieNotice />
       </body>
     </html>
   );
