@@ -66,7 +66,7 @@ const dryVanNav = dispatchNav[4]; // /dry-van-trucking/
 const faqs: Faq[] = [
   {
     q: "How does reefer dispatch pricing work?",
-    a: "Reefer dispatch is 3% of your gross monthly revenue. We earn when you earn, with no long-term contract and no forced dispatch.",
+    a: "Reefer dispatch is 3% of your gross monthly revenue: no flat fee, no long-term contract, and you're never forced to take a load.",
   },
   {
     q: "Do you handle the appointment scheduling reefer brokers require?",

@@ -1,3 +1,10 @@
+allowBuilds:
+  # Lets @sentry/cli's postinstall download the actual CLI binary, needed for
+  # source-map uploads on release builds.
+  '@sentry/cli': true
+  # Already covered by ignoredBuiltDependencies below (pre-existing); pnpm
+  # still wants it decided here explicitly, so kept consistent as false.
+  unrs-resolver: false
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
