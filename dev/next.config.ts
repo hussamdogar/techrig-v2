@@ -74,6 +74,25 @@ const nextConfig: NextConfig = {
   // existing ranking URLs are preserved through the revamp.
   trailingSlash: true,
 
+  // lib/og.tsx reads the two @fontsource woff files it needs via a
+  // process.cwd()-relative fs.readFileSync (satori/ImageResponse can't load
+  // fonts over the network at request time). Those packages live in pnpm's
+  // content-addressable store, so node_modules/@fontsource/* is a symlink,
+  // not a real directory. @vercel/nft's per-route trace resolves that fine
+  // for the actual opengraph-image.tsx routes, but any other route that pulls
+  // in lib/og.tsx transitively (confirmed live: /buy/[service]/[usdot]/,
+  // which has no opengraph-image of its own and inherits the root one) can
+  // get deployed without the symlink's target packaged into its serverless
+  // function, throwing ENOENT at request time. Force-including the real font
+  // files for every route closes that gap regardless of which routes turn
+  // out to need them.
+  outputFileTracingIncludes: {
+    "/**": [
+      "./node_modules/@fontsource/archivo/files/archivo-latin-800-normal.woff",
+      "./node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-600-normal.woff",
+    ],
+  },
+
   async redirects() {
     return [
       // M7 §1. Legacy application subdomains → the new platform entry, one hop,
