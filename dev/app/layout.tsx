@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { CookieNotice } from "@/components/cookie-notice";
@@ -65,8 +64,11 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <SiteFooter />
         <CookieNotice />
+        {/* SpeedInsights removed 2026-09-09: @vercel/speed-insights 2.0.0 throws an
+            unhandled promise rejection ("reading 'M_ID'") on every page under
+            Next 16 + Turbopack production builds. Re-add once the package supports
+            it. Vercel's server-side performance metrics are unaffected. */}
         <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );

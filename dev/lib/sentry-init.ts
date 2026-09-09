@@ -12,7 +12,13 @@ export function initSentry(dsn: string | undefined, runtime: "server" | "client"
     dsn,
     tracesSampleRate: 0.1,
     sendDefaultPii: false,
-    environment: process.env.VERCEL_ENV ?? "development",
+    // VERCEL_ENV is server-only. The client bundle sees NEXT_PUBLIC_VERCEL_ENV,
+    // which Vercel auto-exposes for Next.js projects. Without this split every
+    // browser-side event is mislabelled "development" in Sentry.
+    environment:
+      (runtime === "client"
+        ? process.env.NEXT_PUBLIC_VERCEL_ENV
+        : process.env.VERCEL_ENV) ?? "development",
     beforeSend(event) {
       if (event.request) {
         delete event.request.cookies;
