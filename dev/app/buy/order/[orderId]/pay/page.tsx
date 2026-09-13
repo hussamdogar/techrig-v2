@@ -93,6 +93,7 @@ export default async function QuickBuyPayPage({ params }: { params: Promise<{ or
               body={{ orderId }}
               returnPath={`/buy/order/${orderId}/thank-you/`}
               publishableKey={publishableKey}
+              trackingEvent="quick_buy_payment_submit"
             />
           ) : (
             <p className="rounded-card border border-slate/15 bg-cloud p-4 text-sm text-ink">
