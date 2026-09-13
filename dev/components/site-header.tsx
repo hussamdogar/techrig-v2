@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { Container } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
@@ -87,6 +88,7 @@ function PanelLink({ link }: { link: NavLink }) {
 }
 
 export function SiteHeader({ cta = defaultCta }: { cta?: Cta }) {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -106,6 +108,12 @@ export function SiteHeader({ cta = defaultCta }: { cta?: Cta }) {
       document.body.style.overflow = "";
     };
   }, [drawerOpen]);
+
+  // Dedicated Google Ads landing pages (/lp/...) render their own page-scoped
+  // header instead of site nav, since their job is a single conversion path.
+  // All hooks above still run unconditionally either way (rules of hooks);
+  // this just skips rendering.
+  if (pathname?.startsWith("/lp/")) return null;
 
   return (
     <header
