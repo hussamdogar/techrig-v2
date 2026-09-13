@@ -4,6 +4,8 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
+import { GtmEvent } from "@/components/gtm-event";
+import { TrackedForm } from "@/components/tracked-form";
 import { performLookup } from "@/lib/server/lookup-capture";
 import { sendQuickBuyLookupAdminAlert } from "@/lib/email/lifecycle";
 import { SERVICES, isQuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
@@ -65,8 +67,23 @@ export default async function QuickBuyConfirmPage({
     });
   }
 
+  // Funnel signal: this URL is identical regardless of outcome, so success vs.
+  // not-found vs. rate-limited would otherwise be invisible to GTM's own
+  // page-view tracking. Mirrors the branching below exactly, so it can't drift.
+  const outcomeStatus =
+    outcome.kind === "done" && outcome.result.status === "success" && outcome.result.carrier
+      ? "success"
+      : outcome.kind === "done" && outcome.result.status === "not_found"
+        ? "not_found"
+        : outcome.kind === "invalid"
+          ? "invalid"
+          : outcome.kind === "rate_limited"
+            ? "rate_limited"
+            : "error";
+
   return (
     <Section surface="paper" className="pt-8 md:pt-12">
+      <GtmEvent event="quick_buy_confirm_view" data={{ service, outcome: outcomeStatus }} />
       <Container className="max-w-2xl">
         {outcome.kind === "done" && outcome.result.status === "success" && outcome.result.carrier ? (
           <Confirm
@@ -167,7 +184,12 @@ function Confirm({
         />
       </div>
 
-      <form action={confirmAction} className="mt-6 space-y-5">
+      <TrackedForm
+        action={confirmAction}
+        event="quick_buy_confirm_submit"
+        data={{ service, usdot }}
+        className="mt-6 space-y-5"
+      >
         <input type="hidden" name="token" value={token} />
         {/* UCR's government fee bracket is by QUALIFYING CMVs only (truck
             tractors + straight trucks) — trailers and non-commercial vehicles
@@ -262,7 +284,7 @@ function Confirm({
         <button type="submit" className={`${buttonVariants({ variant: "primary", size: "md" })} w-full sm:w-auto`}>
           Continue to review
         </button>
-      </form>
+      </TrackedForm>
 
       <div className="mt-4">
         <BackLink service={service} />

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
 import { SERVICES, isQuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
+import { TrackedForm } from "@/components/tracked-form";
 import { startQuickBuyLookup } from "./actions";
 
 /**
@@ -36,7 +37,12 @@ export default async function QuickBuyEntryPage({ params }: { params: Promise<{ 
           needed.
         </p>
 
-        <form action={action} className="mt-6 space-y-4">
+        <TrackedForm
+          action={action}
+          event="quick_buy_lookup_submit"
+          data={{ service }}
+          className="mt-6 space-y-4"
+        >
           <div>
             <label htmlFor="usdot" className="text-sm font-medium text-ink">
               USDOT number
@@ -55,7 +61,7 @@ export default async function QuickBuyEntryPage({ params }: { params: Promise<{ 
           <button type="submit" className={`${buttonVariants({ variant: "primary", size: "md" })} w-full`}>
             Look up my USDOT
           </button>
-        </form>
+        </TrackedForm>
       </Container>
     </Section>
   );

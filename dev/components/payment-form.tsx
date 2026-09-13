@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { buttonVariants } from "@/components/ui/button";
+import { pushDataLayerEvent } from "@/lib/gtm";
 import { cn } from "@/lib/utils";
 
 /**
@@ -18,17 +19,24 @@ import { cn } from "@/lib/utils";
  * `returnPath="/apply/{id}/success/"`; the quick-buy pay page passes
  * `endpoint="/api/quick-buy-checkout/"`, `body={ orderId }`,
  * `returnPath="/buy/{orderId}/thank-you/"`.
+ *
+ * `trackingEvent` is opt-in GTM funnel tracking (a plain string, safe to pass
+ * from a Server Component page): when given, a submit attempt and a failed
+ * confirmation each push it to the dataLayer with a `status`. Only the
+ * quick-buy pay page passes it, so `/apply`'s checkout is unaffected.
  */
 export function PaymentForm({
   endpoint,
   body,
   returnPath,
   publishableKey,
+  trackingEvent,
 }: {
   endpoint: string;
   body: Record<string, string>;
   returnPath: string;
   publishableKey: string;
+  trackingEvent?: string;
 }) {
   const stripePromise = useMemo(() => loadStripe(publishableKey), [publishableKey]);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
@@ -63,12 +71,20 @@ export function PaymentForm({
 
   return (
     <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: "stripe" } }}>
-      <CheckoutForm returnPath={returnPath} isTestMode={isTestMode} />
+      <CheckoutForm returnPath={returnPath} isTestMode={isTestMode} trackingEvent={trackingEvent} />
     </Elements>
   );
 }
 
-function CheckoutForm({ returnPath, isTestMode }: { returnPath: string; isTestMode: boolean }) {
+function CheckoutForm({
+  returnPath,
+  isTestMode,
+  trackingEvent,
+}: {
+  returnPath: string;
+  isTestMode: boolean;
+  trackingEvent?: string;
+}) {
   const stripe = useStripe();
   const elements = useElements();
   const [submitting, setSubmitting] = useState(false);
@@ -79,12 +95,17 @@ function CheckoutForm({ returnPath, isTestMode }: { returnPath: string; isTestMo
     if (!stripe || !elements) return;
     setSubmitting(true);
     setMessage(null);
+    if (trackingEvent) pushDataLayerEvent(trackingEvent, { status: "submitted" });
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: { return_url: `${window.location.origin}${returnPath}` },
     });
-    // We only reach here if confirmation failed before the redirect.
-    if (error) setMessage(error.message ?? "Payment could not be completed.");
+    // We only reach here if confirmation failed before the redirect; success
+    // navigates away to returnPath, tracked there instead.
+    if (error) {
+      setMessage(error.message ?? "Payment could not be completed.");
+      if (trackingEvent) pushDataLayerEvent(trackingEvent, { status: "failed", message: error.message });
+    }
     setSubmitting(false);
   }
 

@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { TrackedForm } from "@/components/tracked-form";
 import { cn } from "@/lib/utils";
 import {
   SERVICES,
@@ -136,7 +137,17 @@ export function ReviewForm({
   }
 
   return (
-    <form action={action} className="mt-6 space-y-6">
+    <TrackedForm
+      action={action}
+      event="quick_buy_review_submit"
+      data={{
+        primaryKey,
+        additionalServices: Array.from(selected),
+        driverCount: needsDriverCount ? driverCountValue : null,
+        orderValue: pricing.total,
+      }}
+      className="mt-6 space-y-6"
+    >
       <div>
         <h2 className="font-display text-lg font-bold text-ink">You may also need</h2>
         <p className="mt-1 text-sm text-slate">
@@ -264,6 +275,6 @@ export function ReviewForm({
       <button type="submit" className={cn(buttonVariants({ variant: "primary", size: "md" }), "w-full sm:w-auto")}>
         Continue to payment
       </button>
-    </form>
+    </TrackedForm>
   );
 }

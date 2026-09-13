@@ -5,6 +5,7 @@ import { Container, Section } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
 import { service } from "@/lib/server/supabase";
 import { stripe } from "@/lib/stripe";
+import { GtmEvent } from "@/components/gtm-event";
 import { SERVICES, eligibleQuickBuyUpsells, QUICK_BUY_UPSELL_REASON } from "@/lib/services-registry";
 
 // Noindex (checkout flow, matches /apply/[applicationId]/success).
@@ -66,8 +67,30 @@ export default async function QuickBuyThankYouPage({
   const purchasedKeys = new Set(filings.map((f) => f.service_key));
   const upsellKeys = eligibleQuickBuyUpsells(order.truck_tractors).filter((k) => !purchasedKeys.has(k));
 
+  // The Google Ads / GA4 conversion event, fired only on a confirmed paid
+  // order: transaction id + value + line items, the standard shape those
+  // tools expect to attribute an ad click to actual revenue. "processing" and
+  // "not completed" get their own distinct, non-conversion events instead, so
+  // a pending or failed payment is never mistaken for a sale in GTM/Ads.
+  const orderValue = filings.reduce((sum, f) => sum + (f.price_amount ?? 0), 0);
+
   return (
     <Section surface="paper" className="pt-10 md:pt-14">
+      {paid ? (
+        <GtmEvent
+          event="purchase"
+          data={{
+            transaction_id: order.reference_id ?? orderId,
+            value: orderValue,
+            currency: "USD",
+            items: filings.map((f) => ({ item_id: f.service_key, item_name: f.service_name, price: f.price_amount })),
+          }}
+        />
+      ) : pending ? (
+        <GtmEvent event="quick_buy_payment_pending" data={{ orderId, service: order.service_key }} />
+      ) : (
+        <GtmEvent event="quick_buy_payment_not_completed" data={{ orderId, service: order.service_key }} />
+      )}
       <Container className="max-w-2xl">
         {paid ? (
           <>
