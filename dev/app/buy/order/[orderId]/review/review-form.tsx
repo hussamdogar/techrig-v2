@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import {
   SERVICES,
   computeQuickBuyPricing,
-  eligibleQuickBuyUpsells,
+  remainingQuickBuyUpsells,
   QUICK_BUY_UPSELL_REASON,
   type ServiceKey,
   type QuickBuyServiceKey,
@@ -56,7 +56,7 @@ export function ReviewForm({
   initialDriverCount: number | null;
 }) {
   const showFullMenu = (truckTractors ?? 0) > 0;
-  const upsellKeys = eligibleQuickBuyUpsells(truckTractors).filter((k) => k !== primaryKey);
+  const upsellKeys = remainingQuickBuyUpsells(truckTractors, [primaryKey]);
   const [selected, setSelected] = useState<Set<ServiceKey>>(new Set(initialAdditional));
   const [driverCount, setDriverCount] = useState(initialDriverCount != null ? String(initialDriverCount) : "1");
 

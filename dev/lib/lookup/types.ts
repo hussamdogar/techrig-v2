@@ -57,6 +57,20 @@ export type CarrierData = {
   usdotNumber: number | null;
   mcNumber: string | null;
   physicalAddress: string | null;
+  // Same physical address, kept structured (not re-parsed from the string
+  // above — both QCMobile and MOTUS return these fields separately; only our
+  // own formatters flatten them for the display string). Used for Stripe's
+  // Customer/shipping address, which needs line1/city/state/zip separately.
+  addressLine1: string | null;
+  addressLine2: string | null;
+  addressCity: string | null;
+  /** ISO 3166-1 alpha-2 (e.g. "US", "CA", "MX") — carriers are not all
+   *  US-domiciled (confirmed live: USDOT 3678098 is an Ontario, Canada
+   *  carrier, MOTUS returns country: "CA" on its location object). Never
+   *  assume/default to "US" downstream. */
+  addressCountry: string | null;
+  addressState: string | null;
+  addressZip: string | null;
 
   // Classification / status (the hero result panel reads these)
   entityType: string | null; // operation/business type, the "Entity type" row

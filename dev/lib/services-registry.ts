@@ -45,6 +45,7 @@ export type ServiceKey =
   | "usdot"
   | "mc-authority"
   | "boc-3"
+  | "boc-3-b"
   | "ucr"
   | "mcs-150"
   | "usdot-correction"
@@ -139,6 +140,21 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     priceKind: "flat",
     standalonePrice: 100,
     bundlePrice: 100,
+    requiredSteps: ["carrier-identity", "service-specifics"],
+    expectedTimeline: "Same business day when ordered with your information during business hours",
+  },
+  /** Owner-directed price test (2026-09-14): identical BOC-3 filing, sold at
+   *  $70 instead of $100 through a dedicated Google Ads landing page
+   *  (/lp/boc-3-filing-b/) and its own quick-buy lane, so orders, upsell
+   *  eligibility, and GA4 events never mix with the $100 original. Quick-buy
+   *  only — never appears in /apply or the four fixed bundles. */
+  "boc-3-b": {
+    key: "boc-3-b",
+    name: "BOC-3 filing",
+    blurb: "Blanket process-agent designation across all 50 states.",
+    priceKind: "flat",
+    standalonePrice: 70,
+    bundlePrice: 70,
     requiredSteps: ["carrier-identity", "service-specifics"],
     expectedTimeline: "Same business day when ordered with your information during business hours",
   },
@@ -304,12 +320,22 @@ export function isServiceKey(value: unknown): value is ServiceKey {
   return typeof value === "string" && value in SERVICES;
 }
 
-/** The five services with a USDOT-confirm-and-pay quick-buy fast path
+/** The services with a USDOT-confirm-and-pay quick-buy fast path
  *  (`/buy/<service>/`): each needs nothing beyond a confirmed carrier record,
  *  plus one extra field for ucr (power units) / dq-files (driver count).
- *  Every other service stays on the full `/apply` multi-step engine. */
-export type QuickBuyServiceKey = "boc-3" | "ucr" | "clearinghouse" | "consortium" | "dq-files";
-export const QUICK_BUY_SERVICE_KEYS: QuickBuyServiceKey[] = ["boc-3", "ucr", "clearinghouse", "consortium", "dq-files"];
+ *  Every other service stays on the full `/apply` multi-step engine.
+ *  `boc-3-b` is the $70 price-test variant (see SERVICES above) — it needs
+ *  the same entry-route/confirm/review/pay treatment as `boc-3`, but must
+ *  never be offered as an upsell (see QUICK_BUY_UPSELL_EXCLUDED below). */
+export type QuickBuyServiceKey = "boc-3" | "boc-3-b" | "ucr" | "clearinghouse" | "consortium" | "dq-files";
+export const QUICK_BUY_SERVICE_KEYS: QuickBuyServiceKey[] = [
+  "boc-3",
+  "boc-3-b",
+  "ucr",
+  "clearinghouse",
+  "consortium",
+  "dq-files",
+];
 
 export function isQuickBuyServiceKey(value: unknown): value is QuickBuyServiceKey {
   return typeof value === "string" && (QUICK_BUY_SERVICE_KEYS as string[]).includes(value);
@@ -321,11 +347,51 @@ export function isQuickBuyServiceKey(value: unknown): value is QuickBuyServiceKe
  *  owner rule as the review-step upsell menu, §11.7 of the build report). */
 const LIMITED_QUICK_BUY_UPSELL_KEYS: QuickBuyServiceKey[] = ["boc-3", "ucr", "dq-files"];
 
+/** Never offered as an upsell: a carrier only ever reaches `boc-3-b` by
+ *  clicking through the dedicated $70 landing page, not through the normal
+ *  quick-buy funnel. Without this filter it would show up as a second,
+ *  confusing "BOC-3 filing" option next to the $100 original everywhere
+ *  eligibleQuickBuyUpsells is used. */
+const QUICK_BUY_UPSELL_EXCLUDED: QuickBuyServiceKey[] = ["boc-3-b"];
+
 /** The quick-buy services eligible to be suggested to a carrier, gated on
  *  fleet signal. Shared by the review-step "You may also need" checklist and
  *  the post-purchase thank-you page's upsell block, so the two never diverge. */
 export function eligibleQuickBuyUpsells(truckTractors: number | null | undefined): QuickBuyServiceKey[] {
-  return (truckTractors ?? 0) > 0 ? QUICK_BUY_SERVICE_KEYS : LIMITED_QUICK_BUY_UPSELL_KEYS;
+  const base = (truckTractors ?? 0) > 0 ? QUICK_BUY_SERVICE_KEYS : LIMITED_QUICK_BUY_UPSELL_KEYS;
+  return base.filter((k) => !QUICK_BUY_UPSELL_EXCLUDED.includes(k));
+}
+
+/** boc-3 and boc-3-b are the same filing at two price points. Two
+ *  consequences, both handled off this one map: a carrier who already has
+ *  one must never be offered the other as an add-on (remainingQuickBuyUpsells
+ *  below), and combo/bundle pricing that keys off "the carrier has a BOC-3
+ *  filing" (computeQuickBuyPricing's hasBoc3, further down) must recognize
+ *  either one, not just the literal "boc-3" key. Extend this map if another
+ *  price test adds a second variant pair. */
+const QUICK_BUY_PRICE_VARIANT_SIBLING: Partial<Record<QuickBuyServiceKey, QuickBuyServiceKey>> = {
+  "boc-3-b": "boc-3",
+};
+
+/** True if `key` is BOC-3 itself or a price-variant of it (e.g. boc-3-b). */
+function isBoc3Key(key: string): boolean {
+  return key === "boc-3" || QUICK_BUY_PRICE_VARIANT_SIBLING[key as QuickBuyServiceKey] === "boc-3";
+}
+
+/** eligibleQuickBuyUpsells() minus whatever the carrier already has (primary
+ *  purchase, any add-ons already selected) and each one's price-variant
+ *  sibling. Single entry point so the review-step checklist and the
+ *  thank-you page's upsell block never diverge. */
+export function remainingQuickBuyUpsells(
+  truckTractors: number | null | undefined,
+  alreadyHave: Iterable<string>,
+): QuickBuyServiceKey[] {
+  const have = new Set(alreadyHave);
+  for (const key of have) {
+    const sibling = QUICK_BUY_PRICE_VARIANT_SIBLING[key as QuickBuyServiceKey];
+    if (sibling) have.add(sibling);
+  }
+  return eligibleQuickBuyUpsells(truckTractors).filter((k) => !have.has(k));
 }
 
 /**
@@ -343,6 +409,10 @@ export function eligibleQuickBuyUpsells(truckTractors: number | null | undefined
  */
 export const QUICK_BUY_UPSELL_REASON: Record<QuickBuyServiceKey, string> = {
   "boc-3": "Process agent designation, required to activate your operating authority.",
+  // Never actually rendered (QUICK_BUY_UPSELL_EXCLUDED filters "boc-3-b" out
+  // of eligibleQuickBuyUpsells), but Record<QuickBuyServiceKey, string> needs
+  // an entry for every key in the type.
+  "boc-3-b": "Process agent designation, required to activate your operating authority.",
   ucr: "Annual federal registration; unregistered carriers risk roadside fines and held loads.",
   clearinghouse: "Federal drug and alcohol violation database. CDL carriers must be registered and querying it.",
   consortium: "Required random drug and alcohol testing pool enrollment for your CDL drivers.",
@@ -806,7 +876,7 @@ export const CLEARINGHOUSE_MULTI_SERVICE_PRICE = 100;
  * All of 2-4 are independent: an order can trigger any combination of them.
  */
 export function computeQuickBuyPricing(selected: ServiceKey[], ctx: PricingContext): Pricing {
-  const hasBoc3 = selected.includes("boc-3");
+  const hasBoc3 = selected.some(isBoc3Key);
   const hasUcr = selected.includes("ucr");
   const hasDq = selected.includes("dq-files");
   const hasConsortium = selected.includes("consortium");

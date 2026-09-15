@@ -23,6 +23,7 @@ type QcMobileCarrierRaw = {
   phyCity?: unknown;
   phyState?: unknown;
   phyZipcode?: unknown;
+  phyCountry?: unknown;
   carrierOperation?: { carrierOperationDesc?: unknown; carrierOperationCode?: unknown };
   safetyRating?: unknown;
   bipdInsuranceOnFile?: unknown;
@@ -78,6 +79,19 @@ export function normalizeQcMobileResponse(response: QcMobileResponse): CarrierDa
     usdotNumber: num(c?.dotNumber),
     mcNumber: null, // QCMobile carrier endpoint does not return the MC docket
     physicalAddress: qcAddress(c),
+    addressLine1: str(c?.phyStreet),
+    addressLine2: null, // QCMobile has no second street line
+    addressCity: str(c?.phyCity),
+    addressState: str(c?.phyState),
+    addressZip: str(c?.phyZipcode),
+    // Field name unconfirmed (matches the phy* naming convention of the
+    // fields above, but FMCSA_WEBKEY returned a 403 when checked live against
+    // a real foreign carrier) — QCMobile covers the same carrier population
+    // as MOTUS, not a US-only subset, so this should exist. Whatever comes
+    // back is validated as a real ISO alpha-2 code before ever reaching
+    // Stripe (see the checkout route), so a wrong field name here degrades to
+    // "country omitted," never a bad value silently sent as fact.
+    addressCountry: str(c?.phyCountry),
     entityType: str(c?.carrierOperation?.carrierOperationDesc),
     authorityStatus: statusCode === "A" ? "Active" : statusCode === "I" ? "Inactive" : null,
     safetyRating: safetyCode ? (SAFETY_RATING[safetyCode] ?? safetyCode) : null,

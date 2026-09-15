@@ -89,8 +89,12 @@ export function receiptEmail(d: { referenceId: string; amount: number; services:
  * transactional-email copy the owner dictated specifically for the
  * post-payment receipt, and the two are allowed to read differently.
  */
-const QUICK_BUY_NEXT_STEPS: Record<"boc-3" | "ucr" | "clearinghouse" | "consortium" | "dq-files", string> = {
+const QUICK_BUY_NEXT_STEPS: Record<"boc-3" | "boc-3-b" | "ucr" | "clearinghouse" | "consortium" | "dq-files", string> = {
   "boc-3":
+    "We file your BOC-3 process agent designation within 24 hours of your order. If your order falls on a weekend or a federal holiday, we file it the next business day instead. You'll receive a status update from us as soon as it's filed.",
+  // $70 price-test variant of boc-3 (lib/services-registry.ts) — identical
+  // filing and fulfillment, so identical next-steps copy.
+  "boc-3-b":
     "We file your BOC-3 process agent designation within 24 hours of your order. If your order falls on a weekend or a federal holiday, we file it the next business day instead. You'll receive a status update from us as soon as it's filed.",
   ucr: "Most UCR registrations are completed within 24 hours. If your USDOT number was registered recently, the UCR system can take 5 to 7 business days to reflect your carrier record before we're able to file, a timing factor on the UCR and MOTUS side rather than our processing. We complete your filing the moment your record becomes available and will keep you updated along the way.",
   clearinghouse: "Your FMCSA Clearinghouse registration is typically completed within 2 to 3 business days.",

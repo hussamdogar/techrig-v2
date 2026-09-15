@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { service } from "@/lib/server/supabase";
 import { stripe } from "@/lib/stripe";
 import { GtmEvent } from "@/components/gtm-event";
-import { SERVICES, eligibleQuickBuyUpsells, QUICK_BUY_UPSELL_REASON } from "@/lib/services-registry";
+import { SERVICES, remainingQuickBuyUpsells, QUICK_BUY_UPSELL_REASON } from "@/lib/services-registry";
 
 // Noindex (checkout flow, matches /apply/[applicationId]/success).
 export const dynamic = "force-dynamic";
@@ -65,7 +65,7 @@ export default async function QuickBuyThankYouPage({
   // new payment infrastructure. The USDOT is pre-filled via the URL so the
   // visitor never has to retype it.
   const purchasedKeys = new Set(filings.map((f) => f.service_key));
-  const upsellKeys = eligibleQuickBuyUpsells(order.truck_tractors).filter((k) => !purchasedKeys.has(k));
+  const upsellKeys = remainingQuickBuyUpsells(order.truck_tractors, purchasedKeys);
 
   // The Google Ads / GA4 conversion event, fired only on a confirmed paid
   // order: transaction id + value + line items, the standard shape those

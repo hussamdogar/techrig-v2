@@ -294,13 +294,21 @@ export function buildMotusCarrierData(carriers: any, matrix: any, oaViews: any[]
     oa.insurance.some((f) => /active/i.test(f.status || "")),
   );
 
+  const primaryLocation = getMotusPrimaryLocation(entity);
+
   return {
     entityId: entity?.entityId ?? null,
     legalName: getMotusLegalName(entity),
     dbaName: getMotusDbaName(entity),
     usdotNumber: dotNumber == null ? null : Number(dotNumber),
     mcNumber,
-    physicalAddress: formatMotusAddress(getMotusPrimaryLocation(entity)),
+    physicalAddress: formatMotusAddress(primaryLocation),
+    addressLine1: firstString(primaryLocation?.addressLine1),
+    addressLine2: firstString(primaryLocation?.addressLine2),
+    addressCity: firstString(primaryLocation?.city),
+    addressCountry: firstString(primaryLocation?.country),
+    addressState: firstString(primaryLocation?.state),
+    addressZip: firstString(primaryLocation?.zipCode),
     entityType: businessType ?? registrationType,
     authorityStatus: primaryMatrix?.operatingAuthorityStatus ?? null,
     safetyRating: getMotusSafetyRating(),

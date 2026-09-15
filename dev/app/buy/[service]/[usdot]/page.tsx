@@ -210,6 +210,18 @@ function Confirm({
             eligibility (truck tractors present), kept separate from
             power_units above since that's a combined figure. */}
         <input type="hidden" name="truck_tractors" value={carrier.equipmentSummary.truckTractors} />
+        {/* Carried through to the order so checkout can pass a structured
+            address to Stripe (fraud scoring / dispute evidence, owner
+            decision 2026-09-15) — not otherwise shown as an editable field on
+            this form. Structured, not the single physicalAddress display
+            string above: Stripe's Customer/shipping address wants
+            line1/city/state/zip separately. */}
+        <input type="hidden" name="address_line1" value={carrier.addressLine1 ?? ""} />
+        <input type="hidden" name="address_line2" value={carrier.addressLine2 ?? ""} />
+        <input type="hidden" name="address_city" value={carrier.addressCity ?? ""} />
+        <input type="hidden" name="address_state" value={carrier.addressState ?? ""} />
+        <input type="hidden" name="address_zip" value={carrier.addressZip ?? ""} />
+        <input type="hidden" name="address_country" value={carrier.addressCountry ?? ""} />
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>

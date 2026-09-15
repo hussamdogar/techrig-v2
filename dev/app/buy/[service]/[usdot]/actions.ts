@@ -33,6 +33,12 @@ export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: strin
   const lastName = String(formData.get("last_name") || "").trim() || null;
   const email = String(formData.get("email") || "").trim() || null;
   const phone = String(formData.get("phone") || "").trim() || null;
+  const addressLine1 = String(formData.get("address_line1") || "").trim() || null;
+  const addressLine2 = String(formData.get("address_line2") || "").trim() || null;
+  const addressCity = String(formData.get("address_city") || "").trim() || null;
+  const addressState = String(formData.get("address_state") || "").trim() || null;
+  const addressZip = String(formData.get("address_zip") || "").trim() || null;
+  const addressCountry = String(formData.get("address_country") || "").trim() || null;
 
   // Format-check before this ever reaches the DB or a Resend `to:` address —
   // email is required on the form, phone is optional (only checked if given).
@@ -68,6 +74,12 @@ export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: strin
       last_name: lastName,
       email,
       phone,
+      address_line1: addressLine1,
+      address_line2: addressLine2,
+      address_city: addressCity,
+      address_state: addressState,
+      address_zip: addressZip,
+      address_country: addressCountry,
       reference_id: decoded.referenceId ?? null,
       confirmed_at: new Date().toISOString(),
       status: "awaiting_payment",
