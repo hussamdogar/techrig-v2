@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Container, Section } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
-import { PriceChip } from "@/components/ui/price-chip";
 import { FaqAccordion, type Faq } from "@/components/faq-accordion";
 import {
   ArrowRightIcon,
@@ -12,11 +11,11 @@ import {
   RouteNodeIcon,
   ShieldIcon,
   StampIcon,
+  StarIcon,
 } from "@/components/icons";
 import { TrackedForm } from "@/components/tracked-form";
 import { TrackedLink } from "@/components/tracked-link";
 import { TrackedAnchor } from "@/components/tracked-anchor";
-import type { Price } from "@/lib/services";
 import { site } from "@/lib/site";
 import { startQuickBuyLookup } from "@/app/buy/[service]/actions";
 import { LandingTabs } from "./tabs";
@@ -117,6 +116,27 @@ function GoogleIcon({ size = 16, ...props }: { size?: number } & React.SVGProps<
   );
 }
 
+// A row of filled stars via the icon system (never typed star characters in a
+// text node, per standards.md). `label` supplies the one accessible name for
+// the whole row; the individual icons stay aria-hidden.
+function StarRating({
+  count = 5,
+  size = 14,
+  label,
+}: {
+  count?: number;
+  size?: number;
+  label: string;
+}) {
+  return (
+    <span className="inline-flex items-center gap-0.5 text-signal" role="img" aria-label={label}>
+      {Array.from({ length: count }).map((_, i) => (
+        <StarIcon key={i} size={size} aria-hidden="true" />
+      ))}
+    </span>
+  );
+}
+
 // The real USDOT entry form, embedded in the hero card instead of the
 // reference's name/phone/MC-DOT fields. Same server action `/buy/<serviceKey>/`
 // uses.
@@ -174,9 +194,9 @@ function UsdotForm({
 }
 
 const trustStripItems = [
-  { icon: <ClockIcon size={17} />, text: "Filed same day" },
-  { icon: <RouteNodeIcon size={17} />, text: "50-state coverage" },
-  { icon: <ShieldIcon size={17} />, text: "No extra charges for documents received" },
+  { icon: <ClockIcon size={15} />, text: "Filed same day" },
+  { icon: <RouteNodeIcon size={15} />, text: "50-state coverage" },
+  { icon: <ShieldIcon size={15} />, text: "No extra charges for documents received" },
 ];
 
 const trustBarItems = [
@@ -259,7 +279,7 @@ const tabs = [
     id: "what",
     label: "What it is",
     content: (
-      <p className="text-slate">
+      <p className="text-cloud/80">
         The BOC-3 is the federal form that designates a process agent in each
         state: a person or company authorized to accept legal papers for you
         in that state. FMCSA requires it for motor carriers, brokers, and
@@ -282,8 +302,8 @@ const tabs = [
           "Brokers and freight forwarders need one too.",
           "A private motor carrier that is not operating for hire generally does not need a BOC-3.",
         ].map((t) => (
-          <li key={t} className="flex gap-3 text-ink">
-            <CheckSealIcon size={18} className="mt-0.5 shrink-0 text-status-active" aria-hidden="true" />
+          <li key={t} className="flex gap-3 text-cloud">
+            <CheckSealIcon size={18} className="mt-0.5 shrink-0 text-signal" aria-hidden="true" />
             <span>{t}</span>
           </li>
         ))}
@@ -298,7 +318,7 @@ const tabs = [
     label: "Can I file it myself?",
     content: (
       <>
-        <p className="text-slate">
+        <p className="text-cloud/80">
           Only for the one state where your business keeps a physical
           address, since FMCSA requires the agent to be reachable there
           during business hours. For every other state you run in, you would
@@ -306,7 +326,7 @@ const tabs = [
           their consent to act as your agent, and file a separate
           designation naming them.
         </p>
-        <p className="mt-4 text-slate">
+        <p className="mt-4 text-cloud/80">
           Most carriers run in more states than that, so it turns into
           several individual arrangements to set up and keep current, not
           one form. That legwork is what you are paying to skip.
@@ -325,90 +345,104 @@ export function Boc3LandingPage({
   applyHref: string;
   serviceKey: string;
 }) {
-  const price: Price = { kind: "flat", amount };
   const faqs = buildFaqs(amount);
 
   return (
     <>
       <LandingHeader />
 
-      {/* Hero */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      {/* Hero: three top-level grid children (intro, form, trust strip), in
+          that DOM order, deliberately — not two wrapper divs. With a plain
+          1-column grid on mobile, that order alone puts the form right after
+          the headline, ahead of the trust strip, so a high-intent visitor
+          reaches the input field without scrolling past supporting content
+          first. At lg+, the same order auto-places into the 2-column grid as
+          [intro, form] on row 1 and [trust, empty] on row 2 — i.e. the
+          original two-column look — with no extra markup or duplicated
+          elements needed for either breakpoint. */}
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
-          <div className="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-            {/* Left: offer, proof, action */}
+          <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+            {/* 1: intro */}
             <div>
-              <p className="inline-flex items-center gap-1.5 rounded-chip border border-steel px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-steel">
-                <StampIcon size={13} aria-hidden="true" />
-                FMCSA-listed process agent &middot; all 50 states
+              <p className="inline-flex items-center gap-2 rounded-chip border border-signal/60 bg-signal/15 px-3 py-1.5 shadow-[0_0_0_1px_rgba(232,154,60,0.12),0_4px_20px_rgba(232,154,60,0.25)] font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-cloud">
+                <span className="relative flex h-5 w-5 shrink-0 items-center justify-center">
+                  <span
+                    className="absolute inline-flex h-full w-full animate-[ping_2.5s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full bg-signal/60 motion-reduce:hidden"
+                    aria-hidden="true"
+                  />
+                  <span className="relative flex h-5 w-5 items-center justify-center rounded-full bg-signal/30 text-signal">
+                    <StampIcon size={12} aria-hidden="true" />
+                  </span>
+                </span>
+                FMCSA-listed process agent
+                <span className="text-signal before:content-['•']" aria-hidden="true" />
+                all 50 states
               </p>
-              <h1 className="mt-4 font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
+              <h1 className="mt-4 font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-cloud">
                 Your operating authority doesn&apos;t activate{" "}
-                <span className="text-steel">without this filing.</span>
+                <span className="text-signal">without this filing.</span>
               </h1>
-              <p className="mt-4 max-w-[52ch] text-lg text-slate">
+              <p className="mt-4 max-w-[52ch] text-lg text-cloud/80">
                 A BOC-3 names the process agent who can accept legal documents
                 for you in every state you run. We file it direct with
                 FMCSA/MOTUS electronically, for a flat ${amount} you pay once.
               </p>
-
-              <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
-                {trustStripItems.map((item, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm font-medium text-ink">
-                    <span className="text-steel" aria-hidden="true">
-                      {item.icon}
-                    </span>
-                    {item.text}
-                  </li>
-                ))}
-              </ul>
             </div>
 
-            {/* Right: the real USDOT quick-buy form, in place of the reference's
-                multi-field lead form. id="file" is the header's scroll target,
-                kept on the card itself so the scroll lands on the form, not
-                the call banner below it. */}
-            <div className="flex flex-col gap-4">
-              <div id="file" className="scroll-mt-24 rounded-card border border-slate/15 bg-cloud p-6 shadow-card">
-                <p className="font-display text-lg font-bold text-ink">
-                  Get your BOC-3 filed
-                </p>
-                <p className="mt-1 text-sm text-slate">
-                  About 2 minutes: confirm your record, pay, and we file the same day.
-                </p>
-                <div className="mt-5">
-                  <UsdotForm amount={amount} serviceKey={serviceKey} />
-                </div>
-                <p className="mt-4 flex items-center gap-2 text-sm text-slate">
-                  <CheckSealIcon size={16} className="text-status-active" aria-hidden="true" />
-                  One-time ${amount}. No annual renewal.
-                </p>
+            {/* 2: the real USDOT quick-buy form, in place of the reference's
+                multi-field lead form. id="file" is the header's scroll target. */}
+            <div id="file" className="scroll-mt-24 rounded-card border border-slate/15 bg-cloud p-6 shadow-card">
+              <p className="font-display text-lg font-bold text-ink">
+                Get your BOC-3 filed
+              </p>
+              <p className="mt-1 text-sm text-slate">
+                About 2 minutes: confirm your record, pay, and we file the same day.
+              </p>
+              <div className="mt-5">
+                <UsdotForm amount={amount} serviceKey={serviceKey} />
               </div>
-
-              <TrackedAnchor
-                href={site.telHref}
-                event="call_click"
-                data={{ location: "hero_consult_banner" }}
-                className="flex items-center gap-3 rounded-card border border-slate/20 bg-cloud px-4 py-3 text-sm text-ink hover:border-steel"
+              <p className="mt-4 flex items-center gap-2 text-sm text-slate">
+                <CheckSealIcon size={16} className="text-status-active" aria-hidden="true" />
+                One-time ${amount}. No annual renewal.
+              </p>
+              {/* Rating right next to the button it's meant to reassure,
+                  not only in the dedicated reviews section further down
+                  the page. */}
+              <a
+                href={GOOGLE_REVIEWS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 flex items-center justify-center gap-1.5 text-xs text-slate hover:text-ink"
               >
-                <PhoneIcon size={18} className="shrink-0 text-steel" aria-hidden="true" />
-                <span>
-                  Not sure you even need to file?{" "}
-                  <strong className="font-semibold">Call for a free consultation</strong>{" "}
-                  &middot; {site.telephone}
-                </span>
-              </TrackedAnchor>
+                <StarRating size={12} label="5.0 out of 5 stars" />
+                5.0 on Google
+              </a>
             </div>
+
+            {/* 3: trust strip */}
+            <ul className="flex flex-wrap gap-x-6 gap-y-2 lg:flex-nowrap lg:gap-x-4">
+              {trustStripItems.map((item, i) => (
+                <li key={i} className="flex items-center gap-2 text-sm font-medium text-cloud lg:shrink-0 lg:whitespace-nowrap lg:text-[13px]">
+                  <span className="text-signal" aria-hidden="true">
+                    {item.icon}
+                  </span>
+                  {item.text}
+                </li>
+              ))}
+            </ul>
           </div>
         </Container>
       </Section>
 
-      {/* Trust bar */}
-      <div className="border-y border-slate/15 bg-cloud">
-        <Container className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 py-4 text-sm text-ink md:justify-between">
+      {/* Trust bar: deliberately slate (not ink, not paper/cloud) so this band
+          reads as its own divider marking where the hero ends, not a
+          continuation of the dark hero above or the light section below. */}
+      <div className="border-y border-ink/10 bg-slate">
+        <Container className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 py-4 text-sm text-cloud md:justify-between">
           {trustBarItems.map((item, i) => (
             <span key={i} className="flex items-center gap-2">
-              <span className="text-steel" aria-hidden="true">
+              <span className="text-signal" aria-hidden="true">
                 {item.icon}
               </span>
               {item.text}
@@ -448,21 +482,49 @@ export function Boc3LandingPage({
       </Section>
 
       {/* Know before you file: tabs */}
-      <Section surface="cloud">
+      <Section surface="ink">
         <Container className="max-w-3xl">
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-steel">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-signal">
             Know before you file
           </p>
-          <h2 className="mt-2 font-display text-3xl font-bold text-ink">
+          <h2 className="mt-2 font-display text-3xl font-bold text-cloud">
             Everything a first-time filer asks us
           </h2>
           <div className="mt-8">
             <LandingTabs tabs={tabs} />
           </div>
+
+          {/* Moved here from beside the hero form: a visitor still unsure
+              whether they need to file at all is exactly the audience this
+              section is already talking to, not someone about to submit the
+              primary form. Keeping it out of the hero avoids putting a
+              second, competing action next to that first CTA. Static (not
+              inside a tab's content) so it stays visible regardless of
+              which tab is active. */}
+          <TrackedAnchor
+            href={site.telHref}
+            event="call_click"
+            data={{ location: "tabs_consult_banner" }}
+            className="mt-8 flex items-center gap-3 rounded-full border border-cloud/20 bg-cloud/5 px-5 py-3 text-sm text-cloud hover:border-signal"
+          >
+            <PhoneIcon size={18} className="shrink-0 text-signal" aria-hidden="true" />
+            <span>
+              Not sure you even need to file?{" "}
+              <strong className="font-semibold">Call for a free consultation</strong>
+              <span aria-hidden="true" className="mx-1 before:content-['•']" />
+              {site.telephone}
+            </span>
+          </TrackedAnchor>
         </Container>
       </Section>
 
-      {/* Pricing */}
+      {/* Pricing: a bespoke, larger price card (not the site-wide PriceChip,
+          which is sized for compact inline use) since this is the page's
+          single conversion decision point and the price should be the
+          visual focal point here. Signal-topped and signal-glowed to match
+          the accent language established by the hero badge, with a
+          post-purchase trust row (guarantee, turnaround) right under the
+          CTA to cut last-second hesitation. */}
       <Section id="pricing" surface="paper" className="scroll-mt-24">
         <Container className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
@@ -479,24 +541,62 @@ export function Boc3LandingPage({
             </p>
           </div>
 
-          <div className="rounded-card border border-steel bg-cloud p-6 shadow-card">
-            <PriceChip price={price} label="BOC-3 filing" className="border-none bg-transparent p-0" />
-            <ul className="mt-5 space-y-2.5">
-              {priceFeatures.map((f) => (
-                <li key={f} className="flex gap-2.5 text-sm text-ink">
-                  <CheckSealIcon size={16} className="mt-0.5 shrink-0 text-status-active" aria-hidden="true" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <TrackedLink
-              href={applyHref}
-              event="cta_click"
-              data={{ location: "pricing" }}
-              className={`${buttonVariants({ variant: "primary", size: "md" })} mt-6 w-full`}
-            >
-              File my BOC-3 now
-            </TrackedLink>
+          <div className="relative overflow-hidden rounded-card border border-steel/30 bg-cloud shadow-[0_0_0_1px_rgba(232,154,60,0.1),0_8px_32px_rgba(14,34,51,0.12)]">
+            <div className="h-1.5 bg-signal" aria-hidden="true" />
+            <div className="p-7">
+              <p className="inline-flex items-center rounded-chip border border-signal/40 bg-signal/10 px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-signal">
+                One-time payment
+              </p>
+
+              <div className="mt-4 flex items-baseline gap-2">
+                <span className="font-display text-5xl font-extrabold tracking-tight text-ink">
+                  ${amount}
+                </span>
+                <span className="text-sm text-slate">one time</span>
+              </div>
+              <p className="mt-1 text-sm text-slate">BOC-3 filing, all 50 states</p>
+
+              <ul className="mt-6 space-y-2.5 border-t border-slate/15 pt-6">
+                {priceFeatures.map((f) => (
+                  <li key={f} className="flex gap-2.5 text-sm text-ink">
+                    <CheckSealIcon size={16} className="mt-0.5 shrink-0 text-status-active" aria-hidden="true" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+
+              {/* Rating right above the button it's meant to reassure, not
+                  only in the dedicated reviews section further down. */}
+              <a
+                href={GOOGLE_REVIEWS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 flex items-center justify-center gap-1.5 text-xs text-slate hover:text-ink"
+              >
+                <StarRating size={12} label="5.0 out of 5 stars" />
+                5.0 on Google
+              </a>
+
+              <TrackedLink
+                href={applyHref}
+                event="cta_click"
+                data={{ location: "pricing" }}
+                className={`${buttonVariants({ variant: "primary", size: "md" })} mt-3 w-full`}
+              >
+                File my BOC-3 &mdash; ${amount}
+              </TrackedLink>
+
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-xs text-slate">
+                <span className="flex items-center gap-1.5">
+                  <ShieldIcon size={13} className="text-steel" aria-hidden="true" />
+                  Refund guarantee
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <ClockIcon size={13} className="text-steel" aria-hidden="true" />
+                  Filed same day
+                </span>
+              </div>
+            </div>
           </div>
         </Container>
       </Section>
@@ -522,7 +622,7 @@ export function Boc3LandingPage({
               className="flex items-center gap-2 text-sm text-cloud/80 hover:text-cloud"
             >
               <GoogleIcon size={16} />
-              <span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+              <StarRating size={14} label="5.0 out of 5 stars" />
               5.0 on Google reviews
             </a>
           </div>
@@ -530,15 +630,15 @@ export function Boc3LandingPage({
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             {googleReviews.map((r) => (
               <figure key={r.name} className="flex flex-col rounded-card border border-cloud/15 bg-cloud/5 p-5">
-                <span className="text-signal" aria-label={`${r.stars} out of 5 stars`}>
-                  {"★".repeat(r.stars)}
-                </span>
+                <StarRating count={r.stars} size={16} label={`${r.stars} out of 5 stars`} />
                 <blockquote className="mt-2 flex-1 text-cloud/90">&ldquo;{r.text}&rdquo;</blockquote>
                 <figcaption className="mt-4 flex items-center justify-between gap-3 border-t border-cloud/10 pt-3 text-sm text-cloud/60">
                   <span>
                     {r.name}
                     <span className="block text-xs text-cloud/40">
-                      {r.meta} &middot; <time dateTime={r.date}>{r.dateLabel}</time>
+                      {r.meta}
+                      <span aria-hidden="true" className="mx-1 before:content-['•']" />
+                      <time dateTime={r.date}>{r.dateLabel}</time>
                     </span>
                   </span>
                   <span className="flex shrink-0 items-center gap-1 text-xs text-cloud/50">

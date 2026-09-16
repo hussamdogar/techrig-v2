@@ -18,7 +18,7 @@ export function LandingTabs({ tabs }: { tabs: Tab[] }) {
 
   return (
     <div>
-      <div role="tablist" className="flex flex-wrap gap-1 border-b border-slate/15">
+      <div role="tablist" className="flex flex-wrap gap-1 border-b border-cloud/15">
         {tabs.map((t) => (
           <button
             key={t.id}
@@ -28,10 +28,10 @@ export function LandingTabs({ tabs }: { tabs: Tab[] }) {
               pushDataLayerEvent("faq_tab_view", { tab: t.id });
               setActive(t.id);
             }}
-            className={`-mb-px rounded-t-card border-b-2 px-4 py-2.5 text-sm font-semibold outline-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel ${
+            className={`-mb-px rounded-t-card border-b-2 px-4 py-2.5 text-sm font-semibold outline-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cloud ${
               t.id === active
-                ? "border-steel text-ink"
-                : "border-transparent text-slate hover:text-ink"
+                ? "border-signal text-cloud"
+                : "border-transparent text-cloud/50 hover:text-cloud"
             }`}
           >
             {t.label}

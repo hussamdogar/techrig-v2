@@ -121,20 +121,20 @@ export function LandingHeader() {
 
         <div className="flex items-center gap-2">
           <a
+            href={site.telHref}
+            onClick={() => pushDataLayerEvent("call_click", { location: "header" })}
+            className="inline-flex items-center gap-1.5 rounded px-1 py-1 text-sm font-medium text-cloud/85 outline-none transition-colors hover:text-cloud focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cloud"
+            aria-label={`Call Tech Rig at ${site.telephone}`}
+          >
+            <PhoneIcon size={16} aria-hidden="true" />
+            <span className="hidden sm:inline">{site.telephone}</span>
+          </a>
+          <a
             href="#file"
             onClick={scrollToUsdotForm}
             className={`${buttonVariants({ variant: "primary", size: "sm" })} hidden sm:inline-flex`}
           >
             File my BOC-3 now
-          </a>
-          <a
-            href={site.telHref}
-            onClick={() => pushDataLayerEvent("call_click", { location: "header" })}
-            className={buttonVariants({ variant: "outlineOnInk", size: "sm" })}
-            aria-label={`Call Tech Rig at ${site.telephone}`}
-          >
-            <PhoneIcon size={16} />
-            <span className="hidden sm:inline">Call</span>
           </a>
           <button
             type="button"

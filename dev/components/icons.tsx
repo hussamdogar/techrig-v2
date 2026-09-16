@@ -85,6 +85,15 @@ export const PhoneIcon = (p: IconProps) => (
   </Svg>
 );
 
+// Star: rating indicator. Filled (not stroked, unlike the rest of this file)
+// since an outline star reads poorly at rating-row sizes; this is the only
+// icon here that overrides the shared Svg defaults for that reason.
+export const StarIcon = (p: IconProps) => (
+  <Svg fill="currentColor" stroke="none" {...p}>
+    <path d="M12 2.5 14.9 8.6 21.5 9.5 16.8 14.1 17.9 20.6 12 17.4 6.1 20.6 7.2 14.1 2.5 9.5 9.1 8.6 12 2.5Z" />
+  </Svg>
+);
+
 export const ChevronDownIcon = (p: IconProps) => (
   <Svg {...p}>
     <path d="m6 9 6 6 6-6" />

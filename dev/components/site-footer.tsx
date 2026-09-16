@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { Container } from "@/components/ui/container";
 import { icons } from "@/components/icons";
+import { FooterCallButton } from "@/components/footer-call-button";
 import { site, socialLinks } from "@/lib/site";
 import {
   companyNav,
@@ -43,6 +44,12 @@ function ColumnHeading({ children }: { children: React.ReactNode }) {
  * FMCSA trust line, the social slot (empty until URLs arrive), and the legal
  * baseline. Text-and-CSS only, no heavy assets, to protect Core Web Vitals.
  * Carries no Signal element: the funnel CTAs live in page bodies.
+ *
+ * One exception: on the /lp/... Google Ads landing pages (which render their
+ * own page-scoped LandingHeader instead of <SiteHeader>, see
+ * components/site-header.tsx), a "Call now" button renders above the NAP
+ * address, since those pages exist to convert a call or a filing, not to
+ * hand the visitor off through the nav columns below.
  */
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -64,30 +71,34 @@ export function SiteFooter() {
             <p className="mt-4 text-sm text-cloud/75">{site.positioning}</p>
           </div>
 
-          {/* NAP in the mono "official record" treatment. */}
-          <address className="font-mono text-sm not-italic text-cloud/75">
-            <p>{site.address.street}</p>
-            <p>
-              {site.address.locality}, {site.address.region}{" "}
-              {site.address.postalCode}
-            </p>
-            <p className="mt-3">
-              <a
-                href={site.telHref}
-                className="underline-offset-4 hover:text-cloud hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cloud"
-              >
-                {site.telephone}
-              </a>
-            </p>
-            <p>
-              <a
-                href={`mailto:${site.email}`}
-                className="underline-offset-4 hover:text-cloud hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cloud"
-              >
-                {site.email}
-              </a>
-            </p>
-          </address>
+          <div>
+            <FooterCallButton />
+
+            {/* NAP in the mono "official record" treatment. */}
+            <address className="font-mono text-sm not-italic text-cloud/75">
+              <p>{site.address.street}</p>
+              <p>
+                {site.address.locality}, {site.address.region}{" "}
+                {site.address.postalCode}
+              </p>
+              <p className="mt-3">
+                <a
+                  href={site.telHref}
+                  className="underline-offset-4 hover:text-cloud hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cloud"
+                >
+                  {site.telephone}
+                </a>
+              </p>
+              <p>
+                <a
+                  href={`mailto:${site.email}`}
+                  className="underline-offset-4 hover:text-cloud hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cloud"
+                >
+                  {site.email}
+                </a>
+              </p>
+            </address>
+          </div>
         </div>
 
         {/* Navigation columns */}
