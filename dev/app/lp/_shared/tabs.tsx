@@ -6,10 +6,11 @@ import { pushDataLayerEvent } from "@/lib/gtm";
 type Tab = { id: string; label: string; content: React.ReactNode };
 
 /**
- * Lightweight local tab control for this page's "Know before you file"
- * section. Not a shared component: if another landing page needs this,
- * promote it to components/ui and give it the system's focus-ring and motion
- * conventions.
+ * Lightweight tab control for the BOC-3 landing pages' "Know before you file"
+ * section (dev/app/lp/_shared/boc3-landing.tsx). Scoped to this page template,
+ * not components/ui: if a different landing page needs a tab control, give it
+ * the system's focus-ring and motion conventions there rather than reusing
+ * this one as-is.
  */
 export function LandingTabs({ tabs }: { tabs: Tab[] }) {
   const [active, setActive] = useState(tabs[0].id);

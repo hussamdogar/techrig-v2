@@ -145,9 +145,11 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
   },
   /** Owner-directed price test (2026-09-14): identical BOC-3 filing, sold at
    *  $70 instead of $100 through a dedicated Google Ads landing page
-   *  (/lp/boc-3-filing-b/) and its own quick-buy lane, so orders, upsell
-   *  eligibility, and GA4 events never mix with the $100 original. Quick-buy
-   *  only — never appears in /apply or the four fixed bundles. */
+   *  (/lp/filing-boc3/ — URL deliberately doesn't contain "boc-3-b" or "-b")
+   *  and its own quick-buy lane, so orders, upsell eligibility, and GA4
+   *  events never mix with the $100 original. The internal service key stays
+   *  `boc-3-b`; only the outward-facing landing page URL was renamed. Quick-
+   *  buy only — never appears in /apply or the four fixed bundles. */
   "boc-3-b": {
     key: "boc-3-b",
     name: "BOC-3 filing",

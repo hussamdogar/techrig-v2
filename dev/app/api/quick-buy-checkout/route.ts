@@ -54,6 +54,20 @@ function validCountry(value: string | null): string | undefined {
   return value && /^[A-Za-z]{2}$/.test(value) ? value.toUpperCase() : undefined;
 }
 
+/** True for the specific Stripe error a deleted/invalid `customer` id on a
+ *  PaymentIntent create raises: a "resource_missing" error on the
+ *  "customer" param. Narrow on purpose — this must never match an unrelated
+ *  failure (e.g. a declined card), which should surface as a normal payment
+ *  error, not trigger a customer-recreation retry. */
+function isMissingCustomerError(error: unknown): boolean {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    (error as { code?: unknown }).code === "resource_missing" &&
+    (error as { param?: unknown }).param === "customer"
+  );
+}
+
 /**
  * Finds or creates the Stripe Customer for this carrier (owner decision,
  * 2026-09-15: every new client gets a real Customer, not a guest charge),
@@ -68,22 +82,35 @@ function validCountry(value: string | null): string | undefined {
  * Best-effort: any failure here (Stripe API error, DB error) returns null so
  * the caller falls back to a guest PaymentIntent rather than blocking the
  * charge. A Customer record is an enhancement, not a checkout dependency.
+ *
+ * `recreate: true` (self-heal path, see the retry in POST below) forces a
+ * DIFFERENT idempotency key than the original create. Reusing the same key
+ * here would make Stripe replay its cached original response — the same,
+ * now-deleted Customer id — instead of actually creating a new one, since
+ * Stripe's idempotency layer doesn't know or care that the underlying
+ * Customer no longer exists (confirmed live: without this, a self-heal
+ * attempt silently degraded to a guest charge instead of a fresh Customer).
  */
 async function findOrCreateStripeCustomer(
   db: ReturnType<typeof service>,
   order: QuickBuyOrderRow,
+  recreate = false,
 ): Promise<string | null> {
   if (!order.usdot_number) return null;
 
-  const { data: existing } = await db
-    .from("stripe_customers")
-    .select("stripe_customer_id")
-    .eq("usdot_number", order.usdot_number)
-    .maybeSingle();
-  if (existing?.stripe_customer_id) return existing.stripe_customer_id;
+  if (!recreate) {
+    const { data: existing } = await db
+      .from("stripe_customers")
+      .select("stripe_customer_id")
+      .eq("usdot_number", order.usdot_number)
+      .maybeSingle();
+    if (existing?.stripe_customer_id) return existing.stripe_customer_id;
+  }
 
   const name = `${order.first_name ?? ""} ${order.last_name ?? ""}`.trim() || undefined;
-  const idempotencyKey = createHash("sha256").update(`stripe-customer|${order.usdot_number}`).digest("hex");
+  const idempotencyKey = createHash("sha256")
+    .update(`stripe-customer|${order.usdot_number}${recreate ? `|recreate-${Date.now()}` : ""}`)
+    .digest("hex");
 
   try {
     const customer = await stripe().customers.create(
@@ -182,11 +209,10 @@ export async function POST(request: Request) {
   // trigger Stripe's own auto-receipt, only `receipt_email` does, so there's
   // no conflict leaving it out.
   const customerName = `${order.first_name ?? ""} ${order.last_name ?? ""}`.trim();
-  const stripeCustomerId = await findOrCreateStripeCustomer(db, order);
+  let stripeCustomerId = await findOrCreateStripeCustomer(db, order);
 
-  let intent;
-  try {
-    intent = await stripe().paymentIntents.create(
+  const createIntent = (key: string) =>
+    stripe().paymentIntents.create(
       {
         amount: amountCents,
         currency: "usd",
@@ -216,11 +242,33 @@ export async function POST(request: Request) {
           customer_email: order.email ?? "",
         },
       },
-      { idempotencyKey },
+      { idempotencyKey: key },
     );
+
+  let intent;
+  try {
+    intent = await createIntent(idempotencyKey);
   } catch (error) {
-    console.error("stripe intent create failed:", error instanceof Error ? error.message : "error");
-    return json({ error: "Payment could not be started. Try again in a moment." }, 502);
+    // Self-heal a stale stripe_customers mapping: the Customer we had on file
+    // was deleted on Stripe's side (e.g. manually, in the dashboard) after we
+    // stored it. Clear the stale row, create a fresh Customer, and retry
+    // once — under a DIFFERENT idempotency key, since Stripe rejects reusing
+    // one once the request params (the customer id) differ from the first
+    // attempt. Never retries for any other failure (declined card, etc.).
+    if (stripeCustomerId && isMissingCustomerError(error) && order.usdot_number) {
+      console.error("stale stripe_customer_id for usdot, recreating:", order.usdot_number);
+      await db.from("stripe_customers").delete().eq("usdot_number", order.usdot_number);
+      stripeCustomerId = await findOrCreateStripeCustomer(db, order, true);
+      try {
+        intent = await createIntent(`${idempotencyKey}-recreated-customer`);
+      } catch (retryError) {
+        console.error("stripe intent create failed after customer retry:", retryError instanceof Error ? retryError.message : "error");
+        return json({ error: "Payment could not be started. Try again in a moment." }, 502);
+      }
+    } else {
+      console.error("stripe intent create failed:", error instanceof Error ? error.message : "error");
+      return json({ error: "Payment could not be started. Try again in a moment." }, 502);
+    }
   }
 
   // Record the payment intent (service role; clients never write payment state).

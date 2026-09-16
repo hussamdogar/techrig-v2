@@ -23,34 +23,45 @@ import { LandingTabs } from "./tabs";
 import { LandingHeader } from "./landing-header";
 
 /*
- * $70 price-test variant of /lp/boc-3-filing/ (owner-directed pricing
- * experiment, 2026-09-14): same Google Ads landing page, same copy and
- * layout, priced at $70 instead of $100 to test conversion at a lower price
- * point. Routes into its own checkout lane (`boc-3-b` service key, see
- * lib/services-registry.ts) so orders, upsell eligibility, and GA4 events
- * never mix with the $100 original. Deliberately separate from the SEO page
- * at /boc-3-filing/: noindex + canonical back to that page (see metadata
- * below) so neither variant competes in organic search, and a page-scoped
- * header (landing-header.tsx) instead of the site-wide one, since this
- * page's job is a single conversion path, not site navigation.
+ * Shared template for the BOC-3 Google Ads landing pages (/lp/boc-3-filing/
+ * at $100, /lp/filing-boc3/ at $70 as a price test — owner decision,
+ * 2026-09-15, URL deliberately not containing "-b" so the variant isn't
+ * outwardly identifiable as a test). Both routes render this same component,
+ * passing only `amount`, `applyHref`, and `serviceKey` — everything else
+ * (copy, layout, design) is identical by construction, not by manually
+ * keeping two files in sync. If a future price variant is added, it's a
+ * third thin route file pointing at this same template, nothing here needs
+ * to change.
+ *
+ * Deliberately separate from the SEO page at /boc-3-filing/: noindex +
+ * canonical back to that page (see getBoc3Metadata below) so neither variant
+ * competes in organic search, and a page-scoped header (landing-header.tsx)
+ * instead of the site-wide one, since this page's job is a single conversion
+ * path, not site navigation.
  *
  * The hero embeds the real USDOT quick-buy form (the same `startQuickBuyLookup`
- * server action `/buy/boc-3-b/` uses), so a submission here goes into the actual
- * lookup-and-pay flow, not a mockup. GTM funnel tracking (TrackedForm/
- * TrackedLink/TrackedAnchor, see lib/gtm.ts) is wired through every CTA and the
- * form itself.
+ * server action each route's `/buy/<serviceKey>/` uses), so a submission here
+ * goes into the actual lookup-and-pay flow, not a mockup. GTM funnel tracking
+ * (TrackedForm/TrackedLink/TrackedAnchor, see lib/gtm.ts) is wired through
+ * every CTA and the form itself, tagged with `serviceKey` so GA4 can tell the
+ * price variants' funnels apart.
  *
  * "No extra charges for documents received" and "Refund guarantee" are ops-
  * confirmed policy (signed off 2026-09-13), not placeholder copy.
- *
- * Price is a local literal, not `lib/services.ts`'s `pricing` record: that
- * file is SEO-owned and scoped to real sitemap slugs ("every slug here must
- * exist in shared/sitemap-plan.md"), and this noindex ad variant isn't one.
  */
 
-const applyHref = "/buy/boc-3-b/";
-const price: Price = { kind: "flat", amount: 70 };
-const startBoc3Lookup = startQuickBuyLookup.bind(null, "boc-3-b");
+export function getBoc3Metadata(amount: number): Metadata {
+  return {
+    title: { absolute: `BOC-3 Filing, $${amount} One Time | Tech Rig` },
+    description: `File your BOC-3 today, direct with an FMCSA-listed process agent, all 50 states, $${amount} one time. Confirm your USDOT number to get started.`,
+    // Deliberately noindex: this is a Google Ads landing page, a variant of
+    // the real SEO page (canonical target below). Never meant to rank on its
+    // own, so the variants can't compete with each other or the SEO page in
+    // organic search.
+    robots: { index: false, follow: false },
+    alternates: { canonical: "/boc-3-filing/" },
+  };
+}
 
 // The "Tech Rig" Google Business Profile listing (5.0 aggregate, 4 reviews).
 // Every review card and the aggregate line link back here so a visitor can
@@ -106,25 +117,24 @@ function GoogleIcon({ size = 16, ...props }: { size?: number } & React.SVGProps<
   );
 }
 
-export const metadata: Metadata = {
-  title: { absolute: "BOC-3 Filing, $70 One Time | Tech Rig" },
-  description:
-    "File your BOC-3 today, direct with an FMCSA-listed process agent, all 50 states, $70 one time. Confirm your USDOT number to get started.",
-  // Deliberately noindex: this is the Google Ads landing page, a variant of
-  // the real SEO page (canonical target below). Never meant to rank on its
-  // own, so the two pages can't compete in organic search.
-  robots: { index: false, follow: false },
-  alternates: { canonical: "/boc-3-filing/" },
-};
-
 // The real USDOT entry form, embedded in the hero card instead of the
-// reference's name/phone/MC-DOT fields. Same server action `/buy/boc-3-b/` uses.
-function UsdotForm({ compact = false }: { compact?: boolean }) {
+// reference's name/phone/MC-DOT fields. Same server action `/buy/<serviceKey>/`
+// uses.
+function UsdotForm({
+  compact = false,
+  amount,
+  serviceKey,
+}: {
+  compact?: boolean;
+  amount: number;
+  serviceKey: string;
+}) {
+  const startBoc3Lookup = startQuickBuyLookup.bind(null, serviceKey);
   return (
     <TrackedForm
       action={startBoc3Lookup}
       event="quick_buy_lookup_submit"
-      data={{ service: "boc-3-b", location: "lp_hero" }}
+      data={{ service: serviceKey, location: "lp_hero" }}
       className="space-y-3"
     >
       <div>
@@ -157,7 +167,7 @@ function UsdotForm({ compact = false }: { compact?: boolean }) {
         type="submit"
         className={`${buttonVariants({ variant: "primary", size: compact ? "sm" : "md" })} w-full`}
       >
-        File my BOC-3 &mdash; $70
+        File my BOC-3 &mdash; ${amount}
       </button>
     </TrackedForm>
   );
@@ -212,33 +222,37 @@ const priceFeatures = [
 ];
 
 // Kept: real, factual, matching the live page. Trimmed to the 6 highest-intent
-// questions (the reference's list, already close to ours).
-const faqs: Faq[] = [
-  {
-    q: "What is a BOC-3?",
-    a: "A federal filing that names a process agent in every state to receive legal documents for you. It is required before operating authority can activate.",
-  },
-  {
-    q: "How much does a BOC-3 cost?",
-    a: "$70, one time. No renewals. Unlike some process agents, we never charge extra if a legal document is received on your behalf, something many bury in their terms and conditions. If that happens, we mail it to you at no additional cost.",
-  },
-  {
-    q: "Do I have to renew my BOC-3 every year?",
-    a: "No. It is generally a one-time filing. You refile only if you change process agents or a specific circumstance requires it. Your UCR, by contrast, is annual.",
-  },
-  {
-    q: "Is the BOC-3 a certificate I print?",
-    a: "No. It is filed electronically and shows on your public FMCSA record, where it can be verified.",
-  },
-  {
-    q: "Can you file my BOC-3 today?",
-    a: "Yes. As an FMCSA-listed blanket process agent we file it directly. Government processing posts it to your record after.",
-  },
-  {
-    q: "Do I need anything else for my authority to activate?",
-    a: "MC authority activation requires the BOC-3 filing and the required insurance filing from your insurer. We handle the BOC-3; the insurance filing comes from your insurer directly.",
-  },
-];
+// questions (the reference's list, already close to ours). Only the "how much"
+// answer depends on price, hence this being a function of amount rather than
+// a plain const.
+function buildFaqs(amount: number): Faq[] {
+  return [
+    {
+      q: "What is a BOC-3?",
+      a: "A federal filing that names a process agent in every state to receive legal documents for you. It is required before operating authority can activate.",
+    },
+    {
+      q: "How much does a BOC-3 cost?",
+      a: `$${amount}, one time. No renewals. Unlike some process agents, we never charge extra if a legal document is received on your behalf, something many bury in their terms and conditions. If that happens, we mail it to you at no additional cost.`,
+    },
+    {
+      q: "Do I have to renew my BOC-3 every year?",
+      a: "No. It is generally a one-time filing. You refile only if you change process agents or a specific circumstance requires it. Your UCR, by contrast, is annual.",
+    },
+    {
+      q: "Is the BOC-3 a certificate I print?",
+      a: "No. It is filed electronically and shows on your public FMCSA record, where it can be verified.",
+    },
+    {
+      q: "Can you file my BOC-3 today?",
+      a: "Yes. As an FMCSA-listed blanket process agent we file it directly. Government processing posts it to your record after.",
+    },
+    {
+      q: "Do I need anything else for my authority to activate?",
+      a: "MC authority activation requires the BOC-3 filing and the required insurance filing from your insurer. We handle the BOC-3; the insurance filing comes from your insurer directly.",
+    },
+  ];
+}
 
 const tabs = [
   {
@@ -302,7 +316,18 @@ const tabs = [
   },
 ];
 
-export default function Boc3LandingPage() {
+export function Boc3LandingPage({
+  amount,
+  applyHref,
+  serviceKey,
+}: {
+  amount: number;
+  applyHref: string;
+  serviceKey: string;
+}) {
+  const price: Price = { kind: "flat", amount };
+  const faqs = buildFaqs(amount);
+
   return (
     <>
       <LandingHeader />
@@ -324,7 +349,7 @@ export default function Boc3LandingPage() {
               <p className="mt-4 max-w-[52ch] text-lg text-slate">
                 A BOC-3 names the process agent who can accept legal documents
                 for you in every state you run. We file it direct with
-                FMCSA/MOTUS electronically, for a flat $70 you pay once.
+                FMCSA/MOTUS electronically, for a flat ${amount} you pay once.
               </p>
 
               <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
@@ -352,11 +377,11 @@ export default function Boc3LandingPage() {
                   About 2 minutes: confirm your record, pay, and we file the same day.
                 </p>
                 <div className="mt-5">
-                  <UsdotForm />
+                  <UsdotForm amount={amount} serviceKey={serviceKey} />
                 </div>
                 <p className="mt-4 flex items-center gap-2 text-sm text-slate">
                   <CheckSealIcon size={16} className="text-status-active" aria-hidden="true" />
-                  One-time $70. No annual renewal.
+                  One-time ${amount}. No annual renewal.
                 </p>
               </div>
 
@@ -560,7 +585,7 @@ export default function Boc3LandingPage() {
             authority today.
           </h2>
           <p className="mt-3 text-cloud/70">
-            FMCSA-listed. Filed the same day. $70, once.
+            FMCSA-listed. Filed the same day. ${amount}, once.
           </p>
           <div className="mt-6 flex justify-center">
             <TrackedLink
@@ -569,7 +594,7 @@ export default function Boc3LandingPage() {
               data={{ location: "final_cta" }}
               className={buttonVariants({ variant: "primary", size: "md" })}
             >
-              File my BOC-3 &mdash; $70
+              File my BOC-3 &mdash; ${amount}
               <ArrowRightIcon size={18} aria-hidden="true" />
             </TrackedLink>
           </div>
