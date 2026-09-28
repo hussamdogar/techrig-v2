@@ -36,12 +36,12 @@ export const metadata: Metadata = {
     absolute: "BOC-3 Filing for Trucking: Process Agent | Tech Rig",
   },
   description:
-    "BOC-3 filing done today. As an FMCSA-listed blanket process agent, Tech Rig files your BOC-3 across all 50 states for $100, one time, so your authority can activate.",
+    "BOC-3 filing done today. As an FMCSA-listed blanket process agent, Tech Rig files your BOC-3 across all 50 states for $30, one time, so your authority can activate.",
   alternates: { canonical: "/boc-3-filing/" },
   openGraph: {
     title: "BOC-3 Filing for Trucking: Process Agent",
     description:
-      "BOC-3 filing done today. As an FMCSA-listed blanket process agent, Tech Rig files your BOC-3 across all 50 states for $100, one time, so your authority can activate.",
+      "BOC-3 filing done today. As an FMCSA-listed blanket process agent, Tech Rig files your BOC-3 across all 50 states for $30, one time, so your authority can activate.",
     url: "/boc-3-filing/",
     type: "website",
   },
@@ -82,11 +82,11 @@ const faqs: Faq[] = [
   },
   {
     q: "How much does a BOC-3 cost?",
-    a: "$100, one time. It is also included in every compliance package.",
+    a: "$30, one time. It is also included in every compliance package.",
     // Visible text matches `a`; the inline link points to the bundle catalog.
     aNode: (
       <>
-        $100, one time. It is also included in every{" "}
+        $30, one time. It is also included in every{" "}
         <CrossLink href="/compliance-packages/">compliance package</CrossLink>.
       </>
     ),
@@ -132,7 +132,7 @@ export default function Boc3FilingPage() {
             slug: "/boc-3-filing/",
             description:
               "Tech Rig files your BOC-3 designating a blanket process agent across all 50 states, so your operating authority can activate.",
-            price: 100,
+            price: 30,
           }),
           breadcrumbNode([
             { name: "Home", slug: "/" },
@@ -166,7 +166,7 @@ export default function Boc3FilingPage() {
                 documents on your behalf. No BOC-3, no active authority. DGR Tech
                 Rig LLC is officially listed by FMCSA as a BOC-3 blanket
                 process-agent company, so we can file your BOC-3 across all 50
-                states, for $100, one time.
+                states, for $30, one time.
               </p>
               <div className="mt-7">
                 <Link
@@ -324,7 +324,7 @@ export default function Boc3FilingPage() {
             />
           </div>
           <p className="mt-4 text-slate">
-            $100, one time. BOC-3 is also included in every{" "}
+            $30, one time. BOC-3 is also included in every{" "}
             <CrossLink href="/compliance-packages/">
               compliance package
             </CrossLink>{" "}

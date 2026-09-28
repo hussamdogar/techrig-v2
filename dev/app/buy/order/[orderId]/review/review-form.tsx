@@ -79,9 +79,9 @@ export function ReviewForm({
   //
   // priceLabel is the candidate's OWN resulting line price, never a net
   // total delta: when BOC-3+UCR's combo moves the whole discount onto the
-  // UCR line, the net delta of adding BOC-3 to an existing UCR order is $74
-  // (UCR's own line retroactively drops $26 at the same time BOC-3's $100
-  // line appears) — a number that doesn't match either line the visitor
+  // UCR line, the net delta of adding BOC-3 to an existing UCR order is
+  // smaller than BOC-3's own price (UCR's line retroactively drops at the
+  // same time BOC-3's line appears) — a number that doesn't match either line the visitor
   // sees once they actually check the box. Showing the candidate's own
   // final-line price instead means the checklist number always equals what
   // the breakdown below will show for it.
@@ -110,7 +110,7 @@ export function ReviewForm({
         : `$${ownLine.amount.toLocaleString("en-US")}${suffix}`;
     // Struck-through "was" price: only when THIS candidate's own line price
     // is actually reduced, not just whenever adding it produces savings
-    // overall. Adding BOC-3 to a UCR order saves $26 total, but BOC-3's own
+    // overall. When the BOC-3+UCR combo applies, adding BOC-3 lowers the total, but BOC-3's own
     // price never changes (the reduction lands on UCR's already-existing
     // line) — BOC-3's row would show the same number struck through and
     // repeated, which reads as a bug, not a discount. No "per driver" suffix

@@ -8,9 +8,10 @@
  * TWO prices — `standalonePrice` (à la carte checkout) and `bundlePrice` (used
  * only when the service is a constituent of one of the four fixed bundles).
  * The four bundles replace the old single `full-package` entry; each bundle's
- * itemized total, rounding adjustment, final price, and public-display figures
- * are DERIVED by `getBundleBreakdown`, never hardcoded, so they stay correct if
- * a component price moves.
+ * itemized total, final price, and public-display figures are DERIVED by
+ * `getBundleBreakdown`, never hardcoded, so they stay correct if a component
+ * price moves. Owner decision (2026-09-28): BOC-3 and UCR carry no in-bundle
+ * discount, and the package price is the plain itemized total (no rounding).
  *
  * Compliance reframe (HARD RULE, work-order-eld-insurance.md): `eld` and
  * `insurance` are NOT billable Tech Rig filings. They appear here as
@@ -108,6 +109,13 @@ export const STEP_ORDER: StepKey[] = [
   "review",
 ];
 
+/** Owner-directed price change (2026-09-28): a standalone UCR filing for the
+ *  0-2 bracket charges a $54 service fee, so with the $46 government fee the
+ *  carrier pays $100 total. Every bracket above 0-2 keeps the normal
+ *  `SERVICES.ucr.standalonePrice` ($80) plus its government fee. Bundles
+ *  price UCR at this same $54 (no in-bundle discount, see SERVICES.ucr). */
+export const UCR_SMALL_FLEET_STANDALONE_FEE = 54;
+
 export const SERVICES: Record<ServiceKey, ServiceDef> = {
   usdot: {
     key: "usdot",
@@ -138,13 +146,16 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     name: "BOC-3 filing",
     blurb: "Blanket process-agent designation across all 50 states.",
     priceKind: "flat",
-    standalonePrice: 100,
-    bundlePrice: 100,
+    // Owner-directed price change (2026-09-28): $100 -> $30, standalone and
+    // in-bundle (no bundle discount on BOC-3).
+    standalonePrice: 30,
+    bundlePrice: 30,
     requiredSteps: ["carrier-identity", "service-specifics"],
     expectedTimeline: "Same business day when ordered with your information during business hours",
   },
   /** Owner-directed price test (2026-09-14): identical BOC-3 filing, sold at
-   *  $70 instead of $100 through a dedicated Google Ads landing page
+   *  $70 instead of the then-$100 original (now $30, 2026-09-28; this page
+   *  is no longer used for Google Ads) through a dedicated landing page
    *  (/lp/filing-boc3/ — URL deliberately doesn't contain "boc-3-b" or "-b")
    *  and its own quick-buy lane, so orders, upsell eligibility, and GA4
    *  events never mix with the $100 original. The internal service key stays
@@ -165,8 +176,10 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     name: "UCR registration",
     blurb: "Unified Carrier Registration. Government fee varies by fleet bracket.",
     priceKind: "ucr",
-    standalonePrice: 80,
-    bundlePrice: 50,
+    standalonePrice: 80, // brackets above 0-2; 0-2 is UCR_SMALL_FLEET_STANDALONE_FEE ($54)
+    // Bundles bake in the 0-2 bracket and give no UCR discount (owner
+    // decision 2026-09-28), so the in-bundle fee equals the 0-2 standalone fee.
+    bundlePrice: UCR_SMALL_FLEET_STANDALONE_FEE,
     govFeeNote: "+ government fee by power-unit bracket, shown separately",
     requiredSteps: ["carrier-identity", "ucr-details"],
     expectedTimeline: "Same day when you are in the UCR database; a new USDOT may take 1 to 2 days to appear",
@@ -352,7 +365,7 @@ const LIMITED_QUICK_BUY_UPSELL_KEYS: QuickBuyServiceKey[] = ["boc-3", "ucr", "dq
 /** Never offered as an upsell: a carrier only ever reaches `boc-3-b` by
  *  clicking through the dedicated $70 landing page, not through the normal
  *  quick-buy funnel. Without this filter it would show up as a second,
- *  confusing "BOC-3 filing" option next to the $100 original everywhere
+ *  confusing "BOC-3 filing" option next to the original everywhere
  *  eligibleQuickBuyUpsells is used. */
 const QUICK_BUY_UPSELL_EXCLUDED: QuickBuyServiceKey[] = ["boc-3-b"];
 
@@ -422,7 +435,8 @@ export const QUICK_BUY_UPSELL_REASON: Record<QuickBuyServiceKey, string> = {
 };
 
 // ---- UCR government-fee brackets (client-pricing-v2-2026-07-10.md §10) ------
-// The Tech Rig SERVICE fee is flat ($80 standalone / $50 in-bundle, above); the
+// The Tech Rig SERVICE fee is $80 standalone, except the 0-2 bracket and
+// in-bundle fee (UCR_SMALL_FLEET_STANDALONE_FEE, $54, above SERVICES); the
 // GOVERNMENT fee depends on the power-unit bracket and is disclosed separately,
 // never blended. Every bracket now has a published fee (no manual-review cap).
 export const UCR_GOV_FEE_BRACKETS: { tier: string; maxUnits: number | null; govFee: number }[] = [
@@ -461,7 +475,12 @@ export function calculateUcr(
 ): UcrResult {
   const { tier, govFee } = ucrGovFeeBracket(powerUnits);
   if (govFee == null) return { tier, serviceFee: null, govFee: null, manualReview: true };
-  const serviceFee = context === "bundle" ? SERVICES.ucr.bundlePrice ?? null : SERVICES.ucr.standalonePrice ?? null;
+  const serviceFee =
+    context === "bundle"
+      ? SERVICES.ucr.bundlePrice ?? null
+      : tier === "0-2"
+        ? UCR_SMALL_FLEET_STANDALONE_FEE
+        : SERVICES.ucr.standalonePrice ?? null;
   return { tier, serviceFee, govFee, manualReview: false };
 }
 
@@ -557,10 +576,6 @@ export function isBundleKey(value: unknown): value is BundleKey {
   return typeof value === "string" && value in BUNDLES;
 }
 
-/** Round a bundle's itemized in-bundle total UP to the nearest $100, per §1/§3. */
-function roundUpToNearestHundred(amount: number): number {
-  return Math.ceil(amount / 100) * 100;
-}
 
 export type BundleLine = {
   key: ServiceKey | "ucr-gov-fee";
@@ -576,12 +591,11 @@ export type BundleBreakdown = {
   /** One row per included service (plus the baked-in UCR 0-2 gov fee), at 1
    *  driver / UCR 0-2 bracket baseline. */
   lines: BundleLine[];
-  /** Sum of in-bundle prices before rounding (client doc's "Itemized total",
-   *  bundle-price column). */
+  /** Sum of in-bundle prices (client doc's "Itemized total", bundle-price
+   *  column). */
   itemizedTotal: number;
-  /** finalPrice - itemizedTotal (the client doc's "+$N" rounding line). */
-  roundingAdjustment: number;
-  /** The public package price: itemizedTotal rounded up to the nearest $100. */
+  /** The public package price: the itemized total as-is. No rounding since
+   *  the 2026-09-28 owner decision, so this always equals itemizedTotal. */
   finalPrice: number;
   /** Sum of standalone prices for the same lines (client doc's "Standalone value"). */
   standaloneValue: number;
@@ -591,14 +605,16 @@ export type BundleBreakdown = {
   discountPercent: number;
 };
 
-/** Derive a bundle's full itemized breakdown, rounding, savings, and discount
+/** Derive a bundle's full itemized breakdown, savings, and discount
  *  percent from `SERVICES` + `UCR_BUNDLE_BASELINE_GOV_FEE` — never hardcoded,
  *  so it stays correct if a component price moves. */
 export function getBundleBreakdown(key: BundleKey): BundleBreakdown {
   const def = BUNDLES[key];
   const lines: BundleLine[] = def.includes.map((svcKey) => {
     const svc = SERVICES[svcKey];
-    const standalone = svc.standalonePrice ?? 0;
+    // Bundles assume the UCR 0-2 bracket, whose standalone fee is the $54
+    // small-fleet fee, not the $80 larger-bracket fee.
+    const standalone = svcKey === "ucr" ? UCR_SMALL_FLEET_STANDALONE_FEE : svc.standalonePrice ?? 0;
     const bundle = svc.bundlePrice ?? 0;
     return { key: svcKey, label: svc.bundleLabel ?? svc.name, standalone, bundle, discount: standalone - bundle };
   });
@@ -614,12 +630,11 @@ export function getBundleBreakdown(key: BundleKey): BundleBreakdown {
 
   const itemizedTotal = lines.reduce((sum, l) => sum + l.bundle, 0);
   const standaloneValue = lines.reduce((sum, l) => sum + l.standalone, 0);
-  const finalPrice = roundUpToNearestHundred(itemizedTotal);
-  const roundingAdjustment = finalPrice - itemizedTotal;
+  const finalPrice = itemizedTotal;
   const savings = standaloneValue - finalPrice;
   const discountPercent = standaloneValue > 0 ? Math.round((savings / standaloneValue) * 1000) / 10 : 0;
 
-  return { key, name: def.name, lines, itemizedTotal, roundingAdjustment, finalPrice, standaloneValue, savings, discountPercent };
+  return { key, name: def.name, lines, itemizedTotal, finalPrice, standaloneValue, savings, discountPercent };
 }
 
 // ---- Pricing computation (server-side; display in M3, charged in M4) ------
@@ -703,7 +718,7 @@ export function computePricing(selected: ServiceKey[], ctx: PricingContext): Pri
         "Each filing on its own timeline; authority activates after the 21-day protest period when MC authority is included",
       govFeeNote: null,
       manualReview: false,
-      note: `Itemized $${breakdown.itemizedTotal.toLocaleString("en-US")} +$${breakdown.roundingAdjustment} rounding = $${breakdown.finalPrice.toLocaleString("en-US")}. Standalone value $${breakdown.standaloneValue.toLocaleString("en-US")}, savings $${breakdown.savings.toLocaleString("en-US")} (${breakdown.discountPercent}%).`,
+      note: `Package $${breakdown.finalPrice.toLocaleString("en-US")}. Standalone value $${breakdown.standaloneValue.toLocaleString("en-US")}, savings $${breakdown.savings.toLocaleString("en-US")} (${breakdown.discountPercent}%).`,
     });
 
     // UCR bracket above 0-2: disclose the government-fee difference, never
@@ -829,10 +844,17 @@ export function computePricing(selected: ServiceKey[], ctx: PricingContext): Pri
  *  a carrier in the 0-2 power-unit bracket total $200 in the quick-buy lane,
  *  matching what the email campaign already advertises externally (today the
  *  site charges $100 + $80 + $46 = $226 for the same pair, a real gap between
- *  the campaign and the site). BOC-3 keeps its normal $100 standalone price;
+ *  the campaign and the site). BOC-3 keeps its normal standalone price;
  *  the discount lands on the UCR line, derived from BOC-3's own price (never
  *  hardcoded) so it stays correct if that price ever changes. Quick-buy only
- *  — /apply and the four fixed bundles are untouched. */
+ *  — /apply and the four fixed bundles are untouched.
+ *
+ *  Since BOC-3 dropped to $30 and the 0-2 UCR service fee to $54 (both
+ *  2026-09-28), the pair's normal price ($30 + $54 + $46 = $130) is already
+ *  below $200, so the combo would be a
+ *  surcharge. computeQuickBuyPricing applies it only when it actually lowers
+ *  the UCR line, which today means never; the carrier pays the lower normal
+ *  price. */
 export const BOC3_UCR_COMBO_TOTAL = 200;
 export const BOC3_UCR_COMBO_UCR_PORTION = BOC3_UCR_COMBO_TOTAL - (SERVICES["boc-3"].standalonePrice ?? 0);
 
@@ -896,7 +918,8 @@ export function computeQuickBuyPricing(selected: ServiceKey[], ctx: PricingConte
   if (hasUcr) {
     const ucr = calculateUcr(effectivePowerUnits, "standalone");
     const normalCombined = (ucr.serviceFee ?? 0) + (ucr.govFee ?? 0);
-    const comboEligible = hasBoc3 && ucr.tier === "0-2";
+    // Never let the combo raise the price (see BOC3_UCR_COMBO_TOTAL above).
+    const comboEligible = hasBoc3 && ucr.tier === "0-2" && BOC3_UCR_COMBO_UCR_PORTION < normalCombined;
     const amount = comboEligible ? BOC3_UCR_COMBO_UCR_PORTION : normalCombined;
     const savings = normalCombined - BOC3_UCR_COMBO_UCR_PORTION;
     const note = comboEligible
