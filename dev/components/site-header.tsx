@@ -115,6 +115,11 @@ export function SiteHeader({ cta = defaultCta }: { cta?: Cta }) {
   // this just skips rendering.
   if (pathname?.startsWith("/lp/")) return null;
 
+  // The quick-buy checkout (/buy/..., entry through thank-you) is already a
+  // committed purchase path, so the compliance-setup CTA would only pull the
+  // carrier out of it. Hide it there, desktop bar and mobile drawer alike.
+  const showCta = !pathname?.startsWith("/buy/");
+
   return (
     <header
       className={`sticky top-0 z-40 bg-ink ${
@@ -175,12 +180,14 @@ export function SiteHeader({ cta = defaultCta }: { cta?: Cta }) {
 
         {/* Conversion pair: amber primary (the only Signal element) + Call. */}
         <div className="flex items-center gap-2">
-          <Link
-            href={cta.href}
-            className={`${buttonVariants({ variant: "primary", size: "sm" })} hidden sm:inline-flex`}
-          >
-            {cta.label}
-          </Link>
+          {showCta ? (
+            <Link
+              href={cta.href}
+              className={`${buttonVariants({ variant: "primary", size: "sm" })} hidden sm:inline-flex`}
+            >
+              {cta.label}
+            </Link>
+          ) : null}
           <a
             href={site.telHref}
             className={buttonVariants({ variant: "outlineOnInk", size: "sm" })}
@@ -203,15 +210,16 @@ export function SiteHeader({ cta = defaultCta }: { cta?: Cta }) {
       </Container>
 
       {drawerOpen ? (
-        <MobileDrawer cta={cta} onClose={() => setDrawerOpen(false)} />
+        <MobileDrawer cta={showCta ? cta : null} onClose={() => setDrawerOpen(false)} />
       ) : null}
     </header>
   );
 }
 
 // Full-height Ink drawer: collapsible Compliance/Dispatch sections, then About
-// and Contact, with the amber primary + Call repeated at the foot for thumb reach.
-function MobileDrawer({ cta, onClose }: { cta: Cta; onClose: () => void }) {
+// and Contact, with the amber primary (when shown) + Call repeated at the foot
+// for thumb reach.
+function MobileDrawer({ cta, onClose }: { cta: Cta | null; onClose: () => void }) {
   const [openSection, setOpenSection] = useState<"compliance" | "dispatch" | null>(
     "compliance",
   );
@@ -268,13 +276,15 @@ function MobileDrawer({ cta, onClose }: { cta: Cta; onClose: () => void }) {
 
       {/* Conversion floor, repeated for thumb reach. */}
       <Container className="flex items-center gap-3 border-t border-cloud/15 py-4">
-        <Link
-          href={cta.href}
-          onClick={onClose}
-          className={`${buttonVariants({ variant: "primary", size: "md" })} flex-1`}
-        >
-          {cta.label}
-        </Link>
+        {cta ? (
+          <Link
+            href={cta.href}
+            onClick={onClose}
+            className={`${buttonVariants({ variant: "primary", size: "md" })} flex-1`}
+          >
+            {cta.label}
+          </Link>
+        ) : null}
         <a
           href={site.telHref}
           className={buttonVariants({ variant: "outlineOnInk", size: "md" })}
