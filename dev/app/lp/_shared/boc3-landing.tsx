@@ -22,8 +22,8 @@ import { LandingTabs } from "./tabs";
 import { LandingHeader } from "./landing-header";
 
 /*
- * Shared template for the BOC-3 Google Ads landing pages (/lp/boc-3-filing/
- * at $100, /lp/filing-boc3/ at $70 as a price test — owner decision,
+ * Shared template for the BOC-3 Google Ads landing pages (/lp/boc-3-filing/,
+ * and /lp/filing-boc3/ at $70 as a price test — owner decision,
  * 2026-09-15, URL deliberately not containing "-b" so the variant isn't
  * outwardly identifiable as a test). Both routes render this same component,
  * passing only `amount`, `applyHref`, and `serviceKey` — everything else

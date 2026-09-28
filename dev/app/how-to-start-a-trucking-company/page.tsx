@@ -436,7 +436,7 @@ export default function HowToStartATruckingCompanyPage() {
             <p>
               Company and authority filings (USDOT, MC, BOC-3) plus driver
               compliance are the main service costs. Complete setups run from
-              $400 for continuing carriers to $1,700 for a full new
+              $330 for continuing carriers to $1,630 for a full new
               heavy-vehicle authority launch, and individual services are
               listed on each page. See{" "}
               <CrossLink href="/compliance-packages/">

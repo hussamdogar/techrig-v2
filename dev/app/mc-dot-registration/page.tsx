@@ -210,8 +210,8 @@ export default function McDotRegistrationPage() {
             Need driver compliance and interstate filings too (DQ files,
             Clearinghouse, consortium, IRP, IFTA)? Our{" "}
             <CrossLink href="/compliance-packages/">compliance packages</CrossLink>{" "}
-            bundle it: Authority Launch — Non-CDL ($1,000) or Authority Launch —
-            CDL/Heavy ($1,700).
+            bundle it: Authority Launch — Non-CDL ($930) or Authority Launch —
+            CDL/Heavy ($1,630).
           </p>
         </Container>
       </Section>
@@ -259,7 +259,7 @@ export default function McDotRegistrationPage() {
             <CrossLink href="/compliance-packages/">
               Authority Launch packages
             </CrossLink>{" "}
-            ($1,000 non-CDL / $1,700 CDL/heavy), which use the discounted
+            ($930 non-CDL / $1,630 CDL/heavy), which use the discounted
             in-bundle prices and include the MC and UCR (0-2 bracket) government
             fees.
           </p>

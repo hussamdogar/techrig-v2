@@ -4,19 +4,13 @@ import { cn } from "@/lib/utils";
 /**
  * The bundle receipt (design spec §DZ3, component C: Split-Ledger Fee Receipt /
  * Pre-Filing Manifest pattern). Fully derived from `getBundleBreakdown` — no
- * number here is typed twice. Chain: in-bundle itemized total -> rounding
- * adjustment (sign never assumed) -> package price -> standalone value ->
- * net saving + discount %, so the two "discounts" (in-bundle vs net) reconcile
- * visibly instead of reading as a contradiction.
+ * number here is typed twice. Chain: package price (the in-bundle itemized
+ * total, no rounding since 2026-09-28) -> standalone value -> net saving +
+ * discount %.
  */
 export function BundleReceipt({ breakdown, className }: { breakdown: BundleBreakdown; className?: string }) {
-  const sign = breakdown.roundingAdjustment >= 0 ? "+" : "−";
-  const roundingAbs = Math.abs(breakdown.roundingAdjustment);
   return (
     <div className={cn("rounded-card border border-slate/15 bg-cloud p-4 font-mono text-sm tabular-nums", className)}>
-      <Row label="In-bundle services" value={money(breakdown.itemizedTotal)} />
-      <Row label="Rounding adjustment" value={`${sign}$${roundingAbs}`} />
-      <div className="my-2.5 border-t border-slate/20" />
       <Row label="Package price" value={money(breakdown.finalPrice)} emphasize />
       <div className="mt-3.5" />
       <Row label="Standalone value" value={money(breakdown.standaloneValue)} />
