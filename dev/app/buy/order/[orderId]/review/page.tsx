@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { Container, Section } from "@/components/ui/container";
 import { service } from "@/lib/server/supabase";
+import { quickBuyEnhancedConversionData } from "@/lib/server/quick-buy";
+import { GtmEvent } from "@/components/gtm-event";
 import { isQuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
 import { text, DocketSection } from "@/lib/lookup/format";
 import { reviewAndSignQuickBuyOrder } from "../actions";
@@ -35,6 +37,21 @@ export default async function QuickBuyReviewPage({
   if (order.status === "paid" || order.status === "fulfilled") redirect(`/buy/order/${orderId}/thank-you/`);
   if (!order.confirmed_at) redirect(`/buy/${order.service_key}/`);
 
+  // Deeper funnel signal than the USDOT lead (fired on the confirm screen):
+  // the carrier gave us their own contact details and the order now exists.
+  // Fired here, on arrival, rather than on the confirm form's submit, so a
+  // submit the server rejected (bad email/phone) is never counted. Carries the
+  // carrier's own contact details for Google Ads enhanced conversions, only
+  // to the carrier who placed the order (see quickBuyEnhancedConversionData).
+  // Skipped on the ?error= re-render so a failed signature isn't a new signal.
+  const detailsEvent = error
+    ? null
+    : {
+        lead_id: order.reference_id ?? orderId,
+        service: order.service_key,
+        user_data: await quickBuyEnhancedConversionData(order),
+      };
+
   const primaryKey = order.service_key as ServiceKey;
   const submitAction = reviewAndSignQuickBuyOrder.bind(null, orderId);
   const initialAdditional = (Array.isArray(order.additional_service_keys) ? order.additional_service_keys : []).filter(
@@ -43,6 +60,7 @@ export default async function QuickBuyReviewPage({
 
   return (
     <Section surface="paper" className="pt-8 md:pt-12">
+      {detailsEvent ? <GtmEvent event="quick_buy_details_submitted" data={detailsEvent} /> : null}
       <Container className="max-w-2xl">
         <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-slate">{order.reference_id ?? ""}</p>
         <h1 className="mt-1 font-display text-3xl font-extrabold tracking-[-0.02em] text-ink">Review your order</h1>

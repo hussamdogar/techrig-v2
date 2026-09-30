@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Container, Section } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
 import { service } from "@/lib/server/supabase";
 import { stripe } from "@/lib/stripe";
 import { GtmEvent } from "@/components/gtm-event";
-import { SERVICES, remainingQuickBuyUpsells, QUICK_BUY_UPSELL_REASON } from "@/lib/services-registry";
+import { quickBuyEnhancedConversionData } from "@/lib/server/quick-buy";
+import {
+  SERVICES,
+  UCR_GOV_FEE_BRACKETS,
+  remainingQuickBuyUpsells,
+  QUICK_BUY_UPSELL_REASON,
+} from "@/lib/services-registry";
 
 // Noindex (checkout flow, matches /apply/[applicationId]/success).
 export const dynamic = "force-dynamic";
@@ -15,17 +21,46 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-type FilingRow = { service_key: string; service_name: string; price_amount: number | null; expected_timeline: string | null };
+type FilingRow = {
+  service_key: string;
+  service_name: string;
+  price_amount: number | null;
+  ucr_tier: string | null;
+  expected_timeline: string | null;
+};
+
+/** What Tech Rig actually earns on a filing: the quick-buy UCR price folds in
+ *  the government fee (passed through to the UCR Plan), so it is subtracted
+ *  here. This is the value reported to Google Ads / GA4, so bidding and ROAS
+ *  reflect real revenue, not pass-through money. */
+function netRevenue(f: FilingRow): number {
+  const govFee =
+    f.service_key === "ucr" ? (UCR_GOV_FEE_BRACKETS.find((b) => b.tier === f.ucr_tier)?.govFee ?? 0) : 0;
+  return Math.max(0, (f.price_amount ?? 0) - govFee);
+}
 
 export default async function QuickBuyThankYouPage({
   params,
   searchParams,
 }: {
   params: Promise<{ orderId: string }>;
-  searchParams: Promise<{ payment_intent?: string; redirect_status?: string }>;
+  searchParams: Promise<{ payment_intent?: string; payment_intent_client_secret?: string; redirect_status?: string }>;
 }) {
   const { orderId } = await params;
-  const { payment_intent } = await searchParams;
+  const { payment_intent, payment_intent_client_secret, redirect_status } = await searchParams;
+
+  // Stripe's return URL carries the PaymentIntent's client secret. Every page
+  // URL is reported to analytics (GA4, Ads, Clarity, Brevo), so drop it (and
+  // the unused redirect_status) before this page ever renders in a browser.
+  // The PaymentIntent id alone is not sensitive and is all the verification
+  // below needs.
+  if (payment_intent_client_secret || redirect_status) {
+    redirect(
+      payment_intent
+        ? `/buy/order/${orderId}/thank-you/?payment_intent=${encodeURIComponent(payment_intent)}`
+        : `/buy/order/${orderId}/thank-you/`,
+    );
+  }
 
   const db = service();
   const { data: order } = await db.from("quick_buy_orders").select("*").eq("id", orderId).maybeSingle();
@@ -36,11 +71,19 @@ export default async function QuickBuyThankYouPage({
   // source of truth and may have already settled it).
   let paid = order.status === "paid" || order.status === "fulfilled";
   let pending = false;
+  // True only when this visit is the Stripe return for a payment that
+  // succeeded: the one moment a sale should be reported to Google. A later
+  // revisit (e.g. a paid order's review link redirects here) shows "paid" from
+  // the DB but must not report the sale again.
+  let intentSucceeded = false;
   if (payment_intent) {
     try {
       const intent = await stripe().paymentIntents.retrieve(payment_intent);
       if (intent.metadata?.quick_buy_order_id === orderId) {
-        if (intent.status === "succeeded") paid = true;
+        if (intent.status === "succeeded") {
+          paid = true;
+          intentSucceeded = true;
+        }
         else if (intent.status === "processing") pending = true;
       }
     } catch {
@@ -50,7 +93,7 @@ export default async function QuickBuyThankYouPage({
 
   const { data: filingsData } = await db
     .from("filings")
-    .select("service_key, service_name, price_amount, expected_timeline")
+    .select("service_key, service_name, price_amount, ucr_tier, expected_timeline")
     .eq("quick_buy_order_id", orderId);
   const filings = (filingsData ?? []) as FilingRow[];
 
@@ -67,26 +110,36 @@ export default async function QuickBuyThankYouPage({
   const purchasedKeys = new Set(filings.map((f) => f.service_key));
   const upsellKeys = remainingQuickBuyUpsells(order.truck_tractors, purchasedKeys);
 
-  // The Google Ads / GA4 conversion event, fired only on a confirmed paid
-  // order: transaction id + value + line items, the standard shape those
-  // tools expect to attribute an ad click to actual revenue. "processing" and
+  // The Google Ads / GA4 conversion event, fired only on the Stripe return of
+  // a succeeded payment, in GA4's standard `ecommerce` shape (transaction id +
+  // net revenue + line items). GTM's Ads purchase tag reads
+  // ecommerce.value / ecommerce.transaction_id; the transaction id also lets
+  // Ads and GA4 discard a duplicate if this page is reloaded. "processing" and
   // "not completed" get their own distinct, non-conversion events instead, so
-  // a pending or failed payment is never mistaken for a sale in GTM/Ads.
-  const orderValue = filings.reduce((sum, f) => sum + (f.price_amount ?? 0), 0);
+  // a pending or failed payment is never mistaken for a sale.
+  const purchase = intentSucceeded
+    ? {
+        ecommerce: {
+          transaction_id: order.reference_id ?? orderId,
+          value: filings.reduce((sum, f) => sum + netRevenue(f), 0),
+          currency: "USD",
+          items: filings.map((f) => ({
+            item_id: f.service_key,
+            item_name: f.service_name,
+            price: netRevenue(f),
+            quantity: 1,
+          })),
+        },
+        service: order.service_key,
+        user_data: await quickBuyEnhancedConversionData(order),
+      }
+    : null;
 
   return (
     <Section surface="paper" className="pt-10 md:pt-14">
-      {paid ? (
-        <GtmEvent
-          event="purchase"
-          data={{
-            transaction_id: order.reference_id ?? orderId,
-            value: orderValue,
-            currency: "USD",
-            items: filings.map((f) => ({ item_id: f.service_key, item_name: f.service_name, price: f.price_amount })),
-          }}
-        />
-      ) : pending ? (
+      {purchase ? (
+        <GtmEvent event="purchase" data={purchase} />
+      ) : paid ? null : pending ? (
         <GtmEvent event="quick_buy_payment_pending" data={{ orderId, service: order.service_key }} />
       ) : (
         <GtmEvent event="quick_buy_payment_not_completed" data={{ orderId, service: order.service_key }} />
