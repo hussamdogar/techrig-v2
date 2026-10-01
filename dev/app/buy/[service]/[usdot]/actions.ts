@@ -85,7 +85,7 @@ export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: strin
       confirmed_at: new Date().toISOString(),
       status: "awaiting_payment",
       // Google Ads click id(s), for uploading a later offline sale (see
-      // migration 0017 and /admin/sales/).
+      // migrations 0017/0018: the google_ads_followup_sales view).
       ...(await readAdClickIds()),
     })
     .select("id")
