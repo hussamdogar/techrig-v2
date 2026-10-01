@@ -19,7 +19,7 @@ export function organizationNode() {
     name: site.name,
     legalName: site.legalName,
     url: `${site.url}/`,
-    telephone: site.telephone,
+    telephone: site.telephoneIntl,
     email: site.email,
     address: {
       "@type": "PostalAddress",

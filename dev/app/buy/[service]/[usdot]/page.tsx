@@ -54,8 +54,13 @@ export default async function QuickBuyConfirmPage({
   // still means someone typed a real number and is mid-flow). Skipped for
   // invalid/rate-limited/lookup-error outcomes since those aren't a genuine
   // lookup attempt reaching this screen. Best-effort, never blocks the render.
+  // A reload or error redirect reuses the visitor's existing lead
+  // (performLookup's `reused`), so it never re-sends the alert or re-counts
+  // the lead.
   const isLead =
-    outcome.kind === "done" && (outcome.result.status === "success" || outcome.result.status === "not_found");
+    outcome.kind === "done" &&
+    !outcome.reused &&
+    (outcome.result.status === "success" || outcome.result.status === "not_found");
   if (isLead) {
     const carrier = outcome.result.carrier;
     await sendQuickBuyLookupAdminAlert({
@@ -88,9 +93,9 @@ export default async function QuickBuyConfirmPage({
       <GtmEvent event="quick_buy_confirm_view" data={{ service, outcome: outcomeStatus }} />
       {/* The lead conversion (owner definition, 2026-09-30): entering a real
           USDOT number is an interested prospect, the same moment the admin
-          lead alert above fires, not when they later reach payment. The
-          lookup's reference id is the dedup key (GTM maps it to the Ads
-          conversion's transaction id) so a reload never counts twice. No
+          lead alert above fires, not when they later reach payment. Fired once
+          per lead: a reload reuses the lead and skips this (isLead above), and
+          the lookup's reference id is also the Ads transaction id. No
           personal data here: the FMCSA record is public-registry data, not
           contact details the visitor gave us, so it is never sent to Ads. */}
       {isLead && outcome.kind === "done" ? (

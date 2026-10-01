@@ -118,6 +118,14 @@ export function getClientIp(headers: HeaderGetter): string {
   return forwarded.split(",")[0]?.trim() || headers.get("x-real-ip") || "unknown";
 }
 
+/** A keyed, one-way fingerprint of the visitor (IP + browser), for telling a
+ *  page reload apart from a new visitor without storing the IP itself. */
+export function hashVisitor(headers: HeaderGetter): string {
+  return createHmac("sha256", getTokenSecret())
+    .update(`visitor|${getClientIp(headers)}|${headers.get("user-agent") || ""}`)
+    .digest("hex");
+}
+
 // In-memory fallback so a KV outage degrades to per-instance limiting, not failure.
 const memoryStore = new Map<string, { count: number; resetAt: number }>();
 function checkInMemory(rlKey: string, limit: number, windowMs: number): boolean {

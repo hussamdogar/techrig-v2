@@ -9,7 +9,7 @@ import { GtmEvent } from "@/components/gtm-event";
 import { quickBuyEnhancedConversionData } from "@/lib/server/quick-buy";
 import {
   SERVICES,
-  UCR_GOV_FEE_BRACKETS,
+  netRevenue,
   remainingQuickBuyUpsells,
   QUICK_BUY_UPSELL_REASON,
 } from "@/lib/services-registry";
@@ -28,16 +28,6 @@ type FilingRow = {
   ucr_tier: string | null;
   expected_timeline: string | null;
 };
-
-/** What Tech Rig actually earns on a filing: the quick-buy UCR price folds in
- *  the government fee (passed through to the UCR Plan), so it is subtracted
- *  here. This is the value reported to Google Ads / GA4, so bidding and ROAS
- *  reflect real revenue, not pass-through money. */
-function netRevenue(f: FilingRow): number {
-  const govFee =
-    f.service_key === "ucr" ? (UCR_GOV_FEE_BRACKETS.find((b) => b.tier === f.ucr_tier)?.govFee ?? 0) : 0;
-  return Math.max(0, (f.price_amount ?? 0) - govFee);
-}
 
 export default async function QuickBuyThankYouPage({
   params,
@@ -134,6 +124,17 @@ export default async function QuickBuyThankYouPage({
         user_data: await quickBuyEnhancedConversionData(order),
       }
     : null;
+
+  // Record that this sale was reported to Google online, so the offline
+  // export (google_ads_followup_sales, migration 0019) never uploads it again.
+  // Paid orders without this stamp (a payment that settled later, or a
+  // customer who never came back to this page) are uploaded from there.
+  if (purchase && !order.online_conversion_reported_at) {
+    await db
+      .from("quick_buy_orders")
+      .update({ online_conversion_reported_at: new Date().toISOString() })
+      .eq("id", orderId);
+  }
 
   return (
     <Section surface="paper" className="pt-10 md:pt-14">

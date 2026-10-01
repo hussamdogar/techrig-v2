@@ -12,8 +12,13 @@ export const site = {
   legalName: "DGR Tech Rig LLC",
   url: "https://techrig.org",
 
-  // Contact. telHref is the dialable form; telephone is the display form.
-  telephone: "+1 917-909-2257",
+  // Contact. telHref is the dialable form; telephone is the display form,
+  // in US national format ("(917) 909-2257") because Google Ads' website call
+  // tracking tag (GTM) only swaps a number written in national format without
+  // a plus sign, and the tag's number must match this text digit for digit.
+  // telephoneIntl is the international form for structured data (JSON-LD).
+  telephone: "(917) 909-2257",
+  telephoneIntl: "+1-917-909-2257",
   telHref: "tel:+19179092257",
   email: "info@techrig.org",
 

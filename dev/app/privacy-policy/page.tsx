@@ -48,7 +48,7 @@ export default function Page() {
           <h1 className="mt-6 font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
             Privacy Policy
           </h1>
-          <p className="mt-4 text-sm italic text-slate">Updated: September 7, 2026</p>
+          <p className="mt-4 text-sm italic text-slate">Updated: October 1, 2026</p>
 
           <h2 className={h2}>Introduction</h2>
           <p className={p}>
@@ -440,8 +440,56 @@ export default function Page() {
             helps us see when something breaks (a page error, a failed request) so we can fix it; it is not used to
             track your browsing behavior, build an advertising profile, or serve ads. Personal identifiers and
             request details (cookies, headers, form data) are stripped from error reports before they reach Sentry.
-            We do not currently use Google Analytics or a similar behavioral analytics service on this Site; if that
-            changes, we will update this section.
+          </p>
+
+          <h3 className={h3}>G. Analytics and Advertising Measurement</h3>
+          <p className={p}>
+            We use the following tools to understand how visitors use our Site and to measure whether our ads work:
+          </p>
+          <ul className={ul}>
+            <li>
+              <strong className="text-ink">Google Tag Manager and Google Analytics</strong>: record the pages you
+              view and the steps you take on the Site, such as entering a USDOT number, confirming your details,
+              tapping our phone number, or completing a purchase.
+            </li>
+            <li>
+              <strong className="text-ink">Google Ads</strong>: measures which of our ads lead to inquiries, calls,
+              and purchases, and may show our ads to people who visited the Site before. When you arrive from a
+              Google ad, we keep the ad click identifier in a cookie for up to 90 days and store it with your inquiry
+              or order. If you call us from the Site after arriving from an ad, the number shown may be a Google
+              forwarding number that routes to us, so Google can tell the call came from the ad.
+            </li>
+            <li>
+              <strong className="text-ink">Microsoft Clarity</strong>: shows us how visitors move through our pages,
+              including session replays, so we can find and fix confusing steps.
+            </li>
+            <li>
+              <strong className="text-ink">Brevo</strong>: our email platform, which can record whether our emails
+              are opened and which pages you visit after clicking a link in them.
+            </li>
+            <li>
+              <strong className="text-ink">Vercel Analytics</strong>: counts page views to monitor how the Site
+              performs.
+            </li>
+          </ul>
+          <p className={p}>
+            When you give us your contact details, for example when you confirm your company details or place an
+            order, we share your email address, phone number, name, and address with Google in hashed form (a
+            one-way code, not the readable details) so Google can match the inquiry or sale to an ad you interacted
+            with. We may do the same when an inquiry becomes a sale by phone or after a follow-up. Google uses this
+            information to measure ad performance under its own terms; you can read{" "}
+            <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer" className={link}>
+              how Google uses this data
+            </a>{" "}
+            and manage your{" "}
+            <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" className={link}>
+              Google ad settings
+            </a>
+            . To ask us not to share your contact details with Google for ad measurement, email{" "}
+            <a href={`mailto:${site.email}`} className={link}>
+              {site.email}
+            </a>
+            .
           </p>
 
           <h2 className={h2}>5. Do Not Track (DNT) Signals</h2>
