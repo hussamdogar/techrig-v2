@@ -2,6 +2,7 @@ import "server-only";
 import { cookies } from "next/headers";
 import { service } from "@/lib/server/supabase";
 import { verifyLeadAccessToken } from "@/lib/server/security";
+import { toE164 } from "@/lib/phone";
 
 /** Shared cookie name for the quick-buy fast path's lead-token handoff between
  *  the confirm screen and /api/quick-buy-checkout. See actions.ts + the
@@ -57,17 +58,6 @@ type QuickBuyOrderContact = {
   address_zip: string | null;
   address_country: string | null;
 };
-
-/** Google requires E.164. Carriers here are US/Canada (NANP), so a bare 10- or
- *  11-digit number gets +1; anything unrecognisable is omitted, not guessed. */
-function toE164(phone: string | null): string | undefined {
-  if (!phone) return undefined;
-  const digits = phone.replace(/\D/g, "");
-  if (phone.trim().startsWith("+") && digits.length >= 8 && digits.length <= 15) return `+${digits}`;
-  if (digits.length === 10) return `+1${digits}`;
-  if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
-  return undefined;
-}
 
 /**
  * The order's contact details for Google Ads enhanced conversions, or

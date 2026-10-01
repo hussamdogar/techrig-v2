@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Container, Section } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
@@ -79,7 +80,12 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
       <Container className="max-w-5xl">
         <div className="flex items-center justify-between gap-4">
           <h1 className="font-display text-3xl font-extrabold tracking-[-0.02em] text-ink">Back office</h1>
-          <span className="font-mono text-xs text-slate">{admin.email}</span>
+          <div className="flex items-center gap-4">
+            <Link href="/admin/sales/" className="text-sm text-steel underline-offset-4 hover:underline">
+              Offline sales
+            </Link>
+            <span className="font-mono text-xs text-slate">{admin.email}</span>
+          </div>
         </div>
 
         {/* Status filter */}

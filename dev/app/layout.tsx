@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SiteHeader } from "@/components/site-header";
+import { AdClickIdCapture } from "@/components/ad-click-id-capture";
 import { SiteFooter } from "@/components/site-footer";
 import { CookieNotice } from "@/components/cookie-notice";
 import { JsonLd } from "@/components/json-ld";
@@ -90,6 +91,10 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <SiteFooter />
         <CookieNotice />
+        {/* First-party Google Ads click-id capture for offline conversion
+            uploads (phone / follow-up sales). Not gated on GTM_ENABLED: it
+            only writes our own cookie, and staging tests need it too. */}
+        <AdClickIdCapture />
         {/* SpeedInsights removed 2026-09-09: @vercel/speed-insights 2.0.0 throws an
             unhandled promise rejection ("reading 'M_ID'") on every page under
             Next 16 + Turbopack production builds. Re-add once the package supports

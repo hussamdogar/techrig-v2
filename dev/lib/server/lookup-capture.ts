@@ -14,6 +14,7 @@ import { lookupCarrier, type LookupResult } from "@/lib/lookup";
 import { checkRateLimit, createLeadAccessToken, hashAccessToken, isValidUsdot } from "@/lib/server/security";
 import { nextReferenceId } from "@/lib/server/reference";
 import { service } from "@/lib/server/supabase";
+import { readAdClickIds } from "@/lib/server/ad-click-ids";
 
 /** Minimal header accessor: satisfied by both `Headers` and Next's ReadonlyHeaders. */
 export type HeaderGetter = { get(name: string): string | null };
@@ -67,6 +68,9 @@ export async function performLookup(usdot: string, headers: HeaderGetter): Promi
       lookup_status: result.status,
       reference_id: referenceId,
       access_token_hash: hashAccessToken(token),
+      // The Google Ads click that brought this visitor, if any, so a sale
+      // closed later by phone/follow-up can be uploaded against it.
+      ...(await readAdClickIds()),
     });
     if (result.carrier) {
       await db.from("carrier_snapshots").insert({
