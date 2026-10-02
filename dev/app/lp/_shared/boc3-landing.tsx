@@ -393,8 +393,11 @@ export function Boc3LandingPage({
             {/* 2: the real USDOT quick-buy form, in place of the reference's
                 multi-field lead form. id="file" is the header's scroll target. */}
             <div id="file" className="scroll-mt-24 rounded-card border border-slate/15 bg-cloud p-6 shadow-card">
+              {/* Price in the card title for ad-to-page message match: the
+                  Google Ads headlines lead with the price, so it is the
+                  first thing confirmed here, not only on the button. */}
               <p className="font-display text-lg font-bold text-ink">
-                Get your BOC-3 filed
+                Get your BOC-3 filed for ${amount}
               </p>
               <p className="mt-1 text-sm text-slate">
                 About 2 minutes: confirm your record, pay, and we file the same day.
@@ -404,7 +407,7 @@ export function Boc3LandingPage({
               </div>
               <p className="mt-4 flex items-center gap-2 text-sm text-slate">
                 <CheckSealIcon size={16} className="text-status-active" aria-hidden="true" />
-                One-time ${amount}. No annual renewal.
+                ${amount} is the full price: no annual renewal, no fee to forward documents.
               </p>
               {/* Rating right next to the button it's meant to reassure,
                   not only in the dedicated reviews section further down
@@ -555,6 +558,12 @@ export function Boc3LandingPage({
                 <span className="text-sm text-slate">one time</span>
               </div>
               <p className="mt-1 text-sm text-slate">BOC-3 filing, all 50 states</p>
+              {/* What the price covers, stated as the total cost so the low
+                  number reads as complete, not as a teaser with add-ons. */}
+              <p className="mt-3 rounded-card bg-paper px-3 py-2 text-sm text-ink">
+                That is everything. We never bill a yearly renewal, and if a
+                legal document is served on you, we mail it to you free.
+              </p>
 
               <ul className="mt-6 space-y-2.5 border-t border-slate/15 pt-6">
                 {priceFeatures.map((f) => (

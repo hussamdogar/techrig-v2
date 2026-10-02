@@ -4,7 +4,7 @@ import { service } from "@/lib/server/supabase";
 import { checkRateLimit, verifyLeadAccessToken } from "@/lib/server/security";
 import { QUICK_BUY_TOKEN_COOKIE } from "@/lib/server/quick-buy";
 import { stripe } from "@/lib/stripe";
-import { computeQuickBuyPricing, isQuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
+import { computeQuickBuyPricing, isQuickBuyServiceKey, netRevenue, type ServiceKey } from "@/lib/services-registry";
 
 /**
  * POST /api/quick-buy-checkout (quick-buy fast path). Sibling to /api/checkout,
@@ -305,6 +305,15 @@ export async function POST(request: Request) {
       .eq("quick_buy_order_id", orderId)
       .eq("service_key", f.service_key);
   }
+
+  // Net revenue for this charge (government fees excluded), the value Google
+  // Ads gets for this sale. Stored so a payment that settles later (no online
+  // purchase event, see thank-you page) can still be uploaded with the right
+  // value by the google_ads_followup_sales export (migration 0019).
+  await db
+    .from("quick_buy_orders")
+    .update({ conversion_value: pricing.filings.reduce((sum, f) => sum + netRevenue(f), 0) })
+    .eq("id", orderId);
 
   return json({ clientSecret: intent.client_secret, amount: pricing.total });
 }

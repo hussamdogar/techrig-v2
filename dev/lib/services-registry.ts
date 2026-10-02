@@ -448,6 +448,17 @@ export const UCR_GOV_FEE_BRACKETS: { tier: string; maxUnits: number | null; govF
   { tier: "1001+", maxUnits: null, govFee: 44836 },
 ];
 
+/** What Tech Rig actually earns on a filing line: the quick-buy UCR price
+ *  folds in the government fee (passed through to the UCR Plan), so it is
+ *  subtracted. This is the conversion value reported to Google Ads / GA4
+ *  (thank-you purchase event, and orders.conversion_value for offline
+ *  uploads), so bidding and ROAS reflect real revenue, not pass-through money. */
+export function netRevenue(line: { service_key: string; price_amount: number | null; ucr_tier: string | null }): number {
+  const govFee =
+    line.service_key === "ucr" ? (UCR_GOV_FEE_BRACKETS.find((b) => b.tier === line.ucr_tier)?.govFee ?? 0) : 0;
+  return Math.max(0, (line.price_amount ?? 0) - govFee);
+}
+
 /** The 0-2 bracket government fee every bundle bakes into its itemized total. */
 export const UCR_BUNDLE_BASELINE_GOV_FEE = UCR_GOV_FEE_BRACKETS[0].govFee;
 

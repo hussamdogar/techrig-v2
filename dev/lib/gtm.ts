@@ -5,8 +5,7 @@
  * event names instead of scattered ad hoc pushes.
  *
  * Safe to call from anywhere, including server-rendered code paths: it is a
- * no-op unless `window.dataLayer` exists (i.e. unless we are in the browser
- * and GTM's own snippet has already initialised the array).
+ * no-op outside the browser.
  */
 
 declare global {
@@ -16,8 +15,19 @@ declare global {
 }
 
 /** Push a custom event onto the dataLayer. `data` becomes sibling keys on the
- *  event object (GTM convention), e.g. pushDataLayerEvent("purchase", { value: 100 }). */
+ *  event object (GTM convention), e.g. pushDataLayerEvent("purchase", { value: 100 }).
+ *
+ *  Creates the dataLayer if GTM has not yet: GTM replays everything already in
+ *  the array when it loads, so an event pushed before GTM initialises is
+ *  delayed, never silently dropped. (Also why this is safe where GTM is not
+ *  loaded at all, e.g. non-production deployments: the array just fills.)
+ *
+ *  A GA4 `ecommerce` payload is preceded by `{ ecommerce: null }`, Google's
+ *  documented pattern, so fields from an earlier ecommerce event can never
+ *  merge into this one. */
 export function pushDataLayerEvent(event: string, data?: Record<string, unknown>) {
-  if (typeof window === "undefined" || !window.dataLayer) return;
+  if (typeof window === "undefined") return;
+  window.dataLayer = window.dataLayer || [];
+  if (data && "ecommerce" in data) window.dataLayer.push({ ecommerce: null });
   window.dataLayer.push({ event, ...data });
 }

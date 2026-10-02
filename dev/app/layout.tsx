@@ -3,6 +3,8 @@ import Script from "next/script";
 import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SiteHeader } from "@/components/site-header";
+import { AdClickIdCapture } from "@/components/ad-click-id-capture";
+import { PhoneLinkSync } from "@/components/phone-link-sync";
 import { SiteFooter } from "@/components/site-footer";
 import { CookieNotice } from "@/components/cookie-notice";
 import { JsonLd } from "@/components/json-ld";
@@ -42,6 +44,11 @@ const plexMono = IBM_Plex_Mono({
 // funnel, per the client's instructions. Add more instrumentation elsewhere
 // only if asked.
 const GTM_ID = "GTM-W7BD5J6W";
+// Tags load on the production deployment only. Vercel sets VERCEL_ENV to
+// "production" there, "preview" on staging/branch deploys, and nothing
+// locally, so dev and preview traffic never reaches GA4 / Google Ads (it was
+// polluting both). Events pushed via lib/gtm.ts still queue harmlessly.
+const GTM_ENABLED = process.env.VERCEL_ENV === "production";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://techrig.org"),
@@ -67,14 +74,16 @@ export default function RootLayout({
       <body className="flex min-h-dvh flex-col bg-paper font-body text-ink antialiased">
         {/* Google Tag Manager (noscript). Google's install instructions ask for
             this immediately after the opening <body> tag; kept there exactly. */}
-        <noscript>
-          <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          />
-        </noscript>
+        {GTM_ENABLED ? (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            />
+          </noscript>
+        ) : null}
 
         {/* Canonical Organization + WebSite nodes, site-wide, so every page's
             JSON-LD can reference #org by @id. */}
@@ -83,6 +92,13 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <SiteFooter />
         <CookieNotice />
+        {/* First-party Google Ads click-id capture for offline conversion
+            uploads (phone / follow-up sales). Not gated on GTM_ENABLED: it
+            only writes our own cookie, and staging tests need it too. */}
+        <AdClickIdCapture />
+        {/* Keeps Call links dialing the Google forwarding number once Google
+            Ads swaps the displayed number for an ad visitor. */}
+        <PhoneLinkSync />
         {/* SpeedInsights removed 2026-09-09: @vercel/speed-insights 2.0.0 throws an
             unhandled promise rejection ("reading 'M_ID'") on every page under
             Next 16 + Turbopack production builds. Re-add once the package supports
@@ -92,13 +108,15 @@ export default function RootLayout({
         {/* Google Tag Manager. next/script + afterInteractive is Next's own
             recommended pattern for GTM (loads after the page is interactive,
             non-render-blocking) rather than a raw <script> tag in <head>. */}
-        <Script id="gtm-base" strategy="afterInteractive">
-          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        {GTM_ENABLED ? (
+          <Script id="gtm-base" strategy="afterInteractive">
+            {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
           })(window,document,'script','dataLayer','${GTM_ID}');`}
-        </Script>
+          </Script>
+        ) : null}
       </body>
     </html>
   );

@@ -54,7 +54,14 @@ export default async function QuickBuyConfirmPage({
   // still means someone typed a real number and is mid-flow). Skipped for
   // invalid/rate-limited/lookup-error outcomes since those aren't a genuine
   // lookup attempt reaching this screen. Best-effort, never blocks the render.
-  if (outcome.kind === "done" && (outcome.result.status === "success" || outcome.result.status === "not_found")) {
+  // A reload or error redirect reuses the visitor's existing lead
+  // (performLookup's `reused`), so it never re-sends the alert or re-counts
+  // the lead.
+  const isLead =
+    outcome.kind === "done" &&
+    !outcome.reused &&
+    (outcome.result.status === "success" || outcome.result.status === "not_found");
+  if (isLead) {
     const carrier = outcome.result.carrier;
     await sendQuickBuyLookupAdminAlert({
       serviceName: def.name,
@@ -84,6 +91,19 @@ export default async function QuickBuyConfirmPage({
   return (
     <Section surface="paper" className="pt-8 md:pt-12">
       <GtmEvent event="quick_buy_confirm_view" data={{ service, outcome: outcomeStatus }} />
+      {/* The lead conversion (owner definition, 2026-09-30): entering a real
+          USDOT number is an interested prospect, the same moment the admin
+          lead alert above fires, not when they later reach payment. Fired once
+          per lead: a reload reuses the lead and skips this (isLead above), and
+          the lookup's reference id is also the Ads transaction id. No
+          personal data here: the FMCSA record is public-registry data, not
+          contact details the visitor gave us, so it is never sent to Ads. */}
+      {isLead && outcome.kind === "done" ? (
+        <GtmEvent
+          event="quick_buy_lead"
+          data={{ lead_id: outcome.referenceId, service, outcome: outcomeStatus }}
+        />
+      ) : null}
       <Container className="max-w-2xl">
         {outcome.kind === "done" && outcome.result.status === "success" && outcome.result.carrier ? (
           <Confirm
@@ -187,7 +207,7 @@ function Confirm({
       <TrackedForm
         action={confirmAction}
         event="quick_buy_confirm_submit"
-        data={{ service, usdot }}
+        data={{ service }}
         className="mt-6 space-y-5"
       >
         <input type="hidden" name="token" value={token} />

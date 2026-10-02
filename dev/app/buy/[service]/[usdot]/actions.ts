@@ -6,6 +6,7 @@ import { service as serviceClient } from "@/lib/server/supabase";
 import { decodeLeadAccessToken, isValidEmail, isValidPhone } from "@/lib/server/security";
 import { isQuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
 import { QUICK_BUY_TOKEN_COOKIE } from "@/lib/server/quick-buy";
+import { readAdClickIds } from "@/lib/server/ad-click-ids";
 
 /**
  * Confirm-screen submit for the quick-buy fast path. Trusts the signed lead
@@ -83,6 +84,9 @@ export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: strin
       reference_id: decoded.referenceId ?? null,
       confirmed_at: new Date().toISOString(),
       status: "awaiting_payment",
+      // Google Ads click id(s), for uploading a later offline sale (see
+      // migrations 0017/0018: the google_ads_followup_sales view).
+      ...(await readAdClickIds()),
     })
     .select("id")
     .single();
