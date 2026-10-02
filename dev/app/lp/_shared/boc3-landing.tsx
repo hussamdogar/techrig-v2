@@ -20,6 +20,7 @@ import { site } from "@/lib/site";
 import { startQuickBuyLookup } from "@/app/buy/[service]/actions";
 import { LandingTabs } from "./tabs";
 import { LandingHeader } from "./landing-header";
+import { StickyCta } from "./sticky-cta";
 
 /*
  * Shared template for the BOC-3 Google Ads landing pages (/lp/boc-3-filing/,
@@ -73,15 +74,17 @@ const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/QJTUHyD5LkdomX1r6";
 // dashboard (Google's public page only gave relative times like "2 months
 // ago", which would quietly go false if hardcoded). A 4th 5-star review
 // exists on the listing but needs a signed-in Google session to expand, so
-// it is not included here.
+// it is not included here. Ordered so the review about filing leads (this is
+// a BOC-3 page; the company-setup review is longer and would otherwise take
+// the whole first mobile screen of this section).
 const googleReviews = [
   {
-    name: "Marcus Curry",
-    meta: "4 reviews · 7 photos",
+    name: "Kyle Draeger",
+    meta: "Local Guide · 8 reviews",
     stars: 5,
-    date: "2026-07-01",
-    dateLabel: "Jul 1, 2026",
-    text: "I dealt with Adam @ Tech Rig to help me set up my trucking company. Marx LLC. He was very polite and patient. He never once got annoyed by all my questions. He helped me through every step of the way. I can't say enough about Tech Rig. I would highly recommended them to anyone looking to get into the logistics industry!",
+    date: "2026-07-03",
+    dateLabel: "Jul 3, 2026",
+    text: "We're very helpful and quick to get things done once we worked everything out. They weren't pushy and just helped so I chose to file with them.",
   },
   {
     name: "Felix Feliciano",
@@ -92,12 +95,12 @@ const googleReviews = [
     text: "Very helpful, always available, respectful and polite, this was the first time for me and the experience was great. I definitely recommend to use their services",
   },
   {
-    name: "Kyle Draeger",
-    meta: "Local Guide · 8 reviews",
+    name: "Marcus Curry",
+    meta: "4 reviews · 7 photos",
     stars: 5,
-    date: "2026-07-03",
-    dateLabel: "Jul 3, 2026",
-    text: "We're very helpful and quick to get things done once we worked everything out. They weren't pushy and just helped so I chose to file with them.",
+    date: "2026-07-01",
+    dateLabel: "Jul 1, 2026",
+    text: "I dealt with Adam @ Tech Rig to help me set up my trucking company. Marx LLC. He was very polite and patient. He never once got annoyed by all my questions. He helped me through every step of the way. I can't say enough about Tech Rig. I would highly recommended them to anyone looking to get into the logistics industry!",
   },
 ];
 
@@ -177,6 +180,8 @@ function UsdotForm({
           id="usdot"
           name="usdot"
           inputMode="numeric"
+          autoComplete="off"
+          enterKeyHint="go"
           pattern="\d{1,12}"
           required
           placeholder="e.g. 1234567"
@@ -362,7 +367,7 @@ export function Boc3LandingPage({
           elements needed for either breakpoint. */}
       <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
-          <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+          <div className="grid grid-cols-1 items-start gap-6 sm:gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
             {/* 1: intro */}
             <div>
               <p className="inline-flex items-center gap-2 rounded-chip border border-signal/60 bg-signal/15 px-3 py-1.5 shadow-[0_0_0_1px_rgba(232,154,60,0.12),0_4px_20px_rgba(232,154,60,0.25)] font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-cloud">
@@ -375,15 +380,24 @@ export function Boc3LandingPage({
                     <StampIcon size={12} aria-hidden="true" />
                   </span>
                 </span>
-                FMCSA-listed process agent
+                {/* "process agent" drops below sm so the badge holds one line on a phone. */}
+                <span>
+                  FMCSA-listed<span className="hidden sm:inline"> process agent</span>
+                </span>
                 <span className="text-signal before:content-['•']" aria-hidden="true" />
                 all 50 states
               </p>
-              <h1 className="mt-4 font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-cloud">
+              <h1 className="mt-4 font-display text-[1.875rem] max-sm:text-balance sm:text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-cloud">
                 Your operating authority doesn&apos;t activate{" "}
                 <span className="text-signal">without this filing.</span>
               </h1>
-              <p className="mt-4 max-w-[52ch] text-lg text-cloud/80">
+              {/* Phones get a one-sentence version so the USDOT field lands on
+                  the first screen; the full explanation is in the tabs below. */}
+              <p className="mt-3 max-w-[52ch] text-cloud/80 sm:hidden">
+                We file your BOC-3 direct with FMCSA, all 50 states, for a flat
+                ${amount} you pay once.
+              </p>
+              <p className="mt-4 hidden max-w-[52ch] text-lg text-cloud/80 sm:block">
                 A BOC-3 names the process agent who can accept legal documents
                 for you in every state you run. We file it direct with
                 FMCSA/MOTUS electronically, for a flat ${amount} you pay once.
@@ -391,8 +405,10 @@ export function Boc3LandingPage({
             </div>
 
             {/* 2: the real USDOT quick-buy form, in place of the reference's
-                multi-field lead form. id="file" is the header's scroll target. */}
-            <div id="file" className="scroll-mt-24 rounded-card border border-slate/15 bg-cloud p-6 shadow-card">
+                multi-field lead form. id="file" is the scroll target of the header and
+                sticky-bar CTAs; scroll-mt-32 clears the header plus the
+                landing cookie bar (cookie-notice.tsx) when that is showing. */}
+            <div id="file" className="scroll-mt-32 rounded-card border border-slate/15 bg-cloud p-5 shadow-card sm:p-6">
               {/* Price in the card title for ad-to-page message match: the
                   Google Ads headlines lead with the price, so it is the
                   first thing confirmed here, not only on the button. */}
@@ -402,7 +418,7 @@ export function Boc3LandingPage({
               <p className="mt-1 text-sm text-slate">
                 About 2 minutes: confirm your record, pay, and we file the same day.
               </p>
-              <div className="mt-5">
+              <div className="mt-4 sm:mt-5">
                 <UsdotForm amount={amount} serviceKey={serviceKey} />
               </div>
               <p className="mt-4 flex items-center gap-2 text-sm text-slate">
@@ -621,7 +637,7 @@ export function Boc3LandingPage({
                 What carriers say
               </p>
               <h2 className="mt-2 font-display text-3xl font-bold text-cloud">
-                Filed by carriers who searched exactly what you searched
+                Carriers we have worked with, in their own words
               </h2>
             </div>
             <a
@@ -724,26 +740,7 @@ export function Boc3LandingPage({
         </Container>
       </Section>
 
-      {/* Sticky mobile CTA. CSS only, mobile only. */}
-      <div className="fixed inset-x-0 bottom-0 z-30 flex items-center gap-2 border-t border-slate/15 bg-cloud px-4 py-3 shadow-card md:hidden">
-        <TrackedAnchor
-          href={site.telHref}
-          event="call_click"
-          data={{ location: "sticky_mobile" }}
-          className={`${buttonVariants({ variant: "secondary", size: "sm" })} flex-1`}
-        >
-          <PhoneIcon size={16} aria-hidden="true" />
-          Call
-        </TrackedAnchor>
-        <TrackedLink
-          href={applyHref}
-          event="cta_click"
-          data={{ location: "sticky_mobile" }}
-          className={`${buttonVariants({ variant: "primary", size: "sm" })} flex-[2]`}
-        >
-          File my BOC-3
-        </TrackedLink>
-      </div>
+      <StickyCta />
       {/* Spacer so the sticky bar never covers the footer's last line on mobile. */}
       <div className="h-16 md:hidden" aria-hidden="true" />
     </>
