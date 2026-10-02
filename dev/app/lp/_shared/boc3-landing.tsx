@@ -14,20 +14,20 @@ import {
   StarIcon,
 } from "@/components/icons";
 import { TrackedForm } from "@/components/tracked-form";
-import { TrackedLink } from "@/components/tracked-link";
 import { TrackedAnchor } from "@/components/tracked-anchor";
 import { site } from "@/lib/site";
 import { startQuickBuyLookup } from "@/app/buy/[service]/actions";
 import { LandingTabs } from "./tabs";
 import { LandingHeader } from "./landing-header";
 import { StickyCta } from "./sticky-cta";
+import { FormCta } from "./form-cta";
 
 /*
  * Shared template for the BOC-3 Google Ads landing pages (/lp/boc-3-filing/,
  * and /lp/filing-boc3/ at $70 as a price test — owner decision,
  * 2026-09-15, URL deliberately not containing "-b" so the variant isn't
  * outwardly identifiable as a test). Both routes render this same component,
- * passing only `amount`, `applyHref`, and `serviceKey` — everything else
+ * passing only `amount` and `serviceKey` — everything else
  * (copy, layout, design) is identical by construction, not by manually
  * keeping two files in sync. If a future price variant is added, it's a
  * third thin route file pointing at this same template, nothing here needs
@@ -41,10 +41,13 @@ import { StickyCta } from "./sticky-cta";
  *
  * The hero embeds the real USDOT quick-buy form (the same `startQuickBuyLookup`
  * server action each route's `/buy/<serviceKey>/` uses), so a submission here
- * goes into the actual lookup-and-pay flow, not a mockup. GTM funnel tracking
- * (TrackedForm/TrackedLink/TrackedAnchor, see lib/gtm.ts) is wired through
- * every CTA and the form itself, tagged with `serviceKey` so GA4 can tell the
- * price variants' funnels apart.
+ * goes into the actual lookup-and-pay flow, not a mockup. Every "File my
+ * BOC-3" button on the page leads to that one form and opens the keypad
+ * (FormCta / scroll-to-form.ts), never off to a separate /buy/ page. GTM
+ * funnel tracking (TrackedForm/TrackedAnchor, cta_click from
+ * scroll-to-form.ts, see lib/gtm.ts) is wired through every CTA and the form
+ * itself, tagged with `serviceKey` so GA4 can tell the price variants'
+ * funnels apart.
  *
  * "No extra charges for documents received" and "Refund guarantee" are ops-
  * confirmed policy (signed off 2026-09-13), not placeholder copy.
@@ -346,11 +349,9 @@ const tabs = [
 
 export function Boc3LandingPage({
   amount,
-  applyHref,
   serviceKey,
 }: {
   amount: number;
-  applyHref: string;
   serviceKey: string;
 }) {
   const faqs = buildFaqs(amount);
@@ -616,14 +617,12 @@ export function Boc3LandingPage({
                 5.0 on Google
               </a>
 
-              <TrackedLink
-                href={applyHref}
-                event="cta_click"
-                data={{ location: "pricing" }}
+              <FormCta
+                location="pricing"
                 className={`${buttonVariants({ variant: "primary", size: "md" })} mt-3 w-full`}
               >
                 File my BOC-3 &mdash; ${amount}
-              </TrackedLink>
+              </FormCta>
 
               <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-xs text-slate">
                 <span className="flex items-center gap-1.5">
@@ -727,15 +726,10 @@ export function Boc3LandingPage({
             FMCSA-listed. Filed the same day. ${amount}, once.
           </p>
           <div className="mt-6 flex justify-center">
-            <TrackedLink
-              href={applyHref}
-              event="cta_click"
-              data={{ location: "final_cta" }}
-              className={buttonVariants({ variant: "primary", size: "md" })}
-            >
+            <FormCta location="final_cta" className={buttonVariants({ variant: "primary", size: "md" })}>
               File my BOC-3 &mdash; ${amount}
               <ArrowRightIcon size={18} aria-hidden="true" />
-            </TrackedLink>
+            </FormCta>
           </div>
           <div className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs uppercase tracking-[0.08em] text-cloud/60">
             <span className="flex items-center gap-1.5">

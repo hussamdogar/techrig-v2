@@ -4,15 +4,24 @@ const SCROLL_DURATION_MS = 900;
 const HINT_VISIBLE_MS = 4000;
 
 /**
- * Deliberately slow, eased scroll to the hero's USDOT form (#file), instead of
- * an instant anchor jump or the browser's (fast, inconsistent-across-browsers)
- * native smooth scroll. On arrival: focus the field (native focus ring) and
- * flash a short-lived "enter it here" hint above it. Skips the animation for
- * `prefers-reduced-motion` and jumps straight there instead.
+ * Takes the visitor to the hero's USDOT form (#file) and opens the keypad.
  *
- * Shared by every in-page "File my BOC-3" control (header, mobile sticky bar)
- * so they all land the visitor on the same form instead of a separate
- * /buy/ page load. `location` tags the cta_click event with which one fired.
+ * The field is focused FIRST, synchronously inside the tap/click handler:
+ * iOS Safari only opens the on-screen keyboard for a focus() made during the
+ * user's gesture, and ignores one made after an animation (Android is more
+ * lenient, but this works for both). `preventScroll` stops the browser's own
+ * jump so our scroll stays in charge, and the field's inputMode="numeric"
+ * makes that keyboard the number pad.
+ *
+ * Then a deliberately slow, eased scroll to the form, instead of an instant
+ * anchor jump or the browser's (fast, inconsistent) native smooth scroll,
+ * ending with a short-lived "Start here" hint by the field. Skips the
+ * animation for `prefers-reduced-motion` and jumps straight there.
+ *
+ * Every "File my BOC-3" control on the landing page uses this (header,
+ * mobile menu, sticky bar, pricing card, final CTA), so all of them land on
+ * the same form instead of a separate /buy/ page. `location` tags the
+ * cta_click event with which one fired.
  */
 export function scrollToUsdotForm(e: React.MouseEvent<HTMLAnchorElement>, location: string) {
   e.preventDefault();
@@ -20,13 +29,16 @@ export function scrollToUsdotForm(e: React.MouseEvent<HTMLAnchorElement>, locati
   const target = document.getElementById("file");
   if (!target) return;
 
+  const input = document.getElementById("usdot") as HTMLInputElement | null;
+  input?.focus({ preventScroll: true });
+
   const offset = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
   const targetY = target.getBoundingClientRect().top + window.scrollY - offset;
 
   const onArrive = () => {
-    const input = document.getElementById("usdot") as HTMLInputElement | null;
     const hint = document.getElementById("usdot-hint");
-    input?.focus();
+    // Usually still focused from above; re-focus only if something took it.
+    if (input && document.activeElement !== input) input.focus({ preventScroll: true });
     if (hint) {
       window.clearTimeout(Number(hint.dataset.hideTimer));
       hint.style.opacity = "1";

@@ -32,7 +32,7 @@ const NAV = [
  *     here" hint above it (see scroll-to-form.ts and #usdot-hint in
  *     boc3-landing.tsx). Below `sm` the page's sticky bottom bar carries this
  *     CTA instead, so phones get one persistent "File" button, not two. The
- *     mobile drawer's copy of this CTA is a plain anchor jump for now.
+ *     mobile drawer's copy of this CTA does the same scroll-and-focus.
  */
 export function LandingHeader() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -137,9 +137,9 @@ export function LandingHeader() {
           <Container className="flex items-center gap-3 border-t border-cloud/15 py-4">
             <a
               href="#file"
-              onClick={() => {
-                pushDataLayerEvent("cta_click", { location: "header_mobile" });
+              onClick={(e) => {
                 setDrawerOpen(false);
+                scrollToUsdotForm(e, "header_mobile");
               }}
               className={`${buttonVariants({ variant: "primary", size: "md" })} flex-1`}
             >
