@@ -25,6 +25,13 @@ function usDigits(text: string | null): string | null {
  *  2. points tel: links that show no number (icon-only and "Call" buttons) at
  *     the forwarding number, once one is on the page.
  * For everyone else nothing differs from our own number, so nothing changes.
+ *
+ * "Shows" means visible text (innerText), not textContent: a link can carry
+ * the number in a hidden span, like the landing header's Call icon on phones
+ * (`hidden sm:inline`). If Google's tag leaves that hidden copy unswapped,
+ * textContent would still read our own number and the icon would keep
+ * dialing it, untracked. With innerText the icon counts as number-less and
+ * gets the forwarding number like the other icon-only links.
  */
 export function PhoneLinkSync() {
   useEffect(() => {
@@ -34,7 +41,7 @@ export function PhoneLinkSync() {
       const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href^="tel:"]'));
       let swapped: string | null = null;
       for (const a of links) {
-        const shown = usDigits(a.textContent);
+        const shown = usDigits(a.innerText);
         if (shown && shown !== BASE_DIGITS) swapped = shown;
         if (shown) {
           const href = `tel:+${shown}`;
@@ -43,7 +50,7 @@ export function PhoneLinkSync() {
       }
       if (!swapped) return;
       for (const a of links) {
-        if (!usDigits(a.textContent) && a.getAttribute("href") !== `tel:+${swapped}`) {
+        if (!usDigits(a.innerText) && a.getAttribute("href") !== `tel:+${swapped}`) {
           a.setAttribute("href", `tel:+${swapped}`);
         }
       }
