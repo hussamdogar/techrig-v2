@@ -104,6 +104,13 @@ const googleReviews = [
   },
 ];
 
+// FMCSA's own public page listing DGR Tech Rig LLC as a BOC-3 blanket
+// process-agent company (source: seo/context/experience-notes.md, checked
+// 2026-10-02). The 82976 in the URL is FMCSA's page id, not a license or
+// registration number: never present it as one.
+const FMCSA_LISTING_URL =
+  "https://www.fmcsa.dot.gov/registration/process-agents/pa?field_associated_boc_target_id=82976";
+
 // Google's "G" mark, used only as a source indicator (never alone: always
 // paired with visible "Google" text) so it reads as attribution, not as an
 // implied partnership. Worth a check against Google's current review-widget
@@ -201,13 +208,6 @@ function UsdotForm({
   );
 }
 
-// Hero proof points. Deliberately different from the trust bar below, so the
-// first screen doesn't repeat itself.
-const trustStripItems = [
-  { icon: <ClockIcon size={15} />, text: "Filed the same day" },
-  { icon: <RouteNodeIcon size={15} />, text: "All 50 states, one filing" },
-  { icon: <CheckSealIcon size={15} />, text: "Verifiable on your FMCSA record" },
-];
 
 const trustBarItems = [
   { icon: <StampIcon size={16} />, text: "FMCSA-listed process agent" },
@@ -361,21 +361,17 @@ export function Boc3LandingPage({
     <>
       <LandingHeader />
 
-      {/* Hero: three top-level grid children (intro, form, trust strip), in
-          that DOM order, deliberately — not two wrapper divs. With a plain
-          1-column grid on mobile, that order alone puts the form right after
-          the headline, ahead of the trust strip, so a high-intent visitor
-          reaches the input field without scrolling past supporting content
-          first. At lg+, the same order auto-places into the 2-column grid as
-          [intro, form] on row 1 and [trust, empty] on row 2 — i.e. the
-          original two-column look — with no extra markup or duplicated
-          elements needed for either breakpoint. */}
+      {/* Hero: two grid children, intro (headline + the three answers) then
+          the form. One column on phones, so the form follows the answers on
+          the first screen; two columns from lg. */}
       <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <div className="grid grid-cols-1 items-start gap-6 sm:gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
             {/* 1: intro */}
             <div>
-              <p className="inline-flex items-center gap-2 rounded-chip border border-signal/60 bg-signal/15 px-3 py-1.5 shadow-[0_0_0_1px_rgba(232,154,60,0.12),0_4px_20px_rgba(232,154,60,0.25)] font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-cloud">
+              {/* Hidden on phones: the three answers below say the same thing,
+                  and the space keeps the form's button on the first screen. */}
+              <p className="hidden items-center gap-2 rounded-chip sm:inline-flex border border-signal/60 bg-signal/15 px-3 py-1.5 shadow-[0_0_0_1px_rgba(232,154,60,0.12),0_4px_20px_rgba(232,154,60,0.25)] font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-cloud">
                 <span className="relative flex h-5 w-5 shrink-0 items-center justify-center">
                   <span
                     className="absolute inline-flex h-full w-full animate-[ping_2.5s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full bg-signal/60 motion-reduce:hidden"
@@ -385,31 +381,51 @@ export function Boc3LandingPage({
                     <StampIcon size={12} aria-hidden="true" />
                   </span>
                 </span>
-                {/* "process agent" drops below sm so the badge holds one line on a phone. */}
-                <span>
-                  FMCSA-listed<span className="hidden sm:inline"> process agent</span>
-                </span>
+                FMCSA-listed process agent
                 <span className="text-signal before:content-['•']" aria-hidden="true" />
                 all 50 states
               </p>
-              <h1 className="mt-4 font-display text-[1.875rem] max-sm:text-balance sm:text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-cloud">
+              <h1 className="font-display text-[1.875rem] sm:mt-4 max-sm:text-balance sm:text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-cloud">
                 Your operating authority doesn&apos;t activate{" "}
                 <span className="text-signal">without this filing.</span>
               </h1>
-              {/* Phones get a one-sentence version so the USDOT field lands on
-                  the first screen; the full explanation is in the tabs below. */}
-              {/* Both versions lead with the strongest trust fact: we ARE the
-                  FMCSA-listed agent, not a reseller passing the order on. */}
-              <p className="mt-3 max-w-[52ch] text-cloud/80 sm:hidden">
-                We are an FMCSA-listed process agent, so we file your BOC-3
-                ourselves, the same day, for a flat ${amount}.
-              </p>
-              <p className="mt-4 hidden max-w-[52ch] text-lg text-cloud/80 sm:block">
-                A BOC-3 names the process agent who accepts legal papers for
-                you in every state. We are that agent: listed by FMCSA as a
-                blanket process agent, so we file it ourselves with no
-                middleman, the same day, for a flat ${amount} you pay once.
-              </p>
+              {/* The three questions carriers ask before buying (owner,
+                  2026-10-02), answered in that order: are you really
+                  FMCSA-listed, does it cover every state, how long does it
+                  take. The first carries a link to FMCSA's own listing so the
+                  answer can be checked, not just taken on our word. */}
+              <ul className="mt-4 max-w-[52ch] space-y-2.5 text-[15px] text-cloud/75 sm:mt-6 sm:space-y-3 sm:text-lg">
+                <li className="flex gap-2.5">
+                  <CheckSealIcon size={18} className="mt-0.5 shrink-0 text-signal sm:mt-1" aria-hidden="true" />
+                  <span>
+                    <strong className="font-semibold text-cloud">Officially listed by FMCSA</strong> as a
+                    BOC-3 process agent.{" "}
+                    <TrackedAnchor
+                      href={FMCSA_LISTING_URL}
+                      event="fmcsa_listing_click"
+                      data={{ location: "lp_hero" }}
+                      target="_blank"
+                      rel="noopener nofollow"
+                      className="whitespace-nowrap text-cloud underline underline-offset-4 hover:text-signal"
+                    >
+                      See our listing
+                    </TrackedAnchor>
+                  </span>
+                </li>
+                <li className="flex gap-2.5">
+                  <CheckSealIcon size={18} className="mt-0.5 shrink-0 text-signal sm:mt-1" aria-hidden="true" />
+                  <span>
+                    <strong className="font-semibold text-cloud">All 50 states</strong> covered in one filing.
+                  </span>
+                </li>
+                <li className="flex gap-2.5">
+                  <CheckSealIcon size={18} className="mt-0.5 shrink-0 text-signal sm:mt-1" aria-hidden="true" />
+                  <span>
+                    <strong className="font-semibold text-cloud">Filed the same day.</strong> Usually on your
+                    FMCSA record within hours.
+                  </span>
+                </li>
+              </ul>
             </div>
 
             {/* 2: the real USDOT quick-buy form, in place of the reference's
@@ -450,17 +466,6 @@ export function Boc3LandingPage({
               </div>
             </div>
 
-            {/* 3: trust strip */}
-            <ul className="flex flex-wrap gap-x-6 gap-y-2 lg:flex-nowrap lg:gap-x-4">
-              {trustStripItems.map((item, i) => (
-                <li key={i} className="flex items-center gap-2 text-sm font-medium text-cloud lg:shrink-0 lg:whitespace-nowrap lg:text-[13px]">
-                  <span className="text-signal" aria-hidden="true">
-                    {item.icon}
-                  </span>
-                  {item.text}
-                </li>
-              ))}
-            </ul>
           </div>
         </Container>
       </Section>
