@@ -442,25 +442,26 @@ export function Boc3LandingPage({
               <div className="mt-3 sm:mt-5">
                 <UsdotForm serviceKey={serviceKey} />
               </div>
-              {/* The two reassurances that matter at the moment of clicking:
-                  the price is complete, and other carriers rate us 5.0. One
-                  wrapping row right under the button (the rating stays next
-                  to the button it reassures), not two stacked blocks. */}
-              <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-slate">
-                <span className="flex items-center gap-1.5">
-                  <CheckSealIcon size={14} className="text-status-active" aria-hidden="true" />
-                  ${amount} total. No renewals, no forwarding fees.
+              {/* The two reassurances that matter at the moment of clicking.
+                  First and strongest: the price is a one-time fee with no
+                  annual renewal (most process agents bill yearly), so it is
+                  ink-colored and bold, not small grey print. Then the 5.0
+                  rating, kept next to the button it reassures. */}
+              <p className="mt-3 flex items-center justify-center gap-1.5 text-sm text-ink">
+                <CheckSealIcon size={16} className="shrink-0 text-status-active" aria-hidden="true" />
+                <span>
+                  ${amount} one-time fee. <strong className="font-semibold">No annual renewals.</strong>
                 </span>
-                <a
-                  href={GOOGLE_REVIEWS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 hover:text-ink"
-                >
-                  <StarRating size={12} label="5.0 out of 5 stars" />
-                  5.0 on Google
-                </a>
-              </div>
+              </p>
+              <a
+                href={GOOGLE_REVIEWS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1.5 flex items-center justify-center gap-1.5 text-xs text-slate hover:text-ink"
+              >
+                <StarRating size={12} label="5.0 out of 5 stars" />
+                5.0 on Google
+              </a>
             </div>
 
           </div>
