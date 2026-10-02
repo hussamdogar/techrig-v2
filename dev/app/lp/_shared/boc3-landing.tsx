@@ -158,24 +158,27 @@ function UsdotForm({
       action={startBoc3Lookup}
       event="quick_buy_lookup_submit"
       data={{ service: serviceKey, location: "lp_hero" }}
-      className="space-y-3"
+      className="space-y-2.5"
     >
       <div>
-        {/* Hidden by default (opacity, not display, so no layout shift when it
-            appears). The header CTA's click handler reveals this by id after
-            it finishes scrolling here, then hides it again after a few
-            seconds. See landing-header.tsx. */}
-        <p
-          id="usdot-hint"
-          aria-live="polite"
-          className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-steel opacity-0 transition-opacity duration-300"
-        >
-          <ArrowRightIcon size={12} className="rotate-90" aria-hidden="true" />
-          Enter your USDOT number here to get started
-        </p>
-        <label htmlFor="usdot" className="text-sm font-medium text-ink">
-          USDOT number
-        </label>
+        <div className="flex items-baseline justify-between gap-3">
+          <label htmlFor="usdot" className="text-sm font-medium text-ink">
+            USDOT number
+          </label>
+          {/* Hidden by default (opacity, not display, so no layout shift when
+              it appears), and sharing the label's row so it reserves no
+              extra height in the card. The header and sticky-bar CTAs reveal
+              it by id after scrolling here, then hide it again after a few
+              seconds. See scroll-to-form.ts. */}
+          <p
+            id="usdot-hint"
+            aria-live="polite"
+            className="flex items-center gap-1 text-xs font-medium text-steel opacity-0 transition-opacity duration-300"
+          >
+            <ArrowRightIcon size={12} className="rotate-90" aria-hidden="true" />
+            Start here
+          </p>
+        </div>
         <input
           id="usdot"
           name="usdot"
@@ -185,23 +188,25 @@ function UsdotForm({
           pattern="\d{1,12}"
           required
           placeholder="e.g. 1234567"
-          className="mt-1 w-full rounded-card border border-slate/25 bg-paper px-4 py-3 text-lg text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
+          className="mt-1 w-full rounded-card border border-slate/25 bg-paper px-4 py-2.5 text-lg text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
         />
       </div>
       <button
         type="submit"
         className={`${buttonVariants({ variant: "primary", size: compact ? "sm" : "md" })} w-full`}
       >
-        File my BOC-3 &mdash; ${amount}
+        File my BOC-3 for ${amount}
       </button>
     </TrackedForm>
   );
 }
 
+// Hero proof points. Deliberately different from the trust bar below, so the
+// first screen doesn't repeat itself.
 const trustStripItems = [
-  { icon: <ClockIcon size={15} />, text: "Filed same day" },
-  { icon: <RouteNodeIcon size={15} />, text: "50-state coverage" },
-  { icon: <ShieldIcon size={15} />, text: "No extra charges for documents received" },
+  { icon: <ClockIcon size={15} />, text: "Filed the same day" },
+  { icon: <RouteNodeIcon size={15} />, text: "All 50 states, one filing" },
+  { icon: <CheckSealIcon size={15} />, text: "Verifiable on your FMCSA record" },
 ];
 
 const trustBarItems = [
@@ -393,14 +398,17 @@ export function Boc3LandingPage({
               </h1>
               {/* Phones get a one-sentence version so the USDOT field lands on
                   the first screen; the full explanation is in the tabs below. */}
+              {/* Both versions lead with the strongest trust fact: we ARE the
+                  FMCSA-listed agent, not a reseller passing the order on. */}
               <p className="mt-3 max-w-[52ch] text-cloud/80 sm:hidden">
-                We file your BOC-3 direct with FMCSA, all 50 states, for a flat
-                ${amount} you pay once.
+                We are an FMCSA-listed process agent, so we file your BOC-3
+                ourselves, the same day, for a flat ${amount}.
               </p>
               <p className="mt-4 hidden max-w-[52ch] text-lg text-cloud/80 sm:block">
-                A BOC-3 names the process agent who can accept legal documents
-                for you in every state you run. We file it direct with
-                FMCSA/MOTUS electronically, for a flat ${amount} you pay once.
+                A BOC-3 names the process agent who accepts legal papers for
+                you in every state. We are that agent: listed by FMCSA as a
+                blanket process agent, so we file it ourselves with no
+                middleman, the same day, for a flat ${amount} you pay once.
               </p>
             </div>
 
@@ -408,35 +416,38 @@ export function Boc3LandingPage({
                 multi-field lead form. id="file" is the scroll target of the header and
                 sticky-bar CTAs; scroll-mt-32 clears the header plus the
                 landing cookie bar (cookie-notice.tsx) when that is showing. */}
-            <div id="file" className="scroll-mt-32 rounded-card border border-slate/15 bg-cloud p-5 shadow-card sm:p-6">
+            <div id="file" className="scroll-mt-32 rounded-card border border-slate/15 bg-cloud p-4 shadow-card sm:p-6">
               {/* Price in the card title for ad-to-page message match: the
                   Google Ads headlines lead with the price, so it is the
                   first thing confirmed here, not only on the button. */}
               <p className="font-display text-lg font-bold text-ink">
-                Get your BOC-3 filed for ${amount}
+                File your BOC-3 today for ${amount}
               </p>
-              <p className="mt-1 text-sm text-slate">
-                About 2 minutes: confirm your record, pay, and we file the same day.
+              <p className="mt-0.5 text-sm text-slate">
+                Takes about 2 minutes. No forms to fill out.
               </p>
-              <div className="mt-4 sm:mt-5">
+              <div className="mt-3 sm:mt-5">
                 <UsdotForm amount={amount} serviceKey={serviceKey} />
               </div>
-              <p className="mt-4 flex items-center gap-2 text-sm text-slate">
-                <CheckSealIcon size={16} className="text-status-active" aria-hidden="true" />
-                ${amount} is the full price: no annual renewal, no fee to forward documents.
-              </p>
-              {/* Rating right next to the button it's meant to reassure,
-                  not only in the dedicated reviews section further down
-                  the page. */}
-              <a
-                href={GOOGLE_REVIEWS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 flex items-center justify-center gap-1.5 text-xs text-slate hover:text-ink"
-              >
-                <StarRating size={12} label="5.0 out of 5 stars" />
-                5.0 on Google
-              </a>
+              {/* The two reassurances that matter at the moment of clicking:
+                  the price is complete, and other carriers rate us 5.0. One
+                  wrapping row right under the button (the rating stays next
+                  to the button it reassures), not two stacked blocks. */}
+              <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-slate">
+                <span className="flex items-center gap-1.5">
+                  <CheckSealIcon size={14} className="text-status-active" aria-hidden="true" />
+                  ${amount} total. No renewals, no forwarding fees.
+                </span>
+                <a
+                  href={GOOGLE_REVIEWS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 hover:text-ink"
+                >
+                  <StarRating size={12} label="5.0 out of 5 stars" />
+                  5.0 on Google
+                </a>
+              </div>
             </div>
 
             {/* 3: trust strip */}
