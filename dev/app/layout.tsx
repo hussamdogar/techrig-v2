@@ -4,6 +4,7 @@ import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SiteHeader } from "@/components/site-header";
 import { AdClickIdCapture } from "@/components/ad-click-id-capture";
+import { PhoneLinkSync } from "@/components/phone-link-sync";
 import { SiteFooter } from "@/components/site-footer";
 import { CookieNotice } from "@/components/cookie-notice";
 import { JsonLd } from "@/components/json-ld";
@@ -95,6 +96,9 @@ export default function RootLayout({
             uploads (phone / follow-up sales). Not gated on GTM_ENABLED: it
             only writes our own cookie, and staging tests need it too. */}
         <AdClickIdCapture />
+        {/* Keeps Call links dialing the Google forwarding number once Google
+            Ads swaps the displayed number for an ad visitor. */}
+        <PhoneLinkSync />
         {/* SpeedInsights removed 2026-09-09: @vercel/speed-insights 2.0.0 throws an
             unhandled promise rejection ("reading 'M_ID'") on every page under
             Next 16 + Turbopack production builds. Re-add once the package supports

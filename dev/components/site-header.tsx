@@ -194,7 +194,9 @@ export function SiteHeader({ cta = defaultCta }: { cta?: Cta }) {
             aria-label={`Call Tech Rig at ${site.telephone}`}
           >
             <PhoneIcon size={16} />
-            <span className="hidden sm:inline">Call</span>
+            {/* The number itself, not "Call": Google Ads' website call
+                tracking swaps displayed number text (see PhoneLinkSync). */}
+            <span className="hidden sm:inline">{site.telephone}</span>
           </a>
           {/* Mobile drawer toggle */}
           <button
