@@ -152,11 +152,9 @@ function StarRating({
 // uses.
 function UsdotForm({
   compact = false,
-  amount,
   serviceKey,
 }: {
   compact?: boolean;
-  amount: number;
   serviceKey: string;
 }) {
   const startBoc3Lookup = startQuickBuyLookup.bind(null, serviceKey);
@@ -202,7 +200,7 @@ function UsdotForm({
         type="submit"
         className={`${buttonVariants({ variant: "primary", size: compact ? "sm" : "md" })} w-full`}
       >
-        File my BOC-3 for ${amount}
+        Start my BOC-3 filing
       </button>
     </TrackedForm>
   );
@@ -387,7 +385,7 @@ export function Boc3LandingPage({
               </p>
               <h1 className="font-display text-[1.875rem] sm:mt-4 max-sm:text-balance sm:text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-cloud">
                 Your operating authority doesn&apos;t activate{" "}
-                <span className="text-signal">without this filing.</span>
+                <span className="text-signal">without a BOC-3.</span>
               </h1>
               {/* The three questions carriers ask before buying (owner,
                   2026-10-02), answered in that order: are you really
@@ -421,8 +419,7 @@ export function Boc3LandingPage({
                 <li className="flex gap-2.5">
                   <CheckSealIcon size={18} className="mt-0.5 shrink-0 text-signal sm:mt-1" aria-hidden="true" />
                   <span>
-                    <strong className="font-semibold text-cloud">Filed the same day.</strong> Usually on your
-                    FMCSA record within hours.
+                    <strong className="font-semibold text-cloud">Filed the same day.</strong>
                   </span>
                 </li>
               </ul>
@@ -443,7 +440,7 @@ export function Boc3LandingPage({
                 Takes about 2 minutes. No forms to fill out.
               </p>
               <div className="mt-3 sm:mt-5">
-                <UsdotForm amount={amount} serviceKey={serviceKey} />
+                <UsdotForm serviceKey={serviceKey} />
               </div>
               {/* The two reassurances that matter at the moment of clicking:
                   the price is complete, and other carriers rate us 5.0. One
