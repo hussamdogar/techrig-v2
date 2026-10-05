@@ -430,39 +430,51 @@ export function Boc3LandingPage({
                 multi-field lead form. id="file" is the scroll target of the header and
                 sticky-bar CTAs; scroll-mt-32 clears the header plus the
                 landing cookie bar (cookie-notice.tsx) when that is showing. */}
-            <div id="file" className="scroll-mt-32 rounded-card border border-slate/15 bg-cloud p-4 shadow-card sm:p-6">
-              {/* Price in the card title for ad-to-page message match: the
-                  Google Ads headlines lead with the price, so it is the
-                  first thing confirmed here, not only on the button. */}
-              <p className="font-display text-lg font-bold text-ink">
-                File your BOC-3 today for ${amount}
-              </p>
-              <p className="mt-0.5 text-sm text-slate">
-                Takes about 2 minutes. No forms to fill out.
-              </p>
-              <div className="mt-3 sm:mt-5">
-                <UsdotForm serviceKey={serviceKey} />
+            <div>
+              <div id="file" className="scroll-mt-32 rounded-card border border-slate/15 bg-cloud p-4 shadow-card sm:p-6">
+                {/* Price in the card title for ad-to-page message match: the
+                    Google Ads headlines lead with the price, so it is the
+                    first thing confirmed here, not only on the button. */}
+                <p className="font-display text-lg font-bold text-ink">
+                  File your BOC-3 today for ${amount}
+                </p>
+                <p className="mt-0.5 text-sm text-slate">
+                  Takes about 2 minutes. No forms to fill out.
+                </p>
+                <div className="mt-3 sm:mt-5">
+                  <UsdotForm serviceKey={serviceKey} />
+                </div>
+                {/* The two reassurances that matter at the moment of clicking.
+                    First and strongest: the price is a one-time fee with no
+                    annual renewal (most process agents bill yearly), so it is
+                    ink-colored and bold, not small grey print. Then the 5.0
+                    rating, kept next to the button it reassures. */}
+                <p className="mt-3 flex items-center justify-center gap-1.5 text-sm text-ink">
+                  <CheckSealIcon size={16} className="shrink-0 text-status-active" aria-hidden="true" />
+                  <span>
+                    ${amount} one-time fee. <strong className="font-semibold">No annual renewals.</strong>
+                  </span>
+                </p>
+                <a
+                  href={GOOGLE_REVIEWS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1.5 flex items-center justify-center gap-1.5 text-xs text-slate hover:text-ink"
+                >
+                  <StarRating size={12} label="5.0 out of 5 stars" />
+                  5.0 on Google
+                </a>
               </div>
-              {/* The two reassurances that matter at the moment of clicking.
-                  First and strongest: the price is a one-time fee with no
-                  annual renewal (most process agents bill yearly), so it is
-                  ink-colored and bold, not small grey print. Then the 5.0
-                  rating, kept next to the button it reassures. */}
-              <p className="mt-3 flex items-center justify-center gap-1.5 text-sm text-ink">
-                <CheckSealIcon size={16} className="shrink-0 text-status-active" aria-hidden="true" />
-                <span>
-                  ${amount} one-time fee. <strong className="font-semibold">No annual renewals.</strong>
-                </span>
+              {/* Google Ads' government documents policy asks non-government
+                  providers to "clearly disclose that you are a private entity
+                  and not affiliated with any government" (support.google.com/
+                  adspolicy/answer/6368711). This page says "Officially listed by
+                  FMCSA" and links fmcsa.dot.gov, so it states it right under
+                  the form. */}
+              <p className="mt-3 text-xs text-cloud/60">
+                We&apos;re a private BOC-3 process agent company listed with FMCSA,
+                not part of FMCSA or any government agency.
               </p>
-              <a
-                href={GOOGLE_REVIEWS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-1.5 flex items-center justify-center gap-1.5 text-xs text-slate hover:text-ink"
-              >
-                <StarRating size={12} label="5.0 out of 5 stars" />
-                5.0 on Google
-              </a>
             </div>
 
           </div>
