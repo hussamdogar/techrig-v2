@@ -63,34 +63,53 @@ export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: strin
   const truckTractors = rawTruckTractors != null && rawTruckTractors !== "" ? Number(rawTruckTractors) : null;
 
   const db = serviceClient();
-  const { data: order, error } = await db
-    .from("quick_buy_orders")
-    .insert({
-      lead_id: decoded.leadId,
-      usdot_number: usdot,
-      service_key: serviceKey,
-      power_units: powerUnits,
-      truck_tractors: truckTractors,
-      first_name: firstName,
-      last_name: lastName,
-      email,
-      phone,
-      address_line1: addressLine1,
-      address_line2: addressLine2,
-      address_city: addressCity,
-      address_state: addressState,
-      address_zip: addressZip,
-      address_country: addressCountry,
-      reference_id: decoded.referenceId ?? null,
-      confirmed_at: new Date().toISOString(),
-      status: "awaiting_payment",
-      // Google Ads click id(s), for uploading a later offline sale (see
-      // migrations 0017/0018: the google_ads_followup_sales view).
-      ...(await readAdClickIds()),
-    })
-    .select("id")
-    .single();
-  if (error || !order) redirect(`/buy/${serviceKeyParam}/${usdot}/?error=1`);
+  const row = {
+    lead_id: decoded.leadId,
+    usdot_number: usdot,
+    service_key: serviceKey,
+    power_units: powerUnits,
+    truck_tractors: truckTractors,
+    first_name: firstName,
+    last_name: lastName,
+    email,
+    phone,
+    address_line1: addressLine1,
+    address_line2: addressLine2,
+    address_city: addressCity,
+    address_state: addressState,
+    address_zip: addressZip,
+    address_country: addressCountry,
+    confirmed_at: new Date().toISOString(),
+    status: "awaiting_payment",
+    // Google Ads click id(s), for uploading a later offline sale (see
+    // migrations 0017/0018: the google_ads_followup_sales view).
+    ...(await readAdClickIds()),
+  };
+
+  // One lead can place several orders: going back and confirming again, a
+  // double submit, or the thank-you page's "You may also need" buttons (same
+  // USDOT, so performLookup reuses the same lead within its 30-minute window).
+  // Order references are unique (migration 0008), so the first order carries
+  // the lead's reference and each later one a numbered suffix
+  // (DGR-20261005-003, then DGR-20261005-003-2, -3, ...), which keeps every
+  // order traceable to its lead's alert email. Without this, every order
+  // after the first failed the unique check and the visitor hit ?error=1.
+  const baseRef = decoded.referenceId ?? null;
+  const MAX_ORDERS_PER_LEAD_REF = 20;
+  let order: { id: string } | null = null;
+  for (let n = 1; n <= MAX_ORDERS_PER_LEAD_REF; n++) {
+    const reference_id = baseRef && n > 1 ? `${baseRef}-${n}` : baseRef;
+    const { data, error } = await db
+      .from("quick_buy_orders")
+      .insert({ ...row, reference_id })
+      .select("id")
+      .single();
+    order = data;
+    // 23505 = unique_violation: that reference is taken, try the next suffix.
+    // Any other error (or no reference to vary) is a real failure.
+    if (!error || error.code !== "23505" || !baseRef) break;
+  }
+  if (!order) redirect(`/buy/${serviceKeyParam}/${usdot}/?error=1`);
 
   const store = await cookies();
   store.set(QUICK_BUY_TOKEN_COOKIE, formData.get("token") as string, {
