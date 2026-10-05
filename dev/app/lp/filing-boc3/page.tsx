@@ -2,9 +2,8 @@ import { SERVICES } from "@/lib/services-registry";
 import { Boc3LandingPage, getBoc3Metadata } from "../_shared/boc3-landing";
 
 /*
- * $70 price-test variant of /lp/boc-3-filing/ (owner-directed pricing
- * experiment, 2026-09-14; no longer used for Google Ads as of 2026-09-28,
- * when the main page moved to $30). All content, layout, and design live in
+ * Second BOC-3 landing page, originally a $70 price test (2026-09-14).
+ * Since 2026-10-05 both landing pages share the `boc-3-b` lane at $30. All content, layout, and design live in
  * the shared template (dev/app/lp/_shared/boc3-landing.tsx) — this file only
  * supplies the price (read from the registry, the same number /buy/ charges),
  * the checkout link, and the service key (`boc-3-b`, see

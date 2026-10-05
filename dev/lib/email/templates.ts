@@ -92,7 +92,7 @@ export function receiptEmail(d: { referenceId: string; amount: number; services:
 const QUICK_BUY_NEXT_STEPS: Record<"boc-3" | "boc-3-b" | "ucr" | "clearinghouse" | "consortium" | "dq-files", string> = {
   "boc-3":
     "We file your BOC-3 process agent designation within 24 hours of your order. If your order falls on a weekend or a federal holiday, we file it the next business day instead. You'll receive a status update from us as soon as it's filed.",
-  // $70 price-test variant of boc-3 (lib/services-registry.ts) — identical
+  // Landing-page price lane of boc-3 (lib/services-registry.ts) — identical
   // filing and fulfillment, so identical next-steps copy.
   "boc-3-b":
     "We file your BOC-3 process agent designation within 24 hours of your order. If your order falls on a weekend or a federal holiday, we file it the next business day instead. You'll receive a status update from us as soon as it's filed.",

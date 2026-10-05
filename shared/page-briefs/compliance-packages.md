@@ -11,7 +11,7 @@
 `Trucking Compliance Packages and Bundles | Tech Rig`
 
 ## Meta description (156 chars)
-`Four trucking compliance packages, from $330. Pick by authority status and vehicle type, and get BOC-3, UCR, and discounted driver compliance in one order.`
+`Four trucking compliance packages, from $400. Pick by authority status and vehicle type, and get BOC-3, UCR, and discounted driver compliance in one order.`
 
 ## Three Kings check
 Primary "trucking compliance packages" in: title (yes), first paragraph (yes), H2s ("Choose the package that matches your authority status and vehicle type", "What every package includes").
@@ -39,29 +39,29 @@ For the heavy/CDL packages: "These packages are designed for interstate property
 ### H2: The four packages
 Four cards (Design: DZ3 card component). Each card shows: name, final price, who-it-is-for, a **"BOC-3 Included"** badge, the included-services list, the final price (the itemized in-bundle total; no rounding, and no bundle discount on BOC-3 or UCR, owner decision 2026-09-28), and the public display (standalone value, package price, customer savings, discount %). All figures DERIVED from `services.md`.
 
-**Card 1 — Compliance Continuation — Non-CDL — $330**
+**Card 1 — Compliance Continuation — Non-CDL — $400**
 Who: carriers that already have USDOT + MC and operate a non-CDL vehicle.
 Includes: BOC-3 (or verification), UCR filing, UCR government fee (0-2), one Driver Qualification file.
-**$330**. Standalone value $380 · savings $50 (DQ file) · 13.2%.
+**$400**. Standalone value $450 · savings $50 (DQ file) · 11.1%.
 Wording: "Already have your authority and operate a non-CDL vehicle? Complete your BOC-3, UCR, and first Driver Qualification file in one package."
 
-**Card 2 — Compliance Continuation — CDL/Heavy — $1,030**
+**Card 2 — Compliance Continuation — CDL/Heavy — $1,100**
 Who: carriers that already have USDOT + MC and operate a qualifying heavy interstate vehicle that requires CDL compliance, IRP, and IFTA.
 Includes: BOC-3, UCR filing, UCR gov (0-2), Clearinghouse, Consortium, pre-employment drug test, one DQ file, IRP setup, IFTA setup.
-**$1,030**. Value $1,255 · savings $225 · 17.9%.
+**$1,100**. Value $1,325 · savings $225 · 17.0%.
 Wording: "Already have your authority but still need CDL-driver compliance, IRP, and IFTA? Complete the remaining setup for one driver in one package."
 Fee note: "IRP and IFTA government, state, plate, credential, and jurisdiction fees are billed separately."
 
-**Card 3 — Authority Launch — Non-CDL — $930**
+**Card 3 — Authority Launch — Non-CDL — $1,000**
 Who: new carriers that need USDOT + MC and will operate a non-CDL vehicle.
 Includes: MC Authority + USDOT, BOC-3, UCR filing, UCR gov (0-2), one DQ file.
-**$930**. Value $1,030 · savings $100 · 9.7%.
+**$1,000**. Value $1,100 · savings $100 · 9.1%.
 Wording: "Starting a new authority with a non-CDL vehicle? Get your authority filings, BOC-3, UCR, and first Driver Qualification file without paying for CDL-only services."
 
-**Card 4 — Authority Launch — CDL/Heavy — $1,630**
+**Card 4 — Authority Launch — CDL/Heavy — $1,700**
 Who: new interstate property carriers operating a qualifying heavy vehicle or combination that requires CDL compliance, IRP, and IFTA.
 Includes: MC Authority + USDOT, BOC-3, UCR filing, UCR gov (0-2), Clearinghouse, Consortium, pre-employment drug test, one DQ file, IRP setup, IFTA setup.
-**$1,630**. Value $1,905 · savings $275 · 14.4%.
+**$1,700**. Value $1,975 · savings $275 · 13.9%.
 Wording: "Starting a new heavy interstate operation? Get authority registration, BOC-3, UCR, CDL-driver compliance, IRP setup, and IFTA setup in one package."
 Fee note: same IRP/IFTA-fees-separate note.
 
@@ -83,8 +83,8 @@ Fee note: same IRP/IFTA-fees-separate note.
 | Pre-employment drug test | — | ✓ | — | ✓ |
 | IRP setup | — | ✓ | — | ✓ |
 | IFTA setup | — | ✓ | — | ✓ |
-| Standalone value | $380 | $1,255 | $1,030 | $1,905 |
-| Final package price | $330 | $1,030 | $930 | $1,630 |
+| Standalone value | $450 | $1,325 | $1,100 | $1,975 |
+| Final package price | $400 | $1,100 | $1,000 | $1,700 |
 | Customer savings | $50 | $225 | $100 | $275 |
 
 ### H2: Additional drivers
