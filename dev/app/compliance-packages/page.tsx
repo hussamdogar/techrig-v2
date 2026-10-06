@@ -20,12 +20,12 @@ const applyHref = "/apply/";
 export const metadata: Metadata = {
   title: { absolute: "Trucking Compliance Packages and Bundles | Tech Rig" },
   description:
-    "Four trucking compliance packages, from $330. Pick by authority status and vehicle type, and get BOC-3, UCR, and discounted driver compliance in one order.",
+    "Four trucking compliance packages, from $400. Pick by authority status and vehicle type, and get BOC-3, UCR, and discounted driver compliance in one order.",
   alternates: { canonical: "/compliance-packages/" },
   openGraph: {
     title: "Trucking Compliance Packages and Bundles | Tech Rig",
     description:
-      "Four trucking compliance packages, from $330. Pick by authority status and vehicle type, and get BOC-3, UCR, and discounted driver compliance in one order.",
+      "Four trucking compliance packages, from $400. Pick by authority status and vehicle type, and get BOC-3, UCR, and discounted driver compliance in one order.",
     url: "/compliance-packages/",
     type: "website",
   },

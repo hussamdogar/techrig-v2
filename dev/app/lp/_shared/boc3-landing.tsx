@@ -24,7 +24,7 @@ import { FormCta } from "./form-cta";
 
 /*
  * Shared template for the BOC-3 Google Ads landing pages (/lp/boc-3-filing/,
- * and /lp/filing-boc3/ at $70 as a price test — owner decision,
+ * and /lp/filing-boc3/, both priced via the `boc-3-b` lane; originally a $70 price test — owner decision,
  * 2026-09-15, URL deliberately not containing "-b" so the variant isn't
  * outwardly identifiable as a test). Both routes render this same component,
  * passing only `amount` and `serviceKey` — everything else

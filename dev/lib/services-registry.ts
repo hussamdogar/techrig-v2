@@ -146,28 +146,30 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     name: "BOC-3 filing",
     blurb: "Blanket process-agent designation across all 50 states.",
     priceKind: "flat",
-    // Owner-directed price change (2026-09-28): $100 -> $30, standalone and
-    // in-bundle (no bundle discount on BOC-3).
-    standalonePrice: 30,
-    bundlePrice: 30,
+    // Owner-directed price change (2026-10-05): back to $100 site-wide,
+    // standalone and in-bundle (no bundle discount on BOC-3). Was $30 from
+    // 2026-09-28. The Google Ads landing pages stay at $30 via `boc-3-b`.
+    standalonePrice: 100,
+    bundlePrice: 100,
     requiredSteps: ["carrier-identity", "service-specifics"],
     expectedTimeline: "Same business day when ordered with your information during business hours",
   },
-  /** Owner-directed price test (2026-09-14): identical BOC-3 filing, sold at
-   *  $70 instead of the then-$100 original (now $30, 2026-09-28; this page
-   *  is no longer used for Google Ads) through a dedicated landing page
-   *  (/lp/filing-boc3/ — URL deliberately doesn't contain "boc-3-b" or "-b")
-   *  and its own quick-buy lane, so orders, upsell eligibility, and GA4
-   *  events never mix with the $100 original. The internal service key stays
-   *  `boc-3-b`; only the outward-facing landing page URL was renamed. Quick-
-   *  buy only — never appears in /apply or the four fixed bundles. */
+  /** Landing-page price lane: identical BOC-3 filing at its own price, sold
+   *  only through the Google Ads landing pages (/lp/boc-3-filing/ and
+   *  /lp/filing-boc3/) and their own quick-buy lane, so orders, upsell
+   *  eligibility, and GA4 events never mix with the site-wide `boc-3`.
+   *  History: $70 price test on /lp/filing-boc3/ (2026-09-14); owner decision
+   *  2026-10-05 moved BOC-3 back to $100 site-wide and pointed both landing
+   *  pages here at $30. To test a different price on one landing page again,
+   *  point that page's route file back at `boc-3` or a new key. Quick-buy
+   *  only — never appears in /apply or the four fixed bundles. */
   "boc-3-b": {
     key: "boc-3-b",
     name: "BOC-3 filing",
     blurb: "Blanket process-agent designation across all 50 states.",
     priceKind: "flat",
-    standalonePrice: 70,
-    bundlePrice: 70,
+    standalonePrice: 30,
+    bundlePrice: 30,
     requiredSteps: ["carrier-identity", "service-specifics"],
     expectedTimeline: "Same business day when ordered with your information during business hours",
   },
@@ -339,7 +341,7 @@ export function isServiceKey(value: unknown): value is ServiceKey {
  *  (`/buy/<service>/`): each needs nothing beyond a confirmed carrier record,
  *  plus one extra field for ucr (power units) / dq-files (driver count).
  *  Every other service stays on the full `/apply` multi-step engine.
- *  `boc-3-b` is the $70 price-test variant (see SERVICES above) — it needs
+ *  `boc-3-b` is the landing-page price lane (see SERVICES above) — it needs
  *  the same entry-route/confirm/review/pay treatment as `boc-3`, but must
  *  never be offered as an upsell (see QUICK_BUY_UPSELL_EXCLUDED below). */
 export type QuickBuyServiceKey = "boc-3" | "boc-3-b" | "ucr" | "clearinghouse" | "consortium" | "dq-files";
@@ -363,7 +365,7 @@ export function isQuickBuyServiceKey(value: unknown): value is QuickBuyServiceKe
 const LIMITED_QUICK_BUY_UPSELL_KEYS: QuickBuyServiceKey[] = ["boc-3", "ucr", "dq-files"];
 
 /** Never offered as an upsell: a carrier only ever reaches `boc-3-b` by
- *  clicking through the dedicated $70 landing page, not through the normal
+ *  clicking through a BOC-3 landing page, not through the normal
  *  quick-buy funnel. Without this filter it would show up as a second,
  *  confusing "BOC-3 filing" option next to the original everywhere
  *  eligibleQuickBuyUpsells is used. */
@@ -859,11 +861,11 @@ export function computePricing(selected: ServiceKey[], ctx: PricingContext): Pri
  *  hardcoded) so it stays correct if that price ever changes. Quick-buy only
  *  — /apply and the four fixed bundles are untouched.
  *
- *  Since BOC-3 dropped to $30 and the 0-2 UCR service fee to $54 (both
- *  2026-09-28), the pair's normal price ($30 + $54 + $46 = $130) is already
- *  below $200, so the combo would be a
- *  surcharge. computeQuickBuyPricing applies it only when it actually lowers
- *  the UCR line, which today means never; the carrier pays the lower normal
+ *  With BOC-3 at $100 (2026-10-05) and the 0-2 UCR service fee at $54, the
+ *  pair's normal price ($100 + $54 + $46 = $200) already equals the combo,
+ *  and with the $30 landing-page BOC-3 it is lower still, so the combo would
+ *  never discount. computeQuickBuyPricing applies it only when it actually
+ *  lowers the UCR line, which today means never; the carrier pays the normal
  *  price. */
 export const BOC3_UCR_COMBO_TOTAL = 200;
 export const BOC3_UCR_COMBO_UCR_PORTION = BOC3_UCR_COMBO_TOTAL - (SERVICES["boc-3"].standalonePrice ?? 0);

@@ -336,8 +336,8 @@ export default function McRegistrationPage() {
                 compliance packages
               </CrossLink>{" "}
               bundle MC + USDOT with BOC-3, UCR, and driver compliance at
-              lower in-bundle prices (Authority Launch — Non-CDL $930, or
-              CDL/Heavy $1,630). Insurance is coordinated with your own
+              lower in-bundle prices (Authority Launch — Non-CDL $1,000, or
+              CDL/Heavy $1,700). Insurance is coordinated with your own
               insurer, not a Tech Rig service.
             </li>
           </ul>
