@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { type QuickBuyServiceKey } from "@/lib/services-registry";
-import { pricing, type Price } from "@/lib/services";
+import { computeQuickBuyPricing, type QuickBuyServiceKey } from "@/lib/services-registry";
+import { pricing } from "@/lib/services";
 
 /**
  * Hero "start your order" card (M1, ADR-4/-8; revised R2 for the ask-first
@@ -31,40 +31,47 @@ type Tile = {
   label: string;
   /** Present only for the five services with a real quick-buy fast path. */
   quickBuyKey: QuickBuyServiceKey | null;
-  /** The service's page slug, used only to read its price from `pricing`
-   *  (lib/services.ts), the same source as that page's PriceChip, so the
-   *  price on a tile can never drift from the price on the service page. */
-  priceSlug: string;
-  /** Optional short line after the price, e.g. BOC-3's one-time note. */
-  priceNote?: string;
+  /** Shown on the same line as the label. */
+  price: string;
+  /** Short line under the label and price. */
+  note: string;
 };
 
-const TILES: Tile[] = [
-  // Matches the BOC-3 landing page's "$45 one-time fee. No annual renewals."
-  { label: "BOC-3 filing", quickBuyKey: "boc-3", priceSlug: "/boc-3-filing/", priceNote: "one-time fee, no annual renewals" },
-  { label: "UCR registration", quickBuyKey: "ucr", priceSlug: "/ucr-registration/" },
-  { label: "Clearinghouse registration", quickBuyKey: "clearinghouse", priceSlug: "/fmcsa-clearinghouse-registration/" },
-  { label: "Drug & alcohol consortium", quickBuyKey: "consortium", priceSlug: "/drug-and-alcohol-consortium/" },
-  { label: "Driver qualification files", quickBuyKey: "dq-files", priceSlug: "/driver-qualification-files/" },
-  { label: "Biennial Update", quickBuyKey: null, priceSlug: "/mcs-150-biennial-update/" },
-  { label: "USDOT Correction", quickBuyKey: null, priceSlug: "/usdot-correction/" },
-];
-
-/** Compact, one-line form of the PriceChip text for a tile: "$45",
- *  "from $54 + gov fee", "$250 per driver". Same rules as PriceChip: a
- *  government fee is only ever noted, never blended into the number, and a
- *  quote/unconfirmed price shows no number at all. */
-function tilePrice(price: Price | undefined): string | null {
-  if (!price || price.amount == null || price.kind === "quote" || price.kind === "verify") return null;
-  return [
-    price.kind === "from" ? "from" : null,
-    `$${price.amount}`,
-    price.unit ?? null,
-    price.govFee ? "+ gov fee" : null,
-  ]
-    .filter(Boolean)
-    .join(" ");
+/** A flat service fee from `pricing` (lib/services.ts), the same source as
+ *  each service page's PriceChip, so a tile can't drift from its page. */
+function flatPrice(slug: string): string {
+  return `$${pricing[slug]?.amount ?? ""}`;
 }
+
+/** UCR is shown as the all-in total a 0-2 truck carrier pays (Tech Rig fee +
+ *  that bracket's government fee), computed by the same function checkout
+ *  charges with, so the tile always equals the real price. */
+const UCR_SMALL_FLEET_TOTAL = computeQuickBuyPricing(["ucr"], { powerUnits: 0, driverCount: null }).total;
+
+const TILES: Tile[] = [
+  { label: "BOC-3 filing", quickBuyKey: "boc-3", price: flatPrice("/boc-3-filing/"), note: "One-time fee, no annual renewals" },
+  { label: "UCR registration", quickBuyKey: "ucr", price: `$${UCR_SMALL_FLEET_TOTAL}`, note: "UCR 2026 (0-2 trucks)" },
+  {
+    label: "Clearinghouse registration",
+    quickBuyKey: "clearinghouse",
+    price: flatPrice("/fmcsa-clearinghouse-registration/"),
+    note: "FMCSA drug & alcohol records setup",
+  },
+  {
+    label: "Drug & alcohol consortium",
+    quickBuyKey: "consortium",
+    price: flatPrice("/drug-and-alcohol-consortium/"),
+    note: "Enrollment and random testing",
+  },
+  {
+    label: "Driver qualification files",
+    quickBuyKey: "dq-files",
+    price: flatPrice("/driver-qualification-files/"),
+    note: "Per driver, kept audit-ready",
+  },
+  { label: "Biennial Update", quickBuyKey: null, price: flatPrice("/mcs-150-biennial-update/"), note: "MCS-150 filing, keeps USDOT active" },
+  { label: "USDOT Correction", quickBuyKey: null, price: flatPrice("/usdot-correction/"), note: "Fix the details on your USDOT record" },
+];
 
 function Spinner() {
   return (
@@ -108,7 +115,9 @@ export function UsdotLookupCard() {
           <p className="mt-2 text-sm text-slate">
             Pick a service and we&apos;ll confirm your USDOT or MC number next.
           </p>
-          <div className="mt-5 grid grid-cols-2 gap-2">
+          {/* One column on phones so each name and price share one line; two
+              columns from sm, where the tiles are wide enough for that. */}
+          <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
             {TILES.map((tile, i) => (
               <button
                 key={tile.label}
@@ -116,18 +125,17 @@ export function UsdotLookupCard() {
                 onClick={() => setSelected(tile)}
                 className={cn(
                   "rounded-btn border-[1.5px] border-slate/25 bg-paper px-3 py-2.5 text-left text-sm font-medium text-ink transition-colors hover:border-steel hover:bg-steel/[0.06] outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel",
-                  // Odd tile count: span the trailing, otherwise-lonely tile full
-                  // width instead of leaving an empty cell beside it.
-                  i === TILES.length - 1 && TILES.length % 2 === 1 && "col-span-2",
+                  // Odd tile count: in the two-column layout, span the trailing,
+                  // otherwise-lonely tile full width instead of leaving an
+                  // empty cell beside it.
+                  i === TILES.length - 1 && TILES.length % 2 === 1 && "sm:col-span-2",
                 )}
               >
-                <span className="block">{tile.label}</span>
-                {tilePrice(pricing[tile.priceSlug]) ? (
-                  <span className="mt-0.5 block font-mono text-xs font-normal tabular-nums text-slate">
-                    {tilePrice(pricing[tile.priceSlug])}
-                    {tile.priceNote ? <span className="font-body">, {tile.priceNote}</span> : null}
-                  </span>
-                ) : null}
+                <span className="flex items-baseline justify-between gap-2">
+                  <span>{tile.label}</span>
+                  <span className="shrink-0 font-mono tabular-nums text-ink">{tile.price}</span>
+                </span>
+                <span className="mt-0.5 block text-xs font-normal text-slate">{tile.note}</span>
               </button>
             ))}
           </div>
