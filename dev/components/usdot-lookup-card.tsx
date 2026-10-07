@@ -35,10 +35,13 @@ type Tile = {
    *  (lib/services.ts), the same source as that page's PriceChip, so the
    *  price on a tile can never drift from the price on the service page. */
   priceSlug: string;
+  /** Optional short line after the price, e.g. BOC-3's one-time note. */
+  priceNote?: string;
 };
 
 const TILES: Tile[] = [
-  { label: "BOC-3 filing", quickBuyKey: "boc-3", priceSlug: "/boc-3-filing/" },
+  // Matches the BOC-3 landing page's "$45 one-time fee. No annual renewals."
+  { label: "BOC-3 filing", quickBuyKey: "boc-3", priceSlug: "/boc-3-filing/", priceNote: "one-time fee, no annual renewals" },
   { label: "UCR registration", quickBuyKey: "ucr", priceSlug: "/ucr-registration/" },
   { label: "Clearinghouse registration", quickBuyKey: "clearinghouse", priceSlug: "/fmcsa-clearinghouse-registration/" },
   { label: "Drug & alcohol consortium", quickBuyKey: "consortium", priceSlug: "/drug-and-alcohol-consortium/" },
@@ -122,6 +125,7 @@ export function UsdotLookupCard() {
                 {tilePrice(pricing[tile.priceSlug]) ? (
                   <span className="mt-0.5 block font-mono text-xs font-normal tabular-nums text-slate">
                     {tilePrice(pricing[tile.priceSlug])}
+                    {tile.priceNote ? <span className="font-body">, {tile.priceNote}</span> : null}
                   </span>
                 ) : null}
               </button>
