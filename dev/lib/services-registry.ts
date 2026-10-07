@@ -146,11 +146,12 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     name: "BOC-3 filing",
     blurb: "Blanket process-agent designation across all 50 states.",
     priceKind: "flat",
-    // Owner-directed price change (2026-10-05): back to $100 site-wide,
-    // standalone and in-bundle (no bundle discount on BOC-3). Was $30 from
-    // 2026-09-28. The Google Ads landing pages stay at $30 via `boc-3-b`.
-    standalonePrice: 100,
-    bundlePrice: 100,
+    // Owner-directed price change (2026-10-07): $45 everywhere, standalone and
+    // in-bundle (no bundle discount on BOC-3), same as the landing-page lane
+    // `boc-3-b` below. History: $100, then $30 (2026-09-28), $100 site-wide
+    // with $30 landing pages (2026-10-05).
+    standalonePrice: 45,
+    bundlePrice: 45,
     requiredSteps: ["carrier-identity", "service-specifics"],
     expectedTimeline: "Same business day when ordered with your information during business hours",
   },
@@ -158,9 +159,9 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
    *  only through the Google Ads landing pages (/lp/boc-3-filing/ and
    *  /lp/filing-boc3/) and their own quick-buy lane, so orders, upsell
    *  eligibility, and GA4 events never mix with the site-wide `boc-3`.
-   *  History: $70 price test on /lp/filing-boc3/ (2026-09-14); owner decision
-   *  2026-10-05 moved BOC-3 back to $100 site-wide and pointed both landing
-   *  pages here at $30. To test a different price on one landing page again,
+   *  History: $70 price test on /lp/filing-boc3/ (2026-09-14); $30 for both
+   *  landing pages while the site was $100 (2026-10-05); $45, the same as
+   *  `boc-3`, since 2026-10-07. To test a different price on one landing page again,
    *  point that page's route file back at `boc-3` or a new key. Quick-buy
    *  only — never appears in /apply or the four fixed bundles. */
   "boc-3-b": {
@@ -168,8 +169,8 @@ export const SERVICES: Record<ServiceKey, ServiceDef> = {
     name: "BOC-3 filing",
     blurb: "Blanket process-agent designation across all 50 states.",
     priceKind: "flat",
-    standalonePrice: 30,
-    bundlePrice: 30,
+    standalonePrice: 45,
+    bundlePrice: 45,
     requiredSteps: ["carrier-identity", "service-specifics"],
     expectedTimeline: "Same business day when ordered with your information during business hours",
   },
@@ -861,10 +862,9 @@ export function computePricing(selected: ServiceKey[], ctx: PricingContext): Pri
  *  hardcoded) so it stays correct if that price ever changes. Quick-buy only
  *  — /apply and the four fixed bundles are untouched.
  *
- *  With BOC-3 at $100 (2026-10-05) and the 0-2 UCR service fee at $54, the
- *  pair's normal price ($100 + $54 + $46 = $200) already equals the combo,
- *  and with the $30 landing-page BOC-3 it is lower still, so the combo would
- *  never discount. computeQuickBuyPricing applies it only when it actually
+ *  With BOC-3 at $45 (2026-10-07) and the 0-2 UCR service fee at $54, the
+ *  pair's normal price ($45 + $54 + $46 = $145) is already below the combo,
+ *  so the combo would never discount. computeQuickBuyPricing applies it only when it actually
  *  lowers the UCR line, which today means never; the carrier pays the normal
  *  price. */
 export const BOC3_UCR_COMBO_TOTAL = 200;

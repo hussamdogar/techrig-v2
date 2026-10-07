@@ -3,7 +3,7 @@ import { Boc3LandingPage, getBoc3Metadata } from "../_shared/boc3-landing";
 
 /*
  * Second BOC-3 landing page, originally a $70 price test (2026-09-14).
- * Since 2026-10-05 both landing pages share the `boc-3-b` lane at $30. All content, layout, and design live in
+ * Both landing pages share the `boc-3-b` lane, $45 since 2026-10-07. All content, layout, and design live in
  * the shared template (dev/app/lp/_shared/boc3-landing.tsx) — this file only
  * supplies the price (read from the registry, the same number /buy/ charges)
  * and the service key (`boc-3-b`, see

@@ -10,7 +10,7 @@
 `BOC-3 Filing for Trucking: Process Agent | Tech Rig`
 
 ## Meta description (158 chars)
-`BOC-3 filing done today. As an FMCSA-listed blanket process agent, Tech Rig files your BOC-3 across all 50 states for $100, one time, so your authority can activate.`
+`BOC-3 filing done today. As an FMCSA-listed blanket process agent, Tech Rig files your BOC-3 across all 50 states for $45, one time, so your authority can activate.`
 
 ## Three Kings check
 Primary "boc-3" in: title (yes), first paragraph (yes), H2s ("What a BOC-3 is", "How our BOC-3 filing works").
@@ -40,7 +40,7 @@ Because we are an FMCSA-listed blanket process agent, your BOC-3 is direct, not 
 3. Your filing posts to your FMCSA record, where it can be verified.
 4. If your BOC-3 is part of getting your authority, we line it up with your MC application and insurance so activation is not held up.
 
-**Price line:** $100, one time. BOC-3 is also included in every [compliance package](/compliance-packages/) (as a filing when required, or verification your existing BOC-3 is on file).
+**Price line:** $45, one time. BOC-3 is also included in every [compliance package](/compliance-packages/) (as a filing when required, or verification your existing BOC-3 is on file).
 
 **Mid-page CTA:** text link "File my BOC-3".
 
@@ -50,7 +50,7 @@ Real worked example (publishable, distinct to this page): a North Carolina power
 ### H2: BOC-3 filing FAQ
 FAQPage schema, Grade 8:
 - "What is a BOC-3?" A federal filing that names a process agent in every state to receive legal documents for you. It is required before operating authority can activate.
-- "How much does a BOC-3 cost?" $100, one time. It is also included in every [compliance package](/compliance-packages/).
+- "How much does a BOC-3 cost?" $45, one time. It is also included in every [compliance package](/compliance-packages/).
 - "Do I have to renew my BOC-3 every year?" No. It is generally a one-time filing. You refile only if you change process agents or a specific circumstance requires it.
 - "Is the BOC-3 a certificate I print?" No. It is filed electronically and shows on your public FMCSA record, where it can be verified.
 - "Can you file my BOC-3 today?" Yes. As an FMCSA-listed blanket process agent we file it directly. Government processing posts it to your record after.

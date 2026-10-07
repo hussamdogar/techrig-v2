@@ -8,9 +8,9 @@ import { Boc3LandingPage, getBoc3Metadata } from "../_shared/boc3-landing";
  * order. The price is read from the registry (the same number
  * /buy/ charges), never typed here, so the page and checkout can't drift.
  *
- * Owner decision (2026-10-05): BOC-3 went back to $100 site-wide, but the
- * landing pages stay at $30, so this page sells through the `boc-3-b`
- * landing-page lane (shared with /lp/filing-boc3/) instead of `boc-3`.
+ * Sells through the `boc-3-b` landing-page lane (shared with
+ * /lp/filing-boc3/) instead of `boc-3`, so the ad pages can be priced on
+ * their own. Since 2026-10-07 both lanes are $45 (owner decision).
  * See the shared template's header comment for the full rationale.
  */
 
