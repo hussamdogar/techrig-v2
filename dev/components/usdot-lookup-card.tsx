@@ -6,6 +6,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { type QuickBuyServiceKey } from "@/lib/services-registry";
+import { pricing, type Price } from "@/lib/services";
 
 /**
  * Hero "start your order" card (M1, ADR-4/-8; revised R2 for the ask-first
@@ -30,17 +31,37 @@ type Tile = {
   label: string;
   /** Present only for the five services with a real quick-buy fast path. */
   quickBuyKey: QuickBuyServiceKey | null;
+  /** The service's page slug, used only to read its price from `pricing`
+   *  (lib/services.ts), the same source as that page's PriceChip, so the
+   *  price on a tile can never drift from the price on the service page. */
+  priceSlug: string;
 };
 
 const TILES: Tile[] = [
-  { label: "BOC-3 filing", quickBuyKey: "boc-3" },
-  { label: "UCR registration", quickBuyKey: "ucr" },
-  { label: "Clearinghouse registration", quickBuyKey: "clearinghouse" },
-  { label: "Drug & alcohol consortium", quickBuyKey: "consortium" },
-  { label: "Driver qualification files", quickBuyKey: "dq-files" },
-  { label: "Biennial Update", quickBuyKey: null },
-  { label: "USDOT Correction", quickBuyKey: null },
+  { label: "BOC-3 filing", quickBuyKey: "boc-3", priceSlug: "/boc-3-filing/" },
+  { label: "UCR registration", quickBuyKey: "ucr", priceSlug: "/ucr-registration/" },
+  { label: "Clearinghouse registration", quickBuyKey: "clearinghouse", priceSlug: "/fmcsa-clearinghouse-registration/" },
+  { label: "Drug & alcohol consortium", quickBuyKey: "consortium", priceSlug: "/drug-and-alcohol-consortium/" },
+  { label: "Driver qualification files", quickBuyKey: "dq-files", priceSlug: "/driver-qualification-files/" },
+  { label: "Biennial Update", quickBuyKey: null, priceSlug: "/mcs-150-biennial-update/" },
+  { label: "USDOT Correction", quickBuyKey: null, priceSlug: "/usdot-correction/" },
 ];
+
+/** Compact, one-line form of the PriceChip text for a tile: "$45",
+ *  "from $54 + gov fee", "$250 per driver". Same rules as PriceChip: a
+ *  government fee is only ever noted, never blended into the number, and a
+ *  quote/unconfirmed price shows no number at all. */
+function tilePrice(price: Price | undefined): string | null {
+  if (!price || price.amount == null || price.kind === "quote" || price.kind === "verify") return null;
+  return [
+    price.kind === "from" ? "from" : null,
+    `$${price.amount}`,
+    price.unit ?? null,
+    price.govFee ? "+ gov fee" : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
 
 function Spinner() {
   return (
@@ -97,7 +118,12 @@ export function UsdotLookupCard() {
                   i === TILES.length - 1 && TILES.length % 2 === 1 && "col-span-2",
                 )}
               >
-                {tile.label}
+                <span className="block">{tile.label}</span>
+                {tilePrice(pricing[tile.priceSlug]) ? (
+                  <span className="mt-0.5 block font-mono text-xs font-normal tabular-nums text-slate">
+                    {tilePrice(pricing[tile.priceSlug])}
+                  </span>
+                ) : null}
               </button>
             ))}
           </div>
