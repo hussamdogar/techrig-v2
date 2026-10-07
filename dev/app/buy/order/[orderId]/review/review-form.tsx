@@ -33,7 +33,9 @@ import {
  * The upsell menu itself is gated by truckTractors via eligibleQuickBuyUpsells()
  * (lib/services-registry.ts, shared with the thank-you page's post-purchase
  * upsell block): a carrier running truck tractors is shown all four other
- * quick-buy services (marketed as completing their compliance requirements).
+ * quick-buy services. The intro line deliberately makes no "fully covered"
+ * promise: whether these filings complete a carrier's obligations depends on
+ * their operation, not on this checklist (review of 2026-10-05).
  * A carrier with none only sees BOC-3, UCR, and DQ files — Clearinghouse and
  * Consortium are CDL drug/alcohol testing compliance, which doesn't apply
  * without truck tractors in the fleet.
@@ -55,7 +57,6 @@ export function ReviewForm({
   initialAdditional: ServiceKey[];
   initialDriverCount: number | null;
 }) {
-  const showFullMenu = (truckTractors ?? 0) > 0;
   const upsellKeys = remainingQuickBuyUpsells(truckTractors, [primaryKey]);
   const [selected, setSelected] = useState<Set<ServiceKey>>(new Set(initialAdditional));
   const [driverCount, setDriverCount] = useState(initialDriverCount != null ? String(initialDriverCount) : "1");
@@ -151,9 +152,7 @@ export function ReviewForm({
       <div>
         <h2 className="font-display text-lg font-bold text-ink">You may also need</h2>
         <p className="mt-1 text-sm text-slate">
-          {showFullMenu
-            ? "Add all of these and your compliance requirements are fully covered — one payment, one confirmation."
-            : "Bundle more of your compliance filings into this order: one payment, one confirmation."}
+          Bundle more of your compliance filings into this order: one payment, one confirmation.
         </p>
         <ul className="mt-3 divide-y divide-slate/10 rounded-card border border-slate/15 bg-cloud">
           {upsellKeys.map((key) => {
