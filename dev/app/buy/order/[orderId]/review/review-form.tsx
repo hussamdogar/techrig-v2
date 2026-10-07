@@ -154,6 +154,14 @@ export function ReviewForm({
         <p className="mt-1 text-sm text-slate">
           Bundle more of your compliance filings into this order: one payment, one confirmation.
         </p>
+        {/* Billing disclosure for the add-ons (Google Ads' pricing policy bans
+            omitting recurring costs). Accurate as stated: nothing here is
+            auto-charged again; renewals are a separate, optional purchase the
+            customer is invited to by email (owner, 2026-10-07). Deliberately
+            no renewal dates or intervals. */}
+        <p className="mt-1 text-sm font-medium text-ink">
+          Each is a one-time payment. Nothing renews automatically.
+        </p>
         <ul className="mt-3 divide-y divide-slate/10 rounded-card border border-slate/15 bg-cloud">
           {upsellKeys.map((key) => {
             const def = SERVICES[key];
