@@ -109,7 +109,7 @@ export default function McRegistrationPage() {
       />
 
       {/* Hero */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -121,7 +121,7 @@ export default function McRegistrationPage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                How to Get Your MC Number (Operating Authority)
+                How to Get Your <span className="text-signal">MC Number</span> (Operating Authority)
               </h1>
               <p className="mt-5 max-w-[60ch] text-lg text-slate">
                 An MC number is your operating authority: the federal permission
@@ -191,7 +191,7 @@ export default function McRegistrationPage() {
       </Section>
 
       {/* How to get an MC number, and where it goes wrong */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             How to get an MC number, and where it goes wrong
@@ -290,7 +290,7 @@ export default function McRegistrationPage() {
       </Section>
 
       {/* What an MC number costs */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             What an MC number costs

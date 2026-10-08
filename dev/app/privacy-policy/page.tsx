@@ -42,14 +42,18 @@ export default function Page() {
   return (
     <>
       <JsonLd data={graph(breadcrumbNode([{ name: "Home", slug: "/" }, { name: "Privacy Policy" }]))} />
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container className="max-w-3xl">
           <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Privacy Policy" }]} />
           <h1 className="mt-6 font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
             Privacy Policy
           </h1>
           <p className="mt-4 text-sm italic text-slate">Updated: October 1, 2026</p>
+        </Container>
+      </Section>
 
+      <Section surface="paper" className="pt-10 md:pt-14">
+        <Container className="max-w-3xl">
           <h2 className={h2}>Introduction</h2>
           <p className={p}>
             Welcome to Tech Rig, and thank you for visiting our website. At Tech Rig, operated by DGR Tech Rig, LLC,

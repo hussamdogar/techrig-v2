@@ -75,7 +75,7 @@ export default function LeadGenerationPage() {
       />
 
       {/* Hero */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -86,7 +86,7 @@ export default function LeadGenerationPage() {
           <div className="mt-6 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                Finding Brokers That Work With New Authority
+                Finding Brokers That Work <span className="text-signal">With New Authority</span>
               </h1>
               <p className="mt-5 max-w-[60ch] text-lg text-slate">
                 Getting your authority is the first hurdle. The second one

@@ -73,7 +73,7 @@ export default function CompliancePackagesPage() {
       />
 
       {/* Hero */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -85,7 +85,7 @@ export default function CompliancePackagesPage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                Trucking Compliance Packages
+                Trucking <span className="text-signal">Compliance Packages</span>
               </h1>
               <p className="mt-5 max-w-[60ch] text-lg text-slate">
                 Buying your filings one by one adds up. Our compliance packages bundle the services a carrier needs
@@ -125,7 +125,7 @@ export default function CompliancePackagesPage() {
       </Section>
 
       {/* Choose by vehicle, not just license */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             Choose by the vehicle, not just the driver&apos;s license
@@ -167,7 +167,7 @@ export default function CompliancePackagesPage() {
       </Section>
 
       {/* BOC-3 Included band */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl text-center">
           <h2 className="font-display text-3xl font-bold text-ink">BOC-3 Included in every package</h2>
           <div className="mt-5 flex justify-center">
@@ -191,7 +191,7 @@ export default function CompliancePackagesPage() {
       </Section>
 
       {/* Additional drivers */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">Additional drivers</h2>
           <p className="mt-4 text-slate">

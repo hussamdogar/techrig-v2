@@ -83,7 +83,7 @@ export default function AboutUsPage() {
 
       {/* Hero (Paper, asymmetric two-column; copy-first stack on mobile). No
           filing CTA here: the single Signal action is held for the close. */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[{ name: "Home", href: "/" }, { name: "About" }]}
@@ -91,7 +91,7 @@ export default function AboutUsPage() {
           <div className="mt-6 grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                About Tech Rig
+                About <span className="text-signal">Tech Rig</span>
               </h1>
               {/* The brief's lede as a styled paragraph (never an H-tag). Carries
                   "Tech Rig" and "trucking compliance" for the Three Kings check,
@@ -139,7 +139,7 @@ export default function AboutUsPage() {
           "official record" treatment. The FMCSA line worded exactly; partners as
           plain text; an empty-friendly review slot (no stars, no invented
           testimonials). Paper surface. */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             Our track record

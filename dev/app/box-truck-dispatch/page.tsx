@@ -109,7 +109,7 @@ export default function BoxTruckDispatchPage() {
       {/* Hero (Paper): copy-dominant left, the box-truck spot illustration with
           the regional load-node motif right (the trailer-page signature visual,
           NOT the Authority Status Tracker). */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -121,7 +121,7 @@ export default function BoxTruckDispatchPage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                Box Truck Dispatch Service
+                Box Truck <span className="text-signal">Dispatch Service</span>
               </h1>
               <p className="mt-5 max-w-[60ch] text-lg text-slate">
                 Box truck freight moves differently from tractor-trailer freight:
@@ -168,7 +168,7 @@ export default function BoxTruckDispatchPage() {
       {/* Built for box truck owner-operators (Paper): the equipment-specific
           differentiator, the page's unique angle. A typographic emphasis block,
           not a card grid, with the box-truck-against-load-board line motif. */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container>
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
             <div>

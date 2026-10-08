@@ -116,7 +116,7 @@ export default function NewYorkStatePage() {
       />
 
       {/* Hero */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -127,7 +127,7 @@ export default function NewYorkStatePage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                How to Start a Trucking Company in New York
+                How to Start a Trucking Company <span className="text-signal">in New York</span>
               </h1>
               {/* State-specific hero lede (styled paragraph, never an H-tag). NY
                   lead fact, transcribed from the brief. */}
@@ -217,7 +217,7 @@ export default function NewYorkStatePage() {
       </Section>
 
       {/* What we file for New York carriers: routing up to the national pages */}
-      <Section surface="paper" id="filings">
+      <Section surface="ink" id="filings">
         <Container>
           <h2 className="font-display text-3xl font-bold text-ink">
             What we file for New York carriers

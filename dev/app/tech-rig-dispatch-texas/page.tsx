@@ -135,7 +135,7 @@ export default function TexasStatePage() {
       />
 
       {/* Hero (Paper, asymmetric two-column) */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -146,7 +146,7 @@ export default function TexasStatePage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                How to Start a Trucking Company in Texas
+                How to Start a Trucking Company <span className="text-signal">in Texas</span>
               </h1>
               {/* State-specific lede (per-state slot, independent wording). */}
               <p className="mt-5 max-w-[60ch] text-lg text-slate">
@@ -223,7 +223,7 @@ export default function TexasStatePage() {
       </Section>
 
       {/* What we file for Texas carriers (routes up to national money pages) */}
-      <Section surface="paper" id="what-we-file">
+      <Section surface="ink" id="what-we-file">
         <Container>
           <h2 className="font-display text-3xl font-bold text-ink">
             What we file for Texas carriers

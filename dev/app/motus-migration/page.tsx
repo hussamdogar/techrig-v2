@@ -89,7 +89,7 @@ export default function MotusMigrationPage() {
       {/* Hero. No Authority Status Tracker on this page (design spec §13): the
           records here are stranded and not yet usable, so any "active" node
           would assert a status the page cannot support. */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -100,7 +100,7 @@ export default function MotusMigrationPage() {
           />
           <div className="mt-6">
             <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-              FMCSA Portal to MOTUS Migration
+              FMCSA Portal to <span className="text-signal">MOTUS Migration</span>
             </h1>
             <p className="mt-5 max-w-[60ch] text-lg text-slate">
               FMCSA&apos;s move from the legacy FMCSA Portal to the new MOTUS
@@ -183,7 +183,7 @@ export default function MotusMigrationPage() {
       {/* Pricing: flat $125 from the single source, plus the conditional
           government-fee caveat as a plain Slate line (never a fabricated figure,
           never blended into the service price). */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             What our MOTUS migration service costs
@@ -237,7 +237,7 @@ export default function MotusMigrationPage() {
           Real, anonymized, framed strictly as a past example, never a guarantee.
           This narrative now lives only on this page (removed from the MC pages
           per S2). */}
-      <Section surface="cloud">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             A real migration we handled

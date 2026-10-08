@@ -35,7 +35,7 @@ export default function DryVanDispatchCostPage() {
         )}
       />
 
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container className="max-w-3xl">
           <Breadcrumbs
             items={[
@@ -46,14 +46,18 @@ export default function DryVanDispatchCostPage() {
             ]}
           />
           <h1 className="mt-6 font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-            Dry Van Dispatch Cost
+            Dry Van Dispatch <span className="text-signal">Cost</span>
           </h1>
           <p className="mt-5 max-w-[60ch] text-lg text-slate">
             Dry van dispatch is priced as a percentage of your gross, so the cost
             scales with your revenue and we only win when you do. There is no
             long-term contract, no forced dispatch, and no sign-up lock-in.
           </p>
+        </Container>
+      </Section>
 
+      <Section surface="paper" className="pt-10 md:pt-14">
+        <Container className="max-w-3xl">
           <p className="mt-6 font-mono text-2xl text-ink">
             Rate on request
           </p>

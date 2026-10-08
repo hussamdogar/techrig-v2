@@ -106,7 +106,7 @@ export default function ReeferDispatchPage() {
       {/* Hero (Paper): copy-dominant left, the reefer signature visual right
           (trailer icon at spot scale with a tight-window / temperature motif,
           NOT the Authority Status Tracker). */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -118,7 +118,7 @@ export default function ReeferDispatchPage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                Reefer Dispatch Service
+                Reefer <span className="text-signal">Dispatch Service</span>
               </h1>
               {/* Hero lede transcribed verbatim from the brief. Styled paragraph,
                   never an H-tag. */}
@@ -170,7 +170,7 @@ export default function ReeferDispatchPage() {
           produce/protein seasonality, reefer breakdown risk. The bold styled
           lead-in plus copy, with the page's worked scenario as the quiet
           example callout (left Steel rule, Slate text). */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             Why reefer dispatch is its own discipline

@@ -106,7 +106,7 @@ export default function TechRigDispatchFloridaPage() {
       />
 
       {/* Hero (Paper, asymmetric two-column) */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -117,7 +117,7 @@ export default function TechRigDispatchFloridaPage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                How to Start a Trucking Company in Florida
+                How to Start a Trucking Company <span className="text-signal">in Florida</span>
               </h1>
               {/* Styled hero lede (the FL lead fact, verbatim). Not a heading. */}
               <p className="mt-5 max-w-[60ch] text-lg text-slate">
@@ -217,7 +217,7 @@ export default function TechRigDispatchFloridaPage() {
       </Section>
 
       {/* What we file for Florida carriers (routing UP to the money pages) */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container>
           <h2
             id="what-we-file"

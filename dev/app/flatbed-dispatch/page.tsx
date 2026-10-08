@@ -106,7 +106,7 @@ export default function FlatbedDispatchPage() {
 
       {/* Hero (Paper): copy-dominant left, the quiet open-deck loop diagram right
           (the dispatch signature, NOT the Authority Status Tracker). */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -118,7 +118,7 @@ export default function FlatbedDispatchPage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                Flatbed Dispatch Service for Open-Deck Carriers
+                Flatbed Dispatch Service <span className="text-signal">for Open-Deck Carriers</span>
               </h1>
               {/* Hero lede transcribed verbatim from the brief. Styled paragraph,
                   never an H-tag. */}
@@ -172,7 +172,7 @@ export default function FlatbedDispatchPage() {
       {/* Equipment differentiator (Paper): the open-deck angle that sets flatbed
           apart. The bold styled lead-in plus copy, with the worked-scenario
           example callout (empty-friendly, no client named, no metric). */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             Why open-deck freight needs its own desk

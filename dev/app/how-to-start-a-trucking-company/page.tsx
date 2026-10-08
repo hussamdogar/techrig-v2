@@ -259,7 +259,7 @@ export default function HowToStartATruckingCompanyPage() {
 
       {/* Hero: asymmetric two-column, copy-first on mobile. The guide is the
           hero, not a button: the only CTA here is a quiet inline soft route. */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <div className="mt-2 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
@@ -267,7 +267,7 @@ export default function HowToStartATruckingCompanyPage() {
                 Guide
               </p>
               <h1 className="mt-3 font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                How to Start a Trucking Company
+                How to Start a <span className="text-signal">Trucking Company</span>
               </h1>
               <p className="mt-5 max-w-[60ch] text-lg text-slate">
                 Starting a trucking company is a sequence of decisions and
@@ -329,7 +329,7 @@ export default function HowToStartATruckingCompanyPage() {
 
       {/* Before you file: decisions. Lead-ins are styled paragraphs, not H-tags.
           The freight-forwarder mistake is the system's quiet example callout. */}
-      <Section surface="paper" id="before-you-file" className="scroll-mt-24">
+      <Section surface="ink" id="before-you-file" className="scroll-mt-24">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             Before you file: decisions that shape everything
@@ -426,7 +426,7 @@ export default function HowToStartATruckingCompanyPage() {
           and a link to the bundle page stand in for a PriceChip; government
           and insurance costs stay on separate Slate lines, never blended into
           the service fee. */}
-      <Section surface="cloud" id="costs" className="scroll-mt-24">
+      <Section surface="ink" id="costs" className="scroll-mt-24">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             How much it costs to start a trucking company

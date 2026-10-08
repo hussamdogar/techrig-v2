@@ -131,7 +131,7 @@ export default function FmcsaClearinghouseRegistrationPage() {
       />
 
       {/* Hero */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -143,7 +143,7 @@ export default function FmcsaClearinghouseRegistrationPage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                FMCSA Clearinghouse Registration
+                FMCSA Clearinghouse <span className="text-signal">Registration</span>
               </h1>
               <p className="mt-5 max-w-[60ch] text-lg text-slate">
                 The FMCSA Clearinghouse is the federal database of CDL drug and
@@ -258,7 +258,7 @@ export default function FmcsaClearinghouseRegistrationPage() {
       </Section>
 
       {/* Who needs to register */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             Who needs to register
@@ -365,7 +365,7 @@ export default function FmcsaClearinghouseRegistrationPage() {
       </Section>
 
       {/* Driver-compliance cluster cross-link strip */}
-      <Section surface="cloud">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <p className="font-mono text-xs uppercase tracking-[0.08em] text-slate">
             The rest of the driver-compliance set

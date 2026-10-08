@@ -37,20 +37,24 @@ export default function ContactPage() {
         )}
       />
 
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container className="max-w-3xl">
           <Breadcrumbs
             items={[{ name: "Home", href: "/" }, { name: "Contact" }]}
           />
           <h1 className="mt-6 font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-            Contact Tech Rig
+            Contact <span className="text-signal">Tech Rig</span>
           </h1>
           <p className="mt-5 max-w-[60ch] text-lg text-slate">
             Whether you are getting road-legal or keeping your truck loaded, tell
             us where you are and we will point you to the next step. The fastest
             way to reach us is a call or an email.
           </p>
+        </Container>
+      </Section>
 
+      <Section surface="paper" className="pt-10 md:pt-14">
+        <Container className="max-w-3xl">
           {/* Functional contact methods. */}
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             <a

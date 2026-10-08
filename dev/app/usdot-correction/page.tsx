@@ -98,7 +98,7 @@ export default function UsdotCorrectionPage() {
 
       {/* Hero. A simple hero, no Authority Status Tracker: this page edits an
           already-issued record, so no lifecycle status is asserted (spec §13). */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -110,7 +110,7 @@ export default function UsdotCorrectionPage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                USDOT Correction and Record Updates
+                USDOT Correction <span className="text-signal">and Record Updates</span>
               </h1>
               <p className="mt-5 max-w-[60ch] text-lg text-slate">
                 Your USDOT record has to stay accurate, and an out-of-date
@@ -197,7 +197,7 @@ export default function UsdotCorrectionPage() {
       </Section>
 
       {/* What our USDOT correction service costs */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             What our USDOT correction service costs

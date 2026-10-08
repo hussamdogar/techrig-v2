@@ -156,7 +156,7 @@ export default function BlogIndexPage() {
       />
 
       {/* Header (Paper, single readable column, not a money-page hero). */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container className="max-w-3xl">
           <Breadcrumbs
             items={[{ name: "Home", href: "/" }, { name: "Blog" }]}

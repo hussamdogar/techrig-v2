@@ -81,7 +81,7 @@ export default function CaliforniaStatePage() {
       />
 
       {/* Hero */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -92,7 +92,7 @@ export default function CaliforniaStatePage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                How to Start a Trucking Company in California
+                How to Start a Trucking Company <span className="text-signal">in California</span>
               </h1>
               <p className="mt-5 max-w-[60ch] text-lg text-slate">
                 California layers state rules on top of the federal ones, so
@@ -200,7 +200,7 @@ export default function CaliforniaStatePage() {
       </Section>
 
       {/* What we file for California carriers (routes UP to national money pages) */}
-      <Section surface="paper" id="what-we-file">
+      <Section surface="ink" id="what-we-file">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             What we file for California carriers

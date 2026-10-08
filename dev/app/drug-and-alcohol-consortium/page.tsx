@@ -141,7 +141,7 @@ export default function DrugAndAlcoholConsortiumPage() {
       />
 
       {/* Hero */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -153,7 +153,7 @@ export default function DrugAndAlcoholConsortiumPage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                Drug and Alcohol Consortium Enrollment
+                Drug and Alcohol <span className="text-signal">Consortium Enrollment</span>
               </h1>
               {/* Lede. The consequence clause is set at full Ink weight so it
                   lands, without becoming a heading. */}
@@ -215,7 +215,7 @@ export default function DrugAndAlcoholConsortiumPage() {
       </Section>
 
       {/* Who needs to be in a consortium */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             Who needs to be in a consortium
@@ -322,7 +322,7 @@ export default function DrugAndAlcoholConsortiumPage() {
       </Section>
 
       {/* Pre-employment drug test (absorbed term, its own H2) */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             Pre-employment drug test
@@ -411,7 +411,7 @@ export default function DrugAndAlcoholConsortiumPage() {
       </Section>
 
       {/* Driver-compliance cluster cross-link strip */}
-      <Section surface="cloud">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <p className="text-slate">
             The rest of the driver-compliance set:{" "}

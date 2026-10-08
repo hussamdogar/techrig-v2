@@ -36,7 +36,7 @@ export default function BoxTruckDispatchCostPage() {
         )}
       />
 
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container className="max-w-3xl">
           <Breadcrumbs
             items={[
@@ -47,14 +47,18 @@ export default function BoxTruckDispatchCostPage() {
             ]}
           />
           <h1 className="mt-6 font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-            Box Truck Dispatch Cost
+            Box Truck Dispatch <span className="text-signal">Cost</span>
           </h1>
           <p className="mt-5 max-w-[60ch] text-lg text-slate">
             Box truck dispatch is priced as a percentage of what you earn, so the
             cost scales with your revenue and we only win when you do. There is no
             long-term contract, no forced dispatch, and no sign-up lock-in.
           </p>
+        </Container>
+      </Section>
 
+      <Section surface="paper" className="pt-10 md:pt-14">
+        <Container className="max-w-3xl">
           <p className="mt-6 font-mono text-2xl text-ink">
             8%{" "}
             <span className="text-base text-slate">of gross monthly revenue</span>

@@ -25,14 +25,18 @@ export default function Page() {
   return (
     <>
       <JsonLd data={graph(breadcrumbNode([{ name: "Home", slug: "/" }, { name: "Terms of Service" }]))} />
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container className="max-w-3xl">
           <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Terms of Service" }]} />
           <h1 className="mt-6 font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
             Terms &amp; Conditions
           </h1>
           <p className="mt-4 text-sm italic text-slate">Effective Date: October 1, 2024</p>
+        </Container>
+      </Section>
 
+      <Section surface="paper" className="pt-10 md:pt-14">
+        <Container className="max-w-3xl">
           <p className={p}>
             Welcome to the Tech Rig website and services. These Terms and Conditions (&ldquo;Terms&rdquo;), in
             conjunction with our{" "}

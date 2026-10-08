@@ -31,7 +31,7 @@ export default function Page() {
           ]),
         )}
       />
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container className="max-w-3xl">
           <Breadcrumbs
             items={[{ name: "Home", href: "/" }, { name: "Refund Policy" }]}
@@ -42,7 +42,11 @@ export default function Page() {
           <p className="mt-4 text-sm italic text-slate">
             Last updated: June 25, 2026
           </p>
+        </Container>
+      </Section>
 
+      <Section surface="paper" className="pt-10 md:pt-14">
+        <Container className="max-w-3xl">
           <p className={p}>
             This policy explains when refunds apply to Tech Rig (DGR Tech Rig
             LLC) services. It covers our service fees only. Government,

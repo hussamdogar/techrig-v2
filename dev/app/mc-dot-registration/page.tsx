@@ -129,7 +129,7 @@ export default function McDotRegistrationPage() {
       />
 
       {/* Hero */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -141,7 +141,7 @@ export default function McDotRegistrationPage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                Get Your MC and DOT Number Together
+                Get Your <span className="text-signal">MC and DOT Number</span> Together
               </h1>
               <p className="mt-5 max-w-[60ch] text-lg text-slate">
                 Most new for-hire carriers do not need one filing, they need the
@@ -217,7 +217,7 @@ export default function McDotRegistrationPage() {
       </Section>
 
       {/* What it costs */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             What it costs
@@ -288,7 +288,7 @@ export default function McDotRegistrationPage() {
       </Section>
 
       {/* FAQ */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             Trucking authority package FAQ

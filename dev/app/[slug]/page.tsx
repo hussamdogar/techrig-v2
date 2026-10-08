@@ -90,7 +90,7 @@ export default async function BlogPostPage({
       />
 
       {/* Header (Paper, single readable column, not a money-page hero). */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container className="max-w-3xl">
           <Breadcrumbs
             items={[
@@ -118,8 +118,9 @@ export default async function BlogPostPage({
         </Container>
       </Section>
 
-      {/* Body: migrated markdown rendered to HTML, styled by .blog-prose. */}
-      <Section surface="paper" className="pt-0">
+      {/* Body: migrated markdown rendered to HTML, styled by .blog-prose.
+          Normal top padding now that the hero above is a dark band. */}
+      <Section surface="paper" className="pt-10 md:pt-14">
         <Container className="max-w-3xl">
           <div
             className="blog-prose"

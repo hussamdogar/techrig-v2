@@ -117,7 +117,7 @@ export default function TruckingLlcPage() {
       />
 
       {/* Hero */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -129,7 +129,7 @@ export default function TruckingLlcPage() {
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                Form an LLC for Your Trucking Company
+                Form an LLC <span className="text-signal">for Your Trucking Company</span>
               </h1>
               <p className="mt-5 max-w-[60ch] text-lg text-slate">
                 Most carriers start their company as an LLC, and for good reason:
@@ -190,7 +190,7 @@ export default function TruckingLlcPage() {
       </Section>
 
       {/* Why form an LLC */}
-      <Section surface="cloud">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             Why form an LLC for your trucking company
@@ -288,7 +288,7 @@ export default function TruckingLlcPage() {
       </Section>
 
       {/* LLC, then authority: the right order */}
-      <Section surface="cloud">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             LLC, then authority: the right order

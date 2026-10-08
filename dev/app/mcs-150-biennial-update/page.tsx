@@ -91,7 +91,7 @@ export default function Mcs150BiennialUpdatePage() {
       />
 
       {/* Hero */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
             items={[
@@ -103,7 +103,7 @@ export default function Mcs150BiennialUpdatePage() {
           <div className="mt-6 max-w-3xl">
             <div>
               <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                MCS-150 Update and Biennial Filing
+                MCS-150 Update and <span className="text-signal">Biennial Filing</span>
               </h1>
               <p className="mt-5 max-w-[60ch] text-lg text-slate">
                 Your USDOT record is not set-and-forget. FMCSA requires an
@@ -150,7 +150,7 @@ export default function Mcs150BiennialUpdatePage() {
       </Section>
 
       {/* When you need an MCS-150 update */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             When you need an MCS-150 update
@@ -234,7 +234,7 @@ export default function Mcs150BiennialUpdatePage() {
       </Section>
 
       {/* What our MCS-150 update service includes */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             What our MCS-150 update service includes
@@ -310,7 +310,7 @@ export default function Mcs150BiennialUpdatePage() {
       </Section>
 
       {/* FAQ */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             MCS-150 update FAQ
