@@ -10,9 +10,12 @@ import { buttonVariants } from "@/components/ui/button";
 export function ClosingCta({
   text,
   cta,
+  note,
 }: {
   text: string;
   cta: { label: string; href: string };
+  /** Optional short line under the button, e.g. what happens after the click. */
+  note?: string;
 }) {
   return (
     <Section surface="ink">
@@ -26,6 +29,7 @@ export function ClosingCta({
             {cta.label}
           </Link>
         </div>
+        {note ? <p className="mt-3 text-sm text-cloud/70">{note}</p> : null}
       </Container>
     </Section>
   );

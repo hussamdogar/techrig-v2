@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
-import { buttonVariants } from "@/components/ui/button";
 import { AuthorityStatusTracker } from "@/components/authority-status-tracker";
 import { ServiceCard } from "@/components/service-card";
 import { FaqAccordion, type Faq } from "@/components/faq-accordion";
@@ -19,6 +18,7 @@ import {
 } from "@/lib/schema";
 import { complianceCatalog, complianceNav, pricing } from "@/lib/services";
 import { BUNDLES, BUNDLE_KEYS, getBundleBreakdown } from "@/lib/services-registry";
+import { ChecklistCta, CHECKLIST_CTA } from "@/components/checklist-cta";
 
 // The compliance silo HUB. Every card link, package-checklist link, and the
 // single primary CTA (hero, package panel, close) route into the silo. The
@@ -26,9 +26,6 @@ import { BUNDLES, BUNDLE_KEYS, getBundleBreakdown } from "@/lib/services-registr
 // the brief and design spec, kept consistent across all three primary slots.
 // Compliance hub funnels into the /apply engine generically (D14); the visitor
 // picks services on the first step. Service-specific pages deep-link with ?service=.
-// The compliance check wizard (owner, 2026-10-08), which replaced the old
-// "Start your compliance setup" button (that linked to /apply/).
-const SETUP_CTA = "/compliance-check/";
 
 export const metadata: Metadata = {
   // Brief title tag is "DOT Compliance Services for Trucking | Tech Rig"; the
@@ -135,17 +132,12 @@ export default function ComplianceServicesPage() {
                 blanket process-agent company, and we have run filings for
                 owner-operators, fleets, and brokers in more than 10 states.
               </p>
-              <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
-                <Link
-                  href={SETUP_CTA}
-                  className={buttonVariants({ variant: "primary", size: "md" })}
-                >
-                  Am I road-legal?
-                </Link>
+              <div className="mt-7 flex flex-wrap items-start gap-x-6 gap-y-3">
+                <ChecklistCta />
                 {/* Secondary anchor to the packages page (light on the dark hero). */}
                 <Link
                   href="/compliance-packages/"
-                  className="font-medium text-cloud underline underline-offset-4 hover:text-signal outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cloud"
+                  className="inline-flex min-h-12 items-center font-medium text-cloud underline underline-offset-4 hover:text-signal outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cloud"
                 >
                   or compare our packages
                 </Link>
@@ -217,13 +209,11 @@ export default function ComplianceServicesPage() {
               IRP and IFTA government and jurisdiction fees are billed separately.
             </p>
 
-            <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3">
-              <Link href={SETUP_CTA} className={buttonVariants({ variant: "primary", size: "md" })}>
-                Am I road-legal?
-              </Link>
+            <div className="mt-7 flex flex-wrap items-start gap-x-6 gap-y-3">
+              <ChecklistCta />
               <Link
                 href="/compliance-packages/"
-                className="inline-flex items-center font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
+                className="inline-flex min-h-12 items-center font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
               >
                 See all packages and compare
               </Link>
@@ -362,8 +352,9 @@ export default function ComplianceServicesPage() {
       </Section>
 
       <ClosingCta
-        text="Ready to get road-legal without the guesswork? Answer two quick questions and see exactly what you need."
-        cta={{ label: "Am I road-legal?", href: SETUP_CTA }}
+        text="Ready to get road-legal without the guesswork?"
+        cta={{ label: CHECKLIST_CTA.label, href: CHECKLIST_CTA.href }}
+        note={CHECKLIST_CTA.note}
       />
     </>
   );

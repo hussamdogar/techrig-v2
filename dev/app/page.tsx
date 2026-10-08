@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
-import { buttonVariants } from "@/components/ui/button";
 import { UsdotLookupCard } from "@/components/usdot-lookup-card";
+import { ChecklistCta } from "@/components/checklist-cta";
 import { ServiceCard } from "@/components/service-card";
 import { CompliancePathPicker } from "@/components/compliance-path-picker";
 import { site } from "@/lib/site";
@@ -48,14 +48,7 @@ export default function Home() {
               them. Tech Rig handles all of it, so your authority actually
               goes active instead of sitting stuck.
             </p>
-            <div className="mt-8">
-              <Link
-                href="/compliance-check/"
-                className={buttonVariants({ variant: "primary", size: "md" })}
-              >
-                Am I road-legal?
-              </Link>
-            </div>
+            <ChecklistCta className="mt-8" />
           </div>
 
           {/* The hero's lead-generating front door (Application Platform M1).
@@ -172,14 +165,7 @@ export default function Home() {
             Whether you are just starting out or fixing a setup that stalled,
             we have the next step. Talk to us.
           </p>
-          <div className="mt-6 flex justify-center">
-            <Link
-              href="/compliance-check/"
-              className={buttonVariants({ variant: "primary", size: "md" })}
-            >
-              Am I road-legal?
-            </Link>
-          </div>
+          <ChecklistCta align="center" className="mt-6" />
         </Container>
       </Section>
     </>

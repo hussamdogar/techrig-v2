@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
-import { buttonVariants } from "@/components/ui/button";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
 import { breadcrumbNode, graph } from "@/lib/schema";
+import { ChecklistCta } from "@/components/checklist-cta";
 
 export const metadata: Metadata = {
   title: "How to Start a Box Truck Business",
@@ -94,14 +94,7 @@ export default function HowToStartABoxTruckBusinessPage() {
             forced dispatch.
           </p>
 
-          <div className="mt-10">
-            <Link
-              href="/compliance-check/"
-              className={buttonVariants({ variant: "primary", size: "md" })}
-            >
-              Am I road-legal?
-            </Link>
-          </div>
+          <ChecklistCta className="mt-10" />
         </Container>
       </Section>
     </>
