@@ -14,23 +14,16 @@ import { pricing } from "@/lib/services";
  *
  * Two steps, both client-side (no lookup happens here, so no Supabase/Stripe
  * ships with the homepage bundle):
- *  1. Pick what you need. Five of the seven options are quick-buy services
- *     (`QUICK_BUY_SERVICE_KEYS`), so picking one and confirming a USDOT routes
- *     straight into that service's fast, no-account checkout
- *     (`/buy/<service>/<usdot>/`) instead of a generic record page.
+ *  1. Pick what you need. Only quick-buy services (`QUICK_BUY_SERVICE_KEYS`)
+ *     are offered, so picking one and confirming a USDOT routes straight into
+ *     that service's fast, no-account checkout (`/buy/<service>/<usdot>/`).
+ *     Biennial Update and USDOT Correction were removed (owner, 2026-10-08):
+ *     they have no /buy checkout, and the card only lists what it can sell.
  *  2. Confirm a USDOT/MC number for that pick.
- *
- * MOTUS migration and "Something else" have no fast-checkout path yet (they
- * only exist through the account-gated /apply flow), so they fall back to the
- * existing full-record page (`/lookup/{usdot}/`), which already offers
- * "Start an application" from there. Same fallback the single-step card used
- * for every service before this change, so it is not a regression for them,
- * just no longer the default for the five that DO have a fast path.
  */
 type Tile = {
   label: string;
-  /** Present only for the five services with a real quick-buy fast path. */
-  quickBuyKey: QuickBuyServiceKey | null;
+  quickBuyKey: QuickBuyServiceKey;
   /** Shown on the same line as the label. */
   price: string;
   /** Short line under the label and price. */
@@ -69,8 +62,6 @@ const TILES: Tile[] = [
     price: flatPrice("/driver-qualification-files/"),
     note: "Per driver, kept audit-ready",
   },
-  { label: "Biennial Update", quickBuyKey: null, price: flatPrice("/mcs-150-biennial-update/"), note: "MCS-150 filing, keeps USDOT active" },
-  { label: "USDOT Correction", quickBuyKey: null, price: flatPrice("/usdot-correction/"), note: "Fix the details on your USDOT record" },
 ];
 
 function Spinner() {
@@ -90,10 +81,6 @@ export function UsdotLookupCard() {
   const [value, setValue] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [formatError, setFormatError] = useState(false);
-  // Phones only: the services without a quick-buy checkout stay behind a
-  // "N more services" row, so the card is not a full screen tall.
-  const [showAllOnPhone, setShowAllOnPhone] = useState(false);
-  const hiddenOnPhone = TILES.filter((t) => !t.quickBuyKey).length;
 
   function onSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -106,7 +93,7 @@ export function UsdotLookupCard() {
     }
     setFormatError(false);
     setSubmitting(true); // brief loading state until the next route takes over
-    router.push(selected.quickBuyKey ? `/buy/${selected.quickBuyKey}/${usdot}/` : `/lookup/${usdot}/`);
+    router.push(`/buy/${selected.quickBuyKey}/${usdot}/`);
   }
 
   return (
@@ -120,9 +107,8 @@ export function UsdotLookupCard() {
             Pick a service and we&apos;ll confirm your USDOT or MC number next.
           </p>
           {/* Phones: one compact list (thin dividers, name and price only, the
-              notes hidden) showing the quick-buy services, with the rest behind
-              a "more services" row. From sm: the two-column tiles with notes
-              and every service. Same buttons, restyled per breakpoint. */}
+              notes hidden). From sm: two-column tiles with notes. Same
+              buttons, restyled per breakpoint. */}
           <div className="mt-4 divide-y divide-slate/15 overflow-hidden rounded-btn border-[1.5px] border-slate/25 bg-paper sm:mt-5 sm:grid sm:grid-cols-2 sm:gap-2 sm:divide-y-0 sm:overflow-visible sm:rounded-none sm:border-0 sm:bg-transparent">
             {TILES.map((tile, i) => (
               <button
@@ -131,7 +117,6 @@ export function UsdotLookupCard() {
                 onClick={() => setSelected(tile)}
                 className={cn(
                   "block w-full px-3 py-3 text-left text-sm font-medium text-ink transition-colors hover:bg-steel/[0.06] outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-steel sm:rounded-btn sm:border-[1.5px] sm:border-slate/25 sm:bg-paper sm:py-2.5 sm:hover:border-steel sm:focus-visible:outline-offset-2",
-                  !tile.quickBuyKey && !showAllOnPhone && "hidden sm:block",
                   // Odd tile count: in the two-column layout, span the trailing,
                   // otherwise-lonely tile full width instead of leaving an
                   // empty cell beside it.
@@ -145,15 +130,6 @@ export function UsdotLookupCard() {
                 <span className="mt-0.5 hidden text-xs font-normal text-slate sm:block">{tile.note}</span>
               </button>
             ))}
-            {/* Last row of the phone list (so the dividers stay clean). */}
-            <button
-              type="button"
-              onClick={() => setShowAllOnPhone((v) => !v)}
-              aria-expanded={showAllOnPhone}
-              className="block min-h-11 w-full px-3 py-2.5 text-left text-sm font-medium text-steel outline-none hover:bg-steel/[0.06] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-steel sm:hidden"
-            >
-              {showAllOnPhone ? "Show fewer services" : `${hiddenOnPhone} more services`}
-            </button>
           </div>
         </>
       ) : (
