@@ -64,6 +64,34 @@
 }
 
 /*
+  Dark (Ink) sections: the /lp/boc-3-filing/ look, used site-wide since
+  2026-10-08 (dark heroes, then sections alternating dark and light).
+  Most page copy is written with the light-surface colour utilities
+  (text-ink, text-slate, text-steel, border-slate/15, ...). Inside a
+  <Section surface="ink"> those tokens are swapped for light equivalents, so
+  a section can turn dark without re-classing every element in it:
+    ink   -> white (headings, body)
+    slate -> light grey (secondary text, dividers via /opacity)
+    steel -> light steel (links, icons, focus rings), #9cc7e8, ~9:1 on Ink
+  Scoped to the section's children (`> *`), so the section's own bg-ink keeps
+  the real Ink value. Anything that is itself a light or Signal surface inside
+  a dark section (white cards, inputs, tiles, primary buttons, Ink chips)
+  switches the tokens back to the originals, so cards, PriceChips, forms and
+  "Ink text on Signal" buttons render exactly as on a light page. Classes that
+  already name the light colours (text-cloud, text-signal) are untouched.
+*/
+[data-surface="ink"] > * {
+  --color-ink: #ffffff;
+  --color-slate: #b7c0c9;
+  --color-steel: #9cc7e8;
+}
+[data-surface="ink"] :is(.bg-cloud, .bg-paper, .bg-signal, .bg-ink) {
+  --color-ink: #0e2233;
+  --color-slate: #4f5e6b;
+  --color-steel: #225e8a;
+}
+
+/*
   Motion policy (§9): prefers-reduced-motion is fully respected. Animations and
   transitions drop to effectively instant final states for users who ask for it.
 */

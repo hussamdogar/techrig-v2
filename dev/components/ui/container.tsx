@@ -39,6 +39,8 @@ export function Section({
 }: SectionProps) {
   return (
     <section
+      // Read by the dark-section colour remap in app/globals.css.
+      data-surface={surface}
       className={cn(surfaceClass[surface], "py-14 md:py-24", className)}
       {...props}
     >
