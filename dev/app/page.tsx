@@ -50,10 +50,10 @@ export default function Home() {
             </p>
             <div className="mt-8">
               <Link
-                href="/compliance-services/"
+                href="/compliance-check/"
                 className={buttonVariants({ variant: "primary", size: "md" })}
               >
-                Start your compliance setup
+                Am I road-legal?
               </Link>
             </div>
           </div>
@@ -174,10 +174,10 @@ export default function Home() {
           </p>
           <div className="mt-6 flex justify-center">
             <Link
-              href="/compliance-services/"
+              href="/compliance-check/"
               className={buttonVariants({ variant: "primary", size: "md" })}
             >
-              Start your compliance setup
+              Am I road-legal?
             </Link>
           </div>
         </Container>

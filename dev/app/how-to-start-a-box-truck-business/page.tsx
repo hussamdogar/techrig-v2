@@ -96,10 +96,10 @@ export default function HowToStartABoxTruckBusinessPage() {
 
           <div className="mt-10">
             <Link
-              href="/compliance-services/"
+              href="/compliance-check/"
               className={buttonVariants({ variant: "primary", size: "md" })}
             >
-              Start your compliance setup
+              Am I road-legal?
             </Link>
           </div>
         </Container>

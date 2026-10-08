@@ -31,8 +31,10 @@ import {
  */
 type Cta = { label: string; href: string };
 const defaultCta: Cta = {
-  label: "Start your compliance setup",
-  href: "/compliance-services/",
+  // The compliance check wizard (owner, 2026-10-08), which replaced the old
+  // "Start your compliance setup" button site-wide.
+  label: "Check my filings",
+  href: "/compliance-check/",
 };
 
 const navLinkClass =
@@ -119,7 +121,9 @@ export function SiteHeader({ cta = defaultCta }: { cta?: Cta }) {
   // The quick-buy checkout (/buy/..., entry through thank-you) is already a
   // committed purchase path, so the compliance-setup CTA would only pull the
   // carrier out of it. Hide it there, desktop bar and mobile drawer alike.
-  const showCta = !pathname?.startsWith("/buy/");
+  // Hidden in checkout, and on the compliance check itself (it would link to
+  // the page the visitor is already on).
+  const showCta = !pathname?.startsWith("/buy/") && !pathname?.startsWith("/compliance-check/");
 
   return (
     <header

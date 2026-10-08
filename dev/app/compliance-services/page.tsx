@@ -26,7 +26,9 @@ import { BUNDLES, BUNDLE_KEYS, getBundleBreakdown } from "@/lib/services-registr
 // the brief and design spec, kept consistent across all three primary slots.
 // Compliance hub funnels into the /apply engine generically (D14); the visitor
 // picks services on the first step. Service-specific pages deep-link with ?service=.
-const SETUP_CTA = "/apply/";
+// The compliance check wizard (owner, 2026-10-08), which replaced the old
+// "Start your compliance setup" button (that linked to /apply/).
+const SETUP_CTA = "/compliance-check/";
 
 export const metadata: Metadata = {
   // Brief title tag is "DOT Compliance Services for Trucking | Tech Rig"; the
@@ -138,7 +140,7 @@ export default function ComplianceServicesPage() {
                   href={SETUP_CTA}
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
-                  Start your compliance setup
+                  Am I road-legal?
                 </Link>
                 {/* Secondary anchor to the packages page (light on the dark hero). */}
                 <Link
@@ -217,7 +219,7 @@ export default function ComplianceServicesPage() {
 
             <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3">
               <Link href={SETUP_CTA} className={buttonVariants({ variant: "primary", size: "md" })}>
-                Start your compliance setup
+                Am I road-legal?
               </Link>
               <Link
                 href="/compliance-packages/"
@@ -360,8 +362,8 @@ export default function ComplianceServicesPage() {
       </Section>
 
       <ClosingCta
-        text="Ready to get road-legal without the guesswork? Start your compliance setup."
-        cta={{ label: "Start your compliance setup", href: SETUP_CTA }}
+        text="Ready to get road-legal without the guesswork? Answer two quick questions and see exactly what you need."
+        cta={{ label: "Am I road-legal?", href: SETUP_CTA }}
       />
     </>
   );
