@@ -120,10 +120,8 @@ export default function Home() {
             one that fits.
           </p>
 
-          {/* The picker is built for light surfaces, so on this dark band it
-              sits in a white card (same pattern as the hero's order card). */}
-          <div className="mt-6 rounded-card bg-cloud p-5 shadow-card md:p-6">
-            <CompliancePathPicker />
+          <div className="mt-6">
+            <CompliancePathPicker tone="dark" />
           </div>
         </Container>
       </Section>

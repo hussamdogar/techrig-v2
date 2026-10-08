@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
 import Link from "next/link";
 import { getBundleBreakdown } from "@/lib/services-registry";
 
@@ -24,6 +24,12 @@ import { getBundleBreakdown } from "@/lib/services-registry";
  * consortium) appear in more than one path, so their one-line "what this is"
  * descriptions live once in SERVICE_BLURBS and are reused everywhere, rather
  * than retyped per path (single source, can't drift between paths).
+ *
+ * `tone="dark"` renders it for an Ink section (homepage, 2026-10-08): light
+ * text, Signal numbers and active chip, and the package callout as a faint
+ * outlined panel, matching the /lp/boc-3-filing/ dark bands. The colour
+ * classes for both tones live in TONE below, read through ToneContext so the
+ * small helper components don't each need a tone prop.
  */
 type PathKey = "beginner" | "non-cdl" | "cdl";
 
@@ -83,6 +89,34 @@ const SERVICE_BLURBS: Record<ServiceKey, { title: string; href: string; descript
   },
 };
 
+const TONE = {
+  light: {
+    text: "text-ink",
+    muted: "text-slate",
+    accent: "text-steel",
+    dot: "bg-steel",
+    link: "font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel",
+    tabActive: "border-ink bg-ink text-cloud",
+    tabIdle: "border-slate/25 bg-paper text-ink hover:border-steel",
+    tabFocus: "focus-visible:outline-steel",
+    callout: "border-steel/25 bg-steel/[0.05] text-ink",
+  },
+  dark: {
+    text: "text-cloud/90",
+    muted: "text-cloud/70",
+    accent: "text-signal",
+    dot: "bg-signal",
+    link: "font-medium text-cloud underline underline-offset-4 hover:text-signal outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cloud",
+    tabActive: "border-signal bg-signal text-ink",
+    tabIdle: "border-cloud/25 bg-cloud/5 text-cloud hover:border-signal",
+    tabFocus: "focus-visible:outline-cloud",
+    callout: "border-cloud/15 bg-cloud/5 text-cloud/90",
+  },
+};
+type Tone = keyof typeof TONE;
+const ToneContext = createContext<Tone>("light");
+const useTone = () => TONE[useContext(ToneContext)];
+
 // The quick-buy-eligible services get a purchase-ready link (/buy/<service>/)
 // on paths 2/3, where the visitor already has USDOT + MC and is acting on a
 // known need. Path 1 (still deciding, hasn't got a USDOT yet) always links to
@@ -96,11 +130,9 @@ const QUICK_BUY_HREF: Partial<Record<ServiceKey, string>> = {
 };
 
 function CrossLink({ href, children }: { href: string; children: React.ReactNode }) {
+  const t = useTone();
   return (
-    <Link
-      href={href}
-      className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-    >
+    <Link href={href} className={t.link}>
       {children}
     </Link>
   );
@@ -109,12 +141,13 @@ function CrossLink({ href, children }: { href: string; children: React.ReactNode
 function ChecklistItem({ service, quickBuy }: { service: ServiceKey; quickBuy?: boolean }) {
   const s = SERVICE_BLURBS[service];
   const href = quickBuy ? QUICK_BUY_HREF[service] ?? s.href : s.href;
+  const t = useTone();
   return (
-    <li className="flex items-start gap-3 text-ink">
-      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-steel" aria-hidden="true" />
+    <li className={`flex items-start gap-3 ${t.text}`}>
+      <span className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full ${t.dot}`} aria-hidden="true" />
       <div>
         <CrossLink href={href}>{s.title}</CrossLink>
-        <p className="mt-0.5 text-sm text-slate">{s.description}</p>
+        <p className={`mt-0.5 text-sm ${t.muted}`}>{s.description}</p>
       </div>
     </li>
   );
@@ -122,8 +155,9 @@ function ChecklistItem({ service, quickBuy }: { service: ServiceKey; quickBuy?: 
 
 function BundleCallout({ bundleKey, name }: { bundleKey: "compliance-continuation-non-cdl" | "compliance-continuation-cdl-heavy"; name: string }) {
   const b = getBundleBreakdown(bundleKey);
+  const t = useTone();
   return (
-    <p className="mt-6 rounded-card border border-steel/25 bg-steel/[0.05] p-4 text-sm text-ink">
+    <p className={`mt-6 rounded-card border p-4 text-sm ${t.callout}`}>
       Need more than one of these? The <span className="font-semibold">{name}</span> package covers all of
       them for <span className="font-mono font-semibold">${b.finalPrice.toLocaleString("en-US")}</span>,
       a <span className="font-mono font-semibold">${b.savings.toLocaleString("en-US")}</span> saving over
@@ -146,11 +180,12 @@ const BEGINNER_SEQUENCE: { service: ServiceKey; note?: string }[] = [
   { service: "ucr" },
 ];
 
-export function CompliancePathPicker() {
+export function CompliancePathPicker({ tone = "light" }: { tone?: Tone }) {
   const [active, setActive] = useState<PathKey>("beginner");
+  const t = TONE[tone];
 
   return (
-    <div>
+    <ToneContext.Provider value={tone}>
       {/* Stacked, not flex-wrap: at this container width, three labels this
           long never reliably fit one row, and a wrapped 2-then-1 line reads
           like an accident. One per row is consistent regardless of label
@@ -163,10 +198,8 @@ export function CompliancePathPicker() {
             role="tab"
             aria-selected={active === tab.key}
             onClick={() => setActive(tab.key)}
-            className={`rounded-chip border-[1.5px] px-4 py-2 text-left text-sm font-medium outline-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel ${
-              active === tab.key
-                ? "border-ink bg-ink text-cloud"
-                : "border-slate/25 bg-paper text-ink hover:border-steel"
+            className={`rounded-chip border-[1.5px] px-4 py-2 text-left text-sm font-medium outline-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${t.tabFocus} ${
+              active === tab.key ? t.tabActive : t.tabIdle
             }`}
           >
             {tab.label}
@@ -176,7 +209,7 @@ export function CompliancePathPicker() {
 
       {active === "beginner" ? (
         <div className="mt-6">
-          <p className="text-slate">
+          <p className={t.muted}>
             You do not have a USDOT number yet, or you are early in the process. Do these four in order: each
             one gates the next, and doing them out of sequence is the most common reason authority sits
             inactive for weeks with no clear cause.
@@ -186,12 +219,12 @@ export function CompliancePathPicker() {
               const s = SERVICE_BLURBS[step.service];
               return (
                 <li key={step.service} className="flex gap-4">
-                  <span className="font-mono text-sm font-medium tabular-nums text-steel" aria-hidden="true">
+                  <span className={`font-mono text-sm font-medium tabular-nums ${t.accent}`} aria-hidden="true">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
                     <CrossLink href={s.href}>{s.title}</CrossLink>
-                    <p className="mt-0.5 text-sm text-slate">
+                    <p className={`mt-0.5 text-sm ${t.muted}`}>
                       {s.description}
                       {step.note ? ` ${step.note}` : ""}
                     </p>
@@ -201,7 +234,7 @@ export function CompliancePathPicker() {
             })}
           </ol>
 
-          <p className="mt-8 text-ink">
+          <p className={`mt-8 ${t.text}`}>
             If you will run CDL drivers, you will also need:
           </p>
           <ul className="mt-4 space-y-4">
@@ -210,7 +243,7 @@ export function CompliancePathPicker() {
             <ChecklistItem service="consortium" />
           </ul>
 
-          <p className="mt-6 text-slate">
+          <p className={`mt-6 ${t.muted}`}>
             You do not have to figure this out yourself. We do the filings in the right order, so nothing you
             did (or did not) do is the reason your authority is stuck. Or get it all handled together: see our{" "}
             <CrossLink href="/compliance-packages/">Authority Launch packages</CrossLink>.
@@ -218,7 +251,7 @@ export function CompliancePathPicker() {
         </div>
       ) : active === "non-cdl" ? (
         <div className="mt-6">
-          <p className="text-slate">
+          <p className={t.muted}>
             You already have your USDOT and MC authority. For a vehicle that does not require a CDL, this is
             usually what is still missing:
           </p>
@@ -231,7 +264,7 @@ export function CompliancePathPicker() {
         </div>
       ) : (
         <div className="mt-6">
-          <p className="text-slate">
+          <p className={t.muted}>
             You already have your USDOT and MC authority. For a CDL or heavy interstate vehicle, this is
             usually what is still missing:
           </p>
@@ -247,6 +280,6 @@ export function CompliancePathPicker() {
           <BundleCallout bundleKey="compliance-continuation-cdl-heavy" name="Compliance Continuation — CDL/Heavy" />
         </div>
       )}
-    </div>
+    </ToneContext.Provider>
   );
 }
