@@ -106,10 +106,12 @@ export default function ComplianceServicesPage() {
         )}
       />
 
-      {/* Hero (Paper, asymmetric two-column) */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      {/* Hero (Ink, asymmetric two-column): the /lp/boc-3-filing/ look (owner,
+          2026-10-08); sections below alternate dark and light. */}
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
+            tone="dark"
             items={[
               { name: "Home", href: "/" },
               { name: "Compliance Services" },
@@ -117,11 +119,11 @@ export default function ComplianceServicesPage() {
           />
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
-              <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                DOT and Trucking Compliance Services
+              <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-cloud">
+                DOT and Trucking <span className="text-signal">Compliance Services</span>
               </h1>
               {/* Styled lede (the brief's hero paragraph, verbatim). Not a heading. */}
-              <p className="mt-5 max-w-[60ch] text-lg text-slate">
+              <p className="mt-5 max-w-[60ch] text-lg text-cloud/80">
                 Getting a truck on the road is not one filing. It is a sequence,
                 and any missed step can stall your authority at the worst time.
                 Tech Rig handles the whole sequence. Our DOT compliance services
@@ -138,16 +140,16 @@ export default function ComplianceServicesPage() {
                 >
                   Start your compliance setup
                 </Link>
-                {/* Secondary Steel anchor to the packages page. */}
+                {/* Secondary anchor to the packages page (light on the dark hero). */}
                 <Link
                   href="/compliance-packages/"
-                  className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
+                  className="font-medium text-cloud underline underline-offset-4 hover:text-signal outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cloud"
                 >
                   or compare our packages
                 </Link>
               </div>
               <div className="mt-5">
-                <ReviewedBy name="Adam Smith" />
+                <ReviewedBy name="Adam Smith" tone="dark" />
               </div>
             </div>
 
@@ -228,13 +230,14 @@ export default function ComplianceServicesPage() {
         </Container>
       </Section>
 
-      {/* What our DOT compliance services cover: the service-card grid */}
-      <Section surface="cloud">
+      {/* What our DOT compliance services cover: the service-card grid (dark
+          band; the white cards carry their own light styling). */}
+      <Section surface="ink">
         <Container>
-          <h2 className="font-display text-3xl font-bold text-ink">
+          <h2 className="font-display text-3xl font-bold text-cloud">
             What our DOT compliance services cover
           </h2>
-          <p className="mt-4 max-w-2xl text-slate">
+          <p className="mt-4 max-w-2xl text-cloud/80">
             Need one filing rather than the full package? Each service below is
             available on its own. Prices are our service fee; where a government
             or third-party fee applies, it is shown separately.
@@ -322,9 +325,9 @@ export default function ComplianceServicesPage() {
       </Section>
 
       {/* How it works: numbered 01 to 04 stepper (numbers via aria-hidden mono spans) */}
-      <Section surface="cloud">
+      <Section surface="ink">
         <Container>
-          <h2 className="font-display text-3xl font-bold text-ink">
+          <h2 className="font-display text-3xl font-bold text-cloud">
             How it works
           </h2>
           <ol className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -332,12 +335,12 @@ export default function ComplianceServicesPage() {
               <li key={step.copy} className="flex flex-col">
                 <span
                   aria-hidden="true"
-                  className="font-mono text-sm font-medium text-steel"
+                  className="font-mono text-sm font-medium text-signal"
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="mt-3 block h-px w-full bg-slate/25" aria-hidden />
-                <p className="mt-4 text-ink">{step.copy}</p>
+                <span className="mt-3 block h-px w-full bg-cloud/20" aria-hidden />
+                <p className="mt-4 text-cloud/90">{step.copy}</p>
               </li>
             ))}
           </ol>

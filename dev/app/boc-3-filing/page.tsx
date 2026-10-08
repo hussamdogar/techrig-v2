@@ -144,10 +144,12 @@ export default function Boc3FilingPage() {
         )}
       />
 
-      {/* Hero */}
-      <Section surface="paper" className="pt-8 md:pt-12">
+      {/* Hero: dark (Ink) with a Signal highlight, the /lp/boc-3-filing/ look
+          (owner, 2026-10-08); sections below alternate dark and light. */}
+      <Section surface="ink" className="pt-8 md:pt-12">
         <Container>
           <Breadcrumbs
+            tone="dark"
             items={[
               { name: "Home", href: "/" },
               { name: "Compliance Services", href: "/compliance-services/" },
@@ -156,10 +158,10 @@ export default function Boc3FilingPage() {
           />
           <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
-              <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink">
-                BOC-3 Filing (Blanket Process Agent)
+              <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-cloud">
+                BOC-3 Filing <span className="text-signal">(Blanket Process Agent)</span>
               </h1>
-              <p className="mt-5 max-w-[60ch] text-lg text-slate">
+              <p className="mt-5 max-w-[60ch] text-lg text-cloud/80">
                 A BOC-3 is one of the small filings that quietly decides whether
                 your operating authority activates. It names a process agent in
                 every state where you operate, someone who can receive legal
@@ -177,7 +179,7 @@ export default function Boc3FilingPage() {
                 </Link>
               </div>
               <div className="mt-5">
-                <ReviewedBy name="Adam Smith" />
+                <ReviewedBy name="Adam Smith" tone="dark" />
               </div>
             </div>
 
@@ -206,34 +208,34 @@ export default function Boc3FilingPage() {
         </Container>
       </Section>
 
-      {/* Who needs a BOC-3, and when */}
-      <Section surface="paper">
+      {/* Who needs a BOC-3, and when (dark band) */}
+      <Section surface="ink">
         <Container className="max-w-3xl">
-          <h2 className="font-display text-3xl font-bold text-ink">
+          <h2 className="font-display text-3xl font-bold text-cloud">
             Who needs a BOC-3, and when
           </h2>
           <ul className="mt-6 space-y-3">
-            <li className="flex gap-3 text-ink">
-              <FilingIcon size={20} className="mt-0.5 shrink-0 text-steel" />
+            <li className="flex gap-3 text-cloud/90">
+              <FilingIcon size={20} className="mt-0.5 shrink-0 text-signal" />
               <span>
                 Anyone applying for operating authority (an{" "}
-                <CrossLink href="/mc-registration/">MC number</CrossLink>) needs a
+                <CrossLink dark href="/mc-registration/">MC number</CrossLink>) needs a
                 BOC-3 before it activates.
               </span>
             </li>
-            <li className="flex gap-3 text-ink">
-              <FilingIcon size={20} className="mt-0.5 shrink-0 text-steel" />
+            <li className="flex gap-3 text-cloud/90">
+              <FilingIcon size={20} className="mt-0.5 shrink-0 text-signal" />
               <span>Brokers and freight forwarders need one too.</span>
             </li>
-            <li className="flex gap-3 text-ink">
-              <FilingIcon size={20} className="mt-0.5 shrink-0 text-steel" />
+            <li className="flex gap-3 text-cloud/90">
+              <FilingIcon size={20} className="mt-0.5 shrink-0 text-signal" />
               <span>
                 A private motor carrier that is not operating for hire generally
                 does not need a BOC-3.
               </span>
             </li>
-            <li className="flex gap-3 text-ink">
-              <FilingIcon size={20} className="mt-0.5 shrink-0 text-steel" />
+            <li className="flex gap-3 text-cloud/90">
+              <FilingIcon size={20} className="mt-0.5 shrink-0 text-signal" />
               <span>
                 You file it once during setup. It is generally a one-time filing.
                 You only refile if you change process agents or another specific
@@ -243,11 +245,11 @@ export default function Boc3FilingPage() {
           </ul>
 
           {/* Myth-correction: BOC-3 is not annual. Quiet callout, left Steel rule. */}
-          <p className="mt-6 border-l-4 border-steel pl-4 text-slate">
+          <p className="mt-6 border-l-4 border-signal pl-4 text-cloud/80">
             Important: a BOC-3 is not an annual renewal. If anyone tells you to
             renew your BOC-3 every year as a matter of course, that is not how it
             normally works. (Your{" "}
-            <CrossLink href="/ucr-registration/">UCR</CrossLink>, by contrast, is
+            <CrossLink dark href="/ucr-registration/">UCR</CrossLink>, by contrast, is
             annual.)
           </p>
         </Container>
@@ -344,14 +346,14 @@ export default function Boc3FilingPage() {
         </Container>
       </Section>
 
-      {/* BOC-3 as part of getting road-legal */}
-      <Section surface="paper">
+      {/* BOC-3 as part of getting road-legal (dark band) */}
+      <Section surface="ink">
         <Container className="max-w-3xl">
-          <h2 className="font-display text-3xl font-bold text-ink">
+          <h2 className="font-display text-3xl font-bold text-cloud">
             BOC-3 as part of getting road-legal
           </h2>
           {/* This page's unique worked example. Real past case, framed as such. */}
-          <p className="mt-4 border-l-4 border-steel pl-4 text-slate">
+          <p className="mt-4 border-l-4 border-signal pl-4 text-cloud/80">
             A North Carolina power-only carrier first came to us just to buy a
             BOC-3. When we looked at her file, her self-filed USDOT and MC were
             full of errors, and because she had not established her MOTUS account
@@ -387,12 +389,17 @@ export default function Boc3FilingPage() {
   );
 }
 
-// Steel inline cross-link (1 to 3 word contextual anchor), never a button.
-function CrossLink({ href, children }: { href: string; children: React.ReactNode }) {
+// Inline cross-link (1 to 3 word contextual anchor), never a button. Steel on
+// light sections; `dark` for the Ink bands, where Steel fails contrast.
+function CrossLink({ href, dark = false, children }: { href: string; dark?: boolean; children: React.ReactNode }) {
   return (
     <Link
       href={href}
-      className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
+      className={
+        dark
+          ? "font-medium text-cloud underline underline-offset-4 hover:text-signal outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cloud"
+          : "font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
+      }
     >
       {children}
     </Link>

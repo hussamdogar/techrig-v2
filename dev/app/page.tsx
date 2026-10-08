@@ -31,15 +31,17 @@ export default function Home() {
   return (
     <>
       {/* 1. Hero: compliance-only, plain language for a first-time carrier,
-          single primary CTA. */}
-      <Section surface="paper" className="pt-12 md:pt-16">
+          single primary CTA. Dark (Ink) with a Signal highlight, the
+          /lp/boc-3-filing/ look (owner, 2026-10-08); sections below alternate
+          dark and light. */}
+      <Section surface="ink" className="pt-12 md:pt-16">
         <Container className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
-            <h1 className="font-display text-[clamp(2.5rem,5vw,4rem)] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">
-              Get Your Trucking Authority Set Up Right
+            <h1 className="font-display text-[clamp(2.5rem,5vw,4rem)] font-extrabold leading-[1.05] tracking-[-0.02em] text-cloud">
+              Get Your Trucking Authority <span className="text-signal">Set Up Right</span>
             </h1>
             {/* Styled subhead, not a heading. */}
-            <p className="mt-6 max-w-[60ch] text-lg text-slate">
+            <p className="mt-6 max-w-[60ch] text-lg text-cloud/80">
               Starting a trucking company means a stack of federal paperwork:
               your USDOT number, your operating authority, and a few required
               filings most new owners have never heard of before they need
@@ -108,17 +110,19 @@ export default function Home() {
       {/* 3. Fork by visitor type (owner-directed 2026-08): not everyone here
           is starting from zero, so this replaces a single generic sequence
           with three tailored paths. See CompliancePathPicker for the split. */}
-      <Section surface="paper" className="border-l-4 border-steel">
+      <Section surface="ink">
         <Container className="max-w-3xl">
-          <h2 className="font-display text-3xl font-bold text-ink">
+          <h2 className="font-display text-3xl font-bold text-cloud">
             Which describes you?
           </h2>
-          <p className="mt-4 text-slate">
+          <p className="mt-4 text-cloud/80">
             What you actually need depends on where you are already. Pick the
             one that fits.
           </p>
 
-          <div className="mt-6">
+          {/* The picker is built for light surfaces, so on this dark band it
+              sits in a white card (same pattern as the hero's order card). */}
+          <div className="mt-6 rounded-card bg-cloud p-5 shadow-card md:p-6">
             <CompliancePathPicker />
           </div>
         </Container>
@@ -164,9 +168,9 @@ export default function Home() {
       </Section>
 
       {/* 5. Closing CTA: one dominant next step. */}
-      <Section surface="paper">
+      <Section surface="ink">
         <Container className="max-w-2xl text-center">
-          <p className="font-display text-2xl font-bold text-ink">
+          <p className="font-display text-2xl font-bold text-cloud">
             Whether you are just starting out or fixing a setup that stalled,
             we have the next step. Talk to us.
           </p>
