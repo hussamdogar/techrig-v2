@@ -90,6 +90,10 @@ export function UsdotLookupCard() {
   const [value, setValue] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [formatError, setFormatError] = useState(false);
+  // Phones only: the services without a quick-buy checkout stay behind a
+  // "N more services" row, so the card is not a full screen tall.
+  const [showAllOnPhone, setShowAllOnPhone] = useState(false);
+  const hiddenOnPhone = TILES.filter((t) => !t.quickBuyKey).length;
 
   function onSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -106,7 +110,7 @@ export function UsdotLookupCard() {
   }
 
   return (
-    <div className="rounded-card border border-slate/15 bg-cloud p-6 shadow-card md:p-7">
+    <div className="rounded-card border border-slate/15 bg-cloud p-5 shadow-card sm:p-6 md:p-7">
       <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-slate">Start your order</p>
 
       {!selected ? (
@@ -115,16 +119,19 @@ export function UsdotLookupCard() {
           <p className="mt-2 text-sm text-slate">
             Pick a service and we&apos;ll confirm your USDOT or MC number next.
           </p>
-          {/* One column on phones so each name and price share one line; two
-              columns from sm, where the tiles are wide enough for that. */}
-          <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          {/* Phones: one compact list (thin dividers, name and price only, the
+              notes hidden) showing the quick-buy services, with the rest behind
+              a "more services" row. From sm: the two-column tiles with notes
+              and every service. Same buttons, restyled per breakpoint. */}
+          <div className="mt-4 divide-y divide-slate/15 overflow-hidden rounded-btn border-[1.5px] border-slate/25 bg-paper sm:mt-5 sm:grid sm:grid-cols-2 sm:gap-2 sm:divide-y-0 sm:overflow-visible sm:rounded-none sm:border-0 sm:bg-transparent">
             {TILES.map((tile, i) => (
               <button
                 key={tile.label}
                 type="button"
                 onClick={() => setSelected(tile)}
                 className={cn(
-                  "rounded-btn border-[1.5px] border-slate/25 bg-paper px-3 py-2.5 text-left text-sm font-medium text-ink transition-colors hover:border-steel hover:bg-steel/[0.06] outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel",
+                  "block w-full px-3 py-3 text-left text-sm font-medium text-ink transition-colors hover:bg-steel/[0.06] outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-steel sm:rounded-btn sm:border-[1.5px] sm:border-slate/25 sm:bg-paper sm:py-2.5 sm:hover:border-steel sm:focus-visible:outline-offset-2",
+                  !tile.quickBuyKey && !showAllOnPhone && "hidden sm:block",
                   // Odd tile count: in the two-column layout, span the trailing,
                   // otherwise-lonely tile full width instead of leaving an
                   // empty cell beside it.
@@ -135,9 +142,18 @@ export function UsdotLookupCard() {
                   <span>{tile.label}</span>
                   <span className="shrink-0 font-mono tabular-nums text-ink">{tile.price}</span>
                 </span>
-                <span className="mt-0.5 block text-xs font-normal text-slate">{tile.note}</span>
+                <span className="mt-0.5 hidden text-xs font-normal text-slate sm:block">{tile.note}</span>
               </button>
             ))}
+            {/* Last row of the phone list (so the dividers stay clean). */}
+            <button
+              type="button"
+              onClick={() => setShowAllOnPhone((v) => !v)}
+              aria-expanded={showAllOnPhone}
+              className="block min-h-11 w-full px-3 py-2.5 text-left text-sm font-medium text-steel outline-none hover:bg-steel/[0.06] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-steel sm:hidden"
+            >
+              {showAllOnPhone ? "Show fewer services" : `${hiddenOnPhone} more services`}
+            </button>
           </div>
         </>
       ) : (
