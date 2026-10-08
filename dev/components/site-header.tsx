@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { Container } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
   ChevronDownIcon,
   CloseIcon,
@@ -183,7 +184,11 @@ export function SiteHeader({ cta = defaultCta }: { cta?: Cta }) {
           {showCta ? (
             <Link
               href={cta.href}
-              className={`${buttonVariants({ variant: "primary", size: "sm" })} hidden sm:inline-flex`}
+              // cn(), not string concatenation: buttonVariants carries
+              // `inline-flex`, which otherwise beats `hidden` in the generated
+              // CSS and shows this button on phones, pushing the Call and menu
+              // buttons off-screen (the page then scrolls sideways).
+              className={cn(buttonVariants({ variant: "primary", size: "sm" }), "hidden sm:inline-flex")}
             >
               {cta.label}
             </Link>
