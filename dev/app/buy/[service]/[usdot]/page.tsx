@@ -12,6 +12,7 @@ import { SERVICES, isQuickBuyServiceKey, type ServiceKey } from "@/lib/services-
 import { text, DocketSection } from "@/lib/lookup/format";
 import type { CarrierData } from "@/lib/lookup/types";
 import { confirmQuickBuyOrder } from "./actions";
+import { parsePreselectedAddOns } from "@/lib/quick-buy-preselect";
 
 /**
  * Quick-buy confirm screen. Runs the same performLookup() path as
@@ -40,11 +41,12 @@ export default async function QuickBuyConfirmPage({
   searchParams,
 }: {
   params: Promise<{ service: string; usdot: string }>;
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; add?: string }>;
 }) {
   const { service, usdot } = await params;
-  const { error: errorParam } = await searchParams;
+  const { error: errorParam, add: addParam } = await searchParams;
   if (!isQuickBuyServiceKey(service)) notFound();
+  const add = parsePreselectedAddOns(addParam, service);
   const def = SERVICES[service as ServiceKey];
 
   const outcome = await performLookup(usdot, await headers());
@@ -112,6 +114,7 @@ export default async function QuickBuyConfirmPage({
             usdot={usdot}
             token={outcome.token}
             error={errorParam}
+            add={add}
           />
         ) : outcome.kind === "done" && outcome.result.status === "not_found" ? (
           <>
@@ -167,12 +170,15 @@ function Confirm({
   usdot,
   token,
   error,
+  add,
 }: {
   carrier: CarrierData;
   service: ServiceKey;
   usdot: string;
   token: string;
   error?: string;
+  /** Pre-selected add-ons from the compliance check (lib/quick-buy-preselect.ts). */
+  add: string[];
 }) {
   const def = SERVICES[service];
   const confirmAction = confirmQuickBuyOrder.bind(null, service, usdot);
@@ -211,6 +217,7 @@ function Confirm({
         className="mt-6 space-y-5"
       >
         <input type="hidden" name="token" value={token} />
+        {add.length ? <input type="hidden" name="add" value={add.join(",")} /> : null}
         {/* UCR's government fee bracket is by QUALIFYING CMVs only (truck
             tractors + straight trucks) — trailers and non-commercial vehicles
             never count, even if that's most of the fleet. This is NOT the

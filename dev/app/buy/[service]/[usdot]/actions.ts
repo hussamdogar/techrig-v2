@@ -4,7 +4,8 @@ import { cookies } from "next/headers";
 import { redirect, notFound } from "next/navigation";
 import { service as serviceClient } from "@/lib/server/supabase";
 import { decodeLeadAccessToken, isValidEmail, isValidPhone } from "@/lib/server/security";
-import { isQuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
+import { isQuickBuyServiceKey, remainingQuickBuyUpsells, type ServiceKey } from "@/lib/services-registry";
+import { parsePreselectedAddOns, preselectQuery } from "@/lib/quick-buy-preselect";
 import { QUICK_BUY_TOKEN_COOKIE } from "@/lib/server/quick-buy";
 import { readAdClickIds } from "@/lib/server/ad-click-ids";
 
@@ -27,8 +28,9 @@ export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: strin
   if (!isQuickBuyServiceKey(serviceKeyParam)) notFound();
   const serviceKey = serviceKeyParam as ServiceKey;
 
+  const requestedAddOns = parsePreselectedAddOns(formData.get("add"), serviceKeyParam);
   const decoded = decodeLeadAccessToken(formData.get("token"));
-  if (!decoded) redirect(`/buy/${serviceKeyParam}/${usdot}/`); // expired/tampered: re-run the lookup
+  if (!decoded) redirect(`/buy/${serviceKeyParam}/${usdot}/${preselectQuery(requestedAddOns)}`); // expired/tampered: re-run the lookup
 
   const firstName = String(formData.get("first_name") || "").trim() || null;
   const lastName = String(formData.get("last_name") || "").trim() || null;
@@ -47,7 +49,7 @@ export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: strin
   // value instead of silently storing it and wasting the receipt/admin-alert
   // send. Redirects back to re-enter details rather than failing silently.
   if (!email || !isValidEmail(email) || (phone && !isValidPhone(phone))) {
-    redirect(`/buy/${serviceKeyParam}/${usdot}/?error=invalid_contact`);
+    redirect(`/buy/${serviceKeyParam}/${usdot}/?error=invalid_contact${preselectQuery(requestedAddOns, "&")}`);
   }
 
   // Despite the generic name, this is the QUALIFYING CMV count for UCR
@@ -61,6 +63,11 @@ export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: strin
   // menu — see review-form.tsx for the eligibility rule.
   const rawTruckTractors = formData.get("truck_tractors");
   const truckTractors = rawTruckTractors != null && rawTruckTractors !== "" ? Number(rawTruckTractors) : null;
+  // Compliance-check add-ons, pre-ticked on the review screen. Only those this
+  // order can actually offer there (the same truck-tractor gate the review
+  // menu uses), so nothing gets charged that the visitor can't see and untick.
+  const offerable = new Set<string>(remainingQuickBuyUpsells(truckTractors, [serviceKey]));
+  const additionalServiceKeys = requestedAddOns.filter((k) => offerable.has(k));
 
   const db = serviceClient();
   const row = {
@@ -79,6 +86,7 @@ export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: strin
     address_state: addressState,
     address_zip: addressZip,
     address_country: addressCountry,
+    additional_service_keys: additionalServiceKeys,
     confirmed_at: new Date().toISOString(),
     status: "awaiting_payment",
     // Google Ads click id(s), for uploading a later offline sale (see
@@ -109,7 +117,7 @@ export async function confirmQuickBuyOrder(serviceKeyParam: string, usdot: strin
     // Any other error (or no reference to vary) is a real failure.
     if (!error || error.code !== "23505" || !baseRef) break;
   }
-  if (!order) redirect(`/buy/${serviceKeyParam}/${usdot}/?error=1`);
+  if (!order) redirect(`/buy/${serviceKeyParam}/${usdot}/?error=1${preselectQuery(requestedAddOns, "&")}`);
 
   const store = await cookies();
   store.set(QUICK_BUY_TOKEN_COOKIE, formData.get("token") as string, {

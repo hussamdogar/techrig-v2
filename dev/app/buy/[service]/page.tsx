@@ -5,6 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { SERVICES, isQuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
 import { TrackedForm } from "@/components/tracked-form";
 import { startQuickBuyLookup } from "./actions";
+import { parsePreselectedAddOns } from "@/lib/quick-buy-preselect";
 
 /**
  * Quick-buy entry screen (USDOT-confirm-and-pay fast path). Noindex (this is a
@@ -17,9 +18,16 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function QuickBuyEntryPage({ params }: { params: Promise<{ service: string }> }) {
+export default async function QuickBuyEntryPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ service: string }>;
+  searchParams: Promise<{ add?: string }>;
+}) {
   const { service } = await params;
   if (!isQuickBuyServiceKey(service)) notFound();
+  const add = parsePreselectedAddOns((await searchParams).add, service);
   const def = SERVICES[service as ServiceKey];
   const action = startQuickBuyLookup.bind(null, service);
 
@@ -43,6 +51,7 @@ export default async function QuickBuyEntryPage({ params }: { params: Promise<{ 
           data={{ service }}
           className="mt-6 space-y-4"
         >
+          {add.length ? <input type="hidden" name="add" value={add.join(",")} /> : null}
           <div>
             <label htmlFor="usdot" className="text-sm font-medium text-ink">
               USDOT number
