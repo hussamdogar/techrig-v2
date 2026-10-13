@@ -60,7 +60,7 @@ Custom Event `purchase` (CE - purchase) · Custom Event `quick_buy_lead` (CE - q
 1. GTM **Preview** (support.google.com/tagmanager/answer/6107056) on `https://techrig.org/lp/boc-3-filing/?gclid=TestClick_123456789`.
 2. On page load: **Calls from website** and **Conversion Linker** fire.
 3. Enter a USDOT number: under `quick_buy_lead`, **USDOT lead** fires.
-4. Submit details (test email hussamdogar@gmail.com): under `quick_buy_details_submitted`, **Details submitted** and the **User-Provided Data Event** fire, with user data.
+4. Fill in the one-screen checkout (test email hussamdogar@gmail.com), sign, and press Continue to payment: on arrival at the payment screen (URL ends `?placed=1`), under `quick_buy_details_submitted`, **Details submitted** and the **User-Provided Data Event** fire, with user data. (Since 2026-10-13 the confirm and review screens are one screen, so this event fires on the payment screen instead of the old review screen; the event name and payload are unchanged, so no GTM change is needed.)
 5. Pay $30 with a real card: under `purchase`, **Quick-buy purchase** fires with value 30, transaction id DGR-..., currency USD.
 6. Submit > Publish ("Launch: accurate conversions + calls"). Refund the test order in Stripe.
 7. 24-48 hours later: Goals > Conversions shows "Recording conversions"; check the enhanced conversions diagnostics. (A forwarding-number swap is only shown to visitors who came from an ad; Google's own pages don't document a debug switch, so judge it by "Calls from website" starting to record.)

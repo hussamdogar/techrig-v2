@@ -112,18 +112,16 @@ export function SiteHeader({ cta = defaultCta }: { cta?: Cta }) {
     };
   }, [drawerOpen]);
 
-  // Dedicated Google Ads landing pages (/lp/...) render their own page-scoped
-  // header instead of site nav, since their job is a single conversion path.
-  // All hooks above still run unconditionally either way (rules of hooks);
-  // this just skips rendering.
-  if (pathname?.startsWith("/lp/")) return null;
+  // Dedicated Google Ads landing pages (/lp/...) and the quick-buy checkout
+  // (/buy/..., app/buy/layout.tsx) render their own slim header instead of
+  // site nav, since their job is a single conversion path. All hooks above
+  // still run unconditionally either way (rules of hooks); this just skips
+  // rendering.
+  if (pathname?.startsWith("/lp/") || pathname?.startsWith("/buy/")) return null;
 
-  // The quick-buy checkout (/buy/..., entry through thank-you) is already a
-  // committed purchase path, so the compliance-setup CTA would only pull the
-  // carrier out of it. Hide it there, desktop bar and mobile drawer alike.
-  // Hidden in checkout, and on the compliance check itself (it would link to
-  // the page the visitor is already on).
-  const showCta = !pathname?.startsWith("/buy/") && !pathname?.startsWith("/compliance-check/");
+  // Hidden on the compliance check itself (it would link to the page the
+  // visitor is already on).
+  const showCta = !pathname?.startsWith("/compliance-check/");
 
   return (
     <header

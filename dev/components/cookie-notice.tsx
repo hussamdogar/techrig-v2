@@ -24,12 +24,16 @@ const DISMISSED_KEY = "cookie-notice-dismissed";
  * click is usually a first visit). There it renders as a one-line bar pinned
  * under the page header instead, clear of the form and of the page's sticky
  * bottom CTA, and only once the visitor has scrolled past the first screen.
- * Same disclosure, same link, same dismissal key.
+ * Same disclosure, same link, same dismissal key. The /buy/ checkout gets the
+ * same treatment, so the notice never covers its sticky total bar.
  */
 export function CookieNotice() {
   const [visible, setVisible] = useState(false);
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
-  const isLanding = usePathname()?.startsWith("/lp/") ?? false;
+  // The /lp/ landing pages and the /buy/ checkout share the same slim header
+  // (same height), so both get the compact under-the-header bar.
+  const pathname = usePathname();
+  const isLanding = (pathname?.startsWith("/lp/") || pathname?.startsWith("/buy/")) ?? false;
 
   useEffect(() => {
     if (!isLanding) return;

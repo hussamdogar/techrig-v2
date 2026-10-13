@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quick-buy Checkout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Real token values from dev/app/globals.css. Design artifact, not production code. */
+  :root {
+    --ink: #0e2233; --steel: #225e8a; --signal: #e89a3c;
+    --paper: #f7f5f1; --cloud: #ffffff; --slate: #4f5e6b;
+    --status-active: #2e7d5b;
+    --radius-chip: 4px; --radius-btn: 6px; --radius-card: 8px;
+    --shadow-card: 0 1px 2px rgba(14,34,51,.06), 0 4px 16px rgba(14,34,51,.08);
+    --line: rgba(79,94,107,.15);   /* slate/15 */
+    --line-2: rgba(79,94,107,.10); /* slate/10 */
+    --field: rgba(79,94,107,.25);  /* slate/25 */
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e6e3dc; color: var(--ink); font-family: "IBM Plex Sans", system-ui, sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  .board { max-width: 1240px; margin: 0 auto; padding: 32px 16px 80px; }
+  .board > header h1 { font-family: Archivo, system-ui, sans-serif; font-weight: 800; font-size: 1.75rem; letter-spacing: -.02em; margin: 0; }
+  .board > header p { margin: 8px 0 0; color: var(--slate); max-width: 75ch; font-size: .95rem; }
+  .sample { display: inline-block; margin-top: 12px; font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; background: var(--ink); color: #fff; padding: 4px 8px; border-radius: var(--radius-chip); }
+  .frame-label { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--slate); margin: 40px 0 12px; }
+  .frame-label b { color: var(--ink); font-weight: 600; }
+  .row { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
+  .row > div { min-width: 0; max-width: 100%; }
+  .note { font-size: .85rem; color: var(--slate); max-width: 60ch; margin: 8px 0 0; }
+
+  /* Browser frames */
+  .desk { width: 100%; background: var(--paper); border-radius: 10px; box-shadow: var(--shadow-card); overflow: hidden; border: 1px solid var(--line); }
+  .chrome { height: 34px; background: #0e2233; display: flex; align-items: center; gap: 6px; padding: 0 12px; }
+  .chrome i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.25); }
+  .chrome span { margin-left: 12px; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: rgba(255,255,255,.7); }
+  .phone { width: 395px; /* 375px viewport + 10px bezel each side */ max-width: 100%; height: 780px; background: var(--paper); border-radius: 28px; border: 10px solid #0e2233; overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow-card); }
+  .phone .scroll { flex: 1; overflow-y: auto; position: relative; }
+  .mini { width: 375px; max-width: 100%; background: var(--paper); border-radius: 10px; border: 1px solid var(--line); box-shadow: var(--shadow-card); overflow: hidden; }
+  .mini .cap { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; background: var(--cloud); border-bottom: 1px solid var(--line); padding: 8px 16px; color: var(--slate); }
+
+  /* ---------- The checkout page (container queries, so one markup renders at both widths) ---------- */
+  .page { container-type: inline-size; }
+  .section { padding: 32px 16px 48px; }
+  .container { max-width: 672px; margin: 0 auto; }
+  @container (min-width: 640px) { .section { padding: 48px 24px 64px; } }
+
+  .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--slate); margin: 0; }
+  .h1 { font-family: Archivo, system-ui, sans-serif; font-weight: 800; font-size: 1.875rem; line-height: 1.2; letter-spacing: -.02em; margin: 4px 0 0; }
+  .lede { color: var(--slate); margin: 12px 0 0; }
+  .h2 { font-family: Archivo, system-ui, sans-serif; font-weight: 700; font-size: 1.125rem; line-height: 1.3; margin: 0; }
+  .sec { margin-top: 32px; }
+  .card { background: var(--cloud); border: 1px solid var(--line); border-radius: var(--radius-card); padding: 16px; }
+  @container (min-width: 640px) { .card { padding: 20px; } }
+
+  dl { margin: 8px 0 0; }
+  dl > div { display: grid; grid-template-columns: 110px 1fr; gap: 12px; padding: 8px 0; border-top: 1px solid var(--line-2); font-size: .875rem; }
+  dl > div:first-child { border-top: 0; }
+  dt { color: var(--slate); } dd { margin: 0; color: var(--ink); font-weight: 500; }
+
+  .grid2 { display: grid; gap: 16px; margin-top: 12px; }
+  @container (min-width: 640px) { .grid2 { grid-template-columns: 1fr 1fr; } }
+  label.f { font-size: .875rem; font-weight: 500; }
+  label.f small { font-weight: 400; color: var(--slate); font-size: .875rem; }
+  input.t { display: block; width: 100%; margin-top: 4px; font: inherit; color: var(--ink); background: var(--cloud); border: 1px solid var(--field); border-radius: var(--radius-card); padding: 12px 16px; outline: none; }
+  input.t:focus-visible { outline: 2px solid var(--steel); outline-offset: 2px; }
+  input.t[aria-invalid="true"] { border: 2px solid var(--ink); padding: 11px 15px; }
+  .help { font-size: .75rem; color: var(--slate); margin: 8px 0 0; }
+  .ferr { display: flex; gap: 6px; align-items: flex-start; margin-top: 4px; font-size: .75rem; font-weight: 500; }
+  .ferr svg { flex: none; margin-top: 1px; }
+
+  .intro { font-size: .875rem; color: var(--slate); margin: 4px 0 0; }
+  .disc { font-size: .875rem; font-weight: 500; margin: 4px 0 0; }
+  .list { margin-top: 12px; background: var(--cloud); border: 1px solid var(--line); border-radius: var(--radius-card); overflow: hidden; }
+  .list ul { list-style: none; margin: 0; padding: 0; }
+  .list li + li, .list details, .list details ul { border-top: 1px solid var(--line-2); }
+  .opt { display: flex; gap: 12px; padding: 12px 16px; cursor: pointer; min-height: 48px; }
+  .opt:hover { background: rgba(247,245,241,.6); }
+  .opt.on { background: rgba(34,94,138,.05); }
+  .opt:has(input:focus-visible) { outline: 2px solid var(--steel); outline-offset: -2px; }
+  .opt input { width: 20px; height: 20px; margin: 1px 0 0; flex: none; accent-color: var(--steel); }
+  .opt .b { flex: 1; min-width: 0; }
+  .opt .n { font-size: .875rem; font-weight: 500; display: block; }
+  .opt .r { font-size: .75rem; color: var(--slate); display: block; margin-top: 2px; }
+  .opt .p { flex: none; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: .875rem; }
+  .opt .p small { display: block; font-size: .7rem; color: var(--slate); }
+  summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; padding: 12px 16px; cursor: pointer; list-style: none; font-size: .875rem; font-weight: 500; color: var(--steel); }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { background: rgba(247,245,241,.6); }
+  summary:focus-visible { outline: 2px solid var(--steel); outline-offset: -2px; }
+  summary .st { margin-left: auto; font-size: .75rem; font-weight: 400; color: var(--slate); }
+  summary .st.has { color: var(--ink); font-weight: 600; }
+  summary svg { transition: transform .2s; flex: none; }
+  details[open] summary svg { transform: rotate(180deg); }
+  @media (prefers-reduced-motion: reduce) { summary svg, .strip { transition: none !important; } }
+
+  fieldset { border: 0; margin: 24px 0 0; padding: 0; }
+  legend { font-size: .875rem; font-weight: 500; padding: 0; }
+  .seg { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .seg label { position: relative; }
+  .seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .seg span { display: flex; align-items: center; justify-content: center; min-height: 48px; min-width: 56px; padding: 0 16px; font-family: "IBM Plex Mono", monospace; font-size: .875rem; background: var(--cloud); border: 1px solid var(--field); border-radius: var(--radius-btn); cursor: pointer; }
+  .seg input:checked + span { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .seg input:focus-visible + span { outline: 2px solid var(--steel); outline-offset: 2px; }
+
+  .sum ul { list-style: none; margin: 8px 0 0; padding: 0; }
+  .sum li { display: flex; justify-content: space-between; gap: 16px; padding: 8px 0; border-top: 1px solid var(--line-2); font-size: .875rem; }
+  .sum li:first-child { border-top: 0; }
+  .sum li small { display: block; font-size: .75rem; color: var(--slate); }
+  .sum .amt { font-family: "IBM Plex Mono", monospace; font-weight: 500; text-align: right; white-space: nowrap; }
+  .total { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+  .total span:first-child { font-family: Archivo, system-ui, sans-serif; font-weight: 700; }
+  .total span:last-child { font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 1.125rem; }
+
+  .terms { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; font-size: .875rem; cursor: pointer; }
+  .terms input { width: 20px; height: 20px; margin: 0; flex: none; accent-color: var(--steel); }
+  a { color: var(--steel); text-underline-offset: 4px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 48px; padding: 0 24px; margin-top: 24px; font: 600 1rem "IBM Plex Sans", system-ui, sans-serif; color: var(--ink); background: var(--signal); border: 0; border-radius: var(--radius-btn); cursor: pointer; }
+  .btn:hover { filter: brightness(.95); }
+  .btn:focus-visible { outline: 2px solid var(--steel); outline-offset: 2px; }
+  .btn[disabled] { opacity: .5; cursor: default; }
+  @container (min-width: 640px) { .btn { width: auto; } }
+  .spin { animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
+  .back { margin-top: 16px; font-weight: 500; font-size: .95rem; }
+
+  .errsum { margin-top: 16px; display: flex; gap: 10px; border: 1px solid rgba(232,154,60,.4); background: rgba(232,154,60,.1); border-radius: var(--radius-card); padding: 12px 16px; font-size: .875rem; }
+  .errsum:focus { outline: 2px solid var(--steel); outline-offset: 2px; }
+  .errsum p { margin: 0; font-weight: 600; }
+  .errsum ul { margin: 4px 0 0; padding-left: 18px; }
+
+  .strip { position: sticky; bottom: 0; z-index: 3; display: flex; justify-content: space-between; align-items: center; gap: 16px; background: var(--cloud); border-top: 1px solid var(--line); box-shadow: var(--shadow-card); padding: 12px 16px; transform: translateY(100%); transition: transform .3s; }
+  .strip.show { transform: none; }
+  .strip .l { font-size: .875rem; font-weight: 500; }
+  .strip .l small { display: block; font-size: .75rem; font-weight: 400; color: var(--slate); }
+  .strip .v { font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 1.125rem; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="board">
+  <header>
+    <h1>Quick-buy checkout: one screen</h1>
+    <p>Mockup for <code>shared/design/quick-buy-checkout.md</code>. Confirm carrier and review and sign merged into one screen at <code>/buy/[service]/[usdot]/</code>. Both frames are live: tick add-ons, open the disclosure, change the driver count. Totals follow <code>computeQuickBuyPricing</code> (BOC-3 $45, UCR $100 for 0-2 trucks, Clearinghouse $100, Consortium $120, DQ files $200 / $350 / $450, 4+ drivers quoted).</p>
+    <span class="sample">Sample carrier, not real data</span>
+  </header>
+
+  <p class="frame-label"><b>Desktop, 1280px</b> &middot; primary BOC-3, carrier with truck tractors, no pre-ticks: disclosure closed</p>
+  <div class="desk"><div class="chrome"><i></i><i></i><i></i><span>techrig.org/buy/boc-3/1234567/</span></div><div id="desk"></div></div>
+
+  <div class="row">
+    <div>
+      <p class="frame-label"><b>Mobile, 375px</b> &middot; arrived with ?add=dq-files,clearinghouse</p>
+      <div class="phone"><div class="scroll" id="phoneScroll"><div id="phone"></div></div></div>
+      <p class="note">Pre-ticked items sit inside the disclosure, so it renders open. DQ files is ticked, so the driver field shows. Scroll: the total strip appears while the add-ons are on screen and the summary is not. It never carries a button.</p>
+    </div>
+    <div style="flex:1;min-width:300px">
+      <p class="frame-label"><b>Edge case</b> &middot; primary UCR: DQ files is featured</p>
+      <div class="mini"><div class="cap">add-ons section only</div><div id="eUcr"></div></div>
+
+      <p class="frame-label"><b>Edge case</b> &middot; no truck tractors: 1 item left, no disclosure</p>
+      <div class="mini"><div class="cap">add-ons section only</div><div id="eNoTr"></div></div>
+
+      <p class="frame-label"><b>State</b> &middot; server rejected the email</p>
+      <div class="mini"><div class="cap">top of page + contact fields, values kept</div><div id="eErr"></div></div>
+
+      <p class="frame-label"><b>State</b> &middot; submitting</p>
+      <div class="mini"><div class="cap">button only</div><div class="page"><div class="section" style="padding-top:0;padding-bottom:24px"><button class="btn" disabled aria-disabled="true"><svg class="spin" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="2"/><path d="M14 8a6 6 0 0 0-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Continue to payment</button></div></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SV = {
+  "boc-3": { name: "BOC-3 filing", reason: "Process agent designation, required to activate your operating authority." },
+  ucr: { name: "UCR registration", reason: "Annual federal registration; unregistered carriers risk roadside fines and held loads." },
+  clearinghouse: { name: "Clearinghouse registration", reason: "Federal drug and alcohol violation database. CDL carriers must be registered and querying it." },
+  consortium: { name: "Drug & alcohol consortium", reason: "Required random drug and alcohol testing pool enrollment for your CDL drivers." },
+  "dq-files": { name: "Driver qualification files", reason: "Every driver needs a complete file on record. We build and maintain it for you." },
+};
+const PRIORITY = ["ucr", "dq-files", "boc-3", "clearinghouse", "consortium"];
+const DQ = { 1: 200, 2: 350, 3: 450 };
+function line(key, drivers) {
+  if (key === "dq-files") {
+    if (drivers > 3) return { amount: null, note: "More than 3 drivers: custom quote" };
+    return { amount: DQ[drivers], note: drivers === 1 ? "1 driver" : drivers + " drivers, flat total" };
+  }
+  if (key === "ucr") return { amount: 100, note: "Includes your government registration fee, based on your fleet size on file." };
+  return { amount: { "boc-3": 45, clearinghouse: 100, consortium: 120 }[key], note: "" };
+}
+const usd = (n) => "$" + n.toLocaleString("en-US");
+const ICON_WARN = '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 15 14H1z" fill="none" stroke="#0e2233" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6.2v3.6M8 11.6v.1" stroke="#0e2233" stroke-width="1.6" stroke-linecap="round"/></svg>';
+const CHEV = '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+function plan(primary, tractors) {
+  const base = tractors > 0 ? ["boc-3", "ucr", "clearinghouse", "consortium", "dq-files"] : ["boc-3", "ucr", "dq-files"];
+  const remaining = PRIORITY.filter((k) => base.includes(k) && k !== primary);
+  if (!remaining.length) return { featured: [], hidden: [] };
+  let featured = [remaining[0]], hidden = remaining.slice(1);
+  if (hidden.length < 2) { featured = featured.concat(hidden); hidden = []; } // spec rule 3
+  return { featured, hidden };
+}
+
+function Checkout(root, cfg) {
+  const id = root.id;
+  const st = { selected: new Set(cfg.add || []), drivers: 1, open: false };
+  const p = plan(cfg.primary, cfg.tractors);
+  st.open = (cfg.add || []).some((k) => p.hidden.includes(k)); // spec rule 4: open when a pre-tick is inside
+
+  function optRow(k) {
+    const on = st.selected.has(k);
+    const price = k === "dq-files" ? '<small>from</small>' + usd(200) : usd(line(k, 1).amount);
+    return `<li><label class="opt${on ? " on" : ""}"><input type="checkbox" name="service" value="${k}" ${on ? "checked" : ""} data-k="${k}"><span class="b"><span class="n">${SV[k].name}</span><span class="r">${SV[k].reason}</span></span><span class="p">${price}</span></label></li>`;
+  }
+  function addons() {
+    if (!p.featured.length) return "";
+    const k = p.hidden.filter((x) => st.selected.has(x)).length;
+    const disc = p.hidden.length ? `<details ${st.open ? "open" : ""} data-d><summary>${p.hidden.length} more filings<span class="st${k ? " has" : ""}">${k ? k + " added" : "None added"}</span>${CHEV}</summary><ul>${p.hidden.map(optRow).join("")}</ul></details>` : "";
+    return `<section class="sec" data-addons aria-labelledby="${id}-ao"><h2 class="h2" id="${id}-ao">You may also need</h2>
+      <p class="intro">Bundle more of your compliance filings into this order: one payment, one confirmation.</p>
+      <p class="disc">Each is a one-time payment. Nothing renews automatically.</p>
+      <div class="list"><ul>${p.featured.map(optRow).join("")}</ul>${disc}</div></section>`;
+  }
+  function drivers() {
+    const all = [cfg.primary, ...st.selected];
+    if (!all.includes("dq-files")) return "";
+    const opts = [1, 2, 3, 4].map((n) => `<label><input type="radio" name="${id}-dc" value="${n}" ${st.drivers === n ? "checked" : ""} data-dc><span>${n === 4 ? "4 or more" : n}</span></label>`).join("");
+    return `<fieldset data-drivers><legend>Number of drivers</legend><div class="seg">${opts}</div><p class="help">Sets your DQ files price. We'll follow up to collect each driver's documentation after purchase.</p></fieldset>`;
+  }
+  function summaryInner() {
+    const keys = [cfg.primary, ...PRIORITY.filter((k) => st.selected.has(k))];
+    let total = 0;
+    const lis = keys.map((k) => { const l = line(k, st.drivers); total += l.amount || 0;
+      return `<li><span>${SV[k].name}${l.note ? `<small>${l.note}</small>` : ""}</span><span class="amt">${l.amount == null ? "Quote" : usd(l.amount)}</span></li>`; }).join("");
+    return { html: `<ul>${lis}</ul><div class="total" aria-live="polite" aria-atomic="true"><span>Total due now</span><span>${usd(total)}</span></div>`, total, count: keys.length };
+  }
+  function contact(err) {
+    const f = (fid, lab, val, type, req, auto) => {
+      const bad = err && fid === "email";
+      return `<div><label class="f" for="${id}-${fid}">${lab}${req ? " <small>(required)</small>" : ""}</label><input class="t" id="${id}-${fid}" type="${type}" value="${val}" autocomplete="${auto}" ${req ? "required" : ""} ${bad ? `aria-invalid="true" aria-describedby="${id}-email-err"` : ""}>${bad ? `<p class="ferr" id="${id}-email-err">${ICON_WARN}That email or phone number doesn't look right. Please check and try again.</p>` : ""}</div>`;
+    };
+    return `<section class="sec" aria-labelledby="${id}-cd"><h2 class="h2" id="${id}-cd">Your contact details</h2><div class="grid2">
+      ${f("first", "First name", "Jordan", "text", true, "given-name")}${f("last", "Last name", "Sample", "text", true, "family-name")}
+      ${f("email", "Email", err ? "jordan@example" : "jordan@example.com", "email", true, "email")}${f("phone", "Phone", "(555) 010-0123", "tel", false, "tel")}
+      </div><p class="help">Pulled from your FMCSA record. Edit anything that is out of date.</p></section>`;
+  }
+  function header() {
+    return `<p class="eyebrow">${SV[cfg.primary].name} &middot; USDOT 1234567</p><h1 class="h1">Confirm your order</h1>
+      <p class="lede">Check your details, add anything else you need, and sign. You pay on the next screen.</p>`;
+  }
+  function carrier() {
+    return `<div class="card" style="margin-top:24px"><h2 class="h2">Your carrier</h2><dl>
+      <div><dt>Legal name</dt><dd>SAMPLE FREIGHT LINES LLC</dd></div><div><dt>USDOT #</dt><dd>1234567</dd></div>
+      <div><dt>Power units</dt><dd>${cfg.tractors > 0 ? 2 : 1}</dd></div><div><dt>Address</dt><dd>100 Example Rd, Springfield, IL 62701</dd></div></dl></div>`;
+  }
+  function errsum() {
+    return `<div class="errsum" role="alert" tabindex="-1">${ICON_WARN}<div><p>Check the highlighted details.</p><ul><li><a href="#${id}-email">Email: that email or phone number doesn't look right.</a></li></ul></div></div>`;
+  }
+
+  function render() {
+    const s = summaryInner();
+    let html;
+    if (cfg.only === "addons") html = `<div class="page"><div class="section" style="padding-top:0;padding-bottom:24px">${addons()}${drivers()}</div></div>`;
+    else if (cfg.only === "error") html = `<div class="page"><div class="section" style="padding-top:20px;padding-bottom:24px">${header()}${errsum()}${contact(true)}</div></div>`;
+    else html = `<div class="page"><div class="section"><div class="container">${header()}${carrier()}<form onsubmit="return false">${contact(false)}${addons()}${drivers()}
+        <section class="card sum sec" data-sum aria-labelledby="${id}-os"><h2 class="h2" id="${id}-os">Order summary</h2>${s.html}</section>
+        <section class="sec" aria-labelledby="${id}-sg"><h2 class="h2" id="${id}-sg">Sign to confirm</h2>
+          <label class="f" for="${id}-sig" style="display:block;margin-top:12px">Type your full legal name to sign</label>
+          <input class="t" id="${id}-sig" name="signature_name" placeholder="Full legal name" autocomplete="name" required>
+          <label class="terms"><input type="checkbox" required><span>I agree to the <a href="#">terms of service</a> and authorize this filing.</span></label></section>
+        <button class="btn" type="submit">Continue to payment</button></form>
+        <p class="back"><a href="#">Try another USDOT</a></p></div></div>
+        ${cfg.strip ? `<div class="strip" aria-hidden="true" data-strip><span class="l">Total due now<small>${s.count} ${s.count === 1 ? "item" : "items"}</small></span><span class="v">${usd(s.total)}</span></div>` : ""}</div>`;
+    const y = cfg.scroller ? cfg.scroller.scrollTop : 0;
+    root.innerHTML = html;
+    if (cfg.scroller) { cfg.scroller.scrollTop = y; observe(); }
+  }
+
+  // live updates: summary + strip + disclosure status, without re-rendering the whole form (keeps focus)
+  function refresh(structural) {
+    if (structural) { const f = document.activeElement && document.activeElement.dataset.k; render(); if (f) { const el = root.querySelector(`[data-k="${f}"]`); el && el.focus({ preventScroll: true }); } return; }
+  }
+  root.addEventListener("change", (e) => {
+    const t = e.target;
+    if (t.dataset.k) { t.checked ? st.selected.add(t.dataset.k) : st.selected.delete(t.dataset.k); refresh(true); }
+    if (t.hasAttribute("data-dc")) { st.drivers = Number(t.value); render(); const r = root.querySelector(`[data-dc][value="${st.drivers}"]`); r && r.focus({ preventScroll: true }); }
+  });
+  root.addEventListener("toggle", (e) => { if (e.target.matches("[data-d]")) st.open = e.target.open; }, true);
+
+  let io;
+  function observe() {
+    if (io) io.disconnect();
+    const strip = root.querySelector("[data-strip]");
+    const watch = [root.querySelector("[data-addons]"), root.querySelector("[data-drivers]"), root.querySelector("[data-sum]")].filter(Boolean);
+    const vis = new Map();
+    io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => vis.set(en.target, en.isIntersecting));
+      const choosing = [...vis].some(([el, v]) => v && !el.matches("[data-sum]"));
+      const sumVis = vis.get(root.querySelector("[data-sum]"));
+      strip.classList.toggle("show", choosing && !sumVis);
+    }, { root: cfg.scroller });
+    watch.forEach((w) => io.observe(w));
+  }
+  render();
+}
+
+Checkout(document.getElementById("desk"), { primary: "boc-3", tractors: 2 });
+Checkout(document.getElementById("phone"), { primary: "boc-3", tractors: 2, add: ["dq-files", "clearinghouse"], strip: true, scroller: document.getElementById("phoneScroll") });
+Checkout(document.getElementById("eUcr"), { primary: "ucr", tractors: 2, only: "addons" });
+Checkout(document.getElementById("eNoTr"), { primary: "boc-3", tractors: 0, only: "addons" });
+Checkout(document.getElementById("eErr"), { primary: "boc-3", tractors: 2, only: "error" });
+</script>
+</body>
+</html>

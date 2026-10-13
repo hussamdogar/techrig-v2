@@ -26,6 +26,15 @@
   --color-status-filed: #225e8a; /* filed / pending (= steel) */
   --color-status-todo: #4f5e6b; /* not started (= slate) */
 
+  /* Form palette, added for the one-screen quick-buy checkout
+     (shared/design/quick-buy-checkout-v2.md §2). Contrast checked there. */
+  --color-signal-hover: #dc8a27; /* primary button hover (Ink on it 6.2:1) */
+  --color-error: #b42318; /* error text and borders (6.5:1 on Cloud) */
+  --color-error-50: #fdf1ef; /* server-error alert, invalid checkbox row */
+  --color-steel-50: #edf3f8; /* selected add-on card */
+  --color-line: #e3dfd7; /* decorative card borders and dividers */
+  --color-field: #7e8d9b; /* input and checkbox borders (3.4:1, UI component AA) */
+
   /* Type stacks. The --font-archivo / --font-plex-* vars are injected by
      next/font in app/layout.tsx (self-hosted, subset to Latin, display: swap). */
   --font-display: var(--font-archivo), system-ui, sans-serif; /* headlines, hero */

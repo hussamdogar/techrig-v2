@@ -3,27 +3,27 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/ui/container";
-import { buttonVariants } from "@/components/ui/button";
 import { GtmEvent } from "@/components/gtm-event";
-import { TrackedForm } from "@/components/tracked-form";
 import { performLookup } from "@/lib/server/lookup-capture";
 import { sendQuickBuyLookupAdminAlert } from "@/lib/email/lifecycle";
-import { SERVICES, isQuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
-import { text, DocketSection } from "@/lib/lookup/format";
-import type { CarrierData } from "@/lib/lookup/types";
-import { confirmQuickBuyOrder } from "./actions";
+import { SERVICES, isQuickBuyServiceKey, type QuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
+import { carrierFacts } from "@/lib/apply/diff";
 import { parsePreselectedAddOns } from "@/lib/quick-buy-preselect";
+import { placeQuickBuyOrder } from "./actions";
+import { CheckoutForm } from "./checkout-form";
 
 /**
- * Quick-buy confirm screen. Runs the same performLookup() path as
- * `/lookup/[usdot]/` (rate-limited, captures a lead + snapshot, mints a signed
- * lead token), then shows a CURATED identity subset (not the full docket) for
- * the visitor to confirm, with contact info pre-filled and editable. Confirming
- * writes a quick_buy_orders row and hands off straight to payment; no account.
+ * Quick-buy checkout: the one screen between USDOT entry and payment (owner,
+ * 2026-10-13: the old confirm and review screens merged; layout in
+ * shared/design/quick-buy-checkout-v2.md). Runs the same performLookup() path
+ * as `/lookup/[usdot]/` (rate-limited, captures a lead + snapshot, mints a
+ * signed lead token), then shows the carrier record, pre-filled contact
+ * details, add-ons, the order summary and the signature. Submitting writes the
+ * signed quick_buy_orders row and hands off to payment; no account.
  */
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
-  title: "Confirm your carrier record",
+  title: "Review your order",
   robots: { index: false, follow: false },
 };
 
@@ -36,15 +36,15 @@ function Message({ heading, body }: { heading: string; body: string }) {
   );
 }
 
-export default async function QuickBuyConfirmPage({
+export default async function QuickBuyCheckoutPage({
   params,
   searchParams,
 }: {
   params: Promise<{ service: string; usdot: string }>;
-  searchParams: Promise<{ error?: string; add?: string }>;
+  searchParams: Promise<{ add?: string }>;
 }) {
   const { service, usdot } = await params;
-  const { error: errorParam, add: addParam } = await searchParams;
+  const { add: addParam } = await searchParams;
   if (!isQuickBuyServiceKey(service)) notFound();
   const add = parsePreselectedAddOns(addParam, service);
   const def = SERVICES[service as ServiceKey];
@@ -90,8 +90,8 @@ export default async function QuickBuyConfirmPage({
             ? "rate_limited"
             : "error";
 
-  return (
-    <Section surface="paper" className="pt-8 md:pt-12">
+  const events = (
+    <>
       <GtmEvent event="quick_buy_confirm_view" data={{ service, outcome: outcomeStatus }} />
       {/* The lead conversion (owner definition, 2026-09-30): entering a real
           USDOT number is an interested prospect, the same moment the admin
@@ -106,17 +106,62 @@ export default async function QuickBuyConfirmPage({
           data={{ lead_id: outcome.referenceId, service, outcome: outcomeStatus }}
         />
       ) : null}
+    </>
+  );
+
+  if (outcome.kind === "done" && outcome.result.status === "success" && outcome.result.carrier) {
+    const carrier = outcome.result.carrier;
+    const { truckTractors, straightTrucks } = carrier.equipmentSummary;
+    return (
+      <>
+        {events}
+        <CheckoutForm
+          action={placeQuickBuyOrder.bind(null, service, usdot)}
+          primary={service as QuickBuyServiceKey}
+          usdot={usdot}
+          token={outcome.token}
+          carrier={{ legalName: carrier.legalName, powerUnits: carrier.powerUnits, address: carrier.physicalAddress }}
+          contact={{
+            first: carrier.contactFirstName ?? "",
+            last: carrier.contactLastName ?? "",
+            email: carrier.contactEmail ?? "",
+            phone: carrier.contactPhone ?? "",
+          }}
+          qualifyingPowerUnits={truckTractors + straightTrucks}
+          truckTractors={truckTractors}
+          boc3OnFile={carrierFacts(carrier).hasActiveBoc3}
+          preselected={add}
+          hiddenFields={{
+            // UCR's government fee bracket is by QUALIFYING CMVs only (truck
+            // tractors + straight trucks); trailers and non-commercial
+            // vehicles never count. NOT carrier.powerUnits, a general figure
+            // that can include non-commercial vehicles and would inflate the
+            // bracket. Only MOTUS reports the equipment breakdown;
+            // QCMobile-sourced lookups sum to 0 here, which correctly defaults
+            // to the 0-2 bracket.
+            power_units: String(truckTractors + straightTrucks),
+            // Add-on eligibility signal (Clearinghouse and Consortium need
+            // truck tractors), re-checked by the server action.
+            truck_tractors: String(truckTractors),
+            // Structured address for Stripe (fraud scoring / dispute evidence,
+            // owner decision 2026-09-15); not shown as an editable field.
+            address_line1: carrier.addressLine1 ?? "",
+            address_line2: carrier.addressLine2 ?? "",
+            address_city: carrier.addressCity ?? "",
+            address_state: carrier.addressState ?? "",
+            address_zip: carrier.addressZip ?? "",
+            address_country: carrier.addressCountry ?? "",
+          }}
+        />
+      </>
+    );
+  }
+
+  return (
+    <Section surface="paper" className="pt-8 md:pt-12">
+      {events}
       <Container className="max-w-2xl">
-        {outcome.kind === "done" && outcome.result.status === "success" && outcome.result.carrier ? (
-          <Confirm
-            carrier={outcome.result.carrier}
-            service={service as ServiceKey}
-            usdot={usdot}
-            token={outcome.token}
-            error={errorParam}
-            add={add}
-          />
-        ) : outcome.kind === "done" && outcome.result.status === "not_found" ? (
+        {outcome.kind === "done" && outcome.result.status === "not_found" ? (
           <>
             <Message
               heading="No carrier found"
@@ -156,178 +201,5 @@ function BackLink({ service }: { service: string }) {
         Try another USDOT
       </Link>
     </div>
-  );
-}
-
-const CONFIRM_ERROR_MESSAGES: Record<string, string> = {
-  invalid_contact: "That email or phone number doesn't look right. Please check and try again.",
-  "1": "Something went wrong saving your details. Please try again.",
-};
-
-function Confirm({
-  carrier,
-  service,
-  usdot,
-  token,
-  error,
-  add,
-}: {
-  carrier: CarrierData;
-  service: ServiceKey;
-  usdot: string;
-  token: string;
-  error?: string;
-  /** Pre-selected add-ons from the compliance check (lib/quick-buy-preselect.ts). */
-  add: string[];
-}) {
-  const def = SERVICES[service];
-  const confirmAction = confirmQuickBuyOrder.bind(null, service, usdot);
-  const errorMessage = error ? CONFIRM_ERROR_MESSAGES[error] : undefined;
-
-  return (
-    <>
-      <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-slate">
-        {def.name} · USDOT {usdot}
-      </p>
-      <h1 className="mt-1 font-display text-3xl font-extrabold tracking-[-0.02em] text-ink">Confirm your carrier record</h1>
-      <p className="mt-3 text-slate">Check the details below, then continue to review your order.</p>
-
-      {errorMessage ? (
-        <p className="mt-4 rounded-card border border-signal/40 bg-signal/10 px-4 py-3 text-sm text-ink">
-          {errorMessage}
-        </p>
-      ) : null}
-
-      <div className="mt-6">
-        <DocketSection
-          title="Carrier identity"
-          rows={[
-            { label: "Legal name", value: text(carrier.legalName) },
-            { label: "USDOT #", value: text(carrier.usdotNumber) },
-            { label: "Power units", value: text(carrier.powerUnits) },
-            { label: "Address", value: text(carrier.physicalAddress) },
-          ]}
-        />
-      </div>
-
-      <TrackedForm
-        action={confirmAction}
-        event="quick_buy_confirm_submit"
-        data={{ service }}
-        className="mt-6 space-y-5"
-      >
-        <input type="hidden" name="token" value={token} />
-        {add.length ? <input type="hidden" name="add" value={add.join(",")} /> : null}
-        {/* UCR's government fee bracket is by QUALIFYING CMVs only (truck
-            tractors + straight trucks) — trailers and non-commercial vehicles
-            never count, even if that's most of the fleet. This is NOT the
-            same as carrier.powerUnits (a general FMCSA-reported figure that
-            can include non-commercial vehicles and would inflate the
-            bracket). Auto-detected here so UCR pricing (if selected now or
-            upsold on review) never needs the visitor to type a fleet size in.
-            Only MOTUS reports the equipment breakdown; QCMobile-sourced
-            lookups always sum to 0 here, which correctly defaults to the 0-2
-            bracket rather than trusting an undifferentiated total. */}
-        <input
-          type="hidden"
-          name="power_units"
-          value={carrier.equipmentSummary.truckTractors + carrier.equipmentSummary.straightTrucks}
-        />
-        {/* Raw signal for the review screen's "You may also need" upsell
-            eligibility (truck tractors present), kept separate from
-            power_units above since that's a combined figure. */}
-        <input type="hidden" name="truck_tractors" value={carrier.equipmentSummary.truckTractors} />
-        {/* Carried through to the order so checkout can pass a structured
-            address to Stripe (fraud scoring / dispute evidence, owner
-            decision 2026-09-15) — not otherwise shown as an editable field on
-            this form. Structured, not the single physicalAddress display
-            string above: Stripe's Customer/shipping address wants
-            line1/city/state/zip separately. */}
-        <input type="hidden" name="address_line1" value={carrier.addressLine1 ?? ""} />
-        <input type="hidden" name="address_line2" value={carrier.addressLine2 ?? ""} />
-        <input type="hidden" name="address_city" value={carrier.addressCity ?? ""} />
-        <input type="hidden" name="address_state" value={carrier.addressState ?? ""} />
-        <input type="hidden" name="address_zip" value={carrier.addressZip ?? ""} />
-        <input type="hidden" name="address_country" value={carrier.addressCountry ?? ""} />
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label htmlFor="first_name" className="text-sm font-medium text-ink">
-              First name
-            </label>
-            <input
-              id="first_name"
-              name="first_name"
-              type="text"
-              defaultValue={carrier.contactFirstName ?? ""}
-              placeholder="First name"
-              required
-              className="mt-1 w-full rounded-card border border-slate/25 bg-paper px-4 py-3 text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-            />
-            <p className="mt-1 text-xs text-slate">Pulled from your FMCSA record, edit if needed.</p>
-          </div>
-          <div>
-            <label htmlFor="last_name" className="text-sm font-medium text-ink">
-              Last name
-            </label>
-            <input
-              id="last_name"
-              name="last_name"
-              type="text"
-              defaultValue={carrier.contactLastName ?? ""}
-              placeholder="Last name"
-              required
-              className="mt-1 w-full rounded-card border border-slate/25 bg-paper px-4 py-3 text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-            />
-            <p className="mt-1 text-xs text-slate">Pulled from your FMCSA record, edit if needed.</p>
-          </div>
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label htmlFor="email" className="text-sm font-medium text-ink">
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              defaultValue={carrier.contactEmail ?? ""}
-              placeholder="you@company.com"
-              required
-              className="mt-1 w-full rounded-card border border-slate/25 bg-paper px-4 py-3 text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-            />
-            <p className="mt-1 text-xs text-slate">Pulled from your FMCSA record, edit if needed.</p>
-          </div>
-          <div>
-            <label htmlFor="phone" className="text-sm font-medium text-ink">
-              Phone
-            </label>
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              defaultValue={carrier.contactPhone ?? ""}
-              placeholder="(555) 555-5555"
-              className="mt-1 w-full rounded-card border border-slate/25 bg-paper px-4 py-3 text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-            />
-            <p className="mt-1 text-xs text-slate">Pulled from your FMCSA record, edit if needed.</p>
-          </div>
-        </div>
-
-        {/* Power units (UCR) / driver count (DQ files) are collected on the next
-            screen, not here — the review step is where the final service list
-            (primary + any upsells) is locked in, so that's the one place those
-            fields need to live regardless of how the visitor got there. */}
-
-        <button type="submit" className={`${buttonVariants({ variant: "primary", size: "md" })} w-full sm:w-auto`}>
-          Continue to review
-        </button>
-      </TrackedForm>
-
-      <div className="mt-4">
-        <BackLink service={service} />
-      </div>
-    </>
   );
 }

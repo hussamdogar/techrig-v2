@@ -409,3 +409,17 @@ No changes needed in `review-form.tsx`: the checklist's `upsellInfo()` and the p
 - `/apply`: "Choose a package" step and `?bundle=` preselect removed; saving the services step clears `selected_bundle`. The registry's bundle model, `computePricing`'s bundle branch and `BundleReceipt` are kept so an in-flight application that already picked a package still prices correctly; remove them once no open application has `selected_bundle` set.
 - Service pages (BOC-3, UCR, MC, MC+DOT, IRP, IFTA, IFTA quarterly, DQ, Clearinghouse, consortium, how-to-start): every in-package price and packages link removed; each service shows one price.
 - Verified: `/compliance-packages/` returns 308 to the hub; no page or the sitemap mentions packages; `tsc --noEmit` clean; no new lint findings.
+
+
+## One-screen quick-buy checkout (2026-10-13, owner)
+
+Spec: `shared/design/quick-buy-checkout-v2.md` (mockup v2, owner-edited).
+
+- `/buy/<service>/<usdot>/` is now the only screen between USDOT entry and payment: carrier record, contact details (summary + Edit, fields open when FMCSA data is missing), add-ons (one featured, the rest under "More services"), order summary with Remove, typed signature + terms, one "Continue to payment". Two columns from `lg` with a right column that stays in view while it fits; one column with a sticky total bar on phones (hidden while typing and while the in-page button shows).
+- One server action (`placeQuickBuyOrder`) replaces confirm + review: re-validates with the same rules as the form (`lib/quick-buy-checkout.ts`), keeps only add-ons this carrier is offered, writes the signed order and its filings, sets the lead-token cookie and redirects to payment. Field errors come back without a reload; the form scrolls to and focuses the top-most invalid field. No error summary box.
+- DQ files are always one driver ($200). BOC-3 on file (from the FMCSA record) changes the featured add-on and its wording.
+- Old `/buy/order/<id>/review/` redirects: signed orders to payment, unsigned ones back to the checkout with their add-ons. Payment's unsigned-order guard does the same. `reviewAndSignQuickBuyOrder` and `review-form.tsx` deleted.
+- Tracking: `quick_buy_confirm_view` and `quick_buy_lead` unchanged; `quick_buy_review_submit` fires on a valid submit; `quick_buy_details_submitted` now fires on the payment screen on arrival from checkout (`?placed=1`), same payload, so GTM needs no change.
+- Chrome: all `/buy/` screens use a slim header (logo + call button, `call_click` location `checkout_header`) and a one-strip footer instead of the site header and mega-footer; the cookie notice uses the compact under-the-header bar there, like `/lp/`.
+- New colour tokens in `app/globals.css` (signal-hover, error, error-50, steel-50, line, field) and six icons.
+- Verified on the dev server: desktop and 375px layouts, add-on promotion, Remove, totals ($45 / $145 / $345 / $420 cases), email typo suggestion, validation focus order, sticky-bar hiding, a full test order (test email) through to the payment screen with matching total, and the review-URL redirect. `tsc` and `eslint` clean on the changed files.

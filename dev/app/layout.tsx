@@ -6,6 +6,8 @@ import { SiteHeader } from "@/components/site-header";
 import { AdClickIdCapture } from "@/components/ad-click-id-capture";
 import { PhoneLinkSync } from "@/components/phone-link-sync";
 import { SiteFooter } from "@/components/site-footer";
+import { HideOnPaths, OnlyOnPaths } from "@/components/hide-on-paths";
+import { CheckoutFooter, CheckoutHeader } from "@/components/checkout-chrome";
 import { CookieNotice } from "@/components/cookie-notice";
 import { JsonLd } from "@/components/json-ld";
 import { graph, organizationNode, websiteNode } from "@/lib/schema";
@@ -89,8 +91,18 @@ export default function RootLayout({
             JSON-LD can reference #org by @id. */}
         <JsonLd data={graph(organizationNode(), websiteNode())} />
         <SiteHeader />
+        {/* The /buy/ checkout swaps the site header and mega-footer for a slim
+            pair (components/checkout-chrome.tsx). SiteHeader hides itself there. */}
+        <OnlyOnPaths prefixes={["/buy/"]}>
+          <CheckoutHeader />
+        </OnlyOnPaths>
         <main className="flex-1">{children}</main>
-        <SiteFooter />
+        <HideOnPaths prefixes={["/buy/"]}>
+          <SiteFooter />
+        </HideOnPaths>
+        <OnlyOnPaths prefixes={["/buy/"]}>
+          <CheckoutFooter />
+        </OnlyOnPaths>
         <CookieNotice />
         {/* First-party Google Ads click-id capture for offline conversion
             uploads (phone / follow-up sales). Not gated on GTM_ENABLED: it
