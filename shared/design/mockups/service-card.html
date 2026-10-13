@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Service Card Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Real token values from dev/app/globals.css */
+  :root {
+    --ink: #0e2233; --steel: #225e8a; --signal: #e89a3c;
+    --paper: #f7f5f1; --cloud: #ffffff; --slate: #4f5e6b;
+    --radius-card: 8px;
+    --shadow-card: 0 1px 2px rgba(14,34,51,.06), 0 4px 16px rgba(14,34,51,.08);
+  }
+  /* Dark-section remap, as in globals.css */
+  [data-surface="ink"] > * { --ink: #ffffff; --slate: #b7c0c9; --steel: #9cc7e8; }
+  [data-surface="ink"] .card { --ink: #0e2233; --slate: #4f5e6b; --steel: #225e8a; }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "IBM Plex Sans", system-ui, sans-serif; line-height: 1.6; color: var(--ink); background: var(--paper); }
+  section { padding: 56px 0; }
+  @media (min-width: 768px) { section { padding: 96px 0; } }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 640px) { .wrap { padding: 0 24px; } }
+  .paper { background: var(--paper); }
+  .ink { background: #0e2233; color: #fff; }
+  h2 { font-family: Archivo, system-ui, sans-serif; font-weight: 700; font-size: 1.875rem; line-height: 1.2; margin: 0; color: var(--ink); }
+  .lede { margin: 16px 0 0; max-width: 65ch; color: var(--slate); }
+  .label { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--slate); margin: 0 0 12px; }
+  .hub { margin-top: 32px; }
+  .hub a { color: var(--steel); font-weight: 500; text-underline-offset: 4px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+  .hub a:hover { text-decoration: underline; }
+
+  /* Grids */
+  .grid { display: grid; gap: 16px; margin-top: 32px; }
+  @media (min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+  /* Homepage 5-card: 6-col track, 3 + 2 */
+  @media (min-width: 640px) { .home .card:nth-child(5) { grid-column: span 2; } }
+  @media (min-width: 1024px) {
+    .home { grid-template-columns: repeat(6, 1fr); }
+    .home .card:nth-child(-n+3) { grid-column: span 2; }
+    .home .card:nth-child(n+4) { grid-column: span 3; }
+  }
+  @media (min-width: 1024px) { .four { grid-template-columns: repeat(4, 1fr); } }
+
+  /* The card */
+  .card { position: relative; display: flex; flex-direction: column; height: 100%;
+    background: var(--cloud); border: 1px solid color-mix(in srgb, var(--slate) 15%, transparent);
+    border-radius: var(--radius-card); padding: 20px; color: var(--ink); }
+  @media (min-width: 640px) { .card { padding: 24px; } }
+  .card.is-link { transition: border-color .15s ease-out, box-shadow .15s ease-out, transform .15s ease-out, background-color .15s ease-out; }
+  .head { display: flex; align-items: flex-start; gap: 12px; }
+  .head svg { flex-shrink: 0; margin-top: 2px; color: var(--steel); }
+  .card h3 { margin: 0; font-family: Archivo, system-ui, sans-serif; font-size: 1.125rem; font-weight: 600; line-height: 1.375; color: var(--ink); }
+  .card h3 a { color: var(--ink); text-decoration: none; outline: none; transition: color .15s ease-out; }
+  .card h3 a::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius-card); }
+  .card h3 a:focus-visible::after { outline: 2px solid var(--steel); outline-offset: -2px; }
+  .card:has(a:focus-visible) { border-color: var(--steel); }
+  .desc { margin: 8px 0 0; font-size: .875rem; color: var(--slate); }
+  .foot { margin-top: auto; padding-top: 20px; }
+  .foot-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+    border-top: 1px solid color-mix(in srgb, var(--slate) 10%, transparent); padding-top: 16px; }
+  .price { display: inline-flex; flex-direction: column; gap: 2px; }
+  .num { font-family: "IBM Plex Mono", monospace; font-size: 1.25rem; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--ink); line-height: 1.75rem; }
+  .num small { font-size: .875rem; color: var(--slate); font-weight: 400; }
+  .num .from { margin-right: 4px; }
+  .num .unit { margin-left: 4px; }
+  .fee { margin-top: 4px; font-family: "IBM Plex Mono", monospace; font-size: .75rem; color: var(--slate); }
+  .arrow { flex-shrink: 0; margin-left: auto; margin-top: 4px; color: var(--steel); transition: transform .15s ease-out; }
+
+  @media (hover: hover) {
+    .card.is-link:hover { border-color: var(--steel); box-shadow: var(--shadow-card); }
+    .card.is-link:hover h3 a { color: var(--steel); }
+  }
+  .card.is-link:active { background: var(--paper); box-shadow: none; }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .card.is-link:hover { transform: translateY(-2px); }
+    .card.is-link:hover .arrow { transform: translateX(4px); }
+    .card.is-link:active { transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition-duration: .01ms !important; } }
+
+  .notes { margin-top: 24px; font-size: .875rem; color: var(--slate); max-width: 75ch; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-filing" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 3h7l5 5v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M13 3v5h5"/><path d="M9 13h6M9 17h4"/>
+  </symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z"/><path d="m9 11 2 2 4-4"/>
+  </symbol>
+  <symbol id="i-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h5a3 3 0 0 0 0-6h-2a3 3 0 0 1 0-6h5"/>
+  </symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+  </symbol>
+</svg>
+
+<!-- Homepage section 2, recommended Paper surface -->
+<section class="paper" data-surface="paper">
+  <div class="wrap">
+    <p class="label">Homepage, section 2 (Paper surface, 5-card grid)</p>
+    <h2>What we handle</h2>
+    <p class="lede">The filings you can order online today, each priced up front. Everything else we file is in the compliance hub. We are officially listed by FMCSA as a BOC-3 blanket process-agent company, and we know the MOTUS system inside out.</p>
+
+    <div class="grid home">
+      <div class="card is-link">
+        <div class="head"><svg width="24" height="24" aria-hidden="true"><use href="#i-filing"/></svg>
+          <h3><a href="#boc-3">BOC-3 filing</a></h3></div>
+        <p class="desc">Blanket process-agent designation, required to activate authority.</p>
+        <div class="foot"><div class="foot-row">
+          <span class="price"><span class="num">$45</span></span>
+          <svg class="arrow" width="20" height="20" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </div></div>
+      </div>
+
+      <div class="card is-link">
+        <div class="head"><svg width="24" height="24" aria-hidden="true"><use href="#i-filing"/></svg>
+          <h3><a href="#ucr">UCR</a></h3></div>
+        <p class="desc">Annual Unified Carrier Registration, with the right fleet bracket.</p>
+        <div class="foot"><div class="foot-row">
+          <span class="price"><span class="num"><small class="from">from</small>$54</span><span class="fee">+ gov fee by fleet size</span></span>
+          <svg class="arrow" width="20" height="20" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </div></div>
+      </div>
+
+      <div class="card is-link">
+        <div class="head"><svg width="24" height="24" aria-hidden="true"><use href="#i-filing"/></svg>
+          <h3><a href="#dq">DQ files</a></h3></div>
+        <p class="desc">Compliant driver qualification files, built and kept audit-ready.</p>
+        <div class="foot"><div class="foot-row">
+          <span class="price"><span class="num">$200<small class="unit">per driver</small></span></span>
+          <svg class="arrow" width="20" height="20" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </div></div>
+      </div>
+
+      <div class="card is-link">
+        <div class="head"><svg width="24" height="24" aria-hidden="true"><use href="#i-shield"/></svg>
+          <h3><a href="#consortium">Drug &amp; alcohol consortium</a></h3></div>
+        <p class="desc">Consortium enrollment and random testing program management.</p>
+        <div class="foot"><div class="foot-row">
+          <span class="price"><span class="num">$120</span></span>
+          <svg class="arrow" width="20" height="20" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </div></div>
+      </div>
+
+      <div class="card is-link">
+        <div class="head"><svg width="24" height="24" aria-hidden="true"><use href="#i-shield"/></svg>
+          <h3><a href="#clearinghouse">Clearinghouse Registration</a></h3></div>
+        <p class="desc">FMCSA Clearinghouse registration for drug and alcohol records.</p>
+        <div class="foot"><div class="foot-row">
+          <span class="price"><span class="num">$100</span></span>
+          <svg class="arrow" width="20" height="20" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </div></div>
+      </div>
+    </div>
+
+    <p class="hub"><a href="#hub">See the full compliance hub <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+    <p class="notes">Try it: hover a card, press Tab to move focus card by card, or narrow the window to 768px and 375px. Turn on reduced motion in the OS to see the lift and arrow slide disappear.</p>
+  </div>
+</section>
+
+<!-- Dark section: hub and state-page context, 4-col, includes a no-href card -->
+<section class="ink" data-surface="ink">
+  <div class="wrap">
+    <p class="label">Inside a dark (Ink) section, 4-col as on the state dispatch pages</p>
+    <h2>Same card on Ink</h2>
+    <p class="lede">The card switches tokens back to light values, so it renders the same here. The last card has no page, so it has no link, no arrow and no hover.</p>
+
+    <div class="grid four">
+      <div class="card is-link">
+        <div class="head"><svg width="24" height="24" aria-hidden="true"><use href="#i-filing"/></svg>
+          <h3><a href="#boc-3-d">BOC-3 filing</a></h3></div>
+        <p class="desc">Blanket process-agent designation, required to activate authority.</p>
+        <div class="foot"><div class="foot-row">
+          <span class="price"><span class="num">$45</span></span>
+          <svg class="arrow" width="20" height="20" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </div></div>
+      </div>
+
+      <div class="card is-link">
+        <div class="head"><svg width="24" height="24" aria-hidden="true"><use href="#i-filing"/></svg>
+          <h3><a href="#ucr-d">UCR</a></h3></div>
+        <p class="desc">Annual Unified Carrier Registration, with the right fleet bracket.</p>
+        <div class="foot"><div class="foot-row">
+          <span class="price"><span class="num"><small class="from">from</small>$54</span><span class="fee">+ gov fee by fleet size</span></span>
+          <svg class="arrow" width="20" height="20" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </div></div>
+      </div>
+
+      <div class="card is-link">
+        <div class="head"><svg width="24" height="24" aria-hidden="true"><use href="#i-route"/></svg>
+          <h3><a href="#irp-d">IRP plates</a></h3></div>
+        <p class="desc">Apportioned plates so you can run legally in multiple states.</p>
+        <div class="foot"><div class="foot-row">
+          <span class="price"><span class="num">$225</span><span class="fee">+ state fees</span></span>
+          <svg class="arrow" width="20" height="20" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </div></div>
+      </div>
+
+      <div class="card">
+        <div class="head"><svg width="24" height="24" aria-hidden="true"><use href="#i-shield"/></svg>
+          <h3><span>MC reinstatement / deactivation</span></h3></div>
+        <p class="desc">Reinstate a dismissed MC authority, or deactivate one you no longer run.</p>
+        <div class="foot"><div class="foot-row">
+          <span class="price"><span class="num"><small class="from">from</small>$200</span></span>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

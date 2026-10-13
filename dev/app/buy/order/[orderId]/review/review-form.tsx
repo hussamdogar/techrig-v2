@@ -88,9 +88,8 @@ export function ReviewForm({
   // the breakdown below will show for it.
   //
   // savings is a general "what does adding this actually save you" figure
-  // that works identically for every case (the BOC-3+UCR combo, the DQ
-  // bundle-rate discount, or nothing at all for Clearinghouse/Consortium)
-  // without special-casing any one of them: it's the gap between adding
+  // that works identically for every case (the BOC-3+UCR combo, or nothing
+  // at all) without special-casing any one of them: it's the gap between adding
   // this candidate at its own solo (undiscounted) price and what
   // computeQuickBuyPricing actually charges for the resulting order.
   // Driver count isn't chosen until DQ is checked, so DQ's preview always

@@ -399,3 +399,13 @@ No changes needed in `review-form.tsx`: the checklist's `upsellInfo()` and the p
 - **The payment summary's per-line description no longer switches between a dynamic discount-explanation note and a generic fallback note.** It now always shows the exact same static "why you need this" line used in the upsell checklist (`QUICK_BUY_UPSELL_REASON`), so the description text is identical and constant between the two surfaces regardless of whether that line happens to be discounted — the struck-through price already communicates the discount, so the text no longer needs to.
 
 `npx tsc --noEmit`, `eslint`, and `next build` all pass clean.
+
+
+## Compliance packages retired (2026-10-08, owner)
+
+- Deleted `/compliance-packages/` (page + OG image) and its components (`package-card`, `package-comparison-table`, `package-matrix-map`, `package-selector`), the unused `pricedOfferCatalogNode`, and the `complianceNav` entry (so the sitemap and footer drop it). 308 redirect `/compliance-packages/` → `/compliance-services/` in `next.config.ts`.
+- Hub: packages section and the hero "or compare our packages" link removed; sections re-alternated (Ink hero, Paper cards, Ink proof, Paper how-it-works, Cloud FAQ, Ink close).
+- Homepage "Which describes you?": package callouts and the Authority Launch link removed.
+- `/apply`: "Choose a package" step and `?bundle=` preselect removed; saving the services step clears `selected_bundle`. The registry's bundle model, `computePricing`'s bundle branch and `BundleReceipt` are kept so an in-flight application that already picked a package still prices correctly; remove them once no open application has `selected_bundle` set.
+- Service pages (BOC-3, UCR, MC, MC+DOT, IRP, IFTA, IFTA quarterly, DQ, Clearinghouse, consortium, how-to-start): every in-package price and packages link removed; each service shows one price.
+- Verified: `/compliance-packages/` returns 308 to the hub; no page or the sitemap mentions packages; `tsc --noEmit` clean; no new lint findings.

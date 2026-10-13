@@ -422,8 +422,8 @@ export default function HowToStartATruckingCompanyPage() {
       </Section>
 
       {/* How much it costs: honest framing. There is no single package price
-          any more (four fixed bundles replace the old flat fee), so the range
-          and a link to the bundle page stand in for a PriceChip; government
+          (packages retired 2026-10-08), so a link to the hub, where every
+          service shows its own price, stands in for a PriceChip; government
           and insurance costs stay on separate Slate lines, never blended into
           the service fee. */}
       <Section surface="ink" id="costs" className="scroll-mt-24">
@@ -435,14 +435,10 @@ export default function HowToStartATruckingCompanyPage() {
           <div className="mt-6 space-y-4 text-slate">
             <p>
               Company and authority filings (USDOT, MC, BOC-3) plus driver
-              compliance are the main service costs. Complete setups run from
-              $345 for continuing carriers to $1,645 for a full new
-              heavy-vehicle authority launch, and individual services are
-              listed on each page. See{" "}
-              <CrossLink href="/compliance-packages/">
-                compliance packages
-              </CrossLink>{" "}
-              for the bundle that fits your situation.
+              compliance are the main service costs. Each service has its own
+              fixed fee, and the{" "}
+              <CrossLink href="/compliance-services/">compliance hub</CrossLink>{" "}
+              lists every one with its price.
             </p>
             <p>
               On top of service fees you have government fees (for example IRP and

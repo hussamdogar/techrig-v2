@@ -109,7 +109,7 @@ export default function IrpRegistrationPage() {
     <>
       <JsonLd
         data={graph(
-          // IRP setup fee: $225 standalone / $175 in-bundle (confirmed). State
+          // IRP setup fee: $225 (confirmed). State
           // registration fees depend on mileage and jurisdictions and are never
           // encoded as the price.
           serviceNode({
@@ -352,7 +352,7 @@ export default function IrpRegistrationPage() {
             </li>
           </ul>
 
-          {/* Price: IRP setup fee is $225 standalone / $175 in-bundle. The state
+          {/* Price: IRP setup fee is $225. The state
               registration fees are a separate Slate line, never encoded as the price. */}
           <div className="mt-8">
             <PriceChip
@@ -362,11 +362,7 @@ export default function IrpRegistrationPage() {
             />
           </div>
           <p className="mt-4 text-slate">
-            Our IRP setup fee is $225 standalone ($175 inside a{" "}
-            <CrossLink href="/compliance-packages/">
-              compliance package
-            </CrossLink>
-            ). This payment covers Tech Rig's setup and filing-assistance fee.
+            Our IRP setup fee is $225. This payment covers Tech Rig's setup and filing-assistance fee.
             Government, state, plate, credential, and jurisdiction fees are
             calculated separately and must be paid before the filing can be
             completed. IRP renews annually.

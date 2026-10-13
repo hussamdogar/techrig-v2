@@ -7,6 +7,7 @@
  * descriptive navigation names from shared/page-briefs/global-footer.md.
  */
 import type { IconName } from "@/components/icons";
+import type { QuickBuyServiceKey } from "@/lib/services-registry";
 
 export type NavLink = {
   slug: string;
@@ -20,7 +21,6 @@ export type NavLink = {
 // Column 1. Build/priority order: hub and Authority Package first (global-footer.md).
 export const complianceNav: NavLink[] = [
   { slug: "/compliance-services/", label: "Compliance Services hub" },
-  { slug: "/compliance-packages/", label: "Compliance Packages" },
   { slug: "/mc-dot-registration/", label: "Authority Package (DOT + MC)" },
   { slug: "/dot-registration/", label: "USDOT Registration" },
   { slug: "/mc-registration/", label: "MC Authority" },
@@ -72,8 +72,8 @@ export const legalNav: NavLink[] = [
 /**
  * Pricing, keyed by page slug. Drives the PriceChip so on-page prices match
  * services.md exactly. **Standalone (a la carte) prices only** (Pricing v2,
- * client-pricing-v2-2026-07-10.md §2): the lower in-bundle prices are shown
- * only on `/compliance-packages/`, sourced from `services-registry.ts`. `kind`:
+ * client-pricing-v2-2026-07-10.md §2). Compliance packages and their in-bundle
+ * prices were retired from the site on 2026-10-08. `kind`:
  *  - flat:   a fixed Tech Rig service fee (e.g. BOC-3 $45).
  *  - from:   a service-fee floor (e.g. UCR from $54).
  *  - quote:  "Contact for quote" (LLC, consultancy).
@@ -100,9 +100,9 @@ export const pricing: Record<string, Price> = {
   "/mcs-150-biennial-update/": { kind: "flat", amount: 125 },
   "/usdot-correction/": { kind: "flat", amount: 125 },
   "/motus-migration/": { kind: "flat", amount: 125 },
-  "/fmcsa-clearinghouse-registration/": { kind: "flat", amount: 125 },
-  "/drug-and-alcohol-consortium/": { kind: "flat", amount: 175 },
-  "/driver-qualification-files/": { kind: "flat", amount: 250, unit: "per driver" },
+  "/fmcsa-clearinghouse-registration/": { kind: "flat", amount: 100 },
+  "/drug-and-alcohol-consortium/": { kind: "flat", amount: 120 },
+  "/driver-qualification-files/": { kind: "flat", amount: 200, unit: "per driver" },
   "/trucking-llc/": { kind: "quote" },
   // IRP/IFTA setup fees ($225 each standalone); the government/state fees stay
   // separate (govFee) because they depend on mileage and jurisdictions.
@@ -131,7 +131,15 @@ export type ComplianceCatalogItem = {
   price?: Price;
   govFeeNote?: string;
   note?: string;
+  /** Sold through quick-buy checkout: the card shows "Order now" to
+   *  /buy/<key>/ (homepage and compliance hub, owner 2026-10-08). */
+  quickBuyKey?: QuickBuyServiceKey;
 };
+
+/** "Order now" link for a catalog card, or undefined if it isn't sold online. */
+export function catalogOrderHref(item: ComplianceCatalogItem): string | undefined {
+  return item.quickBuyKey ? `/buy/${item.quickBuyKey}/` : undefined;
+}
 
 export const complianceCatalog: ComplianceCatalogItem[] = [
   {
@@ -156,6 +164,7 @@ export const complianceCatalog: ComplianceCatalogItem[] = [
     title: "BOC-3 filing",
     description: "Blanket process-agent designation, required to activate authority.",
     icon: "filing",
+    quickBuyKey: "boc-3",
   },
   {
     href: "/ucr-registration/",
@@ -163,6 +172,7 @@ export const complianceCatalog: ComplianceCatalogItem[] = [
     description: "Annual Unified Carrier Registration, with the right fleet bracket.",
     icon: "filing",
     govFeeNote: "+ gov fee by fleet size",
+    quickBuyKey: "ucr",
   },
   {
     href: "/irp-registration/",
@@ -190,18 +200,21 @@ export const complianceCatalog: ComplianceCatalogItem[] = [
     title: "Clearinghouse Registration",
     description: "FMCSA Clearinghouse registration for drug and alcohol records.",
     icon: "shield",
+    quickBuyKey: "clearinghouse",
   },
   {
     href: "/drug-and-alcohol-consortium/",
     title: "Drug & alcohol consortium",
     description: "Consortium enrollment and random testing program management.",
     icon: "shield",
+    quickBuyKey: "consortium",
   },
   {
     href: "/driver-qualification-files/",
     title: "DQ files",
     description: "Compliant driver qualification files, built and kept audit-ready.",
     icon: "filing",
+    quickBuyKey: "dq-files",
   },
   {
     href: "/eld-services/",

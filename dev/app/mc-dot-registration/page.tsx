@@ -12,7 +12,8 @@ import { ReviewedBy } from "@/components/reviewed-by";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ClosingCta } from "@/components/closing-cta";
 import { JsonLd } from "@/components/json-ld";
-import { FilingIcon, RouteNodeIcon } from "@/components/icons";
+import { FilingIcon, PhoneIcon, RouteNodeIcon } from "@/components/icons";
+import { TrackedAnchor } from "@/components/tracked-anchor";
 import {
   breadcrumbNode,
   faqNode,
@@ -21,9 +22,12 @@ import {
   serviceNode,
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
+import { site } from "@/lib/site";
 
 // Primary file/apply CTAs route into the /apply engine, prefilled to this service.
-const applyHref = "/apply/?service=mc-authority";
+// The authority package is sold by phone, not through /apply (owner,
+// 2026-10-13): both CTAs call us.
+const callLabel = `Call ${site.telephone}`;
 
 export const metadata: Metadata = {
   // Brief title tag does not end in " | Tech Rig" in the strippable template
@@ -153,12 +157,16 @@ export default function McDotRegistrationPage() {
                 through.
               </p>
               <div className="mt-7">
-                <Link
-                  href={applyHref}
+                <TrackedAnchor
+                  href={site.telHref}
+                  event="call_click"
+                  data={{ location: "mc_dot_hero" }}
                   className={buttonVariants({ variant: "primary", size: "md" })}
                 >
-                  Get my authority package
-                </Link>
+                  <PhoneIcon size={18} aria-hidden="true" />
+                  {callLabel}
+                </TrackedAnchor>
+                <p className="mt-2 text-sm text-slate">Call us to get your authority package started.</p>
               </div>
               <div className="mt-5">
                 <ReviewedBy name="Adam Smith" role="Co-Founder" />
@@ -208,10 +216,9 @@ export default function McDotRegistrationPage() {
               bigger-need carrier up without competing with the package CTA. */}
           <p className="mt-8 text-slate">
             Need driver compliance and interstate filings too (DQ files,
-            Clearinghouse, consortium, IRP, IFTA)? Our{" "}
-            <CrossLink href="/compliance-packages/">compliance packages</CrossLink>{" "}
-            bundle it: Authority Launch — Non-CDL ($945) or Authority Launch —
-            CDL/Heavy ($1,645).
+            Clearinghouse, consortium, IRP, IFTA)? Every one is listed with its
+            price in our{" "}
+            <CrossLink href="/compliance-services/">compliance hub</CrossLink>.
           </p>
         </Container>
       </Section>
@@ -229,7 +236,7 @@ export default function McDotRegistrationPage() {
           </p>
 
           {/* Core service-fee chips, single-sourced from services.md. The MC
-              fee ($650 standalone) includes the USDOT number, so there is no
+              fee ($650) includes the USDOT number, so there is no
               separate USDOT chip; BOC-3 and UCR complete the core. */}
           <div className="mt-6 flex flex-wrap gap-4">
             <PriceChip
@@ -254,15 +261,6 @@ export default function McDotRegistrationPage() {
             front.
           </p>
 
-          <p className="mt-6 text-slate">
-            Getting it all as one lower-priced bundle: the{" "}
-            <CrossLink href="/compliance-packages/">
-              Authority Launch packages
-            </CrossLink>{" "}
-            ($945 non-CDL / $1,645 CDL/heavy), which use the discounted
-            in-bundle prices and include the MC and UCR (0-2 bracket) government
-            fees.
-          </p>
         </Container>
       </Section>
 
@@ -315,8 +313,8 @@ export default function McDotRegistrationPage() {
       </Section>
 
       <ClosingCta
-        text="Get the whole authority handled, in the right order. Start your package."
-        cta={{ label: "Get my authority package", href: applyHref }}
+        text="Get the whole authority handled, in the right order. Call us to start your package."
+        cta={{ label: callLabel, href: site.telHref }}
       />
     </>
   );

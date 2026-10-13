@@ -10,6 +10,7 @@ The lead service for new and growing carriers, launched August 2025. Tech Rig is
 **The compliance/setup packet:** Registered LLC (partner referral, Inc Authority) · USDOT number · MC authority · BOC-3 · UCR · DQ files · Clearinghouse · consortium · pre-employment drug test · IRP · IFTA. Plus, as referrals/coordination only (NOT Tech Rig services): ELD (partner referral, Motive) and insurance (coordinate with the carrier's own insurer; the dedicated insurance page is being removed). Coverage mapping in `../../shared/keyword-map.md`.
 
 ## Pricing v2 — two-price model + four bundles (the parity master)
+**2026-10-08 (owner): compliance packages are RETIRED site-wide** (`/compliance-packages/` redirects to `/compliance-services/`; no package pricing, picker or in-package price appears anywhere on the site). Every service is sold at its **standalone** price below. The in-bundle column and the four-bundle section are kept for history and for any in-flight `/apply` application that already chose a package.
 Every bundle-eligible service has TWO prices: a **standalone** price (à-la-carte checkout uses this) and a lower **in-bundle** price (used inside the four bundles). The four bundle prices are **DERIVED**, never hardcoded: the package price is the plain sum of the in-bundle prices (owner decision 2026-09-28: no rounding, and BOC-3 and UCR carry no in-bundle discount). Savings = standalone value − final price; discount % = savings ÷ standalone value. Keep everything derived so the numbers stay correct if a price moves. **No convenience fee; no extra package-level discount** beyond the listed in-bundle discounts + rounding.
 
 ### Two-price table (§2)
@@ -20,22 +21,21 @@ Every bundle-eligible service has TWO prices: a **standalone** price (à-la-cart
 | BOC-3 filing | **$45** | $45 | $0 |
 | UCR filing service | **$80** ($54 for the 0-2 bracket) | $54 | $0 (vs the 0-2 fee) |
 | UCR government fee (0-2 bracket) | $46 | $46 | $0 |
-| DQ file — 1 driver | **$250** | $200 | $50 |
-| Clearinghouse setup | **$125** | $100 | $25 |
-| Consortium enrollment | **$175** | $150 | $25 |
+| DQ file — 1 driver | $200 | $200 | $0 |
+| Clearinghouse setup | $100 | $100 | $0 |
+| Consortium enrollment | $120 | $120 | $0 |
 | Pre-employment drug test | **$125** | $100 | $25 |
 | IRP initial setup | **$225** | $175 | $50 |
 | IFTA initial setup | **$225** | $175 | $50 |
 | IFTA quarterly filing | $150 | $150 | $0 |
 
-Bold = a standalone **price increase** (8 services), except BOC-3, which went from $100 to $30 on 2026-09-28, back to $100 (landing pages $30 via the `boc-3-b` lane) on 2026-10-05, and to **$45** everywhere, standalone, in-bundle and on the landing pages, on 2026-10-07. The **in-bundle prices equal the prior registry values** exactly, so bundle economics are unchanged; only the standalone à-la-carte prices are new.
+Bold = a standalone **price increase** (8 services), except BOC-3, which went from $100 to $30 on 2026-09-28, back to $100 (landing pages $30 via the `boc-3-b` lane) on 2026-10-05, and to **$45** everywhere, standalone, in-bundle and on the landing pages, on 2026-10-07. The **in-bundle prices equal the prior registry values** exactly, so bundle economics are unchanged; only the standalone à-la-carte prices are new. **2026-10-08 (owner):** DQ files, Clearinghouse and Consortium dropped to one price everywhere, standalone = in-bundle: DQ $200/$350/$450, Clearinghouse $100, Consortium $120 (Consortium's in-bundle price also fell from $150). The old quick-buy combo discounts on these three are removed (now no-ops).
 
 Not bundled (single price, standalone only): **USDOT Correction $125 · Biennial Update $125 · FMCSA Portal to MOTUS Migration $125.**
 
 ### Driver Qualification (DQ) dual pricing (§8, §12)
-Every bundle includes one driver. Additional drivers priced by total driver count; bundle price is always lower than standalone at every count. Annual renewal at the applicable driver-count rate.
-- **Standalone:** 1 = $250 · 2 = $450 total · 3 = $600 total · >3 = custom quote.
-- **In-bundle:** 1 = $200 (included) · 2 = $350 total (+$150) · 3 = $450 total (+$100) · >3 = custom quote.
+Every bundle includes one driver. Additional drivers priced by total driver count; since 2026-10-08 (owner) the standalone and in-bundle prices are the same at every count. Annual renewal at the applicable driver-count rate.
+- **Standalone and in-bundle:** 1 = $200 (included in a bundle) · 2 = $350 total (+$150) · 3 = $450 total (+$100) · >3 = custom quote.
 
 ### UCR government-fee brackets (§10)
 On the UCR page show the government brackets and the Tech Rig filing fee as SEPARATE lines, NOT combined totals. Standalone filing fee **$54 for the 0-2 bracket** ($100 total with the $46 government fee) and **$80 for every larger bracket** (owner decision, 2026-09-28); in-bundle also $54 (no bundle discount); plus the government fee below. Do NOT show the full table inside the `/apply` form unless necessary.
@@ -54,15 +54,15 @@ Non-CMV clarification: a carrier operating only non-CMVs stays in the 0-2 bracke
 ### The four bundles (§3) — prices DERIVED, not hardcoded
 Replace the single package with four bundles. Each card shows the final price (the itemized in-bundle total), and the public display (standalone value / package price / savings / discount %). **BOC-3 is shown "Included" on every card** (existing-carrier wording: "Includes BOC-3 filing when required or verification that the carrier's existing BOC-3 is correctly on file"). Do NOT create a separate BOC-3+UCR bundle.
 
-**Bundle 1 — Compliance Continuation — Non-CDL — $345.** Already have USDOT + MC, operate a non-CDL vehicle. Includes: BOC-3 (or verification), UCR filing, UCR gov (0-2), one DQ file. Itemized in-bundle **$345** = package price. Public: standalone value **$395**, savings **$50** (DQ file), discount **12.7%**.
+**Bundle 1 — Compliance Continuation — Non-CDL — $345.** Already have USDOT + MC, operate a non-CDL vehicle. Includes: BOC-3 (or verification), UCR filing, UCR gov (0-2), one DQ file. Itemized in-bundle **$345** = package price. Public: standalone value **$345**, savings **$0**, discount **0%** (no in-bundle discount on any item since 2026-10-08; flag to owner).
 
-**Bundle 2 — Compliance Continuation — CDL/Heavy — $1,045.** Already have authority; need CDL-driver compliance + IRP + IFTA. Includes Bundle 1's set + Clearinghouse, Consortium, pre-employment drug test, IRP setup, IFTA setup. Itemized **$1,045** = package price. Public: value **$1,270**, savings **$225**, **17.7%**. IRP/IFTA government, state, plate, credential, and jurisdiction fees billed separately.
+**Bundle 2 — Compliance Continuation — CDL/Heavy — $1,015.** Already have authority; need CDL-driver compliance + IRP + IFTA. Includes Bundle 1's set + Clearinghouse, Consortium, pre-employment drug test, IRP setup, IFTA setup. Itemized **$1,015** = package price. Public: value **$1,140**, savings **$125**, **11.0%**. IRP/IFTA government, state, plate, credential, and jurisdiction fees billed separately.
 
-**Bundle 3 — Authority Launch — Non-CDL — $945.** New carrier, non-CDL vehicle. Includes: MC+USDOT, BOC-3, UCR filing, UCR gov (0-2), one DQ file. Itemized **$945** = package price. Public: value **$1,045**, savings **$100**, **9.6%**.
+**Bundle 3 — Authority Launch — Non-CDL — $945.** New carrier, non-CDL vehicle. Includes: MC+USDOT, BOC-3, UCR filing, UCR gov (0-2), one DQ file. Itemized **$945** = package price. Public: value **$995**, savings **$50**, **5.0%**.
 
-**Bundle 4 — Authority Launch — CDL/Heavy — $1,645.** New heavy interstate carrier. Includes MC+USDOT + the full CDL/heavy set (= the old 9-item package). Itemized **$1,645** = package price. Public: value **$1,920**, savings **$275**, **14.3%**. IRP/IFTA government/jurisdiction fees separate. **This bundle REPLACES the old single $1,700 "Full Initial Package"** (remove that entry from the registry).
+**Bundle 4 — Authority Launch — CDL/Heavy — $1,615.** New heavy interstate carrier. Includes MC+USDOT + the full CDL/heavy set (= the old 9-item package). Itemized **$1,615** = package price. Public: value **$1,790**, savings **$175**, **9.8%**. IRP/IFTA government/jurisdiction fees separate. **This bundle REPLACES the old single $1,700 "Full Initial Package"** (remove that entry from the registry).
 
-Derivation check (must re-pass in the parity gate): package price = itemized total, no rounding: $345; $1,045; $945; $1,645.
+Derivation check (must re-pass in the parity gate): package price = itemized total, no rounding: $345; $1,015; $945; $1,615.
 
 ### Renewal disclosures (§9)
 Package pricing covers the initial setup and first service period for one driver. Renewal cycles: UCR annual · Consortium annual · DQ files annual · IRP annual · IFTA quarterly · Clearinghouse (not an annual subscription) · pre-employment drug test (charged when required). Public wording: "Package pricing covers the initial filing and first service period. UCR, consortium enrollment, Driver Qualification files, and IRP require renewal. IFTA returns are filed quarterly. We send reminders and invoices before services become due. Automatic billing is only used when the customer expressly authorizes it."

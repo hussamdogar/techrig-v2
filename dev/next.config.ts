@@ -113,6 +113,9 @@ const nextConfig: NextConfig = {
       },
 
       // §B. Exact-match named pages.
+      // Compliance packages retired (owner, 2026-10-08): the page's equity and
+      // any bookmarks go to the compliance hub, where every service is listed.
+      { source: "/compliance-packages/", destination: "/compliance-services/", permanent: true },
       { source: "/home-backup/", destination: "/", permanent: true },
       { source: "/clone-home/", destination: "/", permanent: true },
       { source: "/start-compliance/", destination: "/compliance-services/", permanent: true },

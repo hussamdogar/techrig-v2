@@ -8,8 +8,6 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { service } from "@/lib/server/supabase";
 import {
   BILLABLE_SERVICE_KEYS,
-  BUNDLE_KEYS,
-  BUNDLES,
   SERVICES,
   computePricing,
   getBundleBreakdown,
@@ -171,7 +169,7 @@ export default async function ApplyPage({
           {submitted ? (
             <Confirmation referenceId={app.reference_id} />
           ) : current === "services" ? (
-            <ServicesForm applicationId={applicationId} selected={selected} bundleKey={bundleKey} facts={facts} />
+            <ServicesForm applicationId={applicationId} selected={selected} facts={facts} />
           ) : current === "review" ? (
             <ReviewForm
               applicationId={applicationId}
@@ -208,82 +206,26 @@ export default async function ApplyPage({
 function ServicesForm({
   applicationId,
   selected,
-  bundleKey,
   facts,
 }: {
   applicationId: string;
   selected: ServiceKey[];
-  bundleKey: BundleKey | null;
   facts: ReturnType<typeof carrierFacts>;
 }) {
   return (
     <form action={setServices.bind(null, applicationId)} className="space-y-8">
-      {/* Pricing v2: pick one of the four fixed bundles, or build a la carte. */}
       <div>
-        <h2 className="font-display text-lg font-bold text-ink">Choose a package</h2>
-        <p className="mt-1 text-sm text-slate">
-          A package bundles several filings at a lower price than a la carte, with BOC-3 included. Compare on{" "}
-          <Link href="/compliance-packages/" className="font-medium text-steel underline-offset-4 hover:underline">
-            the packages page
-          </Link>
-          , or skip this and build a la carte below.
-        </p>
-        <div className="mt-4 space-y-3">
-          <label className="flex cursor-pointer items-start gap-3 rounded-card border border-slate/15 bg-cloud p-4">
-            <input
-              type="radio"
-              name="bundle"
-              value=""
-              defaultChecked={!bundleKey}
-              className="mt-1 h-4 w-4 accent-steel"
-            />
-            <span className="font-display font-semibold text-ink">No package, build a la carte</span>
-          </label>
-          {BUNDLE_KEYS.map((key) => {
-            const bundle = BUNDLES[key];
-            const breakdown = getBundleBreakdown(key);
-            return (
-              <label
-                key={key}
-                className="flex cursor-pointer items-start gap-3 rounded-card border border-slate/15 bg-cloud p-4"
-              >
-                <input
-                  type="radio"
-                  name="bundle"
-                  value={key}
-                  defaultChecked={bundleKey === key}
-                  className="mt-1 h-4 w-4 accent-steel"
-                />
-                <span>
-                  <span className="font-display font-semibold text-ink">
-                    {bundle.name} — ${breakdown.finalPrice.toLocaleString("en-US")}
-                  </span>
-                  <span className="block text-sm text-slate">{bundle.whoItsFor}</span>
-                </span>
-              </label>
-            );
-          })}
-        </div>
-      </div>
-
-      <div>
-        <h2 className="font-display text-lg font-bold text-ink">A la carte services</h2>
-        <p className="mt-1 text-sm text-slate">
-          Add anything else you need, billed at its standalone price. Services already in your selected package
-          above are not charged twice.
-        </p>
+        <h2 className="font-display text-lg font-bold text-ink">Choose your services</h2>
+        <p className="mt-1 text-sm text-slate">Pick everything you need. Each service is billed at its own price.</p>
         <div className="mt-3 space-y-3">
           {BILLABLE_SERVICE_KEYS.map((key) => {
             const def = SERVICES[key];
-            const inBundle = bundleKey ? BUNDLES[bundleKey].includes.includes(key) : false;
             const hint =
               key === "boc-3" && facts.hasActiveBoc3
                 ? "A blanket BOC-3 filing is already active on the FMCSA record."
                 : key === "mc-authority" && facts.hasActiveMc
                   ? `Active authority ${facts.mcDocket ?? ""} already on file.`
-                  : inBundle
-                    ? "Included in your selected package."
-                    : null;
+                  : null;
             return (
               <label
                 key={key}

@@ -28,7 +28,7 @@ import { pricing, type Price } from "@/lib/services";
 const applyHref = "/apply/?service=ifta";
 
 // IFTA quarterly filing is a separate recurring service from the one-time
-// setup ($225 standalone, $175 in-bundle): $150 service fee plus a government
+// setup ($225): $150 service fee plus a government
 // fee. Not in the per-slug map because it is a recurring filing, not a
 // page-level setup price.
 const quarterlyPrice: Price = { kind: "flat", amount: 150, govFee: true };
@@ -85,7 +85,7 @@ export default function IftaRegistrationPage() {
     <>
       <JsonLd
         data={graph(
-          // Setup fee $225 standalone / $175 in-bundle; state fees never
+          // Setup fee $225; state fees never
           // encoded as price.
           serviceNode({
             serviceType: "IFTA registration",
@@ -243,8 +243,8 @@ export default function IftaRegistrationPage() {
             ))}
           </ul>
 
-          {/* Price chip from the single source ($225 standalone setup fee,
-              $175 inside a compliance package). The govFee flag renders state
+          {/* Price chip from the single source ($225 setup fee). The govFee
+              flag renders state
               fees on a separate Slate line, never as the price. */}
           <div className="mt-8">
             <PriceChip
@@ -254,11 +254,7 @@ export default function IftaRegistrationPage() {
             />
           </div>
           <p className="mt-4 text-slate">
-            Our IFTA setup fee is $225 standalone ($175 inside a{" "}
-            <CrossLink href="/compliance-packages/">
-              compliance package
-            </CrossLink>
-            ). This covers Tech Rig&apos;s setup and filing-assistance fee;
+            Our IFTA setup fee is $225. This covers Tech Rig&apos;s setup and filing-assistance fee;
             government, state, credential, and jurisdiction fees are
             calculated separately and paid before filing. IFTA returns are
             then filed quarterly (see{" "}
@@ -293,8 +289,7 @@ export default function IftaRegistrationPage() {
           </div>
           <p className="mt-4 text-slate">
             Our quarterly filing fee is $150, plus the government fee. This is
-            separate from the one-time setup ($225 standalone, $175
-            in-bundle).
+            separate from the one-time $225 setup.
           </p>
 
           <p className="mt-6">

@@ -311,11 +311,7 @@ export default function McRegistrationPage() {
           <ul className="mt-6 space-y-4 text-slate">
             <li>
               <span className="font-medium text-ink">Tech Rig service fee:</span>{" "}
-              $650 standalone ($600 inside a{" "}
-              <CrossLink href="/compliance-packages/">
-                compliance package
-              </CrossLink>
-              ), one-time, for your MC authority application. This includes
+              $650, one-time, for your MC authority application. This includes
               your USDOT number: when you file for MC authority, the USDOT is
               issued with it, so you do not pay the standalone USDOT fee on
               top. (USDOT-only, if that is all you need, is $300.)
@@ -332,13 +328,12 @@ export default function McRegistrationPage() {
             </li>
             <li>
               Want it all handled at once? Our{" "}
-              <CrossLink href="/compliance-packages/">
-                compliance packages
+              <CrossLink href="/mc-dot-registration/">
+                authority package
               </CrossLink>{" "}
-              bundle MC + USDOT with BOC-3, UCR, and driver compliance at
-              lower in-bundle prices (Authority Launch — Non-CDL $945, or
-              CDL/Heavy $1,645). Insurance is coordinated with your own
-              insurer, not a Tech Rig service.
+              files your USDOT, MC authority, BOC-3, and UCR together.
+              Insurance is coordinated with your own insurer, not a Tech Rig
+              service.
             </li>
           </ul>
         </Container>

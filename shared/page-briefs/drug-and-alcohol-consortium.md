@@ -38,7 +38,7 @@ Note: not every operation is subject to CDL drug-and-alcohol rules. Whether this
 - We connect your program to your [Clearinghouse](/fmcsa-clearinghouse-registration/) registration and [driver qualification files](/driver-qualification-files/).
 - We keep your enrollment active so your program stays compliant.
 
-**Price line:** Consortium enrollment is **$175 standalone** ($150 inside a [compliance package](/compliance-packages/)), with annual renewal. A pre-employment drug test is **$125 standalone** ($100 in a package). [Clearinghouse](/fmcsa-clearinghouse-registration/) setup is $125 standalone, listed separately.
+**Price line:** Consortium enrollment is **$120**, on its own or inside a [compliance package](/compliance-packages/), with annual renewal. A pre-employment drug test is **$125 standalone** ($100 in a package). [Clearinghouse](/fmcsa-clearinghouse-registration/) setup is $100, listed separately.
 
 ### H2: Pre-employment drug test
 (Section, covering the packet item; not a separate page.)
@@ -52,7 +52,7 @@ FAQPage schema, Grade 8:
 - "Do owner-operators need a consortium?" If you hold a CDL and operate under FMCSA, yes. You cannot run a random pool of one, so you join a consortium.
 - "What testing does the program cover?" Pre-employment, random, post-accident, and other DOT-required testing.
 - "Does every carrier need this?" It depends on your vehicles, drivers, and operation. We confirm whether CDL drug-and-alcohol rules apply to you before you enroll.
-- "How much does it cost?" Consortium enrollment is $175 standalone (renewed annually), or $150 inside a package; a pre-employment drug test is $125 standalone ($100 in a package).
+- "How much does it cost?" Consortium enrollment is $120 (renewed annually), on its own or inside a package; a pre-employment drug test is $125 standalone ($100 in a package).
 - "Is this connected to the Clearinghouse?" Yes. Your consortium program and [Clearinghouse](/fmcsa-clearinghouse-registration/) registration work together. We can set up both.
 
 ### Closing CTA band
@@ -65,7 +65,7 @@ FAQPage schema, Grade 8:
 Hub card + package; pillar (step 7); DQ + Clearinghouse pages (driver-compliance cluster).
 
 ## Schema (JSON-LD)
-- `Service` (serviceType "Drug and alcohol consortium enrollment", provider {@id #org}, areaServed US, offers price 175 USD standalone; $150 in-bundle).
+- `Service` (serviceType "Drug and alcohol consortium enrollment", provider {@id #org}, areaServed US, offers price 120 USD, same in-bundle).
 - `BreadcrumbList`: Home > Compliance Services > Drug and Alcohol Consortium.
 - `FAQPage`.
 

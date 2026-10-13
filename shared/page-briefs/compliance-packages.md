@@ -1,5 +1,7 @@
 # Brief: /compliance-packages/ (the four compliance bundles)
 
+> **RETIRED 2026-10-08 (owner): compliance packages are discontinued site-wide.** The `/compliance-packages/` page is deleted and 308-redirects to `/compliance-services/`; the hub packages section, the path-picker package callouts, the `/apply` package picker and every in-package price mention were removed. Kept for history only; do not build from this.
+
 ## Meta
 - **Action:** NEW (Pricing v2, client 2026-07-10). **Bucket:** 1 (money). **Intent:** commercial / BOFU.
 - **Primary:** trucking compliance packages (verify vol). **Secondaries:** trucking compliance bundle, mc authority package, new authority package, compliance continuation.
@@ -42,26 +44,26 @@ Four cards (Design: DZ3 card component). Each card shows: name, final price, who
 **Card 1 — Compliance Continuation — Non-CDL — $345**
 Who: carriers that already have USDOT + MC and operate a non-CDL vehicle.
 Includes: BOC-3 (or verification), UCR filing, UCR government fee (0-2), one Driver Qualification file.
-**$345**. Standalone value $395 · savings $50 (DQ file) · 12.7%.
+**$345**. Standalone value $345 · savings $0 · 0% (every item costs the same in or out of the package since 2026-10-08).
 Wording: "Already have your authority and operate a non-CDL vehicle? Complete your BOC-3, UCR, and first Driver Qualification file in one package."
 
-**Card 2 — Compliance Continuation — CDL/Heavy — $1,045**
+**Card 2 — Compliance Continuation — CDL/Heavy — $1,015**
 Who: carriers that already have USDOT + MC and operate a qualifying heavy interstate vehicle that requires CDL compliance, IRP, and IFTA.
 Includes: BOC-3, UCR filing, UCR gov (0-2), Clearinghouse, Consortium, pre-employment drug test, one DQ file, IRP setup, IFTA setup.
-**$1,045**. Value $1,270 · savings $225 · 17.7%.
+**$1,015**. Value $1,140 · savings $125 · 11.0%.
 Wording: "Already have your authority but still need CDL-driver compliance, IRP, and IFTA? Complete the remaining setup for one driver in one package."
 Fee note: "IRP and IFTA government, state, plate, credential, and jurisdiction fees are billed separately."
 
 **Card 3 — Authority Launch — Non-CDL — $945**
 Who: new carriers that need USDOT + MC and will operate a non-CDL vehicle.
 Includes: MC Authority + USDOT, BOC-3, UCR filing, UCR gov (0-2), one DQ file.
-**$945**. Value $1,045 · savings $100 · 9.6%.
+**$945**. Value $995 · savings $50 · 5.0%.
 Wording: "Starting a new authority with a non-CDL vehicle? Get your authority filings, BOC-3, UCR, and first Driver Qualification file without paying for CDL-only services."
 
-**Card 4 — Authority Launch — CDL/Heavy — $1,645**
+**Card 4 — Authority Launch — CDL/Heavy — $1,615**
 Who: new interstate property carriers operating a qualifying heavy vehicle or combination that requires CDL compliance, IRP, and IFTA.
 Includes: MC Authority + USDOT, BOC-3, UCR filing, UCR gov (0-2), Clearinghouse, Consortium, pre-employment drug test, one DQ file, IRP setup, IFTA setup.
-**$1,645**. Value $1,920 · savings $275 · 14.3%.
+**$1,615**. Value $1,790 · savings $175 · 9.8%.
 Wording: "Starting a new heavy interstate operation? Get authority registration, BOC-3, UCR, CDL-driver compliance, IRP setup, and IFTA setup in one package."
 Fee note: same IRP/IFTA-fees-separate note.
 
@@ -83,12 +85,12 @@ Fee note: same IRP/IFTA-fees-separate note.
 | Pre-employment drug test | — | ✓ | — | ✓ |
 | IRP setup | — | ✓ | — | ✓ |
 | IFTA setup | — | ✓ | — | ✓ |
-| Standalone value | $395 | $1,270 | $1,045 | $1,920 |
-| Final package price | $345 | $1,045 | $945 | $1,645 |
-| Customer savings | $50 | $225 | $100 | $275 |
+| Standalone value | $345 | $1,140 | $995 | $1,790 |
+| Final package price | $345 | $1,015 | $945 | $1,615 |
+| Customer savings | $0 | $125 | $50 | $175 |
 
 ### H2: Additional drivers
-Every package includes one driver. Additional drivers are priced by total count, and bundle pricing is always lower than standalone. In-bundle DQ: 2 drivers $350 total (+$150), 3 drivers $450 total (+$100), more than 3 = custom quote. Additional CDL drivers may also need extra pre-employment drug tests, Clearinghouse work, and consortium/compliance work. See [driver qualification files](/driver-qualification-files/).
+Every package includes one driver. Additional drivers are priced by total count, at the same rate as standalone. DQ: 2 drivers $350 total (+$150), 3 drivers $450 total (+$100), more than 3 = custom quote. Additional CDL drivers may also need extra pre-employment drug tests, Clearinghouse work, and consortium/compliance work. See [driver qualification files](/driver-qualification-files/).
 
 ### H2: Renewals and recurring billing
 (§9 public wording, verbatim) "Package pricing covers the initial filing and first service period. UCR, consortium enrollment, Driver Qualification files, and IRP require renewal. IFTA returns are filed quarterly. We send reminders and invoices before services become due. Automatic billing is only used when the customer expressly authorizes it."

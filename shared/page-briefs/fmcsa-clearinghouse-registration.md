@@ -35,7 +35,7 @@ Whether CDL drug-and-alcohol rules apply depends on your operation. We confirm b
 - We help set up the required queries on your drivers.
 - We connect your Clearinghouse registration to your [consortium](/drug-and-alcohol-consortium/) and [driver qualification files](/driver-qualification-files/), so your driver compliance is one coordinated set.
 
-**Price line:** Clearinghouse setup is **$125 standalone** ($100 inside a [compliance package](/compliance-packages/)). Consortium enrollment ($175 standalone) and DQ files ($250 first driver standalone) are separate, on their own pages.
+**Price line:** Clearinghouse setup is **$100**, on its own or inside a [compliance package](/compliance-packages/). Consortium enrollment ($120) and DQ files ($200 for the first driver) are separate, on their own pages.
 
 ### H2: FMCSA Clearinghouse FAQ
 FAQPage schema, Grade 8:
@@ -54,7 +54,7 @@ FAQPage schema, Grade 8:
 Hub card + package; pillar (step 7); consortium + DQ pages (driver-compliance cluster).
 
 ## Schema (JSON-LD)
-- `Service` (serviceType "FMCSA Clearinghouse registration", provider {@id #org}, areaServed US, offers price 125 USD standalone; $100 in-bundle).
+- `Service` (serviceType "FMCSA Clearinghouse registration", provider {@id #org}, areaServed US, offers price 100 USD, same in-bundle).
 - `BreadcrumbList`: Home > Compliance Services > FMCSA Clearinghouse Registration.
 - `FAQPage`.
 

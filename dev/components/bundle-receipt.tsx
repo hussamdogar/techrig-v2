@@ -12,13 +12,19 @@ export function BundleReceipt({ breakdown, className }: { breakdown: BundleBreak
   return (
     <div className={cn("rounded-card border border-slate/15 bg-cloud p-4 font-mono text-sm tabular-nums", className)}>
       <Row label="Package price" value={money(breakdown.finalPrice)} emphasize />
-      <div className="mt-3.5" />
-      <Row label="Standalone value" value={money(breakdown.standaloneValue)} />
-      <Row
-        label="You save"
-        value={`${money(breakdown.savings)} (${breakdown.discountPercent.toFixed(1)}%)`}
-        emphasize
-      />
+      {/* No saving to show when every item costs the same in or out of the
+          package (Compliance Continuation Non-CDL since 2026-10-08). */}
+      {breakdown.savings > 0 ? (
+        <>
+          <div className="mt-3.5" />
+          <Row label="Standalone value" value={money(breakdown.standaloneValue)} />
+          <Row
+            label="You save"
+            value={`${money(breakdown.savings)} (${breakdown.discountPercent.toFixed(1)}%)`}
+            emphasize
+          />
+        </>
+      ) : null}
     </div>
   );
 }

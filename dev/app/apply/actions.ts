@@ -62,8 +62,6 @@ export async function createApplication(formData: FormData) {
     if (tokenLead) leadId = tokenLead.leadId;
   }
   const preselect = (formData.getAll("service") as string[]).filter(isServiceKey) as ServiceKey[];
-  const rawBundle = formData.get("bundle");
-  const preselectBundle = isBundleKey(rawBundle) ? rawBundle : null;
 
   let referenceId: string | null = null;
   const identity: Record<string, unknown> = {};
@@ -99,7 +97,6 @@ export async function createApplication(formData: FormData) {
         status: "draft",
         current_step: "services",
         selected_services: preselect,
-        selected_bundle: preselectBundle,
         ...identity,
       })
       .select("id")
@@ -123,23 +120,21 @@ export async function createApplication(formData: FormData) {
   redirect(`/apply/${app.id}/`);
 }
 
-/** Update the selected services (and, pricing v2, the selected bundle) from the
- *  selection step, then advance. `bundle` is a single radio value; "" (the "no
- *  package, build a la carte" option) clears it. */
+/** Update the selected services from the selection step, then advance.
+ *  Packages were retired on 2026-10-08, so saving this step also clears any
+ *  package an older application had picked (selected_bundle). */
 export async function setServices(applicationId: string, formData: FormData) {
   const { supabase, app } = await loadOwned(applicationId);
   const selected = (formData.getAll("service") as string[]).filter(isServiceKey) as ServiceKey[];
-  const rawBundle = formData.get("bundle");
-  const bundle = isBundleKey(rawBundle) ? rawBundle : null;
   await supabase
     .from("applications")
     .update({
       selected_services: selected,
-      selected_bundle: bundle,
+      selected_bundle: null,
       status: app.status === "draft" ? "in_progress" : app.status,
     })
     .eq("id", applicationId);
-  const steps = activeSteps(selected, flagsFrom(app), bundle);
+  const steps = activeSteps(selected, flagsFrom(app));
   redirect(`/apply/${applicationId}/?step=${adjacentStep(steps, "services", "next") ?? "review"}`);
 }
 

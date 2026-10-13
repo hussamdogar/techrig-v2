@@ -1,5 +1,7 @@
 # Page design spec: /compliance-packages/ (the four compliance bundles) — DZ3
 
+> **RETIRED 2026-10-08 (owner): compliance packages are discontinued site-wide.** The `/compliance-packages/` page is deleted and 308-redirects to `/compliance-services/`; the hub packages section, the path-picker package callouts, the `/apply` package picker and every in-package price mention were removed. Kept for history only; do not build from this.
+
 Design-only spec. Consumes `shared/page-briefs/compliance-packages.md` (SEO) and the structural
 decisions in `shared/work-order-pricing-v2.md` (§1-§7). SEO owns copy, headings, CTA wording and
 destinations, the service lists, and every figure; this defines look, layout, hierarchy, components,

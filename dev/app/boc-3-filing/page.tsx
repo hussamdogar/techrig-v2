@@ -82,14 +82,7 @@ const faqs: Faq[] = [
   },
   {
     q: "How much does a BOC-3 cost?",
-    a: "$45, one time. It is also included in every compliance package.",
-    // Visible text matches `a`; the inline link points to the bundle catalog.
-    aNode: (
-      <>
-        $45, one time. It is also included in every{" "}
-        <CrossLink href="/compliance-packages/">compliance package</CrossLink>.
-      </>
-    ),
+    a: "$45, one time, with no annual renewal fee.",
   },
   {
     q: "Do I have to renew my BOC-3 every year?",
@@ -106,15 +99,14 @@ const faqs: Faq[] = [
   {
     q: "Do I need anything else for my authority to activate?",
     a: "MC authority activation requires the BOC-3 filing and the required insurance filing from your insurer. UCR is a separate annual registration and is not required for authority activation. We can handle the full setup so nothing is missed. (BOC-3 is generally not required for a private motor carrier not operating for hire.)",
-    // Visible text matches `a`; the inline link now points to the bundle catalog
-    // (was /compliance-services/) since the fixed bundles replaced the old package.
+    // Visible text matches `a`; the inline link points to the compliance hub.
     aNode: (
       <>
         MC authority activation requires the BOC-3 filing and the required
         insurance filing from your insurer. UCR is a separate annual
         registration and is not required for authority activation. We can
         handle the{" "}
-        <CrossLink href="/compliance-packages/">full setup</CrossLink> so
+        <CrossLink href="/compliance-services/">full setup</CrossLink> so
         nothing is missed. (BOC-3 is generally not required for a private
         motor carrier not operating for hire.)
       </>
@@ -317,8 +309,7 @@ export default function Boc3FilingPage() {
           </ol>
 
           {/* Price line directly under the stepper, from the single source. No gov
-              fee applies to the BOC-3 service itself. The old BOC-3 + UCR combo
-              chip is gone: BOC-3 is now included in every compliance package. */}
+              fee applies to the BOC-3 service itself. */}
           <div className="mt-8 flex flex-wrap gap-4">
             <PriceChip
               price={pricing["/boc-3-filing/"]}
@@ -326,12 +317,7 @@ export default function Boc3FilingPage() {
             />
           </div>
           <p className="mt-4 text-slate">
-            $45, one time. BOC-3 is also included in every{" "}
-            <CrossLink href="/compliance-packages/">
-              compliance package
-            </CrossLink>{" "}
-            (as a filing when required, or verification your existing BOC-3
-            is on file).
+            $45, one time, with no annual renewal fee.
           </p>
 
           {/* Mid-page CTA: subordinate Steel text link, same route. */}

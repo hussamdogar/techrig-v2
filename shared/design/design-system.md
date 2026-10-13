@@ -165,6 +165,7 @@ Renders from one data file (Dev wires the source) so prices never drift from `se
 
 ### Cards (design once, reuse: content-bearing, not decorative)
 - **Service card** (compliance hub): line icon + service name (Archivo) + one-line description + price chip + subordinate "details" link. Equal-height grid, Cloud surface, 1px outline.
+  - Current spec (2026-10-08, whole-card link, states, homepage 5-card grid): see `service-card.md`.
 - **Trailer card** (dispatch hub): trailer line icon + name + one-line value + link. Six-up responsive grid.
 - **Founder card** (About): exactly **two**: Adam Smith and Robert Hooke. Illustrated line-style avatar (or monospace initial monogram) since photos need client approval; name, role, one-line background, the "Reviewed by" tie-in. **Never design for a third founder.**
 

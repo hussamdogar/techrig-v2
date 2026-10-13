@@ -66,8 +66,7 @@ const consortiumSteps: Step[] = [
 
 // The pre-employment drug test is a flat service fee, mentioned alongside the
 // consortium enrollment but not in the per-slug pricing map (it is a section
-// item, not its own page). Single source, never an invented number. This is
-// the standalone (a la carte) price; the in-bundle price is $100.
+// item, not its own page). Single source, never an invented number.
 const preEmploymentPrice: Price = { kind: "flat", amount: 125 };
 
 // One source feeds both the visible FAQ and the FAQPage schema (verbatim parity).
@@ -88,18 +87,13 @@ const faqs: Faq[] = [
   },
   {
     q: "How much does it cost?",
-    a: "Consortium enrollment is $175 standalone (renewed annually), or $150 inside a package; a pre-employment drug test is $125 standalone ($100 in a package).",
+    a: "Consortium enrollment is $120 (renewed annually); a pre-employment drug test is $125.",
     aNode: (
       <>
         Consortium enrollment is{" "}
-        <span className="font-mono tabular-nums text-ink">$175</span>{" "}
-        standalone (renewed annually), or{" "}
-        <span className="font-mono tabular-nums text-ink">$150</span> inside a
-        package; a pre-employment drug test is{" "}
-        <span className="font-mono tabular-nums text-ink">$125</span>{" "}
-        standalone (
-        <span className="font-mono tabular-nums text-ink">$100</span> in a
-        package).
+        <span className="font-mono tabular-nums text-ink">$120</span>{" "}
+        (renewed annually); a pre-employment drug test is{" "}
+        <span className="font-mono tabular-nums text-ink">$125</span>.
       </>
     ),
   },
@@ -128,7 +122,7 @@ export default function DrugAndAlcoholConsortiumPage() {
             slug: "/drug-and-alcohol-consortium/",
             description:
               "Tech Rig enrolls CDL drivers in a compliant DOT drug and alcohol consortium and random testing pool, sets up the required testing, and keeps the program compliant.",
-            price: 175,
+            price: 120,
           }),
           breadcrumbNode([
             { name: "Home", slug: "/" },
@@ -286,10 +280,8 @@ export default function DrugAndAlcoholConsortiumPage() {
             </li>
           </ul>
 
-          {/* Pricing from the single source. Standalone chips reflect the
-              a-la-carte price; the in-package price and the Clearinghouse
-              price are called out as a Slate line, never blended into a
-              third chip. */}
+          {/* Pricing from the single source. The Clearinghouse price is called
+              out as a Slate line, never blended into a third chip. */}
           <div className="mt-8 flex flex-wrap gap-4">
             <PriceChip
               price={pricing["/drug-and-alcohol-consortium/"]}
@@ -299,24 +291,15 @@ export default function DrugAndAlcoholConsortiumPage() {
           </div>
           <p className="mt-4 text-sm text-slate">
             Consortium enrollment is{" "}
-            <span className="font-mono tabular-nums text-ink">$175</span>{" "}
-            standalone (
-            <span className="font-mono tabular-nums text-ink">$150</span>{" "}
-            inside a{" "}
-            <CrossLink href="/compliance-packages/">
-              compliance package
-            </CrossLink>
-            ), with annual renewal. A pre-employment drug test is{" "}
-            <span className="font-mono tabular-nums text-ink">$125</span>{" "}
-            standalone (
-            <span className="font-mono tabular-nums text-ink">$100</span> in a
-            package).{" "}
+            <span className="font-mono tabular-nums text-ink">$120</span>,
+            with annual renewal. A pre-employment drug test is{" "}
+            <span className="font-mono tabular-nums text-ink">$125</span>.{" "}
             <CrossLink href="/fmcsa-clearinghouse-registration/">
               Clearinghouse
             </CrossLink>{" "}
             setup is{" "}
-            <span className="font-mono tabular-nums text-ink">$125</span>{" "}
-            standalone, listed separately.
+            <span className="font-mono tabular-nums text-ink">$100</span>,
+            listed separately.
           </p>
         </Container>
       </Section>
@@ -336,10 +319,8 @@ export default function DrugAndAlcoholConsortiumPage() {
             <span className="font-mono tabular-nums text-ink">30 days</span>{" "}
             and meets FMCSA&apos;s other conditions for waiving a new test.
             Tech Rig will verify eligibility through TrueTest before waiving
-            any test. We coordinate pre-employment testing (standalone{" "}
-            <span className="font-mono tabular-nums text-ink">$125</span>, or{" "}
-            <span className="font-mono tabular-nums text-ink">$100</span> in a
-            package) so the timing is right and the result is documented in
+            any test. We coordinate pre-employment testing (
+            <span className="font-mono tabular-nums text-ink">$125</span>) so the timing is right and the result is documented in
             the{" "}
             <CrossLink href="/driver-qualification-files/">
               driver&apos;s qualification file

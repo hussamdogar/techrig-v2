@@ -214,10 +214,8 @@ export default function UcrRegistrationPage() {
             cost you. Brokers and forwarders without vehicles pay the lowest
             bracket. Plus a separate Tech Rig filing fee (one line, shown apart
             from the government fee): $54 for the 0 to 2 bracket and $80 for
-            every larger bracket. Inside a{" "}
-            <CrossLink href="/compliance-packages/">compliance package</CrossLink>,
-            the UCR filing service stays $54 for the 0 to 2 bracket. The brackets for your
-            fleet size are shown below:
+            every larger bracket. The brackets for your fleet size are shown
+            below:
           </p>
 
           <table className="mt-6 w-full border-collapse text-left">
@@ -271,9 +269,7 @@ export default function UcrRegistrationPage() {
           <p className="mt-6 text-slate">
             Tech Rig filing fee: $54 for fleets of 0 to 2 vehicles (plus the
             $46 government fee), or $80 for larger fleets (plus that
-            bracket&apos;s government fee). The same $54 applies inside a{" "}
-            <CrossLink href="/compliance-packages/">compliance package</CrossLink>
-            .
+            bracket&apos;s government fee).
           </p>
 
           <p className="mt-6 text-slate">

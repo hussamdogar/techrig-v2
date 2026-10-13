@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState } from "react";
 import Link from "next/link";
-import { getBundleBreakdown } from "@/lib/services-registry";
 
 /**
  * Homepage "which describes you" fork (replaces the single beginner-only
@@ -15,10 +14,9 @@ import { getBundleBreakdown } from "@/lib/services-registry";
  *    typically still missing, not a sequence.
  * 3. Already has USDOT + MC, CDL/heavy vehicle: the longer version of #2.
  *
- * Paths 2 and 3 map almost exactly to the two existing "Compliance
- * Continuation" bundles (services-registry.ts BUNDLES), so each ends with a
- * real, derived bundle price as a callout, alongside links straight to each
- * item's own quick-buy entry for a visitor who only needs one thing.
+ * Paths 2 and 3 link each item straight to its own quick-buy entry where one
+ * exists. (They used to end with a "Compliance Continuation" package callout;
+ * packages were retired on 2026-10-08.)
  *
  * Several services (BOC-3, UCR, driver qualification files, Clearinghouse,
  * consortium) appear in more than one path, so their one-line "what this is"
@@ -26,8 +24,8 @@ import { getBundleBreakdown } from "@/lib/services-registry";
  * than retyped per path (single source, can't drift between paths).
  *
  * `tone="dark"` renders it for an Ink section (homepage, 2026-10-08): light
- * text, Signal numbers and active chip, and the package callout as a faint
- * outlined panel, matching the /lp/boc-3-filing/ dark bands. The colour
+ * text and Signal numbers and active chip, matching the /lp/boc-3-filing/
+ * dark bands. The colour
  * classes for both tones live in TONE below, read through ToneContext so the
  * small helper components don't each need a tone prop.
  */
@@ -99,7 +97,6 @@ const TONE = {
     tabActive: "border-ink bg-ink text-cloud",
     tabIdle: "border-slate/25 bg-paper text-ink hover:border-steel",
     tabFocus: "focus-visible:outline-steel",
-    callout: "border-steel/25 bg-steel/[0.05] text-ink",
   },
   dark: {
     text: "text-cloud/90",
@@ -110,7 +107,6 @@ const TONE = {
     tabActive: "border-signal bg-signal text-ink",
     tabIdle: "border-cloud/25 bg-cloud/5 text-cloud hover:border-signal",
     tabFocus: "focus-visible:outline-cloud",
-    callout: "border-cloud/15 bg-cloud/5 text-cloud/90",
   },
 };
 type Tone = keyof typeof TONE;
@@ -150,20 +146,6 @@ function ChecklistItem({ service, quickBuy }: { service: ServiceKey; quickBuy?: 
         <p className={`mt-0.5 text-sm ${t.muted}`}>{s.description}</p>
       </div>
     </li>
-  );
-}
-
-function BundleCallout({ bundleKey, name }: { bundleKey: "compliance-continuation-non-cdl" | "compliance-continuation-cdl-heavy"; name: string }) {
-  const b = getBundleBreakdown(bundleKey);
-  const t = useTone();
-  return (
-    <p className={`mt-6 rounded-card border p-4 text-sm ${t.callout}`}>
-      Need more than one of these? The <span className="font-semibold">{name}</span> package covers all of
-      them for <span className="font-mono font-semibold">${b.finalPrice.toLocaleString("en-US")}</span>,
-      a <span className="font-mono font-semibold">${b.savings.toLocaleString("en-US")}</span> saving over
-      buying separately.{" "}
-      <CrossLink href={`/compliance-packages/#package-${bundleKey}`}>See the package</CrossLink>
-    </p>
   );
 }
 
@@ -245,8 +227,7 @@ export function CompliancePathPicker({ tone = "light" }: { tone?: Tone }) {
 
           <p className={`mt-6 ${t.muted}`}>
             You do not have to figure this out yourself. We do the filings in the right order, so nothing you
-            did (or did not) do is the reason your authority is stuck. Or get it all handled together: see our{" "}
-            <CrossLink href="/compliance-packages/">Authority Launch packages</CrossLink>.
+            did (or did not) do is the reason your authority is stuck.
           </p>
         </div>
       ) : active === "non-cdl" ? (
@@ -260,7 +241,6 @@ export function CompliancePathPicker({ tone = "light" }: { tone?: Tone }) {
             <ChecklistItem service="ucr" quickBuy />
             <ChecklistItem service="dq-files" quickBuy />
           </ul>
-          <BundleCallout bundleKey="compliance-continuation-non-cdl" name="Compliance Continuation — Non-CDL" />
         </div>
       ) : (
         <div className="mt-6">
@@ -277,7 +257,6 @@ export function CompliancePathPicker({ tone = "light" }: { tone?: Tone }) {
             <ChecklistItem service="ifta" />
             <ChecklistItem service="irp" />
           </ul>
-          <BundleCallout bundleKey="compliance-continuation-cdl-heavy" name="Compliance Continuation — CDL/Heavy" />
         </div>
       )}
     </ToneContext.Provider>

@@ -39,5 +39,8 @@ The ~20 benefit pages and the deep compliance-assistance encyclopedia (~30) unde
   - `insurance-requirements/` → `/trucking-insurance-filing/`
   - everything else (regulatory-requirements, vehicle-maintenance, using-technology, environmental-compliance, accident-reporting, health-safety-protocols, hazardous-materials, risk-management, future-trends, dispatch-software, gps-tracking, introduction) → `/compliance-services/`
 
+## D2. Retired pages (post-launch)
+- `/compliance-packages/` → `/compliance-services/` (308). Compliance packages discontinued, owner 2026-10-08.
+
 ## E. Implementation note
 Express C and D as Next.js `redirects()` entries. Where a `source` pattern would also catch a KEEP page (the `/cost/` children, or the silo hub itself), list the KEEP exception first or use explicit `source` paths so the hub and cost pages are never redirected. After deploy, run a staging crawl: 0 unexpected 404s, 0 redirect chains, every old indexed URL resolves in one hop.

@@ -6,7 +6,25 @@ import { ChecklistCta } from "@/components/checklist-cta";
 import { ServiceCard } from "@/components/service-card";
 import { CompliancePathPicker } from "@/components/compliance-path-picker";
 import { site } from "@/lib/site";
-import { complianceCatalog, pricing } from "@/lib/services";
+import { catalogOrderHref, complianceCatalog, pricing } from "@/lib/services";
+import { cn } from "@/lib/utils";
+import type { QuickBuyServiceKey } from "@/lib/services-registry";
+
+/** "What we handle" cards: the quick-buy services, in this order. */
+const HOMEPAGE_KEYS: QuickBuyServiceKey[] = ["boc-3", "ucr", "dq-files", "consortium", "clearinghouse"];
+const HOMEPAGE_CARDS = HOMEPAGE_KEYS.map((key) => {
+  const card = complianceCatalog.find((c) => c.quickBuyKey === key);
+  if (!card) throw new Error(`Homepage card missing from complianceCatalog: ${key}`);
+  return card;
+});
+
+/** Five cards: three across, then two wider ones filling the last row on
+ *  desktop; 2 + 2 + 1 (full width) on tablet (shared/design/service-card.md). */
+function homepageCardSpan(i: number): string | undefined {
+  if (HOMEPAGE_CARDS.length !== 5) return undefined;
+  if (i < 3) return "lg:col-span-2";
+  return i === 4 ? "sm:col-span-2 lg:col-span-3" : "lg:col-span-3";
+}
 import { ArrowRightIcon } from "@/components/icons";
 
 // Compliance-only positioning (dispatch dropped from the home funnel, per
@@ -58,25 +76,35 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* 2. The full compliance catalog, same single source (lib/services.ts)
-          as /compliance-services/, so descriptions and prices never drift
-          between the two. Reuses the canonical ServiceCard (design-system §8). */}
-      <Section surface="cloud">
+      {/* 2. The five services sold through quick-buy checkout (/buy), owner
+          2026-10-08; the rest of the catalog stays on the compliance hub,
+          linked below. Cards come from the same single source
+          (lib/services.ts) as /compliance-services/, so descriptions and
+          prices never drift. Reuses the canonical ServiceCard (design-system §8)
+          on Paper, so the white cards read as raised surfaces. */}
+      <Section surface="paper">
         <Container>
           <h2 className="font-display text-3xl font-bold text-ink">
             What we handle
           </h2>
           <p className="mt-4 max-w-[65ch] text-slate">
-            Every federal filing and driver-compliance requirement a carrier
-            runs into, individually or as one package. We are officially
+            The filings you can order online today, each priced up front.
+            Everything else we file is in the compliance hub. We are officially
             listed by FMCSA as a BOC-3 blanket process-agent company, and we
             know the MOTUS system inside out.
           </p>
 
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {complianceCatalog.map((card) => (
+          <div
+            className={cn(
+              "mt-8 grid gap-4 sm:grid-cols-2 sm:gap-5",
+              HOMEPAGE_CARDS.length === 5 ? "lg:grid-cols-6" : "lg:grid-cols-3",
+            )}
+          >
+            {HOMEPAGE_CARDS.map((card, i) => (
               <ServiceCard
                 key={card.title}
+                className={homepageCardSpan(i)}
+                orderHref={catalogOrderHref(card)}
                 icon={card.icon}
                 title={card.title}
                 href={card.href}

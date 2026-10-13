@@ -28,6 +28,8 @@ A routing page, not a long read. One job: in 5 seconds a visitor grasps "truckin
 
 7. Mega-footer (global, see `global-footer.md`): the complete service lists live here.
 
+Service cards in the "What we handle" section (whole-card link, 5-card grid, Paper surface): see `service-card.md`.
+
 ## Hierarchy and the visual path
 Eye path on first view: H1 -> primary amber CTA -> the tracker (which visually points forward to dispatch). The amber primary CTA is the single Signal element above the fold (Signal is rationed). Everything else (secondary CTA, links) is Ink or Steel and subordinate. Down the page, each section has one clear action; the page resolves to the single closing CTA.
 

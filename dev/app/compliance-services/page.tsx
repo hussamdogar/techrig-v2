@@ -8,7 +8,6 @@ import { ReviewedBy } from "@/components/reviewed-by";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ClosingCta } from "@/components/closing-cta";
 import { JsonLd } from "@/components/json-ld";
-import { CheckSealIcon } from "@/components/icons";
 import {
   breadcrumbNode,
   faqNode,
@@ -16,14 +15,12 @@ import {
   offerCatalogNode,
   personNode,
 } from "@/lib/schema";
-import { complianceCatalog, complianceNav, pricing } from "@/lib/services";
-import { BUNDLES, BUNDLE_KEYS, getBundleBreakdown } from "@/lib/services-registry";
+import { catalogOrderHref, complianceCatalog, complianceNav, pricing } from "@/lib/services";
 import { ChecklistCta, CHECKLIST_CTA } from "@/components/checklist-cta";
 
-// The compliance silo HUB. Every card link, package-checklist link, and the
-// single primary CTA (hero, package panel, close) route into the silo. The
-// primary action is always /mc-dot-registration/ (the Authority Package), per
-// the brief and design spec, kept consistent across all three primary slots.
+// The compliance silo HUB. Every card link and the primary CTA (hero, close)
+// route into the silo. The primary action is the compliance check
+// (ChecklistCta). Compliance packages were retired on 2026-10-08 (owner).
 // Compliance hub funnels into the /apply engine generically (D14); the visitor
 // picks services on the first step. Service-specific pages deep-link with ?service=.
 
@@ -132,15 +129,8 @@ export default function ComplianceServicesPage() {
                 blanket process-agent company, and we have run filings for
                 owner-operators, fleets, and brokers in more than 10 states.
               </p>
-              <div className="mt-7 flex flex-wrap items-start gap-x-6 gap-y-3">
+              <div className="mt-7">
                 <ChecklistCta />
-                {/* Secondary anchor to the packages page (light on the dark hero). */}
-                <Link
-                  href="/compliance-packages/"
-                  className="inline-flex min-h-12 items-center font-medium text-cloud underline underline-offset-4 hover:text-signal outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cloud"
-                >
-                  or compare our packages
-                </Link>
               </div>
               <div className="mt-5">
                 <ReviewedBy name="Adam Smith" tone="dark" />
@@ -153,86 +143,18 @@ export default function ComplianceServicesPage() {
         </Container>
       </Section>
 
-      {/* Compliance packages (choose by authority status + vehicle): pricing v2,
-          replaces the old single full-package panel. Prices DERIVED from the
-          registry, never hardcoded (parity with services.md). */}
+      {/* What our DOT compliance services cover: the service-card grid, on
+          Paper so the white cards read as raised surfaces. Sections alternate
+          dark/light from here (packages section removed 2026-10-08). */}
       <Section surface="paper">
-        <Container className="max-w-3xl">
-          <div
-            id="compliance-packages"
-            className="scroll-mt-24 rounded-card border-2 border-steel bg-cloud p-6 md:p-8"
-          >
-            <h2 className="font-display text-3xl font-bold text-ink">
-              Compliance packages (choose by authority status + vehicle)
-            </h2>
-
-            <p className="mt-5 text-slate">
-              Most carriers save by bundling: BOC-3 is included in every package, and bundle prices are lower than
-              a la carte. Full detail and the side-by-side comparison live on the{" "}
-              <Link
-                href="/compliance-packages/"
-                className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-              >
-                packages page
-              </Link>
-              .
-            </p>
-
-            <ul className="mt-6 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-              {BUNDLE_KEYS.map((key) => {
-                const bundle = BUNDLES[key];
-                const price = getBundleBreakdown(key).finalPrice;
-                return (
-                  <li key={key} className="flex items-start gap-3">
-                    <CheckSealIcon size={20} className="mt-0.5 shrink-0 text-status-active" />
-                    <span className="text-ink">
-                      <Link
-                        href={`/compliance-packages/#package-${key}`}
-                        className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-                      >
-                        {bundle.name}
-                      </Link>{" "}
-                      — ${price.toLocaleString("en-US")} ({bundle.whoItsFor})
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-
-            <p className="mt-6 text-slate">
-              Choose by your authority status and the vehicle you operate, not only whether the driver holds a CDL.
-              You can also buy any service on its own at its standalone price.
-            </p>
-
-            {/* Fee-separation note (Slate), verbatim from the brief. */}
-            <p className="mt-4 text-sm text-slate">
-              IRP and IFTA government and jurisdiction fees are billed separately.
-            </p>
-
-            <div className="mt-7 flex flex-wrap items-start gap-x-6 gap-y-3">
-              <ChecklistCta />
-              <Link
-                href="/compliance-packages/"
-                className="inline-flex min-h-12 items-center font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-              >
-                See all packages and compare
-              </Link>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* What our DOT compliance services cover: the service-card grid (dark
-          band; the white cards carry their own light styling). */}
-      <Section surface="ink">
         <Container>
-          <h2 className="font-display text-3xl font-bold text-cloud">
+          <h2 className="font-display text-3xl font-bold text-ink">
             What our DOT compliance services cover
           </h2>
-          <p className="mt-4 max-w-2xl text-cloud/80">
-            Need one filing rather than the full package? Each service below is
-            available on its own. Prices are our service fee; where a government
-            or third-party fee applies, it is shown separately.
+          <p className="mt-4 max-w-2xl text-slate">
+            Each service below is available on its own. Prices are our service
+            fee; where a government or third-party fee applies, it is shown
+            separately.
           </p>
 
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -242,6 +164,7 @@ export default function ComplianceServicesPage() {
                 icon={card.icon}
                 title={card.title}
                 href={card.href}
+                orderHref={catalogOrderHref(card)}
                 description={card.description}
                 price={card.price ?? (card.href ? pricing[card.href] : undefined)}
                 govFeeNote={card.govFeeNote}
@@ -252,8 +175,9 @@ export default function ComplianceServicesPage() {
         </Container>
       </Section>
 
-      {/* Why carriers choose our trucking compliance services: three proof blocks */}
-      <Section surface="paper">
+      {/* Why carriers choose our trucking compliance services: three proof
+          blocks. Ink: the token remap (globals.css) lightens the text. */}
+      <Section surface="ink">
         <Container>
           <h2 className="font-display text-3xl font-bold text-ink">
             Why carriers choose our trucking compliance services
@@ -317,9 +241,9 @@ export default function ComplianceServicesPage() {
       </Section>
 
       {/* How it works: numbered 01 to 04 stepper (numbers via aria-hidden mono spans) */}
-      <Section surface="ink">
+      <Section surface="paper">
         <Container>
-          <h2 className="font-display text-3xl font-bold text-cloud">
+          <h2 className="font-display text-3xl font-bold text-ink">
             How it works
           </h2>
           <ol className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -327,20 +251,20 @@ export default function ComplianceServicesPage() {
               <li key={step.copy} className="flex flex-col">
                 <span
                   aria-hidden="true"
-                  className="font-mono text-sm font-medium text-signal"
+                  className="font-mono text-sm font-medium text-steel"
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="mt-3 block h-px w-full bg-cloud/20" aria-hidden />
-                <p className="mt-4 text-cloud/90">{step.copy}</p>
+                <span className="mt-3 block h-px w-full bg-slate/20" aria-hidden />
+                <p className="mt-4 text-slate">{step.copy}</p>
               </li>
             ))}
           </ol>
         </Container>
       </Section>
 
-      {/* FAQ */}
-      <Section surface="paper">
+      {/* FAQ (Cloud, a step off the Paper section above). */}
+      <Section surface="cloud">
         <Container className="max-w-3xl">
           <h2 className="font-display text-3xl font-bold text-ink">
             Compliance services FAQ
