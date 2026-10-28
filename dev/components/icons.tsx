@@ -120,6 +120,22 @@ export const CheckIcon = (p: IconProps) => (
   </Svg>
 );
 
+// External link: leaves the site (e.g. FMCSA's own listing).
+export const ExternalLinkIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M14 4h6v6M20 4l-9 9" />
+    <path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
+  </Svg>
+);
+
+// Minus in a circle: "generally does not apply".
+export const MinusCircleIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M8 12h8" />
+  </Svg>
+);
+
 // Info: a neutral note (e.g. the checkout's billing line).
 export const InfoIcon = (p: IconProps) => (
   <Svg {...p}>

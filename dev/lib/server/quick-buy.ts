@@ -46,6 +46,21 @@ export type EnhancedConversionUserData = {
   };
 };
 
+/** An order's stored carrier address as one line ("123 Main St, Suite 2,
+ *  Springfield, IL 62701"), or null when none was on the FMCSA record. For
+ *  the internal admin alerts. */
+export function formatQuickBuyAddress(o: {
+  address_line1?: string | null;
+  address_line2?: string | null;
+  address_city?: string | null;
+  address_state?: string | null;
+  address_zip?: string | null;
+}): string | null {
+  const cityLine = [o.address_city, [o.address_state, o.address_zip].filter(Boolean).join(" ")].filter(Boolean).join(", ");
+  const parts = [o.address_line1, o.address_line2, cityLine].filter((v): v is string => !!v && !!v.trim());
+  return parts.length ? parts.join(", ") : null;
+}
+
 type QuickBuyOrderContact = {
   lead_id: string;
   email: string | null;

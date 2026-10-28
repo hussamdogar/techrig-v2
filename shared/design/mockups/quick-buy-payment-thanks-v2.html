@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment and thank you v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E2233; --steel:#225E8A; --signal:#E89A3C; --signal-hover:#DC8A27;
+  --paper:#F7F5F1; --cloud:#FFFFFF; --slate:#4F5E6B; --success:#2E7D5B;
+  --error:#B42318; --error-50:#FDF1EF; --success-50:#E9F3EE; --steel-50:#EDF3F8;
+  --line:#E3DFD7; --field:#7E8D9B;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#E7E3DC;font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ---------- demo chrome (not part of the design) ---------- */
+.demo{position:sticky;top:0;z-index:50;background:#08141f;color:#fff;padding:12px 20px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:14px}
+.demo strong{font-family:Archivo;font-size:15px}
+.demo label{display:flex;gap:8px;align-items:center}
+.demo select,.demo button{font:inherit;font-size:14px;border-radius:8px;border:1px solid #42576a;background:#17324a;color:#fff;padding:7px 10px;cursor:pointer}
+.demo .segd{display:flex;border:1px solid #42576a;border-radius:8px;overflow:hidden}
+.demo .segd button{border:0;border-radius:0;background:transparent}
+.demo .segd button[aria-pressed=true]{background:var(--steel)}
+.demo-note{max-width:1500px;margin:14px auto 0;padding:0 20px;font-size:13px;color:#3d4a55}
+.stage{display:flex;flex-wrap:wrap;gap:32px;padding:20px;align-items:flex-start;justify-content:center}
+.dev-col{display:flex;flex-direction:column;gap:8px}
+.dev-cap{font-size:13px;font-weight:600;color:#3d4a55}
+.phone{width:395px;height:832px;border-radius:48px;background:#0E2233;padding:10px;box-shadow:0 30px 60px rgba(14,34,51,.25);flex:none}
+.screen{position:relative;overflow:hidden;background:var(--paper)}
+.phone .screen{width:375px;height:812px;border-radius:38px}
+.scroller{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain}
+.laptop-box{flex:none}
+.laptop{width:1280px;height:800px;border-radius:12px;border:1px solid #c9c3b8;box-shadow:0 30px 60px rgba(14,34,51,.18);transform-origin:top left;background:var(--paper)}
+.laptop .screen{width:100%;height:100%;border-radius:12px}
+.stage[data-view=phone] .laptop-col{display:none}
+.stage[data-view=laptop] .phone-col{display:none}
+
+/* ---------- page ---------- */
+.pg{container-type:inline-size;container-name:pg;min-height:100%;display:flex;flex-direction:column;background:var(--paper);font-size:16px;line-height:1.5;color:var(--ink);position:relative}
+.pg [hidden]{display:none!important}
+.pg a{color:var(--steel);text-underline-offset:3px}
+.pg :focus-visible{outline:3px solid var(--steel);outline-offset:2px;border-radius:6px}
+/* checkout chrome (as built in checkout-chrome.tsx) */
+.ch{position:sticky;top:0;z-index:20;background:var(--ink);border-bottom:1px solid rgba(255,255,255,.15)}
+.ch-in{height:56px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.ch-logo{width:88px;color:#fff;display:block}
+.ch-tel{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-size:14px;font-weight:500;color:rgba(255,255,255,.85)!important;text-decoration:none}
+.ft{background:var(--ink);color:rgba(255,255,255,.75);font-size:14px;padding:32px 16px;display:flex;flex-direction:column;gap:16px;margin-top:auto}
+.ft-links{display:flex;flex-wrap:wrap;gap:8px 20px}
+.ft a{color:rgba(255,255,255,.75)!important;text-decoration:none}
+.ft small{font-size:12px;color:rgba(255,255,255,.6)}
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding:16px 16px 32px}
+/* shared pieces */
+.steps{display:flex;gap:6px;list-style:none;padding:0;margin:0;font-size:13px;color:var(--slate);align-items:center;flex-wrap:wrap}
+.steps li{display:flex;align-items:center;gap:6px}
+.steps .bar{width:16px;height:1px;background:var(--field)}
+.steps .n{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:600;background:var(--success);color:#fff}
+.steps .cur{color:var(--ink);font-weight:600}
+.steps .cur .n{background:var(--steel)}
+.card{background:var(--cloud);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 1px 2px rgba(14,34,51,.05)}
+.h2{font-family:Archivo;font-weight:700;font-size:19px;line-height:24px;margin:0;letter-spacing:-.01em}
+.cap{font-size:14px;line-height:20px;color:var(--slate);margin:4px 0 0}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:500}
+.lines{list-style:none;margin:8px 0 0;padding:0}
+.lines li{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.lines li:first-child{padding-top:4px}
+.ln{font-weight:500;line-height:22px}
+.ls{display:block;font-size:13px;line-height:18px;color:var(--slate)}
+.lp{font-family:"IBM Plex Mono",monospace;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-top:12px}
+.tot-l{font-weight:600}
+.tot-v{font-family:Archivo;font-size:30px;line-height:36px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.meta{font-size:13px;color:var(--slate);margin:4px 0 0}
+.who{margin:10px 0 0;padding-top:10px;border-top:1px solid var(--line);font-size:14px;line-height:20px}
+.who b{font-weight:600}
+.linkbtn{display:inline-flex;align-items:center;gap:6px;min-height:44px;color:var(--steel);font-weight:600;font-size:15px;text-decoration:underline;text-underline-offset:3px;background:none;border:0;padding:0;font-family:inherit;cursor:pointer}
+.btn{width:100%;height:56px;margin-top:16px;border:0;border-radius:12px;background:var(--signal);color:var(--ink)!important;font-family:inherit;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;text-decoration:none;box-shadow:inset 0 -2px 0 rgba(14,34,51,.14),0 1px 2px rgba(14,34,51,.12)}
+.btn:hover{background:var(--signal-hover)}
+.btn:active{transform:translateY(1px)}
+.btn[aria-disabled=true]{cursor:progress;opacity:.85}
+.btn2{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border:1px solid var(--steel);border-radius:10px;background:var(--cloud);color:var(--steel)!important;font-weight:600;font-size:15px;text-decoration:none;white-space:nowrap;cursor:pointer;font-family:inherit}
+.btn2:hover{background:var(--steel-50)}
+.spin{width:20px;height:20px;border:2.5px solid rgba(14,34,51,.25);border-top-color:var(--ink);border-radius:50%;animation:sp .8s linear infinite;flex:none}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:2s}.skel{animation:none!important}}
+.trust{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:10px;font-size:13px;line-height:18px;color:var(--slate)}
+.trust li{display:flex;gap:10px;align-items:flex-start}
+.trust svg{color:var(--steel);flex:none}
+.trust b{color:var(--ink);font-weight:600}
+.alert{margin-top:16px;border:1px solid var(--error);background:var(--error-50);border-radius:10px;padding:12px 14px;font-size:14px;line-height:20px;color:var(--error);font-weight:500;display:flex;gap:8px}
+.alert svg{flex:none;margin-top:2px}
+.alert p{margin:0}
+.alert .sub{color:var(--ink);font-weight:400;margin-top:2px}
+.note{margin-top:12px;font-size:13px;color:var(--slate);text-align:center}
+
+/* fake Stripe Payment Element (stand-in) */
+.pe{margin-top:14px;display:grid;gap:14px}
+.pe-tag{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);border:1px dashed var(--field);border-radius:6px;padding:2px 6px;justify-self:start}
+.pe .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pe label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+.pe .in{width:100%;height:52px;padding:0 14px;border:1px solid var(--field);border-radius:10px;font-family:inherit;font-size:16px;color:var(--ink);background:var(--cloud)}
+.pe .in:focus{outline:none;border-color:var(--steel);box-shadow:0 0 0 3px rgba(34,94,138,.28)}
+.pe .in[aria-invalid=true]{border:2px solid var(--error);padding:0 13px}
+.pe .in[readonly]{background:#F3F4F5;color:var(--slate)}
+.pe .cardwrap{position:relative}
+.pe .brands{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:flex;gap:4px;pointer-events:none}
+.pe .brands span{width:30px;height:20px;border-radius:3px;background:#EEF0F2;border:1px solid #D9DDE1;font-size:8px;font-weight:700;color:var(--slate);display:grid;place-items:center}
+.pe-err{color:var(--error);font-size:14px;font-weight:500;margin:6px 0 0}
+.skel{height:52px;border-radius:10px;background:linear-gradient(90deg,#EFECE6 0%,#F7F5F1 50%,#EFECE6 100%);background-size:200% 100%;animation:sk 1.4s ease-in-out infinite}
+.skel.sm{height:14px;width:40%;border-radius:4px;margin-bottom:8px}
+@keyframes sk{to{background-position:-200% 0}}
+/* 3DS overlay stand-in */
+.ov{position:absolute;inset:0;z-index:30;background:rgba(14,34,51,.55);display:grid;place-items:center;padding:16px}
+.ov-box{background:#fff;border-radius:12px;width:100%;max-width:360px;padding:20px;box-shadow:0 20px 40px rgba(0,0,0,.3);text-align:center}
+.ov-box .pe-tag{display:inline-block}
+.ov-box h3{font-family:Archivo;font-size:18px;margin:10px 0 6px}
+.ov-box p{font-size:14px;color:var(--slate);margin:0 0 16px}
+.ov-box .b{display:flex;gap:10px}
+.ov-box .b button{flex:1;height:44px;border-radius:8px;font:inherit;font-weight:600;cursor:pointer}
+/* thank you */
+.hero{padding:4px 0 0}
+.badge{width:48px;height:48px;border-radius:50%;display:grid;place-items:center}
+.badge.ok{background:var(--success-50);color:var(--success)}
+.badge.wait{background:var(--steel-50);color:var(--steel)}
+.badge.bad{background:var(--error-50);color:var(--error)}
+.h1{font-family:Archivo;font-weight:800;font-size:28px;line-height:34px;letter-spacing:-.02em;margin:14px 0 0}
+.lead{margin:6px 0 0;font-size:16px;line-height:24px;color:var(--ink)}
+.refrow{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.ref{display:inline-flex;align-items:center;gap:8px;background:var(--cloud);border:1px solid var(--line);border-radius:10px;padding:0 6px 0 12px;min-height:44px}
+.ref span{font-size:13px;color:var(--slate)}
+.ref b{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:15px;letter-spacing:.01em}
+.copy{min-height:36px;padding:0 10px;border:0;border-radius:8px;background:var(--steel-50);color:var(--steel);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.mail{display:flex;gap:8px;align-items:flex-start;font-size:14px;line-height:20px;margin-top:12px;color:var(--ink)}
+.mail svg{color:var(--steel);flex:none;margin-top:1px}
+.sec{margin-top:24px}
+.tl{list-style:none;margin:12px 0 0;padding:0;position:relative}
+.tl>li{position:relative;padding:0 0 18px 36px}
+.tl>li:last-child{padding-bottom:0}
+.tl>li::before{content:"";position:absolute;left:11px;top:26px;bottom:2px;width:2px;background:var(--line)}
+.tl>li:last-child::before{display:none}
+.dot{position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;background:var(--cloud);border:2px solid var(--field);color:var(--slate)}
+.dot.done{background:var(--success);border-color:var(--success);color:#fff}
+.dot.now{background:var(--steel);border-color:var(--steel);color:#fff}
+.tl-t{font-weight:600;line-height:24px;margin:0}
+.tl-d{font-size:14px;line-height:20px;color:var(--slate);margin:2px 0 0}
+.svc{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+.svc li{background:var(--paper);border-radius:10px;padding:10px 12px}
+.svc b{display:block;font-weight:600;font-size:15px;line-height:20px;color:var(--ink)}
+.svc span{display:block;font-size:13px;line-height:18px;color:var(--slate);margin-top:2px}
+.up{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+.up li{background:var(--cloud);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:start}
+.up .nm{font-weight:600;line-height:22px}
+.up .rs{grid-column:1/-1;font-size:14px;line-height:20px;color:var(--slate)}
+.up .pr{font-family:"IBM Plex Mono",monospace;font-weight:500;text-align:right}
+.up .act{grid-column:1/-1;margin-top:6px}
+.up .act .btn2{width:100%}
+.help{display:flex;gap:12px;align-items:flex-start}
+.help svg{color:var(--steel);flex:none;margin-top:2px}
+.help p{margin:0}
+.help .mono,.who .mono{white-space:nowrap}
+.help .tel{display:inline-flex;margin-top:8px}
+.aside{display:grid;gap:16px;margin-top:24px;align-content:start}
+.demo-ok{margin-top:12px;font-size:14px;background:var(--success-50);color:var(--success);border-radius:10px;padding:10px 12px;font-weight:500}
+
+
+/* payment order card: collapsible on phone */
+.oc-row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-top:6px}
+.oc-items{font-size:14px;line-height:20px;color:var(--slate);margin:0}
+.oc-tog{display:inline-flex;align-items:center;gap:4px;min-height:44px;margin-top:4px;padding:0;border:0;background:none;color:var(--steel);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.oc-tog svg{transition:transform .2s}
+.oc-tog[aria-expanded=true] svg{transform:rotate(180deg)}
+.oc-det{display:none}
+.order.open .oc-det{display:block}
+
+/* thank you: compact hero */
+.hero-top{display:flex;align-items:center;gap:12px}
+.hero-top .badge{width:40px;height:40px;flex:none}
+.hero-top .h1{margin:0}
+/* thank you: filings checklist (variant A, refined) */
+.ck-card{padding-bottom:4px}
+.ck-g{margin:14px 0 0;font-family:"IBM Plex Sans",sans-serif;font-size:13px;line-height:18px;font-weight:600;color:var(--slate)}
+.ck-g.ok{color:var(--success)}
+.ck-g.pend{color:#9A5A0E}
+.ck-done{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:6px}
+.ck-done li{display:flex;align-items:center;gap:10px;min-height:28px;font-weight:600;line-height:22px}
+.ck-tick{width:22px;height:22px;border-radius:50%;background:var(--success);color:#fff;display:grid;place-items:center;flex:none}
+.ck-note{margin:2px 0 0;font-size:13px;line-height:18px;color:var(--slate)}
+.ck-foot{margin:0;padding-top:12px;border-top:1px solid var(--line);font-size:12px;line-height:17px;font-style:italic;color:var(--slate)}
+.ck-open{list-style:none;margin:8px 0 0;padding:0}
+.ck-open li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:start;padding:12px 0;border-top:1px solid var(--line)}
+.ck-nm{display:block;font-weight:600;font-size:15px;line-height:20px}
+.ck-rs{display:block;font-size:13px;line-height:18px;color:var(--slate);margin-top:2px}
+.ck-side{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.ck-pr{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:15px;line-height:20px;white-space:nowrap;text-align:right}
+.ck-pr small{display:block;font-family:"IBM Plex Sans",sans-serif;font-size:12px;line-height:16px;color:var(--slate);font-weight:400}
+.ck-btn{min-height:40px;min-width:72px;padding:0 14px;font-size:14px}
+@container pg (min-width: 960px){
+  .oc-tog,.oc-sum{display:none!important}
+  .order .oc-det{display:block}
+  .ch-in{height:64px;padding:0 40px}
+  .ch-logo{width:104px}
+  .ft{flex-direction:row;align-items:center;justify-content:space-between;padding:32px 40px}
+  .wrap{padding:36px 40px 64px}
+  .card{padding:24px}
+  /* payment: payment card left, order right */
+  .pay-grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:16px 48px;align-items:start}
+  .pay-grid{margin-top:20px}
+  .pay-grid .order{grid-column:2;grid-row:1;position:sticky;top:88px;margin-top:0}
+  .pay-grid .paycard{grid-column:1;grid-row:1;margin-top:0}
+  /* thank you */
+  .ty-grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;column-gap:48px;align-items:start}
+  .ty-grid>.main-x{grid-column:1}
+  .ck-open li{grid-template-columns:minmax(0,1fr) auto auto;align-items:center;column-gap:20px}
+  .ck-side{display:contents}
+  .ck-btn{min-height:44px}
+  .ty-grid>.aside{grid-column:2;grid-row:1 / span 6;margin-top:0;position:sticky;top:88px}
+  .h1{font-size:34px;line-height:40px}
+  .up{grid-template-columns:1fr 1fr}
+  .up li{grid-template-rows:auto 1fr auto}
+  .up .act .btn2{width:auto}
+}
+</style>
+</head>
+<body>
+<div class="demo" role="region" aria-label="Mockup controls">
+  <strong>Payment and thank you v2 (mockup)</strong>
+  <label>Scenario
+    <select id="scen">
+      <optgroup label="Payment page">
+        <option value="pay-ready">P1. Ready (card form)</option>
+        <option value="pay-loading">P2. Loading (preparing payment)</option>
+        <option value="pay-declined">P3. Card declined</option>
+        <option value="pay-processing">P4. Processing</option>
+        <option value="pay-3ds">P5. Bank verification (3-D Secure)</option>
+        <option value="pay-starterr">P6. Could not start payment</option>
+        <option value="pay-zero">P7. Nothing to pay</option>
+      </optgroup>
+      <optgroup label="Thank-you page">
+        <option value="ty-paid">T1. Paid: 2 ordered + 3 other filings (CDL, 2 trucks)</option>
+        <option value="ty-3-2">T2. Paid: 3 ordered + 2 other filings</option>
+        <option value="ty-noncdl">T3. Paid: non-CDL, 4 trucks (UCR 3-5 bracket)</option>
+        <option value="ty-1-1">T4. Paid: 1 ordered + 1 other (layout check)</option>
+        <option value="ty-1-0">T5. Paid: 1 ordered, nothing else to offer</option>
+        <option value="ty-processing">T6. Payment still processing</option>
+        <option value="ty-failed">T7. Payment not completed</option>
+      </optgroup>
+    </select>
+  </label>
+  <div class="segd" role="group" aria-label="Viewport">
+    <button data-view="both" aria-pressed="true">Both</button>
+    <button data-view="phone" aria-pressed="false">Phone 375</button>
+    <button data-view="laptop" aria-pressed="false">Laptop 1280</button>
+  </div>
+</div>
+<p class="demo-note">All data is fake. The dashed "Stripe Payment Element" block is a stand-in for Stripe's own iframe. In P1, press Pay with an empty card number to see Stripe-style field errors. Type <span class="mono">4000 0000 0000 0002</span> to see a decline, <span class="mono">4000 0027 6000 3184</span> for bank verification, or any other 16 digits to complete the payment and land on the thank-you page.</p>
+
+<div class="stage" id="stage" data-view="both">
+  <div class="dev-col phone-col"><div class="dev-cap">Phone, 375 x 812</div>
+    <div class="phone"><div class="screen"><div class="scroller" id="phoneHost"></div></div></div></div>
+  <div class="dev-col laptop-col"><div class="dev-cap">Laptop, 1280 x 800 <span id="scaleNote"></span></div>
+    <div class="laptop-box" id="laptopBox"><div class="laptop" id="laptop"><div class="screen"><div class="scroller" id="laptopHost"></div></div></div></div></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var LOGO='<svg class="ch-logo" viewBox="0 0 563 85.8" role="img" aria-label="Tech Rig"><path fill="currentColor" d="M44.5 18.8V77.8H31.5V18.8H10.5V8H65.5V18.8ZM81.3 77.8V8H125.4V18.8H94.4V37H124.3V47.8H94.4V67H125.4V77.8ZM169.8 79Q156.1 79 149.6 69.6Q143 60.2 143 42.9Q143 25.7 149.6 16.2Q156.1 6.8 169.8 6.8Q175 6.8 178.9 8.2Q182.9 9.6 185.8 12Q188.7 14.5 190.6 17.9Q192.5 21.4 193.6 25.5L181.6 28.9Q180.9 26.5 180 24.4Q179.1 22.3 177.8 20.7Q176.4 19.2 174.4 18.3Q172.4 17.5 169.6 17.5Q162.8 17.5 159.9 22.7Q156.9 27.9 156.9 36.9V48.9Q156.9 57.9 159.9 63.1Q162.8 68.3 169.6 68.3Q172.4 68.3 174.4 67.4Q176.4 66.6 177.8 65Q179.1 63.5 180 61.4Q180.9 59.3 181.6 56.9L193.6 60.3Q192.5 64.4 190.6 67.8Q188.7 71.3 185.8 73.8Q182.9 76.2 178.9 77.6Q175 79 169.8 79ZM243.2 47.8H222.8V77.8H209.7V8H222.8V37H243.2V8H256.3V77.8H243.2ZM386.1 77.8H373V8H399.5Q409.7 8 415.1 13.8Q420.5 19.6 420.5 29.6Q420.5 37.3 416.9 42.5Q413.4 47.8 406.8 49.2L421.7 77.8H407.3L394 50.7H386.1ZM396.8 40.5Q402.1 40.5 404.4 38.3Q406.7 36.2 406.7 31.5V27.7Q406.7 23 404.4 20.8Q402.1 18.7 396.8 18.7H386.1V40.5ZM437.8 77.8V68H453.5V17.8H437.8V8H482.2V17.8H466.5V68H482.2V77.8ZM537.1 68.1H536.3Q535.4 70.2 534.1 72.2Q532.8 74.2 530.9 75.7Q529 77.2 526.5 78.1Q523.9 79 520.6 79Q510 79 504.6 69.7Q499.1 60.3 499.1 43.4Q499.1 25.6 505.5 16.2Q511.9 6.8 525.2 6.8Q530.4 6.8 534.3 8.2Q538.3 9.6 541.1 12.1Q544 14.6 545.9 18Q547.7 21.5 548.8 25.5L536.8 28.9Q536.1 26.7 535.2 24.6Q534.4 22.5 533 20.9Q531.7 19.4 529.8 18.4Q527.9 17.5 525.1 17.5Q518.6 17.5 515.8 22.7Q513 27.9 513 36.9V48.1Q513 52.6 513.6 56.3Q514.3 60.1 515.8 62.8Q517.3 65.5 519.7 66.9Q522.1 68.4 525.7 68.4Q531.3 68.4 534.2 65Q537.1 61.7 537.1 56.5V50.8H524.4V41.3H548.8V77.8H537.1Z"/><rect x="297" y="17.9" width="34" height="34" rx="2" fill="#E89A3C"/></svg>';
+var I={
+  phone:'<svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M4 3h3l1.5 4-2 1.2a10 10 0 005.3 5.3L13 11.5l4 1.5v3a1.5 1.5 0 01-1.6 1.5C9 17 3 11 2.5 4.6A1.5 1.5 0 014 3z"/></svg>',
+  check:'<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg>',
+  bigcheck:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  clock:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  alertbig:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.1"/></svg>',
+  alert:'<svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M10 6v5M10 14v.1" stroke-linecap="round"/></svg>',
+  lock:'<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="1.5"/><path d="M7 9V6.5a3 3 0 016 0V9"/></svg>',
+  lockb:'<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="1.5"/><path d="M7 9V6.5a3 3 0 016 0V9"/></svg>',
+  refund:'<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8a6 6 0 1 1 1 6"/><path d="M4 3.5V8h4.5"/></svg>',
+  bldg:'<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 17h14M5 17V8l5-4 5 4v9M8 17v-4h4v4"/></svg>',
+  mail:'<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="11" rx="2"/><path d="M3 5.5l7 5.5 7-5.5"/></svg>',
+  back:'<svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10H4M9 5l-5 5 5 5"/></svg>',
+  arrow:'<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg>'
+};
+var TEL="(917) 909-2257";
+var ORDER={ref:"DGR-20261013-901",carrier:"SAMPLE HAULING LLC (DEMO)",dot:"9999901",email:"dispatch@example.com",
+  lines:[{name:"BOC-3 filing",price:45,tl:"Same business day when ordered with your information during business hours"},
+         {name:"UCR registration",price:100,sub:"0-2 trucks, federal fee included",tl:"Same day when you are in the UCR database; a new USDOT may take 1 to 2 days to appear"}]};
+function money(n){return "$"+n.toLocaleString("en-US");}
+function total(){return ORDER.lines.reduce(function(s,l){return s+l.price;},0);}
+
+function chrome(body){
+  return '<div class="pg"><header class="ch"><div class="ch-in"><a href="#" aria-label="Tech Rig home" style="display:block">'+LOGO+'</a>'+
+  '<a class="ch-tel" href="#" aria-label="Call Tech Rig at '+TEL+'">'+I.phone+TEL+'</a></div></header>'+
+  '<main class="wrap">'+body+'</main>'+
+  '<footer class="ft"><div class="ft-links"><a href="#">'+TEL+'</a><a href="#">info@techrig.org</a><a href="#">Privacy policy</a><a href="#">Terms of service</a><a href="#">Refund policy</a></div><small>&copy; 2026 DGR Tech Rig LLC. All rights reserved.</small></div></div>';
+}
+function steps(){
+  return '<nav aria-label="Checkout progress"><ol class="steps"><li><span class="n">'+I.check+'</span>Service</li><li class="bar" aria-hidden="true"></li><li><span class="n">'+I.check+'</span>Review</li><li class="bar" aria-hidden="true"></li><li class="cur" aria-current="step"><span class="n">3</span>Payment</li></ol></nav>';
+}
+function orderCard(opt){
+  opt=opt||{};
+  var h='<section class="card order sec" aria-labelledby="ID-h-ord"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><h2 class="h2" id="ID-h-ord">'+(opt.title||"Your order")+'</h2>'+
+    (opt.edit?'<a class="linkbtn" href="#" data-act="noop" style="font-size:14px;min-height:32px">Edit order</a>':'')+'</div>'+
+    '<ul class="lines">';
+  ORDER.lines.forEach(function(l){h+='<li><span><span class="ln">'+l.name+'</span>'+(l.sub?'<span class="ls">'+l.sub+'</span>':'')+'</span><span class="lp">'+money(l.price)+'</span></li>';});
+  h+='</ul><div class="tot"><span class="tot-l">'+(opt.paid?"Total paid":"Total due now")+'</span><span class="tot-v">'+money(total())+'</span></div>'+
+    '<p class="meta">One-time payment. Nothing renews automatically.</p>'+
+    '<p class="who">For <b>'+ORDER.carrier+'</b>, USDOT <span class="mono">'+ORDER.dot+'</span><br><span style="color:var(--slate)">Order <span class="mono">'+ORDER.ref+'</span></span></p></section>';
+  return h;
+}
+function payOrderCard(s,editable){
+  var names=ORDER.lines.map(function(l){return l.name;}).join(", ");
+  var h='<section class="card order sec'+(s.od?" open":"")+'" aria-labelledby="ID-h-ord"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><h2 class="h2" id="ID-h-ord">Your order</h2>'+
+    (editable?'<a class="linkbtn" href="#" data-act="noop" style="font-size:14px;min-height:32px">Edit order</a>':'')+'</div>'+
+    '<div class="oc-sum"><div class="oc-row"><p class="oc-items">'+ORDER.lines.length+' items: '+names+'</p><span class="tot-v">'+money(total())+'</span></div>'+
+    '<button type="button" class="oc-tog" data-act="od" aria-expanded="'+(!!s.od)+'" aria-controls="ID-od">'+(s.od?"Hide details":"Show details")+'<svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></button></div>'+
+    '<div class="oc-det" id="ID-od"><ul class="lines">';
+  ORDER.lines.forEach(function(l){h+='<li><span><span class="ln">'+l.name+'</span>'+(l.sub?'<span class="ls">'+l.sub+'</span>':'')+'</span><span class="lp">'+money(l.price)+'</span></li>';});
+  h+='</ul><div class="tot"><span class="tot-l">Total due now</span><span class="tot-v">'+money(total())+'</span></div><p class="meta">One-time payment. Nothing renews automatically.</p>'+
+    '<p class="who">For <b>'+ORDER.carrier+'</b>, USDOT <span class="mono">'+ORDER.dot+'</span><br><span style="color:var(--slate)">Order <span class="mono">'+ORDER.ref+'</span></span></p></div></section>';
+  return h;
+}
+function peFields(s){
+  var dis=s.ps==="processing"||s.ps==="3ds";
+  var ro=dis?" readonly":"";
+  return '<div class="pe" aria-busy="'+(dis?"true":"false")+'"><span class="pe-tag">Stripe Payment Element (stand-in)</span>'+
+    '<div><label for="ID-cn">Card number</label><div class="cardwrap"><input class="in" id="ID-cn" data-f="cn" inputmode="numeric" autocomplete="cc-number" placeholder="1234 1234 1234 1234" value="'+s.cn+'"'+ro+(s.errs.cn?' aria-invalid="true" aria-describedby="ID-cn-e"':'')+'><span class="brands" aria-hidden="true"><span>VISA</span><span>MC</span><span>AMEX</span></span></div>'+(s.errs.cn?'<p class="pe-err" id="ID-cn-e">'+s.errs.cn+'</p>':'')+'</div>'+
+    '<div class="row2"><div><label for="ID-ex">Expiration date</label><input class="in" id="ID-ex" data-f="ex" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / YY" value="'+s.ex+'"'+ro+(s.errs.ex?' aria-invalid="true"':'')+'>'+(s.errs.ex?'<p class="pe-err">'+s.errs.ex+'</p>':'')+'</div>'+
+    '<div><label for="ID-cv">Security code</label><input class="in" id="ID-cv" data-f="cv" inputmode="numeric" autocomplete="cc-csc" placeholder="CVC" value="'+s.cv+'"'+ro+(s.errs.cv?' aria-invalid="true"':'')+'>'+(s.errs.cv?'<p class="pe-err">'+s.errs.cv+'</p>':'')+'</div></div>'+
+    '<div class="row2"><div><label for="ID-co">Country</label><select class="in" id="ID-co"'+(dis?" disabled":"")+'><option>United States</option></select></div>'+
+    '<div><label for="ID-zp">ZIP code</label><input class="in" id="ID-zp" data-f="zp" inputmode="numeric" autocomplete="postal-code" placeholder="12345" value="'+s.zp+'"'+ro+(s.errs.zp?' aria-invalid="true"':'')+'>'+(s.errs.zp?'<p class="pe-err">'+s.errs.zp+'</p>':'')+'</div></div></div>';
+}
+function payTrust(){
+  return '<ul class="trust"><li>'+I.lock+'<span><b>Secure payment by Stripe.</b> Your card details go straight to Stripe. We never see or store your card number.</span></li>'+
+  '<li>'+I.refund+'<span>Read our <a href="#">refund policy</a>.</span></li>'+
+  '<li>'+I.bldg+'<span>DGR Tech Rig is a private filing service, not a government agency.</span></li></ul>';
+}
+function payPage(s){
+  var t=money(total()), body;
+  if(s.ps==="zero"){
+    body=steps()+'<div class="pay-grid">'+
+      '<h1 class="sr">Your order</h1>'+
+      '<section class="card paycard sec" aria-labelledby="ID-h-z"><div class="badge ok">'+I.bigcheck+'</div><h2 class="h2" id="ID-h-z" style="margin-top:12px">Nothing to pay online</h2>'+
+      '<p class="lead" style="font-size:15px">Your order <span class="mono">'+ORDER.ref+'</span> is saved. There is no online charge for it.</p>'+
+      '<p class="cap">Questions? Call us at <a href="#">'+TEL+'</a>.</p>'+
+      '<a class="btn2" href="#" style="margin-top:16px">Back to home</a></section>'+
+      orderCard({})+'</div>';
+    return chrome(body);
+  }
+  var main='';
+  if(s.ps==="loading"){
+    main='<div class="pe" aria-busy="true"><p class="sr" role="status">Preparing secure payment</p><div class="skel sm"></div><div class="skel"></div><div class="row2"><div class="skel"></div><div class="skel"></div></div><div class="row2"><div class="skel"></div><div class="skel"></div></div></div>'+
+      '<button class="btn" type="button" aria-disabled="true"><span class="spin" aria-hidden="true"></span>Preparing secure payment...</button>';
+  } else if(s.ps==="starterr"){
+    main='<div class="alert" role="alert">'+I.alert+'<div><p>We could not load the payment form.</p><p class="sub">Nothing was charged. Check your connection and try again, or call us at '+TEL+'.</p></div></div>'+
+      '<button class="btn" type="button" data-act="retry">Try again</button>';
+  } else {
+    var busy=s.ps==="processing"||s.ps==="3ds";
+    main=peFields(s)+
+      (s.ps==="declined"?'<div class="alert" role="alert">'+I.alert+'<div><p>Your card was declined.</p><p class="sub">Your card was not charged. Try another card, or call your bank and then try again.</p></div></div>':'')+
+      '<button class="btn" type="submit" id="ID-pay"'+(busy?' aria-disabled="true" aria-busy="true"':'')+'>'+(busy?'<span class="spin" aria-hidden="true"></span>Processing payment...':I.lockb+'Pay '+t)+'</button>'+
+      (busy?'<p class="note" role="status">Please keep this page open. This takes a few seconds.</p>':'')+
+      '<p class="note">Test mode. Use card 4242 4242 4242 4242, any future date and CVC.</p>';
+  }
+  body=steps()+'<form class="pay-grid" data-form="pay" novalidate>'+
+    '<h1 class="sr">Pay '+t+' for your order</h1>'+
+    payOrderCard(s,s.ps!=="processing"&&s.ps!=="3ds")+
+    '<section class="card paycard sec" aria-labelledby="ID-h-pay"><h2 class="h2" id="ID-h-pay">Payment details</h2>'+
+    main+payTrust()+'</section></form>';
+  var ov=s.ps==="3ds"?'<div class="ov" role="dialog" aria-modal="true" aria-label="Bank verification"><div class="ov-box"><span class="pe-tag">Stripe 3-D Secure (stand-in)</span><h3>Confirm with your bank</h3><p>SAMPLE BANK (demo) asks you to approve a '+t+' payment to DGR Tech Rig.</p><div class="b"><button type="button" data-act="3ds-no" style="background:#fff;border:1px solid var(--field)">Cancel</button><button type="button" data-act="3ds-yes" style="background:var(--ink);color:#fff;border:0">Approve</button></div></div></div>':'';
+  s.ov=ov;
+  return chrome(body);
+}
+/* thank-you data: prices as computeQuickBuyPricing returns them for a single service */
+var SVC={
+  "boc-3":{name:"BOC-3 filing",tl:"Same business day when ordered with your information during business hours",short:"No BOC-3, no active authority. It names your process agent in every state."},
+  ucr:{name:"UCR registration",tl:"Same day when you are in the UCR database; a new USDOT may take 1 to 2 days to appear",short:"Running without UCR can mean fines at roadside inspections. The yearly registration for crossing state lines."},
+  clearinghouse:{name:"Clearinghouse registration",tl:"Within 1 business day",short:"Skipping driver queries is an audit violation. Your employer account in FMCSA's drug and alcohol database."},
+  consortium:{name:"Drug & alcohol consortium",tl:"Within 1 to 2 business days",short:"CDL drivers can't legally drive without a testing program. Your random drug and alcohol testing pool."},
+  "dq-files":{name:"Driver qualification files",tl:"Within 1 to 3 business days after documents are received",short:"A missing file is one of the first things auditors flag. Your driver's required qualification record, owner-operators included."}
+};
+var KEYS=["boc-3","ucr","clearinghouse","consortium","dq-files"];
+var UCR_BR=[{t:"0-2",max:2,gov:46},{t:"3-5",max:5,gov:138},{t:"6-20",max:20,gov:276},{t:"21-100",max:100,gov:963},{t:"101-1000",max:1000,gov:4592},{t:"1001+",max:1e12,gov:44836}];
+function ucrTier(units){for(var i=0;i<UCR_BR.length;i++)if((units||0)<=UCR_BR[i].max)return UCR_BR[i];}
+function priceFor(k,units){if(k==="boc-3")return 45;if(k==="clearinghouse")return 100;if(k==="consortium")return 120;if(k==="dq-files")return 200;
+  var b=ucrTier(units);return (b.t==="0-2"?54:80)+b.gov;}
+function noteFor(k,units){if(k==="ucr")return ucrTier(units).t+" trucks";if(k==="dq-files")return "1 driver";return "";}
+var TY={
+  "ty-paid":{units:2,cdl:true,bought:["boc-3","ucr"]},
+  "ty-3-2":{units:2,cdl:true,bought:["boc-3","ucr","consortium"]},
+  "ty-noncdl":{units:4,cdl:false,bought:["boc-3"]},
+  "ty-1-1":{units:2,cdl:false,bought:["dq-files"],forceOpen:["ucr"]},
+  "ty-1-0":{units:2,cdl:false,bought:["boc-3"],forceOpen:[]},
+  "ty-processing":{units:2,cdl:true,bought:["boc-3","ucr"]},
+  "ty-failed":{units:2,cdl:true,bought:["boc-3","ucr"]}
+};
+/* remainingQuickBuyUpsells: eligible by fleet (no truck tractors: BOC-3, UCR, DQ only) minus what was bought */
+function remaining(c){
+  if(c.forceOpen)return c.forceOpen;
+  var base=c.cdl?KEYS:["boc-3","ucr","dq-files"];
+  return base.filter(function(k){return c.bought.indexOf(k)<0;});
+}
+function checklist(c){
+  var open=remaining(c);
+  var h='<section class="card sec main-x ck-card" aria-labelledby="ID-h-ck"><h2 class="h2" id="ID-h-ck">Your filings for USDOT '+ORDER.dot+'</h2>'+
+    '<h3 class="ck-g ok">Ordered today</h3><ul class="ck-done">'+
+    c.bought.map(function(k){return '<li><span class="ck-tick" aria-hidden="true">'+I.check+'</span>'+SVC[k].name+'</li>';}).join("")+'</ul>';
+  if(open.length){
+    h+='<h3 class="ck-g pend">Still pending</h3><ul class="ck-open">'+
+      open.map(function(k){var pr=priceFor(k,c.units),n=noteFor(k,c.units);
+        return '<li><span><span class="ck-nm">'+SVC[k].name+'</span><span class="ck-rs">'+SVC[k].short+'</span></span>'+
+          '<span class="ck-side"><span class="ck-pr">'+money(pr)+(n?'<small>'+n+'</small>':'')+'</span>'+
+          '<a class="btn2 ck-btn" href="#" data-act="noop" aria-label="Order '+SVC[k].name+', '+money(pr)+'">Order</a></span></li>';}).join("")+'</ul>'+
+      '<p class="ck-foot">Skip any you already have. Each is a separate one-time order with your details filled in. Nothing renews automatically.</p>';
+  } else {
+    h+='<p class="ck-note" style="margin:10px 0 12px">That covers every filing we offer at checkout for this USDOT.</p>';
+  }
+  return h+'</section>';
+}
+function tyPage(s){
+  var c=TY["ty-"+s.ts]||TY["ty-paid"];
+  var paid=s.ts!=="processing"&&s.ts!=="failed", proc=s.ts==="processing", fail=s.ts==="failed";
+  var saved=ORDER.lines;
+  ORDER.lines=c.bought.map(function(k){var n=noteFor(k,c.units);return {name:SVC[k].name,price:priceFor(k,c.units),sub:k==="ucr"?n+", federal fee included":(k==="dq-files"?n:""),tl:SVC[k].tl};});
+  var hero='<section class="hero" aria-labelledby="ID-h1">';
+  if(paid) hero+='<div class="hero-top"><div class="badge ok">'+I.bigcheck+'</div><h1 class="h1" id="ID-h1" tabindex="-1">Payment received</h1></div><p class="lead">Your order is paid and in our queue. We take it from here.</p>';
+  if(proc) hero+='<div class="hero-top"><div class="badge wait">'+I.clock+'</div><h1 class="h1" id="ID-h1" tabindex="-1">Payment processing</h1></div><p class="lead">Your bank is still confirming the payment. You do not need to stay on this page. We will email you as soon as it confirms.</p>';
+  if(fail) hero+='<div class="hero-top"><div class="badge bad">'+I.alertbig+'</div><h1 class="h1" id="ID-h1" tabindex="-1">Payment not completed</h1></div><p class="lead">The payment did not go through, so nothing was charged. Your order is saved, so you can try again without filling anything in.</p>'+
+    '<a class="btn" href="#" data-act="retrypay">Try payment again</a><p class="cap" style="margin-top:12px;text-align:center">Or call us at <a href="#">'+TEL+'</a> and we will help.</p>';
+  if(!fail) hero+='<div class="refrow"><span class="ref"><span>Order</span><b id="ID-ref">'+ORDER.ref+'</b><button type="button" class="copy" data-act="copy" aria-label="Copy order number">Copy</button></span><span class="sr" role="status" id="ID-copied"></span></div>'+
+    '<p class="mail">'+I.mail+'<span>'+(paid?'Your receipt is on its way to <b>'+ORDER.email+'</b>.':'We will send your receipt to <b>'+ORDER.email+'</b> once the payment confirms.')+'</span></p>';
+  hero+='</section>';
+  var next='';
+  if(!fail){
+    next='<section class="card sec main-x" aria-labelledby="ID-h-next"><h2 class="h2" id="ID-h-next">What happens next</h2><ol class="tl">'+
+      '<li><span class="dot '+(paid?"done":"now")+'">'+(paid?I.check:"1")+'</span><p class="tl-t">'+(paid?"Payment received":"Payment confirming")+'</p><p class="tl-d">'+(paid?"Confirmed under order <span class=\"mono\" style=\"white-space:nowrap\">"+ORDER.ref+"</span>.":"Your bank is confirming it. We email you when it clears.")+'</p></li>'+
+      '<li><span class="dot'+(paid?" now":"")+'">2</span><p class="tl-t">We prepare and file</p><p class="tl-d">Expected timing for each filing:</p><ul class="svc">'+
+        ORDER.lines.map(function(l){return '<li><b>'+l.name+'</b><span>'+l.tl+'</span></li>';}).join("")+'</ul></li>'+
+      '<li><span class="dot">3</span><p class="tl-t">We email you at each step</p><p class="tl-d">If we need anything from you, when your filing is submitted, and when it is complete.</p></li>'+
+      '</ol></section>';
+  }
+  var aside='<div class="aside">'+orderCard({title:paid?"Receipt":"Your order",paid:paid})+
+    '<section class="card" aria-labelledby="ID-h-help"><div class="help">'+I.phone+'<div><h2 class="h2" id="ID-h-help" style="font-size:17px">Questions about your order?</h2><p class="cap">Call us and mention order <span class="mono">'+ORDER.ref+'</span>.</p><a class="btn2 tel" href="#">'+I.phone+'Call '+TEL+'</a></div></div></section></div>';
+  var ck=paid?checklist(c):"";
+  var html=chrome('<div class="ty-grid"><div class="main-x">'+hero+'</div>'+ck+next+aside+'</div>'+(fail?'':'<p class="cap" style="margin-top:24px"><a href="#">Back to home</a></p>'));
+  ORDER.lines=saved;
+  return html;
+}
+
+var UID=0;
+function Inst(host){
+  var P="i"+(++UID)+"-";
+  var s={page:"pay",ps:"ready",ts:"paid",cn:"",ex:"",cv:"",zp:"",errs:{}};
+  function render(){
+    var keep=host.scrollTop;
+    var html=s.page==="pay"?payPage(s):tyPage(s);
+    host.innerHTML=html.replace(/ID-/g,P);
+    var old=host.parentNode.querySelector(".ov");if(old)old.remove();
+    if(s.page==="pay"&&s.ps==="3ds"&&s.ov){host.parentNode.insertAdjacentHTML("beforeend",s.ov.replace(/ID-/g,P));var ob=host.parentNode.querySelector(".ov [data-act=\"3ds-yes\"]");if(ob)ob.focus({preventScroll:true});}
+    host.scrollTop=s.keepScroll?keep:0;s.keepScroll=false;
+  }
+  function set(sc){
+    s.errs={};s.cn=s.ex=s.cv=s.zp="";
+    if(sc.indexOf("pay-")===0){s.page="pay";s.ps=sc.slice(4);
+      if(s.ps==="declined"||s.ps==="processing"||s.ps==="3ds"){s.cn="4000 0000 0000 0002";s.ex="12 / 28";s.cv="123";s.zp="62701";}
+      if(s.ps==="3ds")s.cn="4000 0027 6000 3184";
+      s.od=false;
+      if(s.ps==="processing")s.cn="4242 4242 4242 4242";}
+    else{s.page="ty";s.ts=sc.slice(3);}
+    render();
+  }
+  function fmt(f,v){
+    var d=v.replace(/\D/g,"");
+    if(f==="cn")return d.slice(0,16).replace(/(\d{4})(?=\d)/g,"$1 ");
+    if(f==="ex"){d=d.slice(0,4);return d.length>2?d.slice(0,2)+" / "+d.slice(2):d;}
+    if(f==="cv")return d.slice(0,4);
+    if(f==="zp")return d.slice(0,5);
+    return v;
+  }
+  host.addEventListener("input",function(e){
+    var f=e.target.getAttribute("data-f");if(!f)return;
+    e.target.value=fmt(f,e.target.value);s[f]=e.target.value;
+  });
+  host.addEventListener("submit",function(e){
+    e.preventDefault();
+    if(s.ps==="processing"||s.ps==="3ds")return;
+    s.errs={};s.keepScroll=true;
+    var cn=s.cn.replace(/\D/g,"");
+    if(cn.length<16)s.errs.cn=cn?"Your card number is incomplete.":"Your card number is incomplete.";
+    if(s.ex.replace(/\D/g,"").length<4)s.errs.ex="Your card's expiration date is incomplete.";
+    if(s.cv.length<3)s.errs.cv="Your card's security code is incomplete.";
+    if(s.zp.length<5)s.errs.zp="Your ZIP is incomplete.";
+    if(Object.keys(s.errs).length){s.ps="ready";render();var first=host.querySelector("[aria-invalid=true]");if(first)first.focus();return;}
+    if(cn==="4000000000000002"){s.ps="processing";render();setTimeout(function(){s.ps="declined";s.keepScroll=true;render();var al=host.querySelector("[role=alert]");if(al)al.scrollIntoView({block:"nearest"});},1200);return;}
+    if(cn==="4000002760003184"){s.ps="3ds";render();return;}
+    s.ps="processing";s.keepScroll=true;render();
+    setTimeout(function(){s.page="ty";s.ts="paid";render();},1500);
+  });
+  host.parentNode.addEventListener("click",function(e){
+    var a=e.target.closest("[data-act]");if(!a)return;
+    var act=a.getAttribute("data-act");e.preventDefault();
+    s.keepScroll=(act==="od");
+    if(act==="retry"){s.ps="loading";render();setTimeout(function(){s.ps="ready";render();},900);}
+    else if(act==="3ds-yes"){s.ps="processing";s.keepScroll=true;render();setTimeout(function(){s.page="ty";s.ts="paid";render();},1200);}
+    else if(act==="3ds-no"){s.ps="declined";s.keepScroll=true;render();}
+    else if(act==="od"){s.od=!s.od;render();var b=host.querySelector("[data-act=od]");if(b)b.focus();return;}
+    else if(act==="retrypay"){s.page="pay";s.ps="ready";render();}
+    else if(act==="copy"){try{navigator.clipboard&&navigator.clipboard.writeText(ORDER.ref).catch(function(){});}catch(err){}
+      a.textContent="Copied";var st=host.querySelector("[id$=copied]");if(st)st.textContent="Order number copied";setTimeout(function(){a.textContent="Copy";},1800);}
+  });
+  return {set:set};
+}
+
+var insts=[Inst(document.getElementById("phoneHost")),Inst(document.getElementById("laptopHost"))];
+function apply(){var v=document.getElementById("scen").value;insts.forEach(function(i){i.set(v);});}
+function fit(){
+  var stage=document.getElementById("stage"),view=stage.getAttribute("data-view");
+  var cw=document.documentElement.clientWidth;var avail=cw-40-(view==="both"&&cw>1100?395+32:0);
+  var k=view==="phone"?1:Math.min(1,avail/1280);
+  document.getElementById("laptop").style.transform="scale("+k+")";
+  var box=document.getElementById("laptopBox");box.style.width=(1280*k)+"px";box.style.height=(800*k)+"px";
+  document.getElementById("scaleNote").textContent=k<1?"(shown at "+Math.round(k*100)+"%)":"";
+}
+document.getElementById("scen").addEventListener("change",apply);
+document.querySelectorAll(".segd button").forEach(function(b){b.addEventListener("click",function(){
+  document.querySelectorAll(".segd button").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});
+  document.getElementById("stage").setAttribute("data-view",b.getAttribute("data-view"));fit();});});
+window.addEventListener("resize",fit);
+apply();fit();
+})();
+</script>
+</body>
+</html>

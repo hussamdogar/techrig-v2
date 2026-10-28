@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { CHECKOUT_FOCUS as FOCUS, CheckoutSpinner, CheckoutSteps } from "@/components/checkout-ui";
 import { pushDataLayerEvent } from "@/lib/gtm";
 import {
   AlertIcon,
@@ -10,7 +11,6 @@ import {
   ArrowRightIcon,
   BuildingIcon,
   CardIcon,
-  CheckIcon,
   ChevronDownIcon,
   InfoIcon,
   ShieldIcon,
@@ -62,6 +62,9 @@ export type CheckoutFormProps = {
   boc3OnFile: boolean;
   /** Add-ons pre-ticked by the compliance check (?add=). */
   preselected: QuickBuyServiceKey[];
+  /** Filings already bought in the paid order this checkout was opened from
+   *  (?from=, the thank-you page's Order buttons): never offered again. */
+  alreadyOrdered?: QuickBuyServiceKey[];
   /** Carried through to the order unchanged (structured address for Stripe). */
   hiddenFields: Record<string, string>;
 };
@@ -72,7 +75,6 @@ const reducedMotion = () =>
 
 const INPUT =
   "mt-1.5 block h-[52px] w-full rounded-[10px] border bg-cloud px-3.5 text-base text-ink outline-none transition-[border-color,box-shadow] scroll-mt-28 placeholder:text-slate/70 focus:border-steel focus:ring-3 focus:ring-steel/30";
-const FOCUS = "outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-steel";
 
 export function CheckoutForm({
   action,
@@ -85,12 +87,17 @@ export function CheckoutForm({
   truckTractors,
   boc3OnFile,
   preselected,
+  alreadyOrdered = [],
   hiddenFields,
 }: CheckoutFormProps) {
   const [state, formAction, isPending] = useActionState(action, null);
 
   // ---- add-ons ----
-  const addOns = useMemo(() => checkoutAddOns(primary, truckTractors), [primary, truckTractors]);
+  const alreadyKey = alreadyOrdered.join(",");
+  const addOns = useMemo(
+    () => checkoutAddOns(primary, truckTractors, alreadyKey ? alreadyKey.split(",") : []),
+    [primary, truckTractors, alreadyKey],
+  );
   const featured = featuredAddOn(primary, addOns, { boc3OnFile, cdl: truckTractors > 0 });
   const initialPicked = preselected.filter((k) => addOns.includes(k));
   const [selected, setSelected] = useState<Set<QuickBuyServiceKey>>(() => new Set(initialPicked));
@@ -266,26 +273,7 @@ export function CheckoutForm({
       ))}
 
       <div>
-        <nav aria-label="Checkout progress">
-          <ol className="flex flex-wrap items-center gap-1.5 text-[13px] text-slate">
-            <li className="flex items-center gap-1.5">
-              <span className="grid size-5 place-items-center rounded-full bg-status-active text-cloud">
-                <CheckIcon size={12} strokeWidth={3} />
-              </span>
-              Service
-            </li>
-            <li aria-hidden="true" className="h-px w-4 bg-field" />
-            <li aria-current="step" className="flex items-center gap-1.5 font-semibold text-ink">
-              <span className="grid size-5 place-items-center rounded-full bg-steel text-[11px] text-cloud">2</span>
-              Review
-            </li>
-            <li aria-hidden="true" className="h-px w-4 bg-field" />
-            <li className="flex items-center gap-1.5">
-              <span className="grid size-5 place-items-center rounded-full border border-field text-[11px]">3</span>
-              Payment
-            </li>
-          </ol>
-        </nav>
+        <CheckoutSteps current="Review" />
 
         <h1 className="sr-only">
           {serviceName} for USDOT {usdot}
@@ -678,7 +666,7 @@ export function CheckoutForm({
           >
             {isPending ? (
               <>
-                <Spinner />
+                <CheckoutSpinner />
                 Saving your order...
               </>
             ) : (
@@ -841,14 +829,5 @@ function AddOnCard({
         {note ? <span className="block text-xs text-slate">{note}</span> : null}
       </span>
     </label>
-  );
-}
-
-function Spinner() {
-  return (
-    <svg className="size-5 motion-safe:animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="3" className="opacity-25" />
-      <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-    </svg>
   );
 }

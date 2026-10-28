@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TrackedAnchor } from "@/components/tracked-anchor";
 import { Logo } from "@/components/logo";
 import { Container } from "@/components/ui/container";
 import { icons } from "@/components/icons";
@@ -164,9 +165,21 @@ export function SiteFooter() {
           </div>
         </nav>
 
-        {/* FMCSA line: the only trust claim, a sentence, never a badge or seal. */}
+        {/* FMCSA line: the only trust claim, a sentence, never a badge or seal.
+            Linked to FMCSA's own listing so it can be checked from any page
+            (owner, 2026-10-27). */}
         <p className="border-t border-cloud/15 pt-8 text-sm text-cloud/75">
-          {site.fmcsaLine}
+          {site.fmcsaLine}{" "}
+          <TrackedAnchor
+            href={site.fmcsaListingUrl}
+            event="fmcsa_listing_click"
+            data={{ location: "footer" }}
+            target="_blank"
+            rel="noopener nofollow"
+            className="whitespace-nowrap text-cloud underline underline-offset-4 hover:text-signal outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cloud"
+          >
+            See our listing<span className="sr-only"> on fmcsa.dot.gov (opens in a new tab)</span>
+          </TrackedAnchor>
         </p>
 
         {/* Social slot: renders nothing while socialLinks is empty (URLs pending). */}

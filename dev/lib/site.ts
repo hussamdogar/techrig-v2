@@ -40,6 +40,11 @@ export const site = {
   // Regulated wording. Exact, never implying endorsement. Do not edit.
   fmcsaLine:
     "DGR Tech Rig LLC is officially listed by FMCSA as a BOC-3 blanket process-agent company.",
+  // FMCSA's own public page listing DGR Tech Rig LLC as a BOC-3 blanket
+  // process-agent company (source: seo/context/experience-notes.md, checked
+  // 2026-10-02). The 82976 in the URL is FMCSA's page id, not a license or
+  // registration number: never present it as one.
+  fmcsaListingUrl: "https://www.fmcsa.dot.gov/registration/process-agents/pa?field_associated_boc_target_id=82976",
 } as const;
 
 /**

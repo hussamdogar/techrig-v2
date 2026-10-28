@@ -33,6 +33,23 @@ export type CaptureResult =
 const RATE = { limit: 20, windowMs: 15 * 60 * 1000 } as const;
 const REUSE_WINDOW_MS = 30 * 60 * 1000;
 
+/** A lead the caller has already proven belongs to this visitor (e.g. the
+ *  lead of an order they just paid, checked against its signed cookie), for
+ *  the same USDOT. No time window: it is the same customer coming back. */
+async function findOwnedLead(leadId: string, usdot: string): Promise<{ id: string; reference_id: string } | null> {
+  try {
+    const { data } = await service()
+      .from("leads")
+      .select("id, reference_id")
+      .eq("id", leadId)
+      .eq("usdot_number", usdot)
+      .maybeSingle();
+    return data?.reference_id ? data : null;
+  } catch {
+    return null;
+  }
+}
+
 /** This visitor's lead for this USDOT from the last REUSE_WINDOW_MS, if any. */
 async function findRecentLead(usdot: string, visitorHash: string): Promise<{ id: string; reference_id: string } | null> {
   try {
@@ -51,7 +68,14 @@ async function findRecentLead(usdot: string, visitorHash: string): Promise<{ id:
   }
 }
 
-export async function performLookup(usdot: string, headers: HeaderGetter): Promise<CaptureResult> {
+export async function performLookup(
+  usdot: string,
+  headers: HeaderGetter,
+  /** Reuse this lead (already verified by the caller as this visitor's)
+   *  instead of looking for a recent one: a customer ordering more filings
+   *  from the thank-you page is the same lead, not a new one. */
+  ownedLeadId?: string,
+): Promise<CaptureResult> {
   const cleaned = String(usdot || "").trim();
   if (!isValidUsdot(cleaned)) return { kind: "invalid" };
 
@@ -68,7 +92,7 @@ export async function performLookup(usdot: string, headers: HeaderGetter): Promi
   // A new reference id is only reserved when there isn't one to reuse, so
   // reloads don't burn reference numbers either.
   const visitorHash = hashVisitor(headers);
-  const recentLeadPromise = findRecentLead(cleaned, visitorHash);
+  const recentLeadPromise = ownedLeadId ? findOwnedLead(ownedLeadId, cleaned) : findRecentLead(cleaned, visitorHash);
 
   let result: LookupResult;
   try {

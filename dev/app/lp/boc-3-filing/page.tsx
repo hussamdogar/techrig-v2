@@ -10,7 +10,7 @@ import { Boc3LandingPage, getBoc3Metadata } from "../_shared/boc3-landing";
  *
  * Sells through the `boc-3-b` landing-page lane (shared with
  * /lp/filing-boc3/) instead of `boc-3`, so the ad pages can be priced on
- * their own. Since 2026-10-07 both lanes are $45 (owner decision).
+ * their own. Both lanes are the same price: $45 from 2026-10-07, $50 from 2026-10-28 (owner decisions).
  * See the shared template's header comment for the full rationale.
  */
 

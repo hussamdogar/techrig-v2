@@ -74,7 +74,7 @@ export const legalNav: NavLink[] = [
  * services.md exactly. **Standalone (a la carte) prices only** (Pricing v2,
  * client-pricing-v2-2026-07-10.md §2). Compliance packages and their in-bundle
  * prices were retired from the site on 2026-10-08. `kind`:
- *  - flat:   a fixed Tech Rig service fee (e.g. BOC-3 $45).
+ *  - flat:   a fixed Tech Rig service fee (e.g. BOC-3 $50).
  *  - from:   a service-fee floor (e.g. UCR from $54).
  *  - quote:  "Contact for quote" (LLC, consultancy).
  *  - verify: service fee not yet confirmed in services.md. Rendered as "to be
@@ -95,7 +95,7 @@ export const pricing: Record<string, Price> = {
   // "+ government fee" (client QA 2026-06 / services.md).
   "/dot-registration/": { kind: "flat", amount: 300 },
   "/mc-registration/": { kind: "flat", amount: 650, govFee: true },
-  "/boc-3-filing/": { kind: "flat", amount: 45 },
+  "/boc-3-filing/": { kind: "flat", amount: 50 },
   "/ucr-registration/": { kind: "from", amount: 54, govFee: true },
   "/mcs-150-biennial-update/": { kind: "flat", amount: 125 },
   "/usdot-correction/": { kind: "flat", amount: 125 },

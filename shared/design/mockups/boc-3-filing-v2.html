@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BOC-3 filing page v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E2233; --steel:#225E8A; --steel-dk:#9CC7E8; --signal:#E89A3C; --paper:#F7F5F1; --cloud:#FFFFFF;
+  --slate:#4F5E6B; --success:#2E7D5B; --line:rgba(79,94,107,.16);
+  --shadow:0 1px 2px rgba(14,34,51,.06),0 4px 16px rgba(14,34,51,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;background:#E7E3DC;font-family:"IBM Plex Sans",system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.sr{position:absolute!important;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;padding:0}
+
+/* demo chrome */
+.demo{position:sticky;top:0;z-index:50;background:#08141f;color:#fff;padding:12px 20px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:14px}
+.demo strong{font-family:Archivo;font-size:15px}
+.demo label{display:flex;gap:8px;align-items:center}
+.demo select,.demo button{font:inherit;font-size:14px;border-radius:8px;border:1px solid #42576a;background:#17324a;color:#fff;padding:7px 10px;cursor:pointer}
+.demo .segd{display:flex;border:1px solid #42576a;border-radius:8px;overflow:hidden}
+.demo .segd button{border:0;border-radius:0;background:transparent}
+.demo .segd button[aria-pressed=true]{background:var(--steel)}
+.demo-note{max-width:1500px;margin:14px auto 0;padding:0 20px;font-size:13px;color:#3d4a55}
+.stage{display:flex;flex-wrap:wrap;gap:32px;padding:20px;align-items:flex-start;justify-content:center}
+.dev-col{display:flex;flex-direction:column;gap:8px}
+.dev-cap{font-size:13px;font-weight:600;color:#3d4a55}
+.phone{width:395px;height:832px;border-radius:48px;background:#0E2233;padding:10px;box-shadow:0 30px 60px rgba(14,34,51,.25);flex:none}
+.screen{position:relative;overflow:hidden;background:var(--paper)}
+.phone .screen{width:375px;height:812px;border-radius:38px}
+.scroller{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
+.laptop-box{flex:none}
+.laptop{width:1280px;height:800px;border-radius:12px;border:1px solid #c9c3b8;box-shadow:0 30px 60px rgba(14,34,51,.18);transform-origin:top left;background:var(--paper)}
+.laptop .screen{width:100%;height:100%;border-radius:12px}
+.stage[data-view=phone] .laptop-col{display:none}
+.stage[data-view=laptop] .phone-col{display:none}
+
+/* page */
+.pg{container-type:inline-size;container-name:pg;background:var(--paper);font-size:16px;line-height:1.6;color:var(--ink)}
+.pg a{color:inherit}
+.pg :focus-visible{outline:2px solid var(--steel);outline-offset:2px;border-radius:4px}
+.dark :focus-visible{outline-color:#fff}
+.ct{width:100%;max-width:1200px;margin:0 auto;padding:0 16px}
+.band{padding:56px 0}
+.ink{background:var(--ink);color:#fff}
+.cloud{background:var(--cloud)}
+.h2{font-family:Archivo;font-weight:700;font-size:30px;line-height:1.15;letter-spacing:-.01em;margin:0}
+/* site header */
+.sh{position:sticky;top:0;z-index:20;background:var(--ink);color:#fff;border-bottom:1px solid rgba(255,255,255,.12)}
+.sh-in{height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.sh-logo{width:96px;color:#fff;display:block}
+.sh-r{display:flex;gap:10px;align-items:center}
+.icobtn{width:44px;height:44px;border-radius:6px;border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;color:#fff;background:none}
+.burger{width:44px;height:44px;display:grid;place-items:center;color:#fff}
+.sh .nav,.sh .sh-cta,.sh .sh-tel{display:none}
+/* breadcrumbs */
+.bc{font-family:"IBM Plex Mono",monospace;font-size:13px;color:rgba(255,255,255,.7);margin:0}
+.bc a{text-decoration:none}
+.bc b{font-weight:500;color:#fff}
+/* hero */
+.hero{padding:32px 0 56px}
+.hero-grid{display:grid;gap:24px;margin-top:20px}
+.h1{font-family:Archivo;font-weight:800;font-size:32px;line-height:1.08;letter-spacing:-.02em;margin:0;color:#fff}
+.h1 span{color:var(--signal)}
+.intro{font-size:17px;line-height:1.6;color:rgba(255,255,255,.8);margin:0;max-width:60ch}
+.rev{font-family:"IBM Plex Mono",monospace;font-size:14px;color:rgba(255,255,255,.7);margin:16px 0 0}
+.rev .u{text-transform:uppercase;letter-spacing:.08em}
+.rev b{font-weight:500;color:#fff}
+/* FMCSA line: variant A */
+.fm{display:flex;gap:10px;align-items:flex-start;margin:0;font-size:15px;line-height:22px;color:rgba(255,255,255,.8)}
+.fm svg.st{color:var(--steel-dk);flex:none;margin-top:1px}
+.fm strong{color:#fff;font-weight:600}
+.fm a,.fm-in a,.fm-c a{color:#fff;text-decoration:underline;text-underline-offset:4px;white-space:nowrap}
+.fm a:hover,.fm-in a:hover,.fm-c a:hover{color:var(--signal)}
+.ext{display:inline-block;vertical-align:-2px;margin-left:3px}
+/* variant B: inside the intro */
+.fm-in{color:#fff;font-weight:500;text-decoration:underline;text-decoration-color:rgba(156,199,232,.55);text-decoration-thickness:2px;text-underline-offset:5px}
+.fm-in-link{font-weight:500}
+/* variant C: under the card */
+.fm-c{margin:12px 0 0;font-size:14px;line-height:20px;color:rgba(255,255,255,.85);display:flex;gap:8px;align-items:flex-start}
+.fm-c svg{color:var(--steel-dk);flex:none;margin-top:1px}
+.fm-c strong{color:#fff;font-weight:600}
+/* order card (as built) */
+.oc{background:#fff;border:1px solid rgba(79,94,107,.15);border-radius:8px;padding:16px;box-shadow:var(--shadow);color:var(--ink)}
+.oc-t{font-family:Archivo;font-weight:700;font-size:18px;line-height:1.4;margin:0}
+.oc-s{font-size:14px;color:var(--slate);margin:2px 0 0}
+.oc label{display:block;font-size:14px;font-weight:500;margin-top:12px}
+.oc input{display:block;width:100%;margin-top:4px;border-radius:8px;border:1px solid rgba(79,94,107,.25);background:var(--paper);padding:10px 16px;font:inherit;font-size:18px;color:var(--ink)}
+.oc input:focus-visible{outline:2px solid var(--steel);outline-offset:2px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border-radius:6px;border:0;background:var(--signal);color:var(--ink)!important;font:inherit;font-weight:600;font-size:16px;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn:hover{filter:brightness(.95)}
+.oc .btn{width:100%;margin-top:10px}
+.oc-fee{display:flex;gap:6px;align-items:center;justify-content:center;font-size:14px;margin:12px 0 0}
+.oc-fee svg{color:var(--success)}
+.oc-rt{display:flex;gap:6px;align-items:center;justify-content:center;font-size:12px;color:var(--slate);margin:6px 0 0;text-decoration:none}
+.stars{display:inline-flex;gap:2px;color:var(--signal)}
+.disc{font-size:12px;line-height:18px;color:rgba(255,255,255,.6);margin:12px 0 0}
+/* sections */
+.what p{color:var(--slate);margin:16px 0 0;max-width:68ch}
+.who ul{list-style:none;margin:24px 0 0;padding:0;display:grid;gap:14px}
+.who li{display:flex;gap:12px;color:rgba(255,255,255,.9)}
+.who li svg{flex:none;margin-top:3px;color:var(--steel-dk)}
+.who li.no svg{color:rgba(255,255,255,.55)}
+.who a{font-weight:500;text-decoration:underline;text-underline-offset:4px}
+.callout{margin:28px 0 0;border-left:4px solid var(--signal);background:rgba(255,255,255,.05);border-radius:0 8px 8px 0;padding:14px 16px;color:rgba(255,255,255,.85)}
+.callout b{color:#fff;font-weight:600}
+.callout a{font-weight:500;text-decoration:underline;text-underline-offset:4px}
+.how .lead{margin:16px 0 0;font-weight:500;font-size:17px}
+.steps{list-style:none;margin:24px 0 0;padding:0;position:relative}
+.steps li{position:relative;padding:0 0 22px 48px}
+.steps li:last-child{padding-bottom:0}
+.steps li::before{content:"";position:absolute;left:15px;top:34px;bottom:4px;width:2px;background:var(--line)}
+.steps li:last-child::before{display:none}
+.steps .n{position:absolute;left:0;top:0;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--steel);color:var(--steel);display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;background:#fff}
+.steps .tx{display:block;padding-top:4px}
+.steps a{color:var(--steel);font-weight:500;text-decoration:underline;text-underline-offset:4px}
+.price{margin:32px 0 0;border:1px solid rgba(79,94,107,.2);border-radius:8px;background:var(--paper);padding:16px;display:grid;gap:14px}
+.price-v{font-family:"IBM Plex Mono",monospace;font-size:28px;font-weight:500;line-height:1.1}
+.price-l{display:block;font-size:14px;color:var(--slate);margin-top:4px}
+.price p{margin:0;color:var(--slate)}
+.btn2{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:6px;background:var(--ink);color:#fff!important;font-weight:600;text-decoration:none;white-space:nowrap}
+.btn2:hover{background:#1b3549}
+.price .btn2{width:100%}
+.case p{margin:16px 0 0;color:rgba(255,255,255,.82);max-width:62ch}
+.case .q{border-left:4px solid var(--signal);padding-left:16px;margin-top:20px}
+.case .q p:first-child{margin-top:0}
+.faq{margin-top:24px;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 0;font-family:Archivo;font-weight:600;font-size:18px;line-height:1.35;cursor:pointer;list-style:none;min-height:56px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary svg{flex:none;color:var(--steel);transition:transform .2s}
+.faq details[open] summary svg{transform:rotate(180deg)}
+.faq p{margin:0;padding:0 0 16px;color:var(--slate);max-width:68ch}
+.faq a{color:var(--steel);font-weight:500}
+.close-grid{display:grid;gap:24px}
+.close-t{font-family:Archivo;font-weight:700;font-size:24px;line-height:1.3;margin:0;color:#fff}
+/* footer */
+.sf{background:var(--ink);color:rgba(255,255,255,.75);font-size:14px;padding:48px 0 32px;border-top:1px solid rgba(255,255,255,.12)}
+.sf-logo{width:120px;color:#fff;display:block}
+.sf p{margin:12px 0 0}
+.sf .mono{font-family:"IBM Plex Mono",monospace;font-size:13px}
+.sf-cols{display:grid;gap:24px;margin-top:32px}
+.sf .fh{font-family:"IBM Plex Sans";font-size:13px;font-weight:600;color:#fff;margin:0 0 8px;text-transform:uppercase;letter-spacing:.06em}
+.sf ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.sf a{text-decoration:none}
+.sf-legal{margin-top:32px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);font-size:13px}
+/* sticky bar (phone) */
+.sbar{position:sticky;bottom:0;z-index:15;display:flex;align-items:center;gap:12px;padding:10px 16px 12px;background:#fff;border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(14,34,51,.10);transition:transform .2s ease,visibility 0s linear 0s;margin-top:-72px}
+.sbar.hide{transform:translateY(110%);visibility:hidden;transition:transform .2s ease,visibility 0s linear .2s}
+.sbar-t{flex:1;min-width:0;font-size:13px;line-height:18px;color:var(--slate)}
+.sbar-t b{display:block;font-family:Archivo;font-size:16px;color:var(--ink);font-weight:700}
+.sbar .btn{min-height:48px;padding:0 20px}
+@media (prefers-reduced-motion:reduce){.sbar,.faq summary svg{transition:none!important}}
+
+@container pg (min-width: 768px){
+  .ct{padding:0 24px}
+  .band{padding:96px 0}
+}
+@container pg (min-width: 1024px){
+  .sh .nav{display:flex;gap:28px;font-size:14px;color:rgba(255,255,255,.85)}
+  .nav span{display:inline-flex;gap:4px;align-items:center}
+  .sh .sh-cta{display:inline-flex;min-height:40px;padding:0 16px;font-size:14px}
+  .sh .sh-tel{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border:1px solid rgba(255,255,255,.35);border-radius:6px;color:#fff;font-size:14px;text-decoration:none}
+  .sh .icobtn,.sh .burger{display:none}
+  .sh-logo{width:104px}
+  .hero{padding:48px 0 96px}
+  .hero-grid{grid-template-columns:1fr 1fr;column-gap:64px;row-gap:0;margin-top:24px;align-items:start}
+  .h1{font-size:56px;grid-column:1;grid-row:1}
+  .hg-fm{grid-column:1;grid-row:2;margin-top:20px}
+  .hg-card{grid-column:2;grid-row:1 / span 4}
+  .hg-intro{grid-column:1;grid-row:3;margin-top:20px}
+  .intro{font-size:18px}
+  .oc{padding:24px}
+  .h2{font-size:30px}
+  /* light sections: heading left, content right */
+  .split{display:grid;grid-template-columns:4fr 8fr;column-gap:64px;align-items:start}
+  .split>.h2{position:sticky;top:96px}
+  .split .what-body p:first-child,.split .how-body>.lead:first-child{margin-top:0}
+  .narrow{max-width:768px}
+  .price{grid-template-columns:auto 1fr auto;align-items:center;gap:24px;padding:20px 24px}
+  .price .btn2{width:auto}
+  .case p{font-size:18px}
+  .close-grid{grid-template-columns:1fr 440px;column-gap:64px;align-items:center}
+  .close-t{font-size:30px}
+  .sf-cols{grid-template-columns:2fr 1fr 1fr 1fr}
+  .sbar{display:none}
+}
+</style>
+</head>
+<body>
+<div class="demo" role="region" aria-label="Mockup controls">
+  <strong>/boc-3-filing/ v2 (mockup)</strong>
+  <label>FMCSA line
+    <select id="fm">
+      <option value="A">A. Own line under the H1, linked (recommended)</option>
+      <option value="B">B. Emphasised inside the intro, linked</option>
+      <option value="C">C. Paired with the disclaimer under the card</option>
+    </select>
+  </label>
+  <div class="segd" role="group" aria-label="Viewport">
+    <button data-view="both" aria-pressed="true">Both</button>
+    <button data-view="phone" aria-pressed="false">Phone 375</button>
+    <button data-view="laptop" aria-pressed="false">Laptop 1280</button>
+  </div>
+</div>
+<p class="demo-note">Real page copy. Prices, form and links are inert. On the phone, a sticky "File your BOC-3" bar appears once the hero card scrolls away and hides again when the closing card is on screen; its button scrolls back to the USDOT field.</p>
+
+<div class="stage" id="stage" data-view="both">
+  <div class="dev-col phone-col"><div class="dev-cap">Phone, 375 x 812</div>
+    <div class="phone"><div class="screen"><div class="scroller" id="phoneHost"></div></div></div></div>
+  <div class="dev-col laptop-col"><div class="dev-cap">Laptop, 1280 x 800 <span id="scaleNote"></span></div>
+    <div class="laptop-box" id="laptopBox"><div class="laptop" id="laptop"><div class="screen"><div class="scroller" id="laptopHost"></div></div></div></div></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var LOGO_PATH="M44.5 18.8V77.8H31.5V18.8H10.5V8H65.5V18.8ZM81.3 77.8V8H125.4V18.8H94.4V37H124.3V47.8H94.4V67H125.4V77.8ZM169.8 79Q156.1 79 149.6 69.6Q143 60.2 143 42.9Q143 25.7 149.6 16.2Q156.1 6.8 169.8 6.8Q175 6.8 178.9 8.2Q182.9 9.6 185.8 12Q188.7 14.5 190.6 17.9Q192.5 21.4 193.6 25.5L181.6 28.9Q180.9 26.5 180 24.4Q179.1 22.3 177.8 20.7Q176.4 19.2 174.4 18.3Q172.4 17.5 169.6 17.5Q162.8 17.5 159.9 22.7Q156.9 27.9 156.9 36.9V48.9Q156.9 57.9 159.9 63.1Q162.8 68.3 169.6 68.3Q172.4 68.3 174.4 67.4Q176.4 66.6 177.8 65Q179.1 63.5 180 61.4Q180.9 59.3 181.6 56.9L193.6 60.3Q192.5 64.4 190.6 67.8Q188.7 71.3 185.8 73.8Q182.9 76.2 178.9 77.6Q175 79 169.8 79ZM243.2 47.8H222.8V77.8H209.7V8H222.8V37H243.2V8H256.3V77.8H243.2ZM386.1 77.8H373V8H399.5Q409.7 8 415.1 13.8Q420.5 19.6 420.5 29.6Q420.5 37.3 416.9 42.5Q413.4 47.8 406.8 49.2L421.7 77.8H407.3L394 50.7H386.1ZM396.8 40.5Q402.1 40.5 404.4 38.3Q406.7 36.2 406.7 31.5V27.7Q406.7 23 404.4 20.8Q402.1 18.7 396.8 18.7H386.1V40.5ZM437.8 77.8V68H453.5V17.8H437.8V8H482.2V17.8H466.5V68H482.2V77.8ZM537.1 68.1H536.3Q535.4 70.2 534.1 72.2Q532.8 74.2 530.9 75.7Q529 77.2 526.5 78.1Q523.9 79 520.6 79Q510 79 504.6 69.7Q499.1 60.3 499.1 43.4Q499.1 25.6 505.5 16.2Q511.9 6.8 525.2 6.8Q530.4 6.8 534.3 8.2Q538.3 9.6 541.1 12.1Q544 14.6 545.9 18Q547.7 21.5 548.8 25.5L536.8 28.9Q536.1 26.7 535.2 24.6Q534.4 22.5 533 20.9Q531.7 19.4 529.8 18.4Q527.9 17.5 525.1 17.5Q518.6 17.5 515.8 22.7Q513 27.9 513 36.9V48.1Q513 52.6 513.6 56.3Q514.3 60.1 515.8 62.8Q517.3 65.5 519.7 66.9Q522.1 68.4 525.7 68.4Q531.3 68.4 534.2 65Q537.1 61.7 537.1 56.5V50.8H524.4V41.3H548.8V77.8H537.1Z";
+function logo(cls){return '<svg class="'+cls+'" viewBox="0 0 563 85.8" role="img" aria-label="Tech Rig"><path fill="currentColor" d="'+LOGO_PATH+'"/><rect x="297" y="17.9" width="34" height="34" rx="2" fill="#E89A3C"/></svg>';}
+function svg(d,size,extra){return '<svg width="'+(size||20)+'" height="'+(size||20)+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" '+(extra||"")+'>'+d+'</svg>';}
+var I={
+  stamp:function(s,c){return svg('<path d="M9 9a3 3 0 1 1 6 0c0 2-1.5 2.5-1.5 4h-3C10.5 11 9 10.5 9 9Z"/><path d="M5 19h14"/><path d="M7 19v-2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2"/>',s,'class="'+(c||"")+'"');},
+  ext:svg('<path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',14,'class="ext"'),
+  check:svg('<path d="m5 12.5 4.5 4.5L19 7.5"/>',20),
+  minus:svg('<circle cx="12" cy="12" r="9"/><path d="M8 12h8"/>',20),
+  once:svg('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',20),
+  seal:svg('<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',16),
+  chev:svg('<path d="m6 9 6 6 6-6"/>',20),
+  chevs:svg('<path d="m6 9 6 6 6-6"/>',14),
+  phone:svg('<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/>',18),
+  menu:svg('<path d="M4 7h16M4 12h16M4 17h16"/>',22),
+  star:'<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5 14.9 8.6 21.5 9.5 16.8 14.1 17.9 20.6 12 17.4 6.1 20.6 7.2 14.1 2.5 9.5 9.1 8.6 12 2.5Z"/></svg>'
+};
+var LISTING='https://www.fmcsa.dot.gov/registration/process-agents/pa?field_associated_boc_target_id=82976';
+function listingLink(cls){return '<a href="'+LISTING+'" target="_blank" rel="noopener nofollow" class="'+(cls||"")+'" data-inert>See our listing<span class="sr"> on fmcsa.dot.gov (opens in a new tab)</span>'+I.ext+'</a>';}
+
+function card(P,v){
+  return '<div><div class="oc" id="'+P+'file"><p class="oc-t">File your BOC-3 today for $45</p><p class="oc-s">Takes about 2 minutes. No forms to fill out.</p>'+
+    '<form data-inert><label for="'+P+'usdot">USDOT number</label><input id="'+P+'usdot" inputmode="numeric" autocomplete="off" enterkeyhint="go" placeholder="e.g. 1234567">'+
+    '<button class="btn" type="submit">Start my BOC-3 filing</button></form>'+
+    '<p class="oc-fee">'+I.seal+'<span>$45 one-time fee. <strong>No annual renewals.</strong></span></p>'+
+    '<a class="oc-rt" href="#" data-inert><span class="stars" role="img" aria-label="5.0 out of 5 stars">'+I.star+I.star+I.star+I.star+I.star+'</span>5.0 on Google</a></div>'+
+    (v==="C"?'<p class="fm-c">'+I.stamp(16)+'<span><strong>Officially listed by FMCSA</strong> as a BOC-3 blanket process-agent company. '+listingLink()+'</span></p>':'')+
+    '<p class="disc">We\'re a private BOC-3 process agent company listed with FMCSA, not part of FMCSA or any government agency.</p></div>';
+}
+var INTRO_A='A BOC-3 is one of the small filings that quietly decides whether your operating authority activates. It names a process agent in every state where you operate, someone who can receive legal documents on your behalf. No BOC-3, no active authority. ';
+var INTRO_FM='DGR Tech Rig LLC is officially listed by FMCSA as a BOC-3 blanket process-agent company';
+var INTRO_B=', so we can file your BOC-3 across all 50 states, for $45, one time.';
+
+function page(P,v){
+  var fmLine=v==="A"?'<p class="fm hg-fm">'+I.stamp(20,"st")+'<span><strong>Officially listed by FMCSA</strong> as a BOC-3 blanket process-agent company. '+listingLink()+'</span></p>':'';
+  var intro=v==="B"?INTRO_A+'<span class="fm-in">'+INTRO_FM+'</span>'+INTRO_B+' '+listingLink("fm-in-link"):INTRO_A+INTRO_FM+INTRO_B;
+  var h='<div class="pg">'+
+  '<header class="sh dark"><div class="ct sh-in"><a href="#" aria-label="Tech Rig home">'+logo("sh-logo")+'</a>'+
+    '<nav class="nav" aria-label="Main"><span>Compliance '+I.chevs+'</span><span>Dispatch '+I.chevs+'</span><span>About</span><span>Contact</span></nav>'+
+    '<div class="sh-r"><a class="btn sh-cta" href="#">Check my filings</a><a class="sh-tel" href="#">'+I.phone+'(917) 909-2257</a>'+
+    '<a class="icobtn" href="#" aria-label="Call Tech Rig">'+I.phone+'</a><button class="burger" aria-label="Open menu" style="background:none;border:0">'+I.menu+'</button></div></div></header>'+
+  '<main>'+
+  /* hero */
+  '<section class="ink hero dark"><div class="ct">'+
+    '<nav aria-label="Breadcrumb"><p class="bc"><a href="#">Home</a> / <a href="#">Compliance Services</a> / <b>BOC-3 Filing</b></p></nav>'+
+    '<div class="hero-grid">'+
+      '<h1 class="h1">BOC-3 Filing <span>(Blanket Process Agent)</span></h1>'+
+      fmLine+
+      '<div class="hg-card">'+card(P,v)+'</div>'+
+      '<div class="hg-intro"><p class="intro">'+intro+'</p><p class="rev"><span class="u">Reviewed by</span> <b>Adam Smith</b>, Co-Founder.</p></div>'+
+    '</div></div></section>'+
+  /* what */
+  '<section class="cloud band what"><div class="ct"><div class="split narrow-sm">'+
+    '<h2 class="h2">What a BOC-3 is</h2><div class="what-body"><p>The BOC-3 is the federal form that designates a process agent in each state: a person or company authorized to accept legal papers for you in that state. FMCSA requires it for motor carriers, brokers, and freight forwarders before operating authority can be granted. A "blanket" process agent covers all 50 states in one filing, which is why most carriers use a blanket company instead of naming individual agents state by state. The BOC-3 is filed electronically; it is not a printed certificate FMCSA hands you, and you can verify it on your public FMCSA record.</p></div>'+
+  '</div></div></section>'+
+  /* who */
+  '<section class="ink band who dark"><div class="ct"><div class="narrow">'+
+    '<h2 class="h2">Who needs a BOC-3, and when</h2><ul>'+
+    '<li>'+I.check+'<span>Anyone applying for operating authority (an <a href="#">MC number</a>) needs a BOC-3 before it activates.</span></li>'+
+    '<li>'+I.check+'<span>Brokers and freight forwarders need one too.</span></li>'+
+    '<li class="no">'+I.minus+'<span>A private motor carrier that is not operating for hire generally does not need a BOC-3.</span></li>'+
+    '<li>'+I.once+'<span>You file it once during setup. It is generally a one-time filing. You only refile if you change process agents or another specific circumstance requires it.</span></li></ul>'+
+    '<p class="callout"><b>Important:</b> a BOC-3 is not an annual renewal. If anyone tells you to renew your BOC-3 every year as a matter of course, that is not how it normally works. (Your <a href="#">UCR</a>, by contrast, is annual.)</p>'+
+  '</div></div></section>'+
+  /* how */
+  '<section class="cloud band how"><div class="ct"><div class="split">'+
+    '<h2 class="h2">How our BOC-3 filing works</h2><div class="how-body">'+
+    '<p class="lead">Because we are an FMCSA-listed blanket process agent, your BOC-3 is direct, not outsourced:</p>'+
+    '<ol class="steps">'+
+      '<li><span class="n" aria-hidden="true">01</span><span class="tx">You confirm your carrier record from a quick <a href="#">USDOT lookup</a>; no forms to fill out.</span></li>'+
+      '<li><span class="n" aria-hidden="true">02</span><span class="tx">We file your BOC-3 designating coverage across all 50 states.</span></li>'+
+      '<li><span class="n" aria-hidden="true">03</span><span class="tx">Your filing posts to your FMCSA record, where it can be verified.</span></li>'+
+      '<li><span class="n" aria-hidden="true">04</span><span class="tx">If your BOC-3 is part of getting your authority, we line it up with your MC application, and we coordinate so your insurer\'s proof of insurance lands, so activation is not held up.</span></li>'+
+    '</ol>'+
+    '<div class="price"><div><span class="price-v">$45</span><span class="price-l">BOC-3 filing, one time</span></div><p>$45, one time, with no annual renewal fee.</p><a class="btn2" href="#">File my BOC-3</a></div>'+
+  '</div></div></div></section>'+
+  /* case */
+  '<section class="ink band case dark"><div class="ct"><div class="narrow">'+
+    '<h2 class="h2">BOC-3 as part of getting road-legal</h2><div class="q">'+
+    '<p>A North Carolina power-only carrier first came to us just to buy a BOC-3. When we looked at her file, her self-filed USDOT and MC were full of errors, and because she had not established her MOTUS account yet, she was locked out of fixing them online. Claiming an existing USDOT on MOTUS needs a USDOT PIN, and getting that PIN was lagging during the MOTUS transition, so she was stuck waiting on a mailed letter.</p>'+
+    '<p>We moved her forward with paper filings and then an official FMCSA callback to verify her identity and unlock the record. A simple BOC-3 request turned into untangling the whole authority, which is exactly the kind of thing we catch.</p>'+
+  '</div></div></div></section>'+
+  /* faq */
+  '<section class="cloud band"><div class="ct"><div class="split">'+
+    '<h2 class="h2">BOC-3 filing FAQ</h2><div class="faq">'+
+    faq("What is a BOC-3?","A federal filing that names a process agent in every state to receive legal documents for you. It is required before operating authority can activate.")+
+    faq("How much does a BOC-3 cost?","$45, one time, with no annual renewal fee.")+
+    faq("Do I have to renew my BOC-3 every year?","No. It is generally a one-time filing. You refile only if you change process agents or a specific circumstance requires it.")+
+    faq("Is the BOC-3 a certificate I print?","No. It is filed electronically and shows on your public FMCSA record, where it can be verified.")+
+    faq("Can you file my BOC-3 today?","Yes. As an FMCSA-listed blanket process agent we file it directly. Government processing posts it to your record after.")+
+    faq("Do I need anything else for my authority to activate?",'MC authority activation requires the BOC-3 filing and the required insurance filing from your insurer. UCR is a separate annual registration and is not required for authority activation. We can handle the <a href="#">full setup</a> so nothing is missed. (BOC-3 is generally not required for a private motor carrier not operating for hire.)')+
+    '</div></div></div></section>'+
+  /* closing */
+  '<section class="ink band dark" id="'+P+'closing"><div class="ct close-grid">'+
+    '<p class="close-t">Need a BOC-3 to activate your authority? File it directly with an FMCSA-listed process agent.</p>'+
+    '<div id="'+P+'close-card">'+card(P+"c-","A2")+'</div>'+
+  '</div></section>'+
+  '</main>'+
+  '<div class="sbar hide" id="'+P+'sbar"><div class="sbar-t"><b>File your BOC-3</b>$45 one time, all 50 states</div><button type="button" class="btn" data-act="tofile">Start</button></div>'+
+  '<footer class="sf dark"><div class="ct">'+logo("sf-logo")+'<p>Trucking compliance and dispatch, from your first filing to your next load.</p>'+
+    '<p class="mono">30 N Gould St, Ste R<br>Sheridan, WY 82801</p><p class="mono">(917) 909-2257<br>info@techrig.org</p>'+
+    '<div class="sf-cols"><div><p class="fh">Compliance Services</p><ul><li><a href="#">Compliance Services hub</a></li><li><a href="#">USDOT Registration</a></li><li><a href="#">MC Authority</a></li><li><a href="#">BOC-3 Filing</a></li><li><a href="#">UCR Registration</a></li></ul></div>'+
+    '<div><p class="fh">Dispatch Services</p><ul><li><a href="#">Truck Dispatch hub</a></li><li><a href="#">Box Truck Dispatch</a></li><li><a href="#">Reefer Dispatch</a></li></ul></div>'+
+    '<div><p class="fh">Company</p><ul><li><a href="#">About Tech Rig</a></li><li><a href="#">Contact</a></li><li><a href="#">Blog</a></li></ul></div>'+
+    '<div><p class="fh">Legal</p><ul><li><a href="#">Terms of Service</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Refund Policy</a></li></ul></div></div>'+
+    '<div class="sf-legal"><p style="margin:0">DGR Tech Rig LLC is officially listed by FMCSA as a BOC-3 blanket process-agent company.</p><p>&copy; 2026 DGR Tech Rig LLC. All rights reserved.</p></div></div></footer>'+
+  '</div>';
+  return h;
+}
+function faq(q,a){return '<details><summary>'+q+I.chev+'</summary><p>'+a+'</p></details>';}
+
+function mount(host,v){
+  var P=host.id+"-";
+  host.innerHTML=page(P,v);
+  host.scrollTop=0;
+}
+var hosts=[document.getElementById("phoneHost"),document.getElementById("laptopHost")];
+/* one set of listeners per host, attached once */
+hosts.forEach(function(host){
+  host.addEventListener("click",function(e){
+    var inert=e.target.closest("[data-inert],a[href='#']");
+    var act=e.target.closest("[data-act]");
+    if(act&&act.getAttribute("data-act")==="tofile"){
+      e.preventDefault();
+      var inp=host.querySelector("#"+host.id+"-usdot");
+      var k=host.getBoundingClientRect().height/host.offsetHeight||1;
+      host.scrollTo({top:host.scrollTop+(inp.getBoundingClientRect().top-host.getBoundingClientRect().top)/k-140,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+      inp.focus({preventScroll:true});return;
+    }
+    if(inert&&!e.target.closest("summary"))e.preventDefault();
+  });
+  host.addEventListener("submit",function(e){e.preventDefault();});
+  host.addEventListener("scroll",function(){updateBar(host);},{passive:true});
+});
+function updateBar(host){
+  var bar=host.querySelector(".sbar");if(!bar)return;
+  var P=host.id+"-";
+  var card=host.querySelector("#"+P+"file"), close=host.querySelector("#"+P+"closing");
+  var hb=host.getBoundingClientRect();
+  var cardGone=card.getBoundingClientRect().bottom<hb.top+64;
+  var closeIn=close.getBoundingClientRect().top<hb.bottom;
+  bar.classList.toggle("hide",!(cardGone&&!closeIn));
+}
+function apply(){var v=document.getElementById("fm").value;hosts.forEach(function(h){mount(h,v);});}
+function fit(){
+  var stage=document.getElementById("stage"),view=stage.getAttribute("data-view");
+  var cw=document.documentElement.clientWidth;var avail=cw-40-(view==="both"&&cw>1100?395+32:0);
+  var k=view==="phone"?1:Math.min(1,avail/1280);
+  document.getElementById("laptop").style.transform="scale("+k+")";
+  var box=document.getElementById("laptopBox");box.style.width=(1280*k)+"px";box.style.height=(800*k)+"px";
+  document.getElementById("scaleNote").textContent=k<1?"(shown at "+Math.round(k*100)+"%)":"";
+}
+document.getElementById("fm").addEventListener("change",apply);
+document.querySelectorAll(".segd button").forEach(function(b){b.addEventListener("click",function(){
+  document.querySelectorAll(".segd button").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});
+  document.getElementById("stage").setAttribute("data-view",b.getAttribute("data-view"));fit();});});
+window.addEventListener("resize",fit);
+apply();fit();
+})();
+</script>
+</body>
+</html>

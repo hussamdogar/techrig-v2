@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { Container, Section } from "@/components/ui/container";
 import { service } from "@/lib/server/supabase";
 import { computeQuickBuyPricing, isQuickBuyServiceKey, SERVICES, type ServiceKey } from "@/lib/services-registry";
 import { sendQuickBuyPaymentStepAdminAlert } from "@/lib/email/lifecycle";
-import { quickBuyEnhancedConversionData } from "@/lib/server/quick-buy";
+import { formatQuickBuyAddress, quickBuyEnhancedConversionData } from "@/lib/server/quick-buy";
 import { preselectQuery } from "@/lib/quick-buy-preselect";
 import { GtmEvent } from "@/components/gtm-event";
-import { PaymentForm } from "@/components/payment-form";
+import { PayScreen, type PayLine } from "./pay-screen";
 
 /**
  * Quick-buy payment screen. No auth gate: the order was created server-side by
@@ -75,6 +73,7 @@ export default async function QuickBuyPayPage({
     usdot: order.usdot_number,
     email: order.email,
     phone: order.phone,
+    address: formatQuickBuyAddress(order),
   });
 
   const additional = (Array.isArray(order.additional_service_keys) ? order.additional_service_keys : []).filter(
@@ -90,54 +89,37 @@ export default async function QuickBuyPayPage({
 
   const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY ?? "";
 
+  // The carrier's legal name for "For {name}, USDOT ..." (from the lookup
+  // snapshot; orders don't store it).
+  const { data: snapshot } = await db
+    .from("carrier_snapshots")
+    .select("data_json")
+    .eq("lead_id", order.lead_id)
+    .order("fetched_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  const legalName = (snapshot?.data_json as { legalName?: string | null } | undefined)?.legalName ?? null;
+
+  const lines: PayLine[] = pricing.lines.map((l) => ({
+    key: l.key,
+    name: l.name,
+    sub: l.key === "ucr" ? `${l.ucrTier ?? "0-2"} trucks, government fee included` : l.key === "dq-files" ? "1 driver" : null,
+    amount: l.amount,
+  }));
+
   return (
-    <Section surface="paper" className="pt-8 md:pt-10">
+    <>
       {detailsEvent ? <GtmEvent event="quick_buy_details_submitted" data={detailsEvent} /> : null}
-      <Container className="max-w-2xl">
-        <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-slate">
-          Payment · {order.reference_id ?? ""}
-        </p>
-        <h1 className="mt-2 font-display text-3xl font-extrabold tracking-[-0.02em] text-ink">Pay for your order</h1>
-
-        <div className="mt-6 rounded-card border border-slate/15 bg-cloud p-5">
-          <ul className="divide-y divide-slate/10">
-            {pricing.lines.map((l) => (
-              <li key={l.key + l.name} className="flex items-center justify-between gap-4 py-2 text-sm">
-                <span className="text-ink">
-                  {l.name}
-                  {l.note ? <span className="block text-xs text-slate">{l.note}</span> : null}
-                </span>
-                <span className="font-mono font-medium text-ink">
-                  {l.amount == null ? (l.manualReview ? "Quote" : "—") : `$${l.amount.toLocaleString("en-US")}`}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-3 flex items-center justify-between border-t border-slate/15 pt-3">
-            <span className="font-display font-bold text-ink">Total due now</span>
-            <span className="font-mono text-lg font-bold text-ink">${pricing.total.toLocaleString("en-US")}</span>
-          </div>
-        </div>
-
-        <div className="mt-6">
-          {pricing.total > 0 && publishableKey ? (
-            <PaymentForm
-              endpoint="/api/quick-buy-checkout/"
-              body={{ orderId }}
-              returnPath={`/buy/order/${orderId}/thank-you/`}
-              publishableKey={publishableKey}
-              trackingEvent="quick_buy_payment_submit"
-            />
-          ) : (
-            <p className="rounded-card border border-slate/15 bg-cloud p-4 text-sm text-ink">
-              There&apos;s nothing to pay online for this order.{" "}
-              <Link href="/" className="font-medium text-steel underline-offset-4 hover:underline">
-                Back home
-              </Link>
-            </p>
-          )}
-        </div>
-      </Container>
-    </Section>
+      <PayScreen
+        orderId={orderId}
+        reference={order.reference_id}
+        usdot={order.usdot_number}
+        legalName={legalName}
+        lines={lines}
+        total={pricing.total}
+        editHref={`/buy/${order.service_key}/${order.usdot_number}/${preselectQuery(additional)}`}
+        publishableKey={publishableKey}
+      />
+    </>
   );
 }

@@ -221,8 +221,14 @@ export function finalEmail(d: { referenceId: string; companyName?: string | null
 // ------------------------------------------------------ admin: quick-buy alerts
 /** Internal-only (never sent to a client) contact fields shared by all three
  *  quick-buy admin alerts below. Deliberately short: only what the owner asked
- *  to see, no full carrier docket. */
-type QuickBuyContact = { companyName: string | null; email: string | null; phone: string | null };
+ *  to see (contact details plus the address), no full carrier docket. */
+type QuickBuyContact = {
+  companyName: string | null;
+  email: string | null;
+  phone: string | null;
+  /** The carrier's physical address from the FMCSA record (owner, 2026-10-28). */
+  address: string | null;
+};
 
 /** Shared short row-table layout for the three alerts below. */
 function adminAlertEmail(d: { subject: string; heading: string; intro: string; rows: [string, string][] }): RenderedEmail {
@@ -247,6 +253,7 @@ function contactRows(contact: QuickBuyContact): [string, string][] {
     ["Company name", contact.companyName ?? "Not on file"],
     ["Email", contact.email ?? "Not on file"],
     ["Phone", contact.phone ?? "Not on file"],
+    ["Address", contact.address ?? "Not on file"],
   ];
 }
 

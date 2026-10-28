@@ -18,7 +18,7 @@ Every bundle-eligible service has TWO prices: a **standalone** price (à-la-cart
 |---|---|---|---|
 | MC Authority + USDOT | **$650** | $600 | $50 |
 | USDOT only | $300 | $300 | $0 |
-| BOC-3 filing | **$45** | $45 | $0 |
+| BOC-3 filing | **$50** | $50 | $0 |
 | UCR filing service | **$80** ($54 for the 0-2 bracket) | $54 | $0 (vs the 0-2 fee) |
 | UCR government fee (0-2 bracket) | $46 | $46 | $0 |
 | DQ file — 1 driver | $200 | $200 | $0 |
@@ -29,7 +29,7 @@ Every bundle-eligible service has TWO prices: a **standalone** price (à-la-cart
 | IFTA initial setup | **$225** | $175 | $50 |
 | IFTA quarterly filing | $150 | $150 | $0 |
 
-Bold = a standalone **price increase** (8 services), except BOC-3, which went from $100 to $30 on 2026-09-28, back to $100 (landing pages $30 via the `boc-3-b` lane) on 2026-10-05, and to **$45** everywhere, standalone, in-bundle and on the landing pages, on 2026-10-07. The **in-bundle prices equal the prior registry values** exactly, so bundle economics are unchanged; only the standalone à-la-carte prices are new. **2026-10-08 (owner):** DQ files, Clearinghouse and Consortium dropped to one price everywhere, standalone = in-bundle: DQ $200/$350/$450, Clearinghouse $100, Consortium $120 (Consortium's in-bundle price also fell from $150). The old quick-buy combo discounts on these three are removed (now no-ops).
+Bold = a standalone **price increase** (8 services), except BOC-3, which went from $100 to $30 on 2026-09-28, back to $100 (landing pages $30 via the `boc-3-b` lane) on 2026-10-05, to $45 everywhere on 2026-10-07, and to **$50** everywhere, standalone, in-bundle and on the landing pages, on 2026-10-28 (owner). The **in-bundle prices equal the prior registry values** exactly, so bundle economics are unchanged; only the standalone à-la-carte prices are new. **2026-10-08 (owner):** DQ files, Clearinghouse and Consortium dropped to one price everywhere, standalone = in-bundle: DQ $200/$350/$450, Clearinghouse $100, Consortium $120 (Consortium's in-bundle price also fell from $150). The old quick-buy combo discounts on these three are removed (now no-ops).
 
 Not bundled (single price, standalone only): **USDOT Correction $125 · Biennial Update $125 · FMCSA Portal to MOTUS Migration $125.**
 

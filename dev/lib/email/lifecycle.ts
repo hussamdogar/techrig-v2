@@ -2,7 +2,7 @@ import "server-only";
 import { service } from "@/lib/server/supabase";
 import { sendEmail, type SendAttachment } from "@/lib/email/send";
 import { site } from "@/lib/site";
-import { getQuickBuyCompanyName } from "@/lib/server/quick-buy";
+import { formatQuickBuyAddress, getQuickBuyCompanyName } from "@/lib/server/quick-buy";
 import { findPaymentByIntent } from "@/lib/server/payments";
 import {
   welcomeEmail,
@@ -206,7 +206,7 @@ export async function sendFinalIfNeeded(applicationId: string, attachments: Send
 /**
  * Three internal admin alerts across the quick-buy fast path (owner-directed,
  * 2026-07-31), each short by design: service, USDOT, company name, email,
- * phone — never the full carrier docket. Nothing is persisted for any of
+ * phone and physical address (added 2026-10-28) — never the full carrier docket. Nothing is persisted for any of
  * these, so none has an idempotency guard: each fires once per page render or
  * webhook event, same as the trigger itself. Best-effort like every send.
  *
@@ -232,7 +232,7 @@ export async function sendFinalIfNeeded(applicationId: string, attachments: Send
 export async function sendQuickBuyLookupAdminAlert(d: {
   serviceName: string;
   usdot: string;
-  contact: { companyName: string | null; email: string | null; phone: string | null };
+  contact: { companyName: string | null; email: string | null; phone: string | null; address: string | null };
 }): Promise<void> {
   await sendEmail({ to: adminAlertRecipient(), email: adminQuickBuyLookupEmail(d), skipRateLimit: true });
 }
@@ -246,6 +246,7 @@ export async function sendQuickBuyPaymentStepAdminAlert(d: {
   usdot: string;
   email: string | null;
   phone: string | null;
+  address: string | null;
 }): Promise<void> {
   const companyName = await getQuickBuyCompanyName(d.leadId);
   await sendEmail({
@@ -253,7 +254,7 @@ export async function sendQuickBuyPaymentStepAdminAlert(d: {
     email: adminQuickBuyPaymentStepEmail({
       serviceName: d.serviceName,
       usdot: d.usdot,
-      contact: { companyName, email: d.email, phone: d.phone },
+      contact: { companyName, email: d.email, phone: d.phone, address: d.address },
     }),
     skipRateLimit: true,
   });
@@ -274,7 +275,7 @@ export async function sendQuickBuyPaidAdminAlert(paymentIntentId: string): Promi
 
   const { data: order } = await db
     .from("quick_buy_orders")
-    .select("usdot_number, email, phone, lead_id")
+    .select("usdot_number, email, phone, lead_id, address_line1, address_line2, address_city, address_state, address_zip")
     .eq("id", payment.quick_buy_order_id)
     .maybeSingle();
   if (!order) return;
@@ -291,7 +292,7 @@ export async function sendQuickBuyPaidAdminAlert(paymentIntentId: string): Promi
       usdot: order.usdot_number,
       amount: Number(payment.amount),
       serviceNames: (filings ?? []).map((f) => f.service_name),
-      contact: { companyName, email: order.email, phone: order.phone },
+      contact: { companyName, email: order.email, phone: order.phone, address: formatQuickBuyAddress(order) },
     }),
     skipRateLimit: true,
   });

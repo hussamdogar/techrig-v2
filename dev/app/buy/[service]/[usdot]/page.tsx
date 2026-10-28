@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/ui/container";
 import { GtmEvent } from "@/components/gtm-event";
@@ -8,6 +8,9 @@ import { performLookup } from "@/lib/server/lookup-capture";
 import { sendQuickBuyLookupAdminAlert } from "@/lib/email/lifecycle";
 import { SERVICES, isQuickBuyServiceKey, type QuickBuyServiceKey, type ServiceKey } from "@/lib/services-registry";
 import { carrierFacts } from "@/lib/apply/diff";
+import { service as serviceClient } from "@/lib/server/supabase";
+import { verifyLeadAccessToken } from "@/lib/server/security";
+import { QUICK_BUY_TOKEN_COOKIE } from "@/lib/server/quick-buy";
 import { parsePreselectedAddOns } from "@/lib/quick-buy-preselect";
 import { placeQuickBuyOrder } from "./actions";
 import { CheckoutForm } from "./checkout-form";
@@ -41,15 +44,24 @@ export default async function QuickBuyCheckoutPage({
   searchParams,
 }: {
   params: Promise<{ service: string; usdot: string }>;
-  searchParams: Promise<{ add?: string }>;
+  searchParams: Promise<{ add?: string; from?: string }>;
 }) {
   const { service, usdot } = await params;
-  const { add: addParam } = await searchParams;
+  const { add: addParam, from } = await searchParams;
   if (!isQuickBuyServiceKey(service)) notFound();
   const add = parsePreselectedAddOns(addParam, service);
   const def = SERVICES[service as ServiceKey];
 
-  const outcome = await performLookup(usdot, await headers());
+  // Opened from a paid order's thank-you page (?from=<orderId>): leave out
+  // what that order already bought, and when the visitor proves it's theirs
+  // (the order's signed lead cookie), fill in the contact details they
+  // actually gave and keep the same lead (no second lead alert or lead
+  // conversion for a returning customer).
+  const fromOrder = await loadFromOrder(from, usdot);
+  const ownsFromOrder =
+    !!fromOrder && verifyLeadAccessToken((await cookies()).get(QUICK_BUY_TOKEN_COOKIE)?.value, fromOrder.lead_id);
+
+  const outcome = await performLookup(usdot, await headers(), ownsFromOrder ? fromOrder.lead_id : undefined);
 
   // Owner wants to know as soon as a real prospect enters a USDOT number for
   // one of the 5 quick-buy services, success or not-found alike (not_found
@@ -72,6 +84,7 @@ export default async function QuickBuyCheckoutPage({
         companyName: carrier ? (carrier.legalName ?? carrier.dbaName) : null,
         email: carrier?.contactEmail ?? null,
         phone: carrier?.contactPhone ?? null,
+        address: carrier?.physicalAddress ?? null,
       },
     });
   }
@@ -121,16 +134,26 @@ export default async function QuickBuyCheckoutPage({
           usdot={usdot}
           token={outcome.token}
           carrier={{ legalName: carrier.legalName, powerUnits: carrier.powerUnits, address: carrier.physicalAddress }}
-          contact={{
-            first: carrier.contactFirstName ?? "",
-            last: carrier.contactLastName ?? "",
-            email: carrier.contactEmail ?? "",
-            phone: carrier.contactPhone ?? "",
-          }}
+          contact={
+            ownsFromOrder
+              ? {
+                  first: fromOrder.first_name ?? "",
+                  last: fromOrder.last_name ?? "",
+                  email: fromOrder.email ?? "",
+                  phone: fromOrder.phone ?? "",
+                }
+              : {
+                  first: carrier.contactFirstName ?? "",
+                  last: carrier.contactLastName ?? "",
+                  email: carrier.contactEmail ?? "",
+                  phone: carrier.contactPhone ?? "",
+                }
+          }
           qualifyingPowerUnits={truckTractors + straightTrucks}
           truckTractors={truckTractors}
           boc3OnFile={carrierFacts(carrier).hasActiveBoc3}
           preselected={add}
+          alreadyOrdered={fromOrder?.purchased ?? []}
           hiddenFields={{
             // UCR's government fee bracket is by QUALIFYING CMVs only (truck
             // tractors + straight trucks); trailers and non-commercial
@@ -202,4 +225,19 @@ function BackLink({ service }: { service: string }) {
       </Link>
     </div>
   );
+}
+
+/** The paid order a thank-you "Order" button came from, if it's real, for
+ *  this same USDOT, and paid. Anything else is ignored. */
+async function loadFromOrder(from: string | undefined, usdot: string) {
+  if (!from || !/^[0-9a-f-]{36}$/i.test(from)) return null;
+  const { data } = await serviceClient()
+    .from("quick_buy_orders")
+    .select("lead_id, usdot_number, status, service_key, additional_service_keys, first_name, last_name, email, phone")
+    .eq("id", from)
+    .maybeSingle();
+  if (!data || data.usdot_number !== usdot || !(data.status === "paid" || data.status === "fulfilled")) return null;
+  const extra = Array.isArray(data.additional_service_keys) ? data.additional_service_keys : [];
+  const purchased = [data.service_key, ...extra].filter(isQuickBuyServiceKey) as QuickBuyServiceKey[];
+  return { ...data, lead_id: data.lead_id as string, purchased };
 }

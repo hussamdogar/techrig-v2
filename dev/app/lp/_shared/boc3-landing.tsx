@@ -11,12 +11,10 @@ import {
   RouteNodeIcon,
   ShieldIcon,
   StampIcon,
-  StarIcon,
 } from "@/components/icons";
-import { TrackedForm } from "@/components/tracked-form";
 import { TrackedAnchor } from "@/components/tracked-anchor";
 import { site } from "@/lib/site";
-import { startQuickBuyLookup } from "@/app/buy/[service]/actions";
+import { Boc3OrderCard, GOOGLE_REVIEWS_URL, StarRating } from "@/components/boc3-order-card";
 import { LandingTabs } from "./tabs";
 import { LandingHeader } from "./landing-header";
 import { StickyCta } from "./sticky-cta";
@@ -66,11 +64,6 @@ export function getBoc3Metadata(amount: number): Metadata {
   };
 }
 
-// The "Tech Rig" Google Business Profile listing (5.0 aggregate, 4 reviews).
-// Every review card and the aggregate line link back here so a visitor can
-// verify these in place rather than take the page's word for it.
-const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/QJTUHyD5LkdomX1r6";
-
 // Real reviews from that listing, quoted verbatim (2026-09-11). Names are
 // exactly as Google displays them (the reviewer's own choice under Google's
 // real-name policy). Dates supplied by the client from the Business Profile
@@ -107,13 +100,6 @@ const googleReviews = [
   },
 ];
 
-// FMCSA's own public page listing DGR Tech Rig LLC as a BOC-3 blanket
-// process-agent company (source: seo/context/experience-notes.md, checked
-// 2026-10-02). The 82976 in the URL is FMCSA's page id, not a license or
-// registration number: never present it as one.
-const FMCSA_LISTING_URL =
-  "https://www.fmcsa.dot.gov/registration/process-agents/pa?field_associated_boc_target_id=82976";
-
 // Google's "G" mark, used only as a source indicator (never alone: always
 // paired with visible "Google" text) so it reads as attribution, not as an
 // implied partnership. Worth a check against Google's current review-widget
@@ -128,87 +114,6 @@ function GoogleIcon({ size = 16, ...props }: { size?: number } & React.SVGProps<
     </svg>
   );
 }
-
-// A row of filled stars via the icon system (never typed star characters in a
-// text node, per standards.md). `label` supplies the one accessible name for
-// the whole row; the individual icons stay aria-hidden.
-function StarRating({
-  count = 5,
-  size = 14,
-  label,
-}: {
-  count?: number;
-  size?: number;
-  label: string;
-}) {
-  return (
-    <span className="inline-flex items-center gap-0.5 text-signal" role="img" aria-label={label}>
-      {Array.from({ length: count }).map((_, i) => (
-        <StarIcon key={i} size={size} aria-hidden="true" />
-      ))}
-    </span>
-  );
-}
-
-// The real USDOT entry form, embedded in the hero card instead of the
-// reference's name/phone/MC-DOT fields. Same server action `/buy/<serviceKey>/`
-// uses.
-function UsdotForm({
-  compact = false,
-  serviceKey,
-}: {
-  compact?: boolean;
-  serviceKey: string;
-}) {
-  const startBoc3Lookup = startQuickBuyLookup.bind(null, serviceKey);
-  return (
-    <TrackedForm
-      action={startBoc3Lookup}
-      event="quick_buy_lookup_submit"
-      data={{ service: serviceKey, location: "lp_hero" }}
-      className="space-y-2.5"
-    >
-      <div>
-        <div className="flex items-baseline justify-between gap-3">
-          <label htmlFor="usdot" className="text-sm font-medium text-ink">
-            USDOT number
-          </label>
-          {/* Hidden by default (opacity, not display, so no layout shift when
-              it appears), and sharing the label's row so it reserves no
-              extra height in the card. The header and sticky-bar CTAs reveal
-              it by id after scrolling here, then hide it again after a few
-              seconds. See scroll-to-form.ts. */}
-          <p
-            id="usdot-hint"
-            aria-live="polite"
-            className="flex items-center gap-1 text-xs font-medium text-steel opacity-0 transition-opacity duration-300"
-          >
-            <ArrowRightIcon size={12} className="rotate-90" aria-hidden="true" />
-            Start here
-          </p>
-        </div>
-        <input
-          id="usdot"
-          name="usdot"
-          inputMode="numeric"
-          autoComplete="off"
-          enterKeyHint="go"
-          pattern="\d{1,12}"
-          required
-          placeholder="e.g. 1234567"
-          className="mt-1 w-full rounded-card border border-slate/25 bg-paper px-4 py-2.5 text-lg text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-        />
-      </div>
-      <button
-        type="submit"
-        className={`${buttonVariants({ variant: "primary", size: compact ? "sm" : "md" })} w-full`}
-      >
-        Start my BOC-3 filing
-      </button>
-    </TrackedForm>
-  );
-}
-
 
 const trustBarItems = [
   { icon: <StampIcon size={16} />, text: "FMCSA-listed process agent" },
@@ -400,7 +305,7 @@ export function Boc3LandingPage({
                     <strong className="font-semibold text-cloud">Officially listed by FMCSA</strong> as a
                     BOC-3 process agent.{" "}
                     <TrackedAnchor
-                      href={FMCSA_LISTING_URL}
+                      href={site.fmcsaListingUrl}
                       event="fmcsa_listing_click"
                       data={{ location: "lp_hero" }}
                       target="_blank"
@@ -426,56 +331,10 @@ export function Boc3LandingPage({
               </ul>
             </div>
 
-            {/* 2: the real USDOT quick-buy form, in place of the reference's
-                multi-field lead form. id="file" is the scroll target of the header and
-                sticky-bar CTAs; scroll-mt-32 clears the header plus the
-                landing cookie bar (cookie-notice.tsx) when that is showing. */}
-            <div>
-              <div id="file" className="scroll-mt-32 rounded-card border border-slate/15 bg-cloud p-4 shadow-card sm:p-6">
-                {/* Price in the card title for ad-to-page message match: the
-                    Google Ads headlines lead with the price, so it is the
-                    first thing confirmed here, not only on the button. */}
-                <p className="font-display text-lg font-bold text-ink">
-                  File your BOC-3 today for ${amount}
-                </p>
-                <p className="mt-0.5 text-sm text-slate">
-                  Takes about 2 minutes. No forms to fill out.
-                </p>
-                <div className="mt-3 sm:mt-5">
-                  <UsdotForm serviceKey={serviceKey} />
-                </div>
-                {/* The two reassurances that matter at the moment of clicking.
-                    First and strongest: the price is a one-time fee with no
-                    annual renewal (most process agents bill yearly), so it is
-                    ink-colored and bold, not small grey print. Then the 5.0
-                    rating, kept next to the button it reassures. */}
-                <p className="mt-3 flex items-center justify-center gap-1.5 text-sm text-ink">
-                  <CheckSealIcon size={16} className="shrink-0 text-status-active" aria-hidden="true" />
-                  <span>
-                    ${amount} one-time fee. <strong className="font-semibold">No annual renewals.</strong>
-                  </span>
-                </p>
-                <a
-                  href={GOOGLE_REVIEWS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-1.5 flex items-center justify-center gap-1.5 text-xs text-slate hover:text-ink"
-                >
-                  <StarRating size={12} label="5.0 out of 5 stars" />
-                  5.0 on Google
-                </a>
-              </div>
-              {/* Google Ads' government documents policy asks non-government
-                  providers to "clearly disclose that you are a private entity
-                  and not affiliated with any government" (support.google.com/
-                  adspolicy/answer/6368711). This page says "Officially listed by
-                  FMCSA" and links fmcsa.dot.gov, so it states it right under
-                  the form. */}
-              <p className="mt-3 text-xs text-cloud/60">
-                We&apos;re a private BOC-3 process agent company listed with FMCSA,
-                not part of FMCSA or any government agency.
-              </p>
-            </div>
+            {/* 2: the real USDOT quick-buy form (components/boc3-order-card.tsx,
+                shared with /boc-3-filing/), in place of the reference's
+                multi-field lead form. */}
+            <Boc3OrderCard serviceKey={serviceKey} amount={amount} location="lp_hero" />
 
           </div>
         </Container>

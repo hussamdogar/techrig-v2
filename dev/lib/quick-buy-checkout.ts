@@ -107,9 +107,14 @@ const ADD_ON_ORDER: QuickBuyServiceKey[] = ["ucr", "boc-3", "dq-files", "consort
 /** What this carrier can add to an order for `primary`, in display order.
  *  Same eligibility as checkout and the thank-you page
  *  (remainingQuickBuyUpsells): Clearinghouse and Consortium only with truck
- *  tractors, and never the service being bought. */
-export function checkoutAddOns(primary: QuickBuyServiceKey, truckTractors: number | null): QuickBuyServiceKey[] {
-  const eligible = new Set(remainingQuickBuyUpsells(truckTractors, [primary]));
+ *  tractors, never the service being bought, and never anything in
+ *  `alreadyOrdered` (a paid order this checkout was opened from). */
+export function checkoutAddOns(
+  primary: QuickBuyServiceKey,
+  truckTractors: number | null,
+  alreadyOrdered: readonly string[] = [],
+): QuickBuyServiceKey[] {
+  const eligible = new Set(remainingQuickBuyUpsells(truckTractors, [primary, ...alreadyOrdered]));
   return ADD_ON_ORDER.filter((k) => eligible.has(k));
 }
 
@@ -155,3 +160,18 @@ export const ADD_ON_SHORT_NAME: Record<QuickBuyServiceKey, string> = {
   consortium: "Drug & alcohol consortium",
   clearinghouse: "Clearinghouse",
 };
+
+/** Thank-you page descriptions for filings still open after an order
+ *  (owner-approved, 2026-10-22): the consequence first, then a short
+ *  definition. Stated as general rules, never as "you are missing this". */
+export const THANK_YOU_FILING_DESCRIPTION: Record<QuickBuyServiceKey, string> = {
+  "boc-3": "No BOC-3, no active authority. It names your process agent in every state.",
+  "boc-3-b": "No BOC-3, no active authority. It names your process agent in every state.",
+  ucr: "Running without UCR can mean fines at roadside inspections. The yearly registration for crossing state lines.",
+  clearinghouse:
+    "Skipping driver queries is an audit violation. Your employer account in FMCSA's drug and alcohol database.",
+  consortium: "CDL drivers can't legally drive without a testing program. Your random drug and alcohol testing pool.",
+  "dq-files":
+    "A missing file is one of the first things auditors flag. Your driver's required qualification record, owner-operators included.",
+};
+
