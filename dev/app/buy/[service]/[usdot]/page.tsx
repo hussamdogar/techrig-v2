@@ -227,16 +227,21 @@ function BackLink({ service }: { service: string }) {
   );
 }
 
-/** The paid order a thank-you "Order" button came from, if it's real, for
- *  this same USDOT, and paid. Anything else is ignored. */
+/** The order a thank-you "Order" button came from, if it's real, for this
+ *  same USDOT, and signed. Not gated on status === "paid": the thank-you page
+ *  only shows Order buttons once Stripe has confirmed the payment, but the
+ *  webhook that marks the order paid can land seconds later (and never
+ *  reaches local dev), so a fast click would otherwise lose the prefill.
+ *  Contact details are still only used when the visitor holds the order's
+ *  signed cookie (ownsFromOrder). Anything else is ignored. */
 async function loadFromOrder(from: string | undefined, usdot: string) {
   if (!from || !/^[0-9a-f-]{36}$/i.test(from)) return null;
   const { data } = await serviceClient()
     .from("quick_buy_orders")
-    .select("lead_id, usdot_number, status, service_key, additional_service_keys, first_name, last_name, email, phone")
+    .select("lead_id, usdot_number, terms_accepted_at, service_key, additional_service_keys, first_name, last_name, email, phone")
     .eq("id", from)
     .maybeSingle();
-  if (!data || data.usdot_number !== usdot || !(data.status === "paid" || data.status === "fulfilled")) return null;
+  if (!data || data.usdot_number !== usdot || !data.terms_accepted_at) return null;
   const extra = Array.isArray(data.additional_service_keys) ? data.additional_service_keys : [];
   const purchased = [data.service_key, ...extra].filter(isQuickBuyServiceKey) as QuickBuyServiceKey[];
   return { ...data, lead_id: data.lead_id as string, purchased };
