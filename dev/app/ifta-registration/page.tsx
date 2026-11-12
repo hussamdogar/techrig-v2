@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
-import { buttonVariants } from "@/components/ui/button";
 import { PriceChip } from "@/components/ui/price-chip";
 import { FaqAccordion, type Faq } from "@/components/faq-accordion";
 import { ReviewedBy } from "@/components/reviewed-by";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ClosingCta } from "@/components/closing-cta";
+import { CallButton, CallLink } from "@/components/call-cta";
+import { site } from "@/lib/site";
 import { JsonLd } from "@/components/json-ld";
 import {
   CheckSealIcon,
@@ -24,8 +25,6 @@ import {
 } from "@/lib/schema";
 import { pricing, type Price } from "@/lib/services";
 
-// Primary file/apply CTAs route into the /apply engine, prefilled for IFTA.
-const applyHref = "/apply/?service=ifta";
 
 // IFTA quarterly filing is a separate recurring service from the one-time
 // setup ($225): $150 service fee plus a government
@@ -129,12 +128,7 @@ export default function IftaRegistrationPage() {
                 interstate is one less thing to worry about.
               </p>
               <div className="mt-7">
-                <Link
-                  href={applyHref}
-                  className={buttonVariants({ variant: "primary", size: "md" })}
-                >
-                  Set up my IFTA
-                </Link>
+                <CallButton location="ifta_registration_hero" />
               </div>
               <div className="mt-5">
                 <ReviewedBy name="Robert Hooke" />
@@ -293,12 +287,7 @@ export default function IftaRegistrationPage() {
           </p>
 
           <p className="mt-6">
-            <Link
-              href={applyHref}
-              className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-            >
-              Set up quarterly filing
-            </Link>
+            <CallLink location="ifta_registration_mid" />
           </p>
         </Container>
       </Section>
@@ -323,7 +312,7 @@ export default function IftaRegistrationPage() {
 
       <ClosingCta
         text="Running across state lines? Get your IFTA set up so quarterly filing is simple."
-        cta={{ label: "Set up my IFTA", href: applyHref }}
+        cta={{ label: `Call ${site.telephone}`, href: site.telHref }}
       />
     </>
   );

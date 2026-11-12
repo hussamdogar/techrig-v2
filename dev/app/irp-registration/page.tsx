@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
-import { buttonVariants } from "@/components/ui/button";
 import {
   AuthorityStatusTracker,
   type Step,
@@ -11,6 +10,8 @@ import { FaqAccordion, type Faq } from "@/components/faq-accordion";
 import { ReviewedBy } from "@/components/reviewed-by";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ClosingCta } from "@/components/closing-cta";
+import { CallButton, CallLink } from "@/components/call-cta";
+import { site } from "@/lib/site";
 import { JsonLd } from "@/components/json-ld";
 import {
   CheckSealIcon,
@@ -27,8 +28,6 @@ import {
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
 
-// Primary file/apply CTAs route into the /apply engine, prefilled to this service.
-const applyHref = "/apply/?service=irp";
 
 export const metadata: Metadata = {
   title: {
@@ -154,12 +153,7 @@ export default function IrpRegistrationPage() {
                 legally, without learning a new state portal.
               </p>
               <div className="mt-7">
-                <Link
-                  href={applyHref}
-                  className={buttonVariants({ variant: "primary", size: "md" })}
-                >
-                  Start my IRP registration
-                </Link>
+                <CallButton location="irp_registration_hero" />
               </div>
               <div className="mt-5">
                 <ReviewedBy name="Robert Hooke" />
@@ -369,12 +363,7 @@ export default function IrpRegistrationPage() {
           </p>
 
           <p className="mt-6">
-            <Link
-              href={applyHref}
-              className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-            >
-              Start my IRP registration
-            </Link>
+            <CallLink location="irp_registration_mid" />
           </p>
         </Container>
       </Section>
@@ -408,7 +397,7 @@ export default function IrpRegistrationPage() {
 
       <ClosingCta
         text="Running interstate? Get your apportioned plates handled the right way."
-        cta={{ label: "Start my IRP registration", href: applyHref }}
+        cta={{ label: `Call ${site.telephone}`, href: site.telHref }}
       />
     </>
   );

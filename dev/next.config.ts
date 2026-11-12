@@ -113,6 +113,12 @@ const nextConfig: NextConfig = {
       },
 
       // §B. Exact-match named pages.
+      // Login retired (owner, 2026-11-12): unused, and its sign-up path was
+      // creating bot accounts that triggered Supabase "Confirm your signup"
+      // emails. Old links and the auth-gated pages (/apply, /dashboard,
+      // /account, /admin), which still redirect here when signed out, land
+      // on the homepage. Not permanent, so it can be brought back.
+      { source: "/login/", destination: "/", permanent: false },
       // Compliance packages retired (owner, 2026-10-08): the page's equity and
       // any bookmarks go to the compliance hub, where every service is listed.
       { source: "/compliance-packages/", destination: "/compliance-services/", permanent: true },

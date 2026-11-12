@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
-import { buttonVariants } from "@/components/ui/button";
 import {
   AuthorityStatusTracker,
   type Step,
@@ -11,6 +10,8 @@ import { FaqAccordion, type Faq } from "@/components/faq-accordion";
 import { ReviewedBy } from "@/components/reviewed-by";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ClosingCta } from "@/components/closing-cta";
+import { CallButton, CallLink } from "@/components/call-cta";
+import { site } from "@/lib/site";
 import { JsonLd } from "@/components/json-ld";
 import {
   CheckSealIcon,
@@ -27,8 +28,6 @@ import {
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
 
-// Primary file CTA routes into the /apply engine, pre-selecting the USDOT service.
-const applyHref = "/apply/?service=usdot";
 
 export const metadata: Metadata = {
   title: "How to Get a DOT Number for Trucking",
@@ -144,12 +143,7 @@ export default function DotRegistrationPage() {
                 Rig does it for you and gets it right the first time.
               </p>
               <div className="mt-7">
-                <Link
-                  href={applyHref}
-                  className={buttonVariants({ variant: "primary", size: "md" })}
-                >
-                  Get my USDOT number
-                </Link>
+                <CallButton location="dot_registration_hero" />
               </div>
               <div className="mt-5">
                 <ReviewedBy name="Robert Hooke" />
@@ -355,12 +349,7 @@ export default function DotRegistrationPage() {
 
           {/* Mid-page CTA: subordinate Steel text link, same route as hero. */}
           <p className="mt-6">
-            <Link
-              href={applyHref}
-              className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-            >
-              Get my USDOT number
-            </Link>
+            <CallLink location="dot_registration_mid" />
           </p>
         </Container>
       </Section>
@@ -379,7 +368,7 @@ export default function DotRegistrationPage() {
 
       <ClosingCta
         text="Starting a trucking operation? Get your USDOT number set up right, the first time."
-        cta={{ label: "Get my USDOT number", href: applyHref }}
+        cta={{ label: `Call ${site.telephone}`, href: site.telHref }}
       />
     </>
   );

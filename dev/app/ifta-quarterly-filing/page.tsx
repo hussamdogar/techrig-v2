@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
-import { buttonVariants } from "@/components/ui/button";
 import { PriceChip } from "@/components/ui/price-chip";
 import { FaqAccordion, type Faq } from "@/components/faq-accordion";
 import { ReviewedBy } from "@/components/reviewed-by";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ClosingCta } from "@/components/closing-cta";
+import { CallButton } from "@/components/call-cta";
+import { site } from "@/lib/site";
 import { JsonLd } from "@/components/json-ld";
 import { FilingIcon, ClockIcon } from "@/components/icons";
 import {
@@ -18,9 +19,6 @@ import {
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
 
-// The apply flow, pre-selecting the IFTA quarterly service (brief CTA route).
-// This is the recurring per-quarter return, distinct from filingCtaHref setups.
-const ctaHref = "/apply/?service=ifta-quarterly";
 
 export const metadata: Metadata = {
   title: "IFTA Quarterly Filing Service | Tech Rig",
@@ -134,12 +132,7 @@ export default function IftaQuarterlyFilingPage() {
               </ul>
 
               <div className="mt-7">
-                <Link
-                  href={ctaHref}
-                  className={buttonVariants({ variant: "primary", size: "md" })}
-                >
-                  File my IFTA quarter
-                </Link>
+                <CallButton location="ifta_quarterly_filing_hero" />
               </div>
               <div className="mt-5">
                 <ReviewedBy name="Robert Hooke" role="Co-Founder" />
@@ -282,7 +275,7 @@ export default function IftaQuarterlyFilingPage() {
 
       <ClosingCta
         text="Quarter coming due? Send your records and we will file your IFTA return."
-        cta={{ label: "File my IFTA quarter", href: ctaHref }}
+        cta={{ label: `Call ${site.telephone}`, href: site.telHref }}
       />
     </>
   );

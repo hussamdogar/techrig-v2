@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
-import { buttonVariants } from "@/components/ui/button";
 import { PriceChip } from "@/components/ui/price-chip";
 import { FaqAccordion, type Faq } from "@/components/faq-accordion";
 import { ReviewedBy } from "@/components/reviewed-by";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ClosingCta } from "@/components/closing-cta";
+import { CallButton } from "@/components/call-cta";
+import { site } from "@/lib/site";
 import { JsonLd } from "@/components/json-ld";
 import {
   CheckSealIcon,
@@ -25,9 +26,6 @@ import {
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
 
-// This page's single action routes to the apply flow with the service
-// preselected (apply/page.tsx reads ?service= and validates the key).
-const applyHref = "/apply/?service=usdot-correction";
 
 export const metadata: Metadata = {
   title: "USDOT Correction and Updates",
@@ -121,12 +119,7 @@ export default function UsdotCorrectionPage() {
                 USDOT correction for you, for a flat $125.
               </p>
               <div className="mt-7">
-                <Link
-                  href={applyHref}
-                  className={buttonVariants({ variant: "primary", size: "md" })}
-                >
-                  Correct my USDOT
-                </Link>
+                <CallButton location="usdot_correction_hero" />
               </div>
               <div className="mt-5">
                 <ReviewedBy name="Adam Smith" role="Co-Founder" />
@@ -271,7 +264,7 @@ export default function UsdotCorrectionPage() {
 
       <ClosingCta
         text="Something on your USDOT out of date? We will correct it, fast."
-        cta={{ label: "Correct my USDOT", href: applyHref }}
+        cta={{ label: `Call ${site.telephone}`, href: site.telHref }}
       />
     </>
   );

@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
-import { buttonVariants } from "@/components/ui/button";
 import { PriceChip } from "@/components/ui/price-chip";
 import { FaqAccordion, type Faq } from "@/components/faq-accordion";
 import { ReviewedBy } from "@/components/reviewed-by";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ClosingCta } from "@/components/closing-cta";
+import { CallButton, CallLink } from "@/components/call-cta";
+import { site } from "@/lib/site";
 import { JsonLd } from "@/components/json-ld";
 import {
   CheckSealIcon,
@@ -23,8 +24,6 @@ import {
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
 
-// Primary file CTA routes into the /apply engine, pre-selecting the MCS-150 service.
-const applyHref = "/apply/?service=mcs-150";
 
 export const metadata: Metadata = {
   title: "MCS-150 Update and Biennial Filing",
@@ -114,12 +113,7 @@ export default function Mcs150BiennialUpdatePage() {
                 your record stays current and your number stays active.
               </p>
               <div className="mt-7">
-                <Link
-                  href={applyHref}
-                  className={buttonVariants({ variant: "primary", size: "md" })}
-                >
-                  Update my MCS-150
-                </Link>
+                <CallButton location="mcs_150_biennial_update_hero" />
               </div>
               <div className="mt-5">
                 <ReviewedBy name="Adam Smith" />
@@ -280,12 +274,7 @@ export default function Mcs150BiennialUpdatePage() {
           </div>
 
           <p className="mt-6">
-            <Link
-              href={applyHref}
-              className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-            >
-              Update my MCS-150
-            </Link>
+            <CallLink location="mcs_150_biennial_update_mid" />
           </p>
         </Container>
       </Section>
@@ -334,7 +323,7 @@ export default function Mcs150BiennialUpdatePage() {
 
       <ClosingCta
         text="Due for your biennial update, or need a correction? We will file it and confirm it landed."
-        cta={{ label: "Update my MCS-150", href: applyHref }}
+        cta={{ label: `Call ${site.telephone}`, href: site.telHref }}
       />
     </>
   );

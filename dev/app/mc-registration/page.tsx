@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
-import { buttonVariants } from "@/components/ui/button";
 import {
   AuthorityStatusTracker,
   type Step,
@@ -11,6 +10,8 @@ import { FaqAccordion, type Faq } from "@/components/faq-accordion";
 import { ReviewedBy } from "@/components/reviewed-by";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ClosingCta } from "@/components/closing-cta";
+import { CallButton, CallLink } from "@/components/call-cta";
+import { site } from "@/lib/site";
 import { JsonLd } from "@/components/json-ld";
 import {
   CheckSealIcon,
@@ -28,8 +29,6 @@ import {
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
 
-// Primary file/apply CTAs route into the /apply engine, prefilled to this service.
-const applyHref = "/apply/?service=mc-authority";
 
 export const metadata: Metadata = {
   title: { absolute: "How to Get Your MC Number | Tech Rig Filing" },
@@ -133,12 +132,7 @@ export default function McRegistrationPage() {
                 actually activates instead of stalling at the finish line.
               </p>
               <div className="mt-7">
-                <Link
-                  href={applyHref}
-                  className={buttonVariants({ variant: "primary", size: "md" })}
-                >
-                  Get my MC authority
-                </Link>
+                <CallButton location="mc_registration_hero" />
               </div>
               <div className="mt-5">
                 <ReviewedBy name="Adam Smith" role="Co-Founder" />
@@ -279,12 +273,7 @@ export default function McRegistrationPage() {
 
           {/* Mid-page CTA: subordinate Steel text link, same route as hero. */}
           <p className="mt-8">
-            <Link
-              href={applyHref}
-              className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-            >
-              Get my MC authority
-            </Link>
+            <CallLink location="mc_registration_mid" />
           </p>
         </Container>
       </Section>
@@ -353,7 +342,7 @@ export default function McRegistrationPage() {
 
       <ClosingCta
         text="Ready to run for hire? Get your MC authority filed so it actually activates."
-        cta={{ label: "Get my MC authority", href: applyHref }}
+        cta={{ label: `Call ${site.telephone}`, href: site.telHref }}
       />
     </>
   );

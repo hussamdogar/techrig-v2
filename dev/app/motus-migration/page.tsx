@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section } from "@/components/ui/container";
-import { buttonVariants } from "@/components/ui/button";
 import { PriceChip } from "@/components/ui/price-chip";
 import { FaqAccordion, type Faq } from "@/components/faq-accordion";
 import { ReviewedBy } from "@/components/reviewed-by";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ClosingCta } from "@/components/closing-cta";
+import { CallButton, CallLink } from "@/components/call-cta";
+import { site } from "@/lib/site";
 import { JsonLd } from "@/components/json-ld";
 import {
   CheckSealIcon,
@@ -24,10 +25,6 @@ import {
 } from "@/lib/schema";
 import { pricing } from "@/lib/services";
 
-// This page's own primary action: the apply flow, preselecting the migration
-// service. The /apply/ route validates ?service= against the registry, so the
-// motus-migration key lands the buyer on the right path.
-const applyHref = "/apply/?service=motus-migration";
 
 export const metadata: Metadata = {
   title: { absolute: "FMCSA Portal to MOTUS Migration | Tech Rig" },
@@ -112,12 +109,7 @@ export default function MotusMigrationPage() {
               again, for a flat $125.
             </p>
             <div className="mt-7">
-              <Link
-                href={applyHref}
-                className={buttonVariants({ variant: "primary", size: "md" })}
-              >
-                Start my MOTUS migration
-              </Link>
+              <CallButton location="motus_migration_hero" />
             </div>
             <div className="mt-5">
               <ReviewedBy name="Robert Hooke" role="Co-Founder" />
@@ -201,12 +193,7 @@ export default function MotusMigrationPage() {
           </div>
 
           <p className="mt-6">
-            <Link
-              href={applyHref}
-              className="font-medium text-steel underline-offset-4 hover:underline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
-            >
-              Start my MOTUS migration
-            </Link>
+            <CallLink location="motus_migration_mid" />
           </p>
         </Container>
       </Section>
@@ -292,7 +279,7 @@ export default function MotusMigrationPage() {
 
       <ClosingCta
         text="Old account stuck outside MOTUS? We will get it claimed and working."
-        cta={{ label: "Start my MOTUS migration", href: applyHref }}
+        cta={{ label: `Call ${site.telephone}`, href: site.telHref }}
       />
     </>
   );
